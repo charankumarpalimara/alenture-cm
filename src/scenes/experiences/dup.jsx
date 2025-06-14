@@ -41,14 +41,48 @@ import { useNavigate } from "react-router-dom";
 //   { id: 15, subject: "Issue C", priority: "Medium", status: "In Progress", date: "2024-03-17", time: "23:15:00" , updated: "2 hours ago", cmname: "satya", crmname:"charan",  department:"technical", experience : "Extremely Happy", organization: "TCS", requestdetails:"revenue department having issue please , solve that issue"  },
 // ];
 
-
 // Columns for DataGrid
 const columns = [
-  { field: "experienceid", headerName: "ID", flex: 0.4, headerClassName: "bold-header", disableColumnMenu: false, minWidth: 100 },
-  { field: "subject", headerName: "Subject", flex: 2, headerClassName: "bold-header", disableColumnMenu: true, minWidth: 200 },
-  { field: "priority", headerName: "Priority", flex: 1, headerClassName: "bold-header", disableColumnMenu: true, minWidth: 150 },
-  { field: "status", headerName: "Status", flex: 1, headerClassName: "bold-header", disableColumnMenu: true, minWidth: 150 },
-  { field: "date", headerName: "Created", flex: 1, headerClassName: "bold-header", disableColumnMenu: true, minWidth: 150 },
+  {
+    field: "experienceid",
+    headerName: "ID",
+    flex: 0.4,
+    headerClassName: "bold-header",
+    disableColumnMenu: false,
+    minWidth: 100,
+  },
+  {
+    field: "subject",
+    headerName: "Subject",
+    flex: 2,
+    headerClassName: "bold-header",
+    disableColumnMenu: true,
+    minWidth: 200,
+  },
+  {
+    field: "priority",
+    headerName: "Priority",
+    flex: 1,
+    headerClassName: "bold-header",
+    disableColumnMenu: true,
+    minWidth: 150,
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    flex: 1,
+    headerClassName: "bold-header",
+    disableColumnMenu: true,
+    minWidth: 150,
+  },
+  {
+    field: "date",
+    headerName: "Created",
+    flex: 1,
+    headerClassName: "bold-header",
+    disableColumnMenu: true,
+    minWidth: 150,
+  },
   // { field: "updated", headerName: "Updated", flex: 1, headerClassName: "bold-header", disableColumnMenu: true, minWidth: 150 },
 ];
 
@@ -84,25 +118,29 @@ const AllExperiences = () => {
   // };
 
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
-  const [selectedFilters, setSelectedFilters] = useState({ priority: [], status: [] });
+  const [selectedFilters, setSelectedFilters] = useState({
+    priority: [],
+    status: [],
+  });
 
-
-   const userDetails = JSON.parse(sessionStorage.getItem('userDetails')) || {}; // Retrieve user details from sessionStorage
-   const cmid = userDetails.cmid; // Construct username or fallback to 'Guest'
+  const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {}; // Retrieve user details from sessionStorage
+  const cmid = userDetails.cmid; // Construct username or fallback to 'Guest'
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/getTicketsbycmId/${cmid}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/v1/getTicketsbycmId/${cmid}`
+        );
         const data = await response.json();
         if (response.ok && Array.isArray(data.data)) {
-          const transformedData = data.data.map(item => ({
+          const transformedData = data.data.map((item) => ({
             experienceid: item.experienceid || "N/A",
             subject: item.subject || "N/A",
             priority: item.priority || "N/A", // Add priority from backend
             status: item.extraind7 || item.status || "N/A", // Use extraind7 or status
             date: item.date || "N/A",
-            organizationid: item.organizationid ,
+            organizationid: item.organizationid,
             organizationname: item.organizationname || "N/A",
             branch: item.branch || "N/A",
             crmname: item.crmname || "N/A",
@@ -125,7 +163,9 @@ const AllExperiences = () => {
   }, [cmid]);
 
   // Get Unique Values for Filters
-  const getUniqueValues = (key) => [...new Set(originalTickets.map((ticket) => ticket[key]).filter(Boolean))];
+  const getUniqueValues = (key) => [
+    ...new Set(originalTickets.map((ticket) => ticket[key]).filter(Boolean)),
+  ];
 
   // Handle Filter Selection
   const handleFilterSelect = (filterType, value) => {
@@ -143,29 +183,41 @@ const AllExperiences = () => {
   const applyFilters = (search, filters) => {
     let filtered = originalTickets;
     if (search.trim()) {
-      filtered = filtered.filter((ticket) =>
-        (ticket.experienceid && String(ticket.experienceid).toLowerCase().includes(search.toLowerCase())) ||
-        (ticket.subject && ticket.subject.toLowerCase().includes(search.toLowerCase())) ||
-        (ticket.status && ticket.status.toLowerCase().includes(search.toLowerCase())) ||
-        (ticket.date && ticket.date.toLowerCase().includes(search.toLowerCase())) ||
-        (ticket.priority && ticket.priority.toLowerCase().includes(search.toLowerCase()))
+      filtered = filtered.filter(
+        (ticket) =>
+          (ticket.experienceid &&
+            String(ticket.experienceid)
+              .toLowerCase()
+              .includes(search.toLowerCase())) ||
+          (ticket.subject &&
+            ticket.subject.toLowerCase().includes(search.toLowerCase())) ||
+          (ticket.status &&
+            ticket.status.toLowerCase().includes(search.toLowerCase())) ||
+          (ticket.date &&
+            ticket.date.toLowerCase().includes(search.toLowerCase())) ||
+          (ticket.priority &&
+            ticket.priority.toLowerCase().includes(search.toLowerCase()))
       );
     }
     if (filters.priority.length) {
-      filtered = filtered.filter((ticket) => filters.priority.includes(ticket.priority));
+      filtered = filtered.filter((ticket) =>
+        filters.priority.includes(ticket.priority)
+      );
     }
     if (filters.status.length) {
-      filtered = filtered.filter((ticket) => filters.status.includes(ticket.status));
+      filtered = filtered.filter((ticket) =>
+        filters.status.includes(ticket.status)
+      );
     }
     setFilteredTickets(filtered);
   };
 
   const handleNewTicket = () => {
-    Navigate('/cmform')
+    Navigate("/cmform");
   };
 
   const handleRowClick = (params) => {
-    Navigate('/ticketdetails', { state: { ticket: params.row } });
+    Navigate("/ticketdetails", { state: { ticket: params.row } });
   };
 
   // Update search to use applyFilters
@@ -182,10 +234,27 @@ const AllExperiences = () => {
   return (
     <Box m="20px">
       {/* Toolbar */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" gap={2} mb={2} flexDirection={isMobile ? "column" : "row"}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        gap={2}
+        mb={2}
+        flexDirection={isMobile ? "column" : "row"}
+      >
         {/* Search Bar */}
-        <Box display="flex" backgroundColor="#ffffff" borderRadius="3px" flex={1}>
-          <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
+        <Box
+          display="flex"
+          backgroundColor="#ffffff"
+          borderRadius="3px"
+          flex={1}
+        >
+          <InputBase
+            sx={{ ml: 2, flex: 1 }}
+            placeholder="Search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
           <IconButton type="button" sx={{ p: 1 }}>
             <SearchIcon />
           </IconButton>
@@ -198,7 +267,7 @@ const AllExperiences = () => {
             color: "#ffffff",
             whiteSpace: "nowrap",
             fontWeight: "bold",
-            textTransform: "none"
+            textTransform: "none",
           }}
           variant="contained"
           startIcon={<ImportExportIcon />}
@@ -214,7 +283,7 @@ const AllExperiences = () => {
             color: "#ffffff",
             whiteSpace: "nowrap",
             fontWeight: "bold",
-            textTransform: "none"
+            textTransform: "none",
           }}
           variant="contained"
           startIcon={<FilterIcon />}
@@ -224,13 +293,22 @@ const AllExperiences = () => {
         </Button>
 
         {/* Filter Menu */}
-        <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
+        <Menu
+          anchorEl={filterAnchorEl}
+          open={Boolean(filterAnchorEl)}
+          onClose={handleFilterClose}
+        >
           <Box p={2}>
             <Typography variant="h6">Priority</Typography>
             {getUniqueValues("priority").map((priority) => (
               <MenuItem key={priority}>
                 <FormControlLabel
-                  control={<Checkbox checked={selectedFilters.priority.includes(priority)} onChange={() => handleFilterSelect("priority", priority)} />}
+                  control={
+                    <Checkbox
+                      checked={selectedFilters.priority.includes(priority)}
+                      onChange={() => handleFilterSelect("priority", priority)}
+                    />
+                  }
                   label={priority}
                 />
               </MenuItem>
@@ -243,7 +321,12 @@ const AllExperiences = () => {
               <MenuItem key={status}>
                 <FormControlLabel
                   sx={{ backgroundColor: "#ffffff" }}
-                  control={<Checkbox checked={selectedFilters.status.includes(status)} onChange={() => handleFilterSelect("status", status)} />}
+                  control={
+                    <Checkbox
+                      checked={selectedFilters.status.includes(status)}
+                      onChange={() => handleFilterSelect("status", status)}
+                    />
+                  }
                   label={status}
                 />
               </MenuItem>
@@ -260,7 +343,7 @@ const AllExperiences = () => {
             // paddingX: "15px"
             // padding: "12px 18px ",
             // fontSize: "14px",
-            textTransform: "none"
+            textTransform: "none",
           }}
           startIcon={<AddIcon />}
           onClick={handleNewTicket}
@@ -270,7 +353,10 @@ const AllExperiences = () => {
       </Box>
 
       {/* DataGrid */}
-      <Box height="70vh" width="100%" minWidth={600}
+      <Box
+        height="70vh"
+        width="100%"
+        minWidth={600}
         m="13px 0 0 0"
         sx={{
           minWidth: 600,
@@ -321,7 +407,7 @@ const AllExperiences = () => {
             borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
             "&:hover": {
               cursor: "pointer",
-              backgroundColor:"#D9EAFD"
+              backgroundColor: "#D9EAFD",
             },
           },
           "& .MuiTablePagination-root": {
@@ -341,9 +427,16 @@ const AllExperiences = () => {
             backgroundColor: colors.blueAccent[700],
             color: "#ffffff",
           },
-        }}>
+        }}
+      >
         <DataGrid
-          rows={filteredTickets.map((row, idx) => ({ id: row.experienceid && row.experienceid !== 'N/A' ? row.experienceid : `row-${idx}`, ...row }))}
+          rows={filteredTickets.map((row, idx) => ({
+            id:
+              row.experienceid && row.experienceid !== "N/A"
+                ? row.experienceid
+                : `row-${idx}`,
+            ...row,
+          }))}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10, 25, 50, 100]}
@@ -395,7 +488,7 @@ const AllExperiences = () => {
               borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
               "&:hover": {
                 cursor: "pointer",
-                backgroundColor:"#D9EAFD"
+                backgroundColor: "#D9EAFD",
               },
             },
             "& .MuiTablePagination-root": {

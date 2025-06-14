@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { 
+import React, { useState } from "react";
+import {
   Box,
   Button,
   Container,
@@ -7,103 +7,106 @@ import {
   TextField,
   Typography,
   useMediaQuery,
-  useTheme
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import Logo from './logo.png';
+  useTheme,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import Logo from "./logo.png";
 
 const Login = ({ onLogin }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!email || !password) {
-      setError('Please enter both email and password');
+      setError("Please enter both email and password");
       return;
     }
 
     try {
-      const response = await fetch('http://147.182.163.213:3000/v1/cmlogin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/v1/cmlogin`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
-      console.log('Response:', response);
-      console.log('Response Data:', data);
+      console.log("Response:", response);
+      console.log("Response Data:", data);
 
       if (response.ok) {
         onLogin();
-        sessionStorage.setItem('cmtoken', data.token); // Save the authentication token
-        sessionStorage.setItem('CmDetails', JSON.stringify(data.data)); // Save all user details in sessionStorage
-        navigate('/');
+        sessionStorage.setItem("cmtoken", data.token); // Save the authentication token
+        sessionStorage.setItem("CmDetails", JSON.stringify(data.data)); // Save all user details in sessionStorage
+        navigate("/");
       } else {
-        setError(data.error || 'Invalid credentials');
+        setError(data.error || "Invalid credentials");
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      setError('Something went wrong. Please try again later.');
+      console.error("Error during login:", error);
+      setError("Something went wrong. Please try again later.");
     }
   };
 
   return (
-    <Container 
+    <Container
       maxWidth="lg"
       sx={{
-        height: '76vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        height: "76vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Grid 
+      <Grid
         container
         sx={{
-          height: isMobile ? 'auto' : '80vh',
+          height: isMobile ? "auto" : "80vh",
           borderRadius: 2,
-          overflow: 'hidden',
+          overflow: "hidden",
           // boxShadow: 3,
           marginTop: isMobile ? "30px" : 0,
-          justifyContent: 'center' // Ensure the grid is centered
+          justifyContent: "center", // Ensure the grid is centered
         }}
       >
-        <Grid 
-          item 
-          xs={12} 
+        <Grid
+          item
+          xs={12}
           md={6}
           sx={{
             p: isMobile ? 3 : 6,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            backgroundColor: 'background.paper',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            backgroundColor: "background.paper",
             boxShadow: 3, // Ensure shadow is applied only to this section
-            borderRadius: 2 // Apply border-radius only to this section
+            borderRadius: 2, // Apply border-radius only to this section
           }}
         >
           <Box
             sx={{
               maxWidth: 400,
-              mx: 'auto',
-              width: '100%'
+              mx: "auto",
+              width: "100%",
             }}
           >
             <Box textAlign="center" mb={5}>
-              <img 
+              <img
                 src={Logo}
                 alt="logo"
-                style={{ minWidth: 100, width: '80%' }}
+                style={{ minWidth: 100, width: "80%" }}
               />
             </Box>
 
@@ -124,18 +127,18 @@ const Login = ({ onLogin }) => {
                 type="email"
                 variant="outlined"
                 margin="normal"
-                value={email || ''}
+                value={email || ""}
                 onChange={(e) => setEmail(e.target.value)}
                 sx={{ mb: 2 }}
               />
-              
+
               <TextField
                 fullWidth
                 label="Password"
                 type="password"
                 variant="outlined"
                 margin="normal"
-                value={password || ''}
+                value={password || ""}
                 onChange={(e) => setPassword(e.target.value)}
                 sx={{ mb: 2 }}
               />
@@ -149,11 +152,13 @@ const Login = ({ onLogin }) => {
                   sx={{
                     mb: 3,
                     fontWeight: "bold",
-                    background: 'linear-gradient(to right, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)',
-                    color: 'white',
-                    '&:hover': {
-                        background: 'linear-gradient(to right, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)',
-                    }
+                    background:
+                      "linear-gradient(to right, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)",
+                    color: "white",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(to right, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)",
+                    },
                   }}
                 >
                   Sign in
