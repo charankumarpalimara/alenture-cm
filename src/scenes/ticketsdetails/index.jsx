@@ -289,6 +289,7 @@ const TicketDetails = () => {
       sender: "user",
       crmname: ticket.crmname,
     };
+    console.log("msg data", msgData);
 
     // Emit real-time message (do NOT optimistically add to UI)
     socketRef.current.emit("sendMessage", msgData);

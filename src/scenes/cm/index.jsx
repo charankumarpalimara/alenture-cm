@@ -121,6 +121,7 @@ const Cm = () => {
             postalcode: item.extraind6 || "N/A",
             time: item.time || "N/A",
             crmid: item.extraind1,
+            cmid: item.cmid,
             crmname: item.extraind2,
           }));
           setTickets(transformedData);
