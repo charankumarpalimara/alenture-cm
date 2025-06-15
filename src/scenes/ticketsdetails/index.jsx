@@ -42,7 +42,11 @@ const TicketDetails = () => {
 
   const socketRef = useRef();
   useEffect(() => {
-    socketRef.current = io(process.env.REACT_APP_SOCKET_URL);
+    socketRef.current = io(process.env.REACT_APP_SOCKET_URL, {
+      path: "/socket.io/",
+      transports: ["websocket"],
+      withCredentials: true,
+    });
     if (ticket.experienceid && ticket.crmid) {
       socketRef.current.emit("joinRoom", {
         experienceid: ticket.experienceid,
