@@ -1,25 +1,37 @@
-import { Box, useMediaQuery, Typography, Button, useTheme,  IconButton } from "@mui/material";
+import {
+  Box,
+  useMediaQuery,
+  Typography,
+  Button,
+  useTheme,
+  IconButton,
+} from "@mui/material";
 import { message } from "antd";
 import { Formik } from "formik";
 import { tokens } from "../../theme";
 import * as yup from "yup";
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import download from 'downloadjs';
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import download from "downloadjs";
 import {
-  FormatBold, FormatItalic, FormatUnderlined,
-  FormatListNumbered, FormatListBulleted,
-  InsertPhoto, TableChart, YouTube,
-} from '@mui/icons-material';
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import Image from '@tiptap/extension-image'
-import TableTiptap from '@tiptap/extension-table';
-import TableRow from '@tiptap/extension-table-row'
-import TableHeader from '@tiptap/extension-table-header'
-import TableCell from '@tiptap/extension-table-cell'
-import Youtube from '@tiptap/extension-youtube'
-import { Underline } from '@tiptap/extension-underline';
+  FormatBold,
+  FormatItalic,
+  FormatUnderlined,
+  FormatListNumbered,
+  FormatListBulleted,
+  InsertPhoto,
+  TableChart,
+  YouTube,
+} from "@mui/icons-material";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import TableTiptap from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import TableCell from "@tiptap/extension-table-cell";
+import Youtube from "@tiptap/extension-youtube";
+import { Underline } from "@tiptap/extension-underline";
 // import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { io } from "socket.io-client";
 // const SOCKET_URL = "http://147.182.163.213:3000/";
@@ -27,25 +39,34 @@ import { io } from "socket.io-client";
 const TicketDetails = () => {
   const location = useLocation();
   const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
+
   const socketRef = useRef();
   useEffect(() => {
     socketRef.current = io(process.env.REACT_APP_SOCKET_URL);
     if (ticket.experienceid && ticket.crmid) {
-      socketRef.current.emit('joinRoom', {
+      socketRef.current.emit("joinRoom", {
         experienceid: ticket.experienceid,
         crmid: ticket.crmid,
       });
     }
 
-    socketRef.current.on('receiveMessage', (msg) => {
+    socketRef.current.on("receiveMessage", (msg) => {
+      console.log("messag", msg);
       setMessages((prev) => [
         ...prev,
         {
           text: msg.message || msg.messege, // <-- handle both
           sender: msg.sender,
-          time: msg.time
-        }
+          time: msg.time,
+        },
       ]);
+    });
+    socketRef.current.on("connect_error", (err) => {
+      console.error("Socket connect error:", err);
+    });
+
+    socketRef.current.on("disconnect", (reason) => {
+      console.warn("Socket disconnected:", reason);
     });
 
     return () => {
@@ -62,17 +83,22 @@ const TicketDetails = () => {
   // const [isEditing, setIsEditing] = useState(false);
   const Navigate = useNavigate();
   const [messages, setMessages] = useState([
-    { text: "Hello! How can I help you today?", sender: "support" }
+    { text: "Hello! How can I help you today?", sender: "support" },
   ]);
   const [newMessage, setNewMessage] = useState("");
 
   const getExperienceColor = (experience) => {
     switch (experience) {
-      case "Frustrated": return "#E64A19";
-      case "Extremely Frustrated": return "#D32F2F";
-      case "Happy": return "#FBC02D";
-      case "Extremely Happy": return "#388E3C";
-      default: return "#616161";
+      case "Frustrated":
+        return "#E64A19";
+      case "Extremely Frustrated":
+        return "#D32F2F";
+      case "Happy":
+        return "#FBC02D";
+      case "Extremely Happy":
+        return "#388E3C";
+      default:
+        return "#616161";
     }
   };
 
@@ -104,7 +130,6 @@ const TicketDetails = () => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      
       if (!ticket.experienceid || !ticket.crmid) return;
       try {
         const res = await fetch(
@@ -112,12 +137,14 @@ const TicketDetails = () => {
         );
         const data = await res.json();
         if (Array.isArray(data.messages)) {
-          setMessages(data.messages.map(msg => ({
-          text: msg.messege, // <-- use 'messege'
-          sender: msg.sender,
-          time: msg.time,
-          crmname: msg.extraind1 // <-- include crmname if available
-          })));
+          setMessages(
+            data.messages.map((msg) => ({
+              text: msg.messege, // <-- use 'messege'
+              sender: msg.sender,
+              time: msg.time,
+              crmname: msg.extraind1, // <-- include crmname if available
+            }))
+          );
         }
       } catch (error) {
         setMessages([{ text: "Failed to load messages.", sender: "support" }]);
@@ -125,7 +152,6 @@ const TicketDetails = () => {
     };
     fetchMessages();
   }, [ticket.experienceid, ticket.crmid]);
-
 
   const checkoutSchema = yup.object().shape({
     organization: yup.string().required("Required"),
@@ -138,15 +164,17 @@ const TicketDetails = () => {
     time: yup.string().required("Required"),
     subject: yup.string().required("Required"),
     phoneCode: yup.string().required("Required"),
-    PhoneNo: yup.string()
+    PhoneNo: yup
+      .string()
       .matches(/^[0-9]+$/, "Only numbers are allowed")
       .min(10, "Must be at least 10 digits")
       .required("Required"),
     notes: yup.string(),
   });
 
-  const fileUrl = 'https://upload.wikimedia.org/wikipedia/commons/4/4d/sample.jpg';
-  const filename = 'sample-file.jpg';
+  const fileUrl =
+    "https://upload.wikimedia.org/wikipedia/commons/4/4d/sample.jpg";
+  const filename = "sample-file.jpg";
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -155,7 +183,7 @@ const TicketDetails = () => {
       const blob = await response.blob();
       download(blob, filename);
     } catch (error) {
-      console.error('Download failed:', error);
+      console.error("Download failed:", error);
     } finally {
       setIsDownloading(false);
     }
@@ -193,7 +221,7 @@ const TicketDetails = () => {
     onTransaction: ({ editor }) => {
       // Emit the message content to the server for real-time sync
       if (socketRef.current && ticket.experienceid && ticket.crmid) {
-        socketRef.current.emit('insert', {
+        socketRef.current.emit("insert", {
           experienceid: ticket.experienceid,
           crmid: ticket.crmid,
           content: editor.getHTML(),
@@ -210,21 +238,21 @@ const TicketDetails = () => {
         editor.commands.setContent(data.content);
       }
     };
-    socketRef.current.on('insert', handleInsert);
+    socketRef.current.on("insert", handleInsert);
     return () => {
-      socketRef.current.off('insert', handleInsert);
+      socketRef.current.off("insert", handleInsert);
     };
   }, [editor, ticket.experienceid, ticket.crmid]);
 
   const addImage = () => {
-    const url = window.prompt('Enter the URL of the image:');
+    const url = window.prompt("Enter the URL of the image:");
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
     }
   };
 
   const addYoutubeVideo = () => {
-    const url = window.prompt('Enter YouTube URL:');
+    const url = window.prompt("Enter YouTube URL:");
     if (url) {
       editor.commands.setYoutubeVideo({
         src: url,
@@ -235,53 +263,57 @@ const TicketDetails = () => {
   };
 
   const addTable = () => {
-    editor.chain().focus().insertTable({
-      rows: 3,
-      cols: 3,
-      withHeaderRow: true
-    }).run();
+    editor
+      .chain()
+      .focus()
+      .insertTable({
+        rows: 3,
+        cols: 3,
+        withHeaderRow: true,
+      })
+      .run();
   };
 
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return;
+    const cmid = ticket.cmid || "";
+    const msgData = {
+      experienceid: ticket.experienceid,
+      crmid: ticket.crmid,
+      cmid,
+      message: newMessage,
+      sender: "user",
+      crmname: ticket.crmname,
+    };
 
-const handleSendMessage = async () => {
-  if (!newMessage.trim()) return;
-  const cmid = ticket.cmid || "";
-  const msgData = {
-    experienceid: ticket.experienceid,
-    crmid: ticket.crmid,
-    cmid,
-    message: newMessage,
-    sender: "user",
+    // Emit real-time message (do NOT optimistically add to UI)
+    socketRef.current.emit("sendMessage", msgData);
+
+    // REMOVE this block:
+    // setMessages((prev) => [
+    //   ...prev,
+    //   {
+    //     text: newMessage,
+    //     sender: "user",
+    //     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    //   }
+    // ]);
+
+    // Save message to DB via REST API
+    try {
+      await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(msgData),
+      });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      message.error("Failed to send message.");
+    }
+
+    setNewMessage("");
+    editor.commands.clearContent();
   };
-
-  // Emit real-time message (do NOT optimistically add to UI)
-  socketRef.current.emit('sendMessage', msgData);
-
-  // REMOVE this block:
-  // setMessages((prev) => [
-  //   ...prev,
-  //   {
-  //     text: newMessage,
-  //     sender: "user",
-  //     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  //   }
-  // ]);
-
-  // Save message to DB via REST API
-  try {
-    await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(msgData),
-    });
-  } catch (error) {
-    console.error("Error sending message:", error);
-    message.error("Failed to send message.");
-  }
-
-  setNewMessage("");
-  editor.commands.clearContent();
-};
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -292,19 +324,22 @@ const handleSendMessage = async () => {
         );
         const data = await res.json();
         if (Array.isArray(data.messages)) {
-          setMessages(data.messages.map(msg => ({
-            text: msg.messege, // <-- use 'messege'
-            sender: msg.sender,
-            time: msg.time
-          })));
+          setMessages(
+            data.messages.map((msg) => ({
+              text: msg.messege, // <-- use 'messege'
+              sender: msg.sender,
+              time: msg.time,
+            }))
+          );
         }
       } catch (error) {
-        setMessages([{ text: "Failed to load messages.", sender: "support", time: "" }]);
+        setMessages([
+          { text: "Failed to load messages.", sender: "support", time: "" },
+        ]);
       }
     };
     fetchMessages();
   }, [ticket.experienceid, ticket.crmid]);
-
 
   // const customerManagers = [
   //   "Rambabu",
@@ -329,30 +364,43 @@ const handleSendMessage = async () => {
   return (
     <Box
       sx={{
-        display: 'grid',
+        display: "grid",
         gridTemplateColumns: {
-          xs: '1fr',
-          sm: '1fr',
-          md: 'repeat(2, 1fr)'
+          xs: "1fr",
+          sm: "1fr",
+          md: "repeat(2, 1fr)",
         },
         gap: { xs: 2, sm: 3 },
         p: { xs: 1, sm: 2 },
-        maxWidth: '100%',
-        overflow: 'hidden'
+        maxWidth: "100%",
+        overflow: "hidden",
       }}
     >
       {/* First Column - Ticket Details */}
-      <Box sx={{
-        backgroundColor: "#ffffff",
-        p: isDesktop ? 3 : 2,
-        borderRadius: "8px",
-        gridColumn: {
-          xs: '1 / -1',
-          md: '1 / 2'
-        }
-      }}>
-        <Formik initialValues={initialValues} validationSchema={checkoutSchema} onSubmit={handleFormSubmit}>
-          {({ values, setFieldValue, touched, errors, handleBlur, handleChange }) => (
+      <Box
+        sx={{
+          backgroundColor: "#ffffff",
+          p: isDesktop ? 3 : 2,
+          borderRadius: "8px",
+          gridColumn: {
+            xs: "1 / -1",
+            md: "1 / 2",
+          },
+        }}
+      >
+        <Formik
+          initialValues={initialValues}
+          validationSchema={checkoutSchema}
+          onSubmit={handleFormSubmit}
+        >
+          {({
+            values,
+            setFieldValue,
+            touched,
+            errors,
+            handleBlur,
+            handleChange,
+          }) => (
             <form>
               <Box
                 display="grid"
@@ -360,84 +408,169 @@ const handleSendMessage = async () => {
                 gridTemplateColumns={{
                   xs: "1fr",
                   sm: "repeat(2, 1fr)",
-                  md: "repeat(3, 1fr)"
+                  md: "repeat(3, 1fr)",
                 }}
               >
                 {/* Ticket Details Fields */}
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Experience ID</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Experience ID
+                  </Typography>
                   <Typography>{values.id}</Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Organization</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Organization
+                  </Typography>
                   <Typography>{values.organization}</Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Branch</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Branch
+                  </Typography>
                   <Typography>{values.branch}</Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Customer Manager</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Customer Manager
+                  </Typography>
                   <Typography>{values.cmname}</Typography>
                 </Box>
 
-
-                  <Box>
-                    <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Customer Relationship Manager</Typography>
-                    <Typography>{values.crmname}</Typography>
-                  </Box>
-
-
-          
-                  <Box>
-                    <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Priority</Typography>
-                    <Typography sx={{ color: getExperienceColor(values.priority) }}>{values.priority}</Typography>
-                  </Box>
-
-
-
-                  <Box>
-                    <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Status</Typography>
-                    <Typography sx={{ color: getExperienceColor(values.priority) }}>{values.status}</Typography>
-                  </Box>
-
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Customer Relationship Manager
+                  </Typography>
+                  <Typography>{values.crmname}</Typography>
+                </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Date</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Priority
+                  </Typography>
+                  <Typography
+                    sx={{ color: getExperienceColor(values.priority) }}
+                  >
+                    {values.priority}
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Status
+                  </Typography>
+                  <Typography
+                    sx={{ color: getExperienceColor(values.priority) }}
+                  >
+                    {values.status}
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Date
+                  </Typography>
                   <Typography>{values.date}</Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Time</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Time
+                  </Typography>
                   <Typography>{values.time}</Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Experience</Typography>
-                  <Typography sx={{ color: getExperienceColor(values.experience) }}>{values.experience}</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Experience
+                  </Typography>
+                  <Typography
+                    sx={{ color: getExperienceColor(values.experience) }}
+                  >
+                    {values.experience}
+                  </Typography>
                 </Box>
 
                 <Box>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Impact</Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Impact
+                  </Typography>
                   <Typography>{values.department}</Typography>
                 </Box>
 
-                <Box sx={{ gridColumn: { xs: "auto", sm: "span 2", md: "span 3" } }}>
-                  <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Subject</Typography>
+                <Box
+                  sx={{
+                    gridColumn: { xs: "auto", sm: "span 2", md: "span 3" },
+                  }}
+                >
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#555", fontWeight: "bold" }}
+                  >
+                    Subject
+                  </Typography>
                   <Typography>{values.subject}</Typography>
                 </Box>
               </Box>
 
-              <Box sx={{ mt: 3, display: "flex", flexDirection: "column", gap: 2 }}>
+              <Box
+                sx={{ mt: 3, display: "flex", flexDirection: "column", gap: 2 }}
+              >
                 {/* Request Details Section */}
                 <Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="subtitle2" sx={{ color: "#555", fontWeight: "bold" }}>Request Details</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ color: "#555", fontWeight: "bold" }}
+                    >
+                      Request Details
+                    </Typography>
                   </Box>
-                  <Typography sx={{ mt: 1, whiteSpace: 'pre-wrap' }}>{values.requestdetails}</Typography>
+                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
+                    {values.requestdetails}
+                  </Typography>
                 </Box>
 
                 {/* File Upload Section */}
@@ -449,13 +582,21 @@ const handleSendMessage = async () => {
                     borderRadius: 1,
                     width: "fit-content",
                     cursor: "pointer",
-                    '&:hover': { backgroundColor: '#f5f5f5' },
+                    "&:hover": { backgroundColor: "#f5f5f5" },
                     position: "relative",
                     overflow: "hidden",
-                    border: "1px solid #ccc"
+                    border: "1px solid #ccc",
                   }}
                 >
-                  <Box component="label" htmlFor="fileInput" sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
+                  <Box
+                    component="label"
+                    htmlFor="fileInput"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 576 512"
@@ -481,7 +622,7 @@ const handleSendMessage = async () => {
                       height: "100%",
                       opacity: 0,
                       cursor: "pointer",
-                      fontSize: 0
+                      fontSize: 0,
                     }}
                     onChange={handleFileChange}
                   />
@@ -495,13 +636,20 @@ const handleSendMessage = async () => {
                     onClick={handleDownload}
                     sx={{ minWidth: 180 }}
                   >
-                    {isDownloading ? 'Downloading...' : 'Download Attachment'}
+                    {isDownloading ? "Downloading..." : "Download Attachment"}
                   </Button>
                 </Box>
 
                 {/* Action Buttons */}
-                <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mt: 1 }}>
-        <Button
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 2,
+                    mt: 1,
+                  }}
+                >
+                  <Button
                     variant="contained"
                     sx={{
                       padding: "12px 24px",
@@ -515,29 +663,32 @@ const handleSendMessage = async () => {
                       textTransform: "none",
                       "&:hover": {
                         backgroundColor: colors.redAccent[500],
-                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)"
+                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
                       },
                     }}
-                      onClick={async () => {
-                        try {
-                          await fetch(`${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`, {
+                    onClick={async () => {
+                      try {
+                        await fetch(
+                          `${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`,
+                          {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
                               experienceid: ticket.experienceid,
                             }),
-                          });
-                          message.success("Experience status updated to Resolved!");
-                          Navigate("/");
-                        } catch (error) {
-                          message.error("Failed to update status.");
-                        }
-                      }}
+                          }
+                        );
+                        message.success(
+                          "Experience status updated to Resolved!"
+                        );
+                        Navigate("/");
+                      } catch (error) {
+                        message.error("Failed to update status.");
+                      }
+                    }}
                   >
                     Delete
                   </Button>
-
-
                 </Box>
               </Box>
             </form>
@@ -550,158 +701,178 @@ const handleSendMessage = async () => {
           backgroundColor: "#ffffff",
           p: { xs: 1, sm: isDesktop ? 3 : 2 },
           borderRadius: "8px",
-          gridColumn: { xs: '1 / -1', md: '2 / 3' },
-          display: 'flex',
-          flexDirection: 'column',
+          gridColumn: { xs: "1 / -1", md: "2 / 3" },
+          display: "flex",
+          flexDirection: "column",
           gap: 3,
           width: "100%",
           minWidth: 0,
-        }}>
+        }}
+      >
         {/* Chat Section */}
-        <Box sx={{
-          p: 2,
-          backgroundColor: "#f5f5f5",
-          borderRadius: "8px",
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: isMobile ? '550px' : "",
-          maxHeight: isMobile ? '600px' : '620px'
-        }}>
-          <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}> Discussions</Typography>
-          <Typography sx={{ mb: 2, color: colors.grey[600] }}>Discuss with Customer Support</Typography>
-
-          {/* Messages Display */}
-<Box sx={{
-  flex: 1,
-  backgroundColor: "white",
-  borderRadius: "4px",
-  p: 2,
-  mb: 2,
-  border: "1px solid #ddd",
-  overflowY: "auto",
-  minHeight: '200px',
-  maxHeight: '800px'
-}}>
-  {messages.map((message, index) => (
-    <Box
-      key={index}
-      sx={{
-        mb: 2,
-        display: "flex",
-        justifyContent: message.sender === "user" ? "flex-start" : "flex-end"
-      }}
-    >
-      <Box>
-        {/* Show extraind1 above the message if sender is manager */}
-        {message.sender === 'manager' ? (
-          <Typography
-            variant="caption"
-            sx={{
-              color: colors.grey[700],
-              fontWeight: "bold",
-              mb: 0.5,
-              display: "block",
-              textAlign: "left"
-            }}
-          >
-            {message.crmname}
-          </Typography>
-        ) : (
-          <Typography
-            variant="caption"
-            sx={{
-              color: colors.grey[700],
-              fontWeight: "bold",
-              mb: 0.5,
-              display: "block",
-              textAlign: "left"
-            }}
-          >
-            You
-          </Typography>
-        )}
-        {/* Message bubble */}
         <Box
           sx={{
-            p: 1.5,
-            borderRadius: 1,
-            bgcolor: message.sender === "user"
-              ? colors.blueAccent[100]
-              : "#f0f0f0",
-            display: 'inline-block',
-            minWidth: 80,
-            maxWidth: 350,
-            textAlign: "left"
+            p: 2,
+            backgroundColor: "#f5f5f5",
+            borderRadius: "8px",
+            display: "flex",
+            flexDirection: "column",
+            minHeight: isMobile ? "550px" : "",
+            maxHeight: isMobile ? "600px" : "620px",
           }}
-          dangerouslySetInnerHTML={{ __html: message.text }}
-        />
-        {/* Time below the message */}
-        {message.time && (
-          <Typography
-            variant="caption"
+        >
+          <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+            {" "}
+            Discussions
+          </Typography>
+          <Typography sx={{ mb: 2, color: colors.grey[600] }}>
+            Discuss with Customer Support
+          </Typography>
+
+          {/* Messages Display */}
+          <Box
             sx={{
-              color: "#aaa",
-              display: "block",
-              mt: 0.5,
-              textAlign: message.sender === "user" ? "left" : "right"
+              flex: 1,
+              backgroundColor: "white",
+              borderRadius: "4px",
+              p: 2,
+              mb: 2,
+              border: "1px solid #ddd",
+              overflowY: "auto",
+              minHeight: "200px",
+              maxHeight: "800px",
             }}
           >
-            {message.time}
-          </Typography>
-        )}
-      </Box>
-    </Box>
-  ))}
-</Box>
+            {messages.map((message, index) => (
+              <Box
+                key={index}
+                sx={{
+                  mb: 2,
+                  display: "flex",
+                  justifyContent:
+                    message.sender === "user" ? "flex-start" : "flex-end",
+                }}
+              >
+                <Box>
+                  {/* Show extraind1 above the message if sender is manager */}
+                  {message.sender === "manager" ? (
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: colors.grey[700],
+                        fontWeight: "bold",
+                        mb: 0.5,
+                        display: "block",
+                        textAlign: "left",
+                      }}
+                    >
+                      {message.crmname}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: colors.grey[700],
+                        fontWeight: "bold",
+                        mb: 0.5,
+                        display: "block",
+                        textAlign: "left",
+                      }}
+                    >
+                      You
+                    </Typography>
+                  )}
+                  {/* Message bubble */}
+                  <Box
+                    sx={{
+                      p: 1.5,
+                      borderRadius: 1,
+                      bgcolor:
+                        message.sender === "user"
+                          ? colors.blueAccent[100]
+                          : "#f0f0f0",
+                      display: "inline-block",
+                      minWidth: 80,
+                      maxWidth: 350,
+                      textAlign: "left",
+                    }}
+                    dangerouslySetInnerHTML={{ __html: message.text }}
+                  />
+                  {/* Time below the message */}
+                  {message.time && (
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: "#aaa",
+                        display: "block",
+                        mt: 0.5,
+                        textAlign: message.sender === "user" ? "left" : "right",
+                      }}
+                    >
+                      {message.time}
+                    </Typography>
+                  )}
+                </Box>
+              </Box>
+            ))}
+          </Box>
 
           {/* Tiptap Editor */}
-          <Box sx={{
-            backgroundColor: 'white',
-            borderRadius: '4px',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
+          <Box
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "4px",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {/* Toolbar */}
             {editor && (
-              <Box sx={{
-                display: 'flex',
-                gap: 1,
-                p: 1,
-                borderBottom: `1px solid ${colors.grey[300]}`,
-                flexWrap: 'wrap'
-              }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  p: 1,
+                  borderBottom: `1px solid ${colors.grey[300]}`,
+                  flexWrap: "wrap",
+                }}
+              >
                 <IconButton
                   onClick={() => editor.chain().focus().toggleBold().run()}
-                  color={editor.isActive('bold') ? 'primary' : 'default'}
+                  color={editor.isActive("bold") ? "primary" : "default"}
                   size="small"
                 >
                   <FormatBold fontSize="small" />
                 </IconButton>
                 <IconButton
                   onClick={() => editor.chain().focus().toggleItalic().run()}
-                  color={editor.isActive('italic') ? 'primary' : 'default'}
+                  color={editor.isActive("italic") ? "primary" : "default"}
                   size="small"
                 >
                   <FormatItalic fontSize="small" />
                 </IconButton>
                 <IconButton
                   onClick={() => editor.chain().focus().toggleUnderline().run()}
-                  color={editor.isActive('underline') ? 'primary' : 'default'}
+                  color={editor.isActive("underline") ? "primary" : "default"}
                   size="small"
                 >
                   <FormatUnderlined fontSize="small" />
                 </IconButton>
                 <IconButton
-                  onClick={() => editor.chain().focus().toggleBulletList().run()}
-                  color={editor.isActive('bulletList') ? 'primary' : 'default'}
+                  onClick={() =>
+                    editor.chain().focus().toggleBulletList().run()
+                  }
+                  color={editor.isActive("bulletList") ? "primary" : "default"}
                   size="small"
                 >
                   <FormatListBulleted fontSize="small" />
                 </IconButton>
                 <IconButton
-                  onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                  color={editor.isActive('orderedList') ? 'primary' : 'default'}
+                  onClick={() =>
+                    editor.chain().focus().toggleOrderedList().run()
+                  }
+                  color={editor.isActive("orderedList") ? "primary" : "default"}
                   size="small"
                 >
                   <FormatListNumbered fontSize="small" />
@@ -718,31 +889,40 @@ const handleSendMessage = async () => {
               </Box>
             )}
             {/* Editor Content */}
-            <Box sx={{ display: 'flex', flexDirection: 'row', overflow: "scroll", height: "250px" }}>
-              <Box sx={{
-                flex: 1,
-                p: 2,
-                minHeight: '100px',
-                maxHeight: '100px',
-                '& .tiptap': {
-                  minHeight: '200px',
-                  outline: 'none',
-                  '& p': {
-                    margin: 0,
-                    marginBottom: '0.5em'
-                  }
-                }
-              }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                overflow: "scroll",
+                height: "250px",
+              }}
+            >
+              <Box
+                sx={{
+                  flex: 1,
+                  p: 2,
+                  minHeight: "100px",
+                  maxHeight: "100px",
+                  "& .tiptap": {
+                    minHeight: "200px",
+                    outline: "none",
+                    "& p": {
+                      margin: 0,
+                      marginBottom: "0.5em",
+                    },
+                  },
+                }}
+              >
                 <EditorContent editor={editor} />
               </Box>
             </Box>
           </Box>
         </Box>
-        <Box 
+        <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            maxHeight: '100px',
+            display: "flex",
+            justifyContent: "flex-end",
+            maxHeight: "100px",
             width: "100%",
             mt: 1,
           }}
@@ -755,11 +935,11 @@ const handleSendMessage = async () => {
             sx={{
               backgroundColor: colors.blueAccent[700],
               color: "#ffffff",
-              '&:hover': { backgroundColor: colors.blueAccent[600] },
-              textTransform: 'none',
+              "&:hover": { backgroundColor: colors.blueAccent[600] },
+              textTransform: "none",
               minWidth: 0,
               width: "100%",
-              fontSize: { xs: "14px", sm: "16px" }
+              fontSize: { xs: "14px", sm: "16px" },
             }}
           >
             Send
