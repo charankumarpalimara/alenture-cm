@@ -6,7 +6,7 @@ import {
   useTheme,
   IconButton,
 } from "@mui/material";
-import { message } from "antd";
+import { message, Modal } from "antd";
 import { Formik } from "formik";
 import { tokens } from "../../theme";
 import * as yup from "yup";
@@ -621,46 +621,53 @@ const handleDownload = async (fileUrl) => {
                     mt: 1,
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      padding: "12px 24px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      borderRadius: "8px",
-                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                      transition: "0.3s",
-                      backgroundColor: colors.redAccent[400],
-                      color: "#ffffff",
-                      textTransform: "none",
-                      "&:hover": {
-                        backgroundColor: colors.redAccent[500],
-                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-                      },
-                    }}
-                    onClick={async () => {
-                      try {
-                        await fetch(
-                          `${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`,
-                          {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                              experienceid: ticket.experienceid,
-                            }),
-                          }
-                        );
-                        message.success(
-                          "Experience status updated to Resolved!"
-                        );
-                        Navigate("/");
-                      } catch (error) {
-                        message.error("Failed to update status.");
-                      }
-                    }}
-                  >
-                    Delete
-                  </Button>
+  <Button
+  variant="contained"
+  sx={{
+    padding: "12px 24px",
+    fontSize: "14px",
+    fontWeight: "bold",
+    borderRadius: "8px",
+    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+    transition: "0.3s",
+    backgroundColor: colors.redAccent[400],
+    color: "#ffffff",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: colors.redAccent[500],
+      boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
+    },
+  }}
+  onClick={() => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this experience?",
+      content: "This action cannot be undone.",
+      okText: "Yes, Delete",
+      okType: "danger",
+      cancelText: "Cancel",
+      onOk: async () => {
+        try {
+          await fetch(
+            `${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                experienceid: ticket.experienceid,
+              }),
+            }
+          );
+          message.success("Experience deleted successfully!");
+          Navigate("/");
+        } catch (error) {
+          message.error("Failed to delete experience.");
+        }
+      },
+    });
+  }}
+>
+  Delete
+</Button>
                 </Box>
               </Box>
             </form>
