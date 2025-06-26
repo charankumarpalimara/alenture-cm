@@ -104,8 +104,11 @@ const Cm = () => {
         if (response.ok && Array.isArray(data.experienceDetails)) {
           // Map API output to DataGrid row format
           const transformedData = data.experienceDetails.map((item, idx) => ({
-            id: item.id || idx,
+            id: item.experienceid || idx, // DataGrid requires unique id
             experienceid: item.experienceid || "N/A",
+            experience: item.experience || "N/A",
+            experiencedetails: item.experiencedetails || "N/A",
+            impact: item.impact || "N/A",
             subject: item.subject || "N/A",
             priority: item.priority || "N/A",
             status: item.status || "N/A",
@@ -114,15 +117,14 @@ const Cm = () => {
             organizationid: item.organizationid,
             organizationname: item.organizationname || "N/A",
             branch: item.branch || "N/A",
-            // crmname: item.crmname || "N/A",
+            crmid: item.extraind1 || "N/A",
+            crmname: item.extraind2 || "N/A",
             cmname: item.cmname || "N/A",
             state: item.extraind4 || "N/A",
             city: item.extraind5 || "N/A",
             postalcode: item.extraind6 || "N/A",
             time: item.time || "N/A",
-            crmid: item.extraind1,
-            cmid: item.cmid,
-            crmname: item.extraind2,
+            imageUrl: `${item.imageUrl || ""}`,
           }));
           setTickets(transformedData);
           setFilteredTickets(transformedData);
