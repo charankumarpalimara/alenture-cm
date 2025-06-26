@@ -45,6 +45,7 @@ import Login from "./scenes/login";
 // import TaskForm from "./scenes/taskform";
 // import TaskDetails from "./scenes/taskdetails";
 import PasswordReset from "./scenes/login/passwordReset";
+import ForgotPassword from "./scenes/login/forgotPassword";
 
 
 function App() {
@@ -164,6 +165,7 @@ function App() {
        {!isAuthenticated ? (
         <>
               <Route path="*" element={<Login onLogin={handleLogin} />} />
+              <Route path='/forgot-password' element={<ForgotPassword />} />
        </>       
        ) : (
           <>
