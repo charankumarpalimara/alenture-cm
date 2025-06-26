@@ -74,8 +74,8 @@ const userDetails = JSON.parse(sessionStorage.getItem('userDetails')) || {}; // 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/getResolvedTicketsbyCmid/${cmid}`);
         const data = await response.json();
         console.log('Fetched data:', data); // Debug: log backend response
-        if (response.ok && Array.isArray(data.experienceDetails)) {
-          const transformedData = data.experienceDetails.map((item, idx) => ({
+        if (response.ok && Array.isArray(data.updatedData)) {
+          const transformedData = data.updatedData.map((item, idx) => ({
             id: item.experienceid || idx, // DataGrid requires unique id
             experienceid: item.experienceid || "N/A",
             experience: item.experience || "N/A",

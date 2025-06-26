@@ -52,11 +52,12 @@ const AllExperiences = () => {
       try {
         const userDetails = JSON.parse(sessionStorage.getItem('CmDetails')) || {};
         const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/getTicketsbyCmid/${userDetails.cmid}`);
+                // const response = await fetch(`http://127.0.0.1:8080/v1/getTicketsbyCmid/${userDetails.cmid}`);
         const data = await response.json();
         console.log("Fetched Tickets:", data);
-        if (response.ok && Array.isArray(data.experienceDetails)) {
+        if (response.ok && Array.isArray(data.updatedData)) {
           // Map API output to DataGrid row format
-          const transformedData = data.experienceDetails.map((item, idx) => ({
+          const transformedData = data.updatedData.map((item, idx) => ({
             id: item.experienceid || idx, // DataGrid requires unique id
             experienceid: item.experienceid || "N/A",
             experience: item.experience || "N/A",
