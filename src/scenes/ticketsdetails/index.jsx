@@ -180,6 +180,9 @@ const TicketDetails = () => {
 
 
 
+const fileUrl = ticket.imageUrl || ""; // your file URL
+const filename = fileUrl.split("/").pop() || "attachment";
+
 const handleDownload = async (fileUrl) => {
   if (!fileUrl) {
     message.error("No attachment available.");
@@ -192,7 +195,6 @@ const handleDownload = async (fileUrl) => {
       throw new Error("File not found or server error");
     }
     const blob = await response.blob();
-    const filename = decodeURIComponent(fileUrl.split("/").pop() || "attachment");
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -598,14 +600,15 @@ const handleDownload = async (fileUrl) => {
                 {/* Download Button */}
                 <Box sx={{ display: "flex", gap: 2 }}>
 {ticket.imageUrl && (
-  <Button
-    variant="contained"
-    disabled={isDownloading}
-    onClick={() => handleDownload(ticket.imageUrl)}
-    sx={{ minWidth: 180 }}
-  >
-    {isDownloading ? "Downloading..." : "Download Attachment"}
-  </Button>
+                <Button
+                    variant="contained"
+                      // icon={<DownloadOutlined />}
+                    disabled={isDownloading}
+                    onClick={handleDownload}
+                    sx={{ minWidth: 180 }}
+                  >
+                    {isDownloading ? "Downloading..." : "Download Attachment"}
+                  </Button>
 )}
                 </Box>
 
