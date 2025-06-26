@@ -101,9 +101,9 @@ const Cm = () => {
         );
         const data = await response.json();
         console.log("Fetched Tickets:", data);
-        if (response.ok && Array.isArray(data.experienceDetails)) {
+        if (response.ok && Array.isArray(data.updatedData)) {
           // Map API output to DataGrid row format
-          const transformedData = data.experienceDetails.map((item, idx) => ({
+          const transformedData = data.updatedData.map((item, idx) => ({
             id: item.experienceid || idx, // DataGrid requires unique id
             experienceid: item.experienceid || "N/A",
             experience: item.experience || "N/A",
