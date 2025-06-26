@@ -1,17 +1,30 @@
-import { Form, Input, Button as AntdButton, Select as AntdSelect, Typography as AntdTypography, Upload, Spin, message } from 'antd';
+import { Form, Input, Button as AntdButton, Select as AntdSelect, Typography as AntdTypography, Upload, Spin, message, Modal} from 'antd';
 import { useMediaQuery } from "@mui/material";
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import axios from 'axios';
+// import {
+//   // Form,
+//   Input,
+//   Button,
+//   Select,
+//   Row,
+//   Col,
+//   Avatar,
+//   Modal,
+//   Typography,
+//   message,
+//   Spin,
+// } from "antd";
 
 const { Option } = AntdSelect;
 const { TextArea } = Input;
 
 const experienceOptions = [
-  { value: "Extremely happy", label: "😊 Extremely Happy", color: "#8BC34A" },
+  { value: "Extremely Happy", label: "😊 Extremely Happy", color: "#8BC34A" },
   { value: "Happy", label: "🙂 Happy", color: "#f7f700" },
   { value: "Frustrated", label: "😠 Frustrated", color: "#FF9800" },
-  { value: "Extremely frustrated", label: "😡 Extremely Frustrated", color: "#F44336" },
+  { value: "Extremely Frustrated", label: "😡 Extremely Frustrated", color: "#F44336" },
 ];
 
 const impactOptions = [
@@ -26,6 +39,8 @@ const CmForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [experience, setExperience] = useState("");
   const isMobile = useMediaQuery("(max-width: 600px)");
+      const [showEditModal, setShowEditModal] = useState(false);
+  const [editValues, setEditValues] = useState({});
 
   const handleFileChange = (info) => {
     if (info.file.status === 'removed') {
@@ -122,11 +137,89 @@ const CmForm = () => {
           </div> */}
         </div>
       )}
+
+<Modal
+  open={showEditModal}
+  title="Review & Edit CM Details"
+  onCancel={() => setShowEditModal(false)}
+  onOk={() => handleFormSubmit(editValues)}
+  okText="Update"
+  cancelText="Cancel"
+  confirmLoading={isLoading}
+  width={600}
+  okButtonProps={{
+    style: {
+      background: "#3e4396",
+      borderColor: "#3e4396",
+      color: "#fff",
+      fontWeight: "bold",
+    },
+  }}
+>
+  <Form
+    layout="vertical"
+    initialValues={editValues}
+    onValuesChange={(_, allValues) => setEditValues(allValues)}
+  >
+    <Form.Item label="Experience" name="experience" rules={[{ required: true }]}>
+      <AntdSelect>
+        {experienceOptions.map((option) => (
+          <Option key={option.value} value={option.value}>{option.label}</Option>
+        ))}
+      </AntdSelect>
+    </Form.Item>
+    <Form.Item label="Subject" name="subject" rules={[{ required: true }]}>
+      <Input />
+    </Form.Item>
+    <Form.Item label="Details" name="experienceDetails" rules={[{ required: true }, { max: 500 }]}>
+      <TextArea rows={3} />
+    </Form.Item>
+    <Form.Item label="Impact" name="impact" rules={[{ required: true }]}>
+      <AntdSelect>
+        {impactOptions.map((option) => (
+          <Option key={option.value} value={option.value}>{option.label}</Option>
+        ))}
+      </AntdSelect>
+    </Form.Item>
+    <Form.Item label="Attach Files" style={{ marginBottom: 0 }}>
+      <Upload
+        beforeUpload={() => false}
+        maxCount={1}
+        showUploadList={false}
+        onChange={handleFileChange}
+        fileList={selectedFile ? [{ uid: '-1', name: selectedFile.name, status: 'done' }] : []}
+      >
+        <AntdButton icon={<UploadOutlined />}>Attach Files</AntdButton>
+      </Upload>
+      {selectedFile && (
+        <div style={{
+          marginTop: 8,
+          color: '#3e4396',
+          background: '#f5f5f5',
+          borderRadius: 6,
+          padding: '6px 12px',
+          fontSize: 14,
+          fontWeight: 500,
+          display: 'inline-block',
+          boxShadow: '1px 1px 4px rgba(62,67,150,0.08)'
+        }}>
+          {selectedFile.name}
+        </div>
+      )}
+    </Form.Item>
+  </Form>
+</Modal>
+
+
+
       <div style={{ backgroundColor: "#fff", padding: 20 }}>
         <Form
           form={form}
           layout="vertical"
-          onFinish={handleFormSubmit}
+                  onFinish={(values) => {
+            setEditValues(values);      // <-- set the values to show in modal
+            setShowEditModal(true);     // <-- open the modal
+          }}
           initialValues={{ experience: "", subject: "", experienceDetails: "", impact: "" }}
         >
           <AntdTypography.Text strong style={{ fontSize: 15 }}>How was your experience?</AntdTypography.Text>
