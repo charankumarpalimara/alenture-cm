@@ -17,6 +17,7 @@ import axios from 'axios';
 //   Spin,
 // } from "antd";
 
+import { useNavigate } from "react-router-dom";
 const { Option } = AntdSelect;
 const { TextArea } = Input;
 
@@ -41,6 +42,7 @@ const CmForm = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
       const [showEditModal, setShowEditModal] = useState(false);
   const [editValues, setEditValues] = useState({});
+    const navigate = useNavigate();
 
   const handleFileChange = (info) => {
     if (info.file.status === 'removed') {
@@ -103,6 +105,7 @@ const CmForm = () => {
       console.log('Response from backend:', response);
       // alert("Experience Registered Successfully!");
       message.success("Experience Registered Successfully!");
+       navigate('/newExperiences');
       form.resetFields();
       setSelectedFile(null);
       setExperience("");
