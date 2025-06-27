@@ -29,6 +29,8 @@ const CmForm = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editValues, setEditValues] = useState({});
   const [createdTicketId, setCreatedTicketId] = useState(null);
+    const [isEditMode, setIsEditMode] = useState(false);
+  const [originalEditValues, setOriginalEditValues] = useState({});
   const navigate = useNavigate();
 
   const handleFileChange = (info) => {
@@ -81,18 +83,18 @@ const CmForm = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       // Assume response.data contains the created ticket, including its id
- // Get experienceid from response
-  const ticketData = response.data.data || {};
-  const experienceid = response.data.experienceid || ticketData.experienceid;
+      // Get experienceid from response
+      const ticketData = response.data.data || {};
+      const experienceid = response.data.experienceid || ticketData.experienceid;
 
-setEditValues({
-  ...values,
-  fileupload: selectedFile,
-  filename: selectedFile ? selectedFile.name : null,
-  fileurl: response.data.filename || null, // if your backend returns fileurl
-  experienceid: experienceid,
-});
-  setCreatedTicketId(experienceid); // <-- store for update
+      setEditValues({
+        ...values,
+        fileupload: selectedFile,
+        filename: selectedFile ? selectedFile.name : null,
+        fileurl: response.data.filename || null, // if your backend returns fileurl
+        experienceid: experienceid,
+      });
+      setCreatedTicketId(experienceid); // <-- store for update
       setShowEditModal(true);
       message.success("Experience Registered Successfully!");
       form.resetFields();
@@ -143,6 +145,23 @@ setEditValues({
     navigate(-1); // Go to previous page
   };
 
+    // When opening the modal, store original values for cancel
+  const openEditModal = (values) => {
+    setEditValues(values);
+    setOriginalEditValues(values);
+    setShowEditModal(true);
+    setIsEditMode(false);
+  };
+
+  // In your form submit, replace setShowEditModal(true) with openEditModal({...})
+
+  // Cancel editing: revert to original values and disable fields
+  const handleCancelEdit = () => {
+    setEditValues(originalEditValues);
+    setIsEditMode(false);
+  };
+
+
   return (
     <>
       {isLoading && (
@@ -164,87 +183,89 @@ setEditValues({
         </div>
       )}
 
-      <Modal
-        open={showEditModal}
-        onCancel={handleModalClose}
-        footer={null}
-        width={700}
-      >
-        <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <AntdTypography.Title level={3} style={{ marginBottom: 0 }}>
-            Thanks for your feedback!
-          </AntdTypography.Title>
-          <AntdTypography.Text type="secondary" style={{ fontSize: 16 }}>
-            We appreciate your input and will use it to improve our services
-          </AntdTypography.Text>
-        </div>
-        <AntdTypography level={3} style={{ marginTop: 3, alignSelf: 'flex-start', fontSize: 15 }}>
-          Review & Experience Details
-        </AntdTypography>
-        <Form
-          layout="vertical"
-          initialValues={editValues}
-          onValuesChange={(_, allValues) => setEditValues(allValues)}
-          style={{ marginTop: 16 }}
-        >
-          <Form.Item label="Experience" name="experience" rules={[{ required: true }]}>
-            <AntdSelect>
-              {experienceOptions.map((option) => (
-                <Option key={option.value} value={option.value}>{option.label}</Option>
-              ))}
-            </AntdSelect>
-          </Form.Item>
-          <Form.Item label="Subject" name="subject" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item label="Details" name="experienceDetails" rules={[{ required: true }, { max: 500 }]}>
-            <TextArea rows={3} />
-          </Form.Item>
-          <Form.Item label="Impact" name="impact" rules={[{ required: true }]}>
-            <AntdSelect>
-              {impactOptions.map((option) => (
-                <Option key={option.value} value={option.value}>{option.label}</Option>
-              ))}
-            </AntdSelect>
-          </Form.Item>
-<Form.Item label="Attach Files" style={{ marginBottom: 0 }}>
-  <Upload
-    beforeUpload={() => false}
-    maxCount={1}
-    showUploadList={false}
-    onChange={handleFileChange}
-    fileList={selectedFile ? [{ uid: '-1', name: selectedFile.name, status: 'done' }] : []}
+<Modal
+    open={showEditModal}
+    onCancel={handleModalClose}
+    closable={false}
+    footer={null}
+    width={700}
   >
-    <AntdButton icon={<UploadOutlined />}>Attach Files</AntdButton>
-  </Upload>
-  {/* Show file preview or link */}
-  {(editValues.filename || selectedFile) && (
-    <div style={{
-      marginTop: 8,
-      color: '#3e4396',
-      background: '#f5f5f5',
-      borderRadius: 6,
-      padding: '6px 12px',
-      fontSize: 14,
-      fontWeight: 500,
-      display: 'inline-block',
-      boxShadow: '1px 1px 4px rgba(62,67,150,0.08)'
-    }}>
-      {editValues.fileurl ? (
-        <a href={editValues.fileurl} target="_blank" rel="noopener noreferrer">
-          {editValues.filename}
-        </a>
-      ) : (
-        editValues.filename || (selectedFile && selectedFile.name)
-      )}
+    <div style={{ textAlign: "center", marginBottom: 24 }}>
+      <AntdTypography.Title level={3} style={{ marginBottom: 0 }}>
+        Thanks for your feedback!
+      </AntdTypography.Title>
+      <AntdTypography.Text type="secondary" style={{ fontSize: 16 }}>
+        We appreciate your input and will use it to improve our services
+      </AntdTypography.Text>
     </div>
-  )}
-</Form.Item>
-          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
+    <AntdTypography level={3} style={{ marginTop: 3, alignSelf: 'flex-start', fontSize: 15 }}>
+      Review & Experience Details
+    </AntdTypography>
+    <Form
+      layout="vertical"
+      initialValues={editValues}
+      onValuesChange={(_, allValues) => setEditValues(allValues)}
+      style={{ marginTop: 16 }}
+    >
+      <Form.Item label="Experience" name="experience" rules={[{ required: true }]}>
+        <AntdSelect disabled={!isEditMode}>
+          {experienceOptions.map((option) => (
+            <Option key={option.value} value={option.value}>{option.label}</Option>
+          ))}
+        </AntdSelect>
+      </Form.Item>
+      <Form.Item label="Subject" name="subject" rules={[{ required: true }]}>
+        <Input disabled={!isEditMode} />
+      </Form.Item>
+      <Form.Item label="Details" name="experienceDetails" rules={[{ required: true }, { max: 500 }]}>
+        <TextArea rows={3} disabled={!isEditMode} />
+      </Form.Item>
+      <Form.Item label="Impact" name="impact" rules={[{ required: true }]}>
+        <AntdSelect disabled={!isEditMode}>
+          {impactOptions.map((option) => (
+            <Option key={option.value} value={option.value}>{option.label}</Option>
+          ))}
+        </AntdSelect>
+      </Form.Item>
+      <Form.Item label="Attach Files" style={{ marginBottom: 0 }}>
+        <Upload
+          beforeUpload={() => false}
+          maxCount={1}
+          showUploadList={false}
+          onChange={handleFileChange}
+          fileList={selectedFile ? [{ uid: '-1', name: selectedFile.name, status: 'done' }] : []}
+          disabled={!isEditMode}
+        >
+          <AntdButton icon={<UploadOutlined />} disabled={!isEditMode}>Attach Files</AntdButton>
+        </Upload>
+        {(editValues.filename || selectedFile) && (
+          <div style={{
+            marginTop: 8,
+            color: '#3e4396',
+            background: '#f5f5f5',
+            borderRadius: 6,
+            padding: '6px 12px',
+            fontSize: 14,
+            fontWeight: 500,
+            display: 'inline-block',
+            boxShadow: '1px 1px 4px rgba(62,67,150,0.08)'
+          }}>
+            {editValues.fileurl ? (
+              <a href={editValues.fileurl} target="_blank" rel="noopener noreferrer">
+                {editValues.filename}
+              </a>
+            ) : (
+              editValues.filename || (selectedFile && selectedFile.name)
+            )}
+          </div>
+        )}
+      </Form.Item>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
+        {!isEditMode ? (
+          <>
             <AntdButton
               type="primary"
-              onClick={handleEditSubmit}
-              loading={isLoading}
+              onClick={() => setIsEditMode(true)}
               style={{
                 background: "#3e4396",
                 borderColor: "#3e4396",
@@ -258,12 +279,39 @@ setEditValues({
             <AntdButton
               style={{ marginLeft: 12 }}
               onClick={handleModalClose}
+              danger
+            >
+              Close
+            </AntdButton>
+          </>
+        ) : (
+          <>
+            <AntdButton
+              type="primary"
+              onClick={handleEditSubmit}
+              loading={isLoading}
+              style={{
+                background: "#3e4396",
+                borderColor: "#3e4396",
+                color: "#fff",
+                fontWeight: "bold",
+                minWidth: 120,
+              }}
+            >
+              Update
+            </AntdButton>
+            <AntdButton
+              style={{ marginLeft: 12 }}
+              onClick={handleCancelEdit}
+              danger
             >
               Cancel
             </AntdButton>
-          </div>
-        </Form>
-      </Modal>
+          </>
+        )}
+      </div>
+    </Form>
+  </Modal>
 
       <div style={{ backgroundColor: "#fff", padding: 20 }}>
         <Form
