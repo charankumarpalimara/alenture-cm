@@ -65,7 +65,7 @@ const ResolvedExperiences = () => {
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState({ priority: [], status: [] });
 
-const userDetails = JSON.parse(sessionStorage.getItem('userDetails')) || {}; // Retrieve user details from sessionStorage
+const userDetails = JSON.parse(sessionStorage.getItem('CmDetails')) || {}; // Retrieve user details from sessionStorage
    const cmid = userDetails.cmid; // Construct username or fallback to 'Guest'
 
   useEffect(() => {

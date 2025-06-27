@@ -253,7 +253,7 @@ setEditValues({
                 minWidth: 120,
               }}
             >
-              Update
+              Edit
             </AntdButton>
             <AntdButton
               style={{ marginLeft: 12 }}
