@@ -34,8 +34,8 @@ const PasswordReset = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        // `${process.env.REACT_APP_API_URL}/v1/cmPasswordReset`,
-                `http://127.0.0.1:8080/v1/cmPasswordReset`,
+        `${process.env.REACT_APP_API_URL}/v1/cmPasswordReset`,
+                // `http://127.0.0.1:8080/v1/cmPasswordReset`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
