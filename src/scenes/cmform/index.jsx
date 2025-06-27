@@ -123,7 +123,7 @@ setEditValues({
           formData.append("fileupload", selectedFile.originFileObj);
         }
       }
-      await axios.post(`http://127.0.0.1:8080/v1/updateTicket`, formData, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/v1/updateTicket`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       message.success("Experience updated successfully!");
