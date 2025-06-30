@@ -10,17 +10,16 @@ import {
   useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, message} from "antd";
+import { Form, Input, message } from "antd";
 import Logo from "./logo.png";
-
 
 // const { Title } = Typography;
 
 const Login = ({ onLogin }) => {
-    const [form] = Form.useForm();
+  const [form] = Form.useForm();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    // const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
@@ -43,6 +42,7 @@ const Login = ({ onLogin }) => {
         onLogin();
         sessionStorage.setItem("cmtoken", data.token);
         sessionStorage.setItem("CmDetails", JSON.stringify(data.data));
+        console.log("cm details", data.data);
         navigate("/");
       } else {
         message.error(data.error || "Invalid credentials");
@@ -114,50 +114,56 @@ const Login = ({ onLogin }) => {
               </Typography>
             )}
 
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={handleSubmit}
-            autoComplete="off"
-          >
-      <Form.Item
-              label="Email address"
-              name="email"
-              rules={[
-                { required: true, message: "Please enter your email" },
-                { type: "email", message: "Enter a valid email address" },
-              ]}
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={handleSubmit}
+              autoComplete="off"
             >
-              <Input
-                size="large"
-                placeholder="Enter your email"
-                style={{
-                  borderRadius: 8,
-                  fontSize: 16,
-                  padding: "10px 14px",
-                }}
-              />
-            </Form.Item>
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[{ required: true, message: "Please enter your password" }]}
-            >
-              <Input.Password
-                size="large"
-                placeholder="Enter your password"
-                style={{
-                  borderRadius: 8,
-                  fontSize: 16,
-                  padding: "10px 14px",
-                }}
-              />
-            </Form.Item>
+              <Form.Item
+                label="Email address"
+                name="email"
+                rules={[
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Enter a valid email address" },
+                ]}
+              >
+                <Input
+                  size="large"
+                  placeholder="Enter your email"
+                  style={{
+                    borderRadius: 8,
+                    fontSize: 16,
+                    padding: "10px 14px",
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  { required: true, message: "Please enter your password" },
+                ]}
+              >
+                <Input.Password
+                  size="large"
+                  placeholder="Enter your password"
+                  style={{
+                    borderRadius: 8,
+                    fontSize: 16,
+                    padding: "10px 14px",
+                  }}
+                />
+              </Form.Item>
               <Box textAlign="right" mb={2}>
                 <Button
                   variant="text"
                   size="small"
-                  sx={{ textTransform: "none", color: "#3e4396", fontWeight: "bold" }}
+                  sx={{
+                    textTransform: "none",
+                    color: "#3e4396",
+                    fontWeight: "bold",
+                  }}
                   onClick={() => navigate("/forgot-password")}
                 >
                   Forgot Password?
@@ -185,7 +191,7 @@ const Login = ({ onLogin }) => {
                   Sign in
                 </Button>
               </Box>
-               </Form>
+            </Form>
           </Box>
         </Grid>
       </Grid>

@@ -6,6 +6,8 @@ import {
   useMediaQuery,
   Modal,
   Backdrop,
+  List,
+  Drawer,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -19,6 +21,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import Badge from "@mui/material/Badge";
 // import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 // import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 // import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
@@ -30,11 +33,7 @@ import logoLight from "./logo.png";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import {
-  getCrmNotifications,
-  getCrmNotificationsDetails,
-  markNotificationRead,
-} from "../../utils/http";
+import { markNotificationRead } from "../../utils/http";
 import { getCmId } from "../../config";
 import { getCmNotifications } from "../../utils/http";
 import { getNotificationsDetails } from "../../utils/http";
@@ -247,7 +246,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
   const { mutate, isPending: loading } = useMutation({
     mutationFn: getNotificationsDetails,
     onSuccess: (data) => {
-      navigate("/crm/ticketdetails", { state: { ticket: data.data } });
+      navigate("/ticketdetails", { state: { ticket: data.data } });
 
       queryClient.invalidateQueries("cm-notifications");
     },
@@ -273,10 +272,10 @@ const Topbar = ({ isSidebar, onLogout }) => {
       try {
         const data = JSON.parse(event.data);
         console.log("WebSocket data:", data); // Debug incoming messages
-        if (data.type === "notification" && data.crmid === getCmId()) {
+        if (data.type === "notification" && data.cmid === getCmId()) {
           // setNotifications((prev) => [data, ...prev]);
           // setUnreadCount((prev) => prev + 1);
-          queryClient.invalidateQueries("crm-notifications");
+          queryClient.invalidateQueries("cm-notifications");
           setSnackbarMsg(data.message);
           setSnackbarOpen(true);
         }
@@ -292,10 +291,10 @@ const Topbar = ({ isSidebar, onLogout }) => {
   const notifClick = (data) => {
     setDrawerOpen(false);
     console.log(window.location.pathname);
-    if (window.location.pathname === "/crm/ticketdetails") {
-      navigate("/crm");
+    if (window.location.pathname === "/ticketdetails") {
+      navigate("/");
     }
-    if (data.type === "experience_registration") {
+    if (data.type === "experience_resolved") {
       mutate({
         id: data.finalExperienceid,
       });
@@ -565,22 +564,24 @@ const Topbar = ({ isSidebar, onLogout }) => {
                 alignItems: "center",
               }}
             >
-              <IconButton sx={{ gap: 1 }}>
-                <Box
-                  sx={{
-                    width: isMobile ? 25 : 30,
-                    height: isMobile ? 25 : 30,
-                    borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <NotificationsIcon
-                    sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
-                  />
-                </Box>
+              <IconButton sx={{ gap: 1 }} onClick={handleNotificationsClick}>
+                <Badge badgeContent={unreadCount} color="error">
+                  <Box
+                    sx={{
+                      width: isMobile ? 25 : 30,
+                      height: isMobile ? 25 : 30,
+                      borderRadius: "50%",
+                      backgroundColor: colors.blueAccent[500],
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <NotificationsIcon
+                      sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
+                    />
+                  </Box>
+                </Badge>
                 {/* <Typography sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}>
                   Delphin
                 </Typography> */}
@@ -829,6 +830,59 @@ const Topbar = ({ isSidebar, onLogout }) => {
           </Box>
         </Modal>
       </Box>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <Box
+          sx={{ width: isMobile ? 250 : 350, padding: 2 }}
+          role="presentation"
+        >
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Notifications
+          </Typography>
+          <List>
+            {notificationList && notificationList.data.length === 0 && (
+              <ListItem>
+                <ListItemText primary="No notifications yet." />
+              </ListItem>
+            )}
+            {notificationList &&
+              notificationList.data.map((notif, idx) => (
+                <ListItem
+                  sx={{
+                    cursor: "pointer",
+                    marginBottom: "8px",
+                    "&:hover": {
+                      backgroundColor: colors.grey[700],
+                      color: "white",
+                    },
+                  }}
+                  className=""
+                  onClick={() => notifClick(notif)}
+                  key={idx}
+                  divider
+                >
+                  <ListItemText
+                    primary={notif.title || "Notification"}
+                    secondary={
+                      <>
+                        <span>{notif.message}</span>
+                        <br />
+                        <span style={{ fontSize: 12, color: "#888" }}>
+                          {notif.timestamp
+                            ? new Date(notif.created_at).toLocaleString()
+                            : ""}
+                        </span>
+                      </>
+                    }
+                  />
+                </ListItem>
+              ))}
+          </List>
+        </Box>
+      </Drawer>
     </Box>
   );
 };
