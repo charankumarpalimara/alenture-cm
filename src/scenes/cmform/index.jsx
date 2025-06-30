@@ -1,17 +1,17 @@
-import { Form, Input, Button as AntdButton, Select as AntdSelect, Typography as AntdTypography, Upload, Spin, message } from 'antd';
+import { Form, Input, Button as AntdButton, Select as AntdSelect, Typography as AntdTypography, Upload, Spin, message, Modal } from 'antd';
 import { useMediaQuery } from "@mui/material";
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
 const { Option } = AntdSelect;
 const { TextArea } = Input;
 
 const experienceOptions = [
-  { value: "Extremely happy", label: "😊 Extremely Happy", color: "#8BC34A" },
+  { value: "Extremely Happy", label: "😊 Extremely Happy", color: "#8BC34A" },
   { value: "Happy", label: "🙂 Happy", color: "#f7f700" },
   { value: "Frustrated", label: "😠 Frustrated", color: "#FF9800" },
-  { value: "Extremely frustrated", label: "😡 Extremely Frustrated", color: "#F44336" },
+  { value: "Extremely Frustrated", label: "😡 Extremely Frustrated", color: "#F44336" },
 ];
 
 const impactOptions = [
@@ -26,12 +26,17 @@ const CmForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [experience, setExperience] = useState("");
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editValues, setEditValues] = useState({});
+  const [createdTicketId, setCreatedTicketId] = useState(null);
+    const [isEditMode, setIsEditMode] = useState(false);
+  const [originalEditValues, setOriginalEditValues] = useState({});
+  const navigate = useNavigate();
 
   const handleFileChange = (info) => {
     if (info.file.status === 'removed') {
       setSelectedFile(null);
     } else if (info.fileList && info.fileList.length > 0) {
-      // Always use the latest file from fileList
       const fileObj = info.fileList[0].originFileObj || info.fileList[0];
       setSelectedFile(fileObj);
     } else {
@@ -44,6 +49,7 @@ const CmForm = () => {
     form.setFieldsValue({ experience: value });
   };
 
+  // Submit form and open modal with submitted details
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -53,11 +59,9 @@ const CmForm = () => {
     formData.append("impact", values.impact);
     formData.append("status", "New");
     if (selectedFile) {
-      // If selectedFile is a File object, append it directly
       if (selectedFile instanceof File) {
         formData.append("fileupload", selectedFile);
       } else if (selectedFile.originFileObj) {
-        // If selectedFile is antd Upload file object
         formData.append("fileupload", selectedFile.originFileObj);
       }
     }
@@ -73,20 +77,25 @@ const CmForm = () => {
     formData.append("organizationid", organizationid);
     formData.append("branch", branch);
     formData.append("priority", "Medium");
-    // Debug: Log all FormData key-value pairs before sending
-    const debugData = {};
-    formData.forEach((value, key) => {
-      debugData[key] = value;
-    });
-    console.log('FormData being sent to backend:', debugData);
+
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/v1/createTicket`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log('Response from backend:', response);
-      // alert("Experience Registered Successfully!");
+      // Assume response.data contains the created ticket, including its id
+      // Get experienceid from response
+      const ticketData = response.data.data || {};
+      const experienceid = response.data.experienceid || ticketData.experienceid;
+
+      setEditValues({
+        ...values,
+        fileupload: selectedFile,
+        filename: selectedFile ? selectedFile.name : null,
+        fileurl: response.data.filename || null, // if your backend returns fileurl
+        experienceid: experienceid,
+      });
+      setCreatedTicketId(experienceid); // <-- store for update
+      setShowEditModal(true);
       message.success("Experience Registered Successfully!");
       form.resetFields();
       setSelectedFile(null);
@@ -98,6 +107,60 @@ const CmForm = () => {
       setIsLoading(false);
     }
   };
+
+  // Update ticket from modal
+  const handleEditSubmit = async () => {
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("experience", editValues.experience);
+      formData.append("subject", editValues.subject);
+      formData.append("experienceDetails", editValues.experienceDetails);
+      formData.append("impact", editValues.impact);
+      formData.append("experienceid", createdTicketId);
+      if (selectedFile) {
+        if (selectedFile instanceof File) {
+          formData.append("fileupload", selectedFile);
+        } else if (selectedFile.originFileObj) {
+          formData.append("fileupload", selectedFile.originFileObj);
+        }
+      }
+      await axios.post(`${process.env.REACT_APP_API_URL}/v1/updateTicket`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      message.success("Experience updated successfully!");
+      setShowEditModal(false);
+      navigate(-1); // Go to previous page
+    } catch (error) {
+      message.error("Failed to update experience.");
+      console.error('Error updating form data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle close/cancel in modal
+  const handleModalClose = () => {
+    setShowEditModal(false);
+    navigate(-1); // Go to previous page
+  };
+
+    // When opening the modal, store original values for cancel
+  const openEditModal = (values) => {
+    setEditValues(values);
+    setOriginalEditValues(values);
+    setShowEditModal(true);
+    setIsEditMode(false);
+  };
+
+  // In your form submit, replace setShowEditModal(true) with openEditModal({...})
+
+  // Cancel editing: revert to original values and disable fields
+  const handleCancelEdit = () => {
+    setEditValues(originalEditValues);
+    setIsEditMode(false);
+  };
+
 
   return (
     <>
@@ -116,12 +179,140 @@ const CmForm = () => {
           color: '#fff',
           fontSize: '20px',
         }}>
-          <Spin size="large" fullscreen  />
-          {/* <div style={{ position: 'absolute', top: '60%', width: '100%', textAlign: 'center', color: '#fff', fontSize: 18 }}>
-            Loading... Please wait while we process your request.
-          </div> */}
+          <Spin size="large" fullscreen />
         </div>
       )}
+
+<Modal
+    open={showEditModal}
+    onCancel={handleModalClose}
+    closable={false}
+    footer={null}
+    width={700}
+  >
+    <div style={{ textAlign: "center", marginBottom: 24 }}>
+      <AntdTypography.Title level={3} style={{ marginBottom: 0 }}>
+        Thanks for your feedback!
+      </AntdTypography.Title>
+      <AntdTypography.Text type="secondary" style={{ fontSize: 16 }}>
+        We appreciate your input and will use it to improve our services
+      </AntdTypography.Text>
+    </div>
+    <AntdTypography level={3} style={{ marginTop: 3, alignSelf: 'flex-start', fontSize: 15 }}>
+      Review & Experience Details
+    </AntdTypography>
+    <Form
+      layout="vertical"
+      initialValues={editValues}
+      onValuesChange={(_, allValues) => setEditValues(allValues)}
+      style={{ marginTop: 16 }}
+    >
+      <Form.Item label="Experience" name="experience" rules={[{ required: true }]}>
+        <AntdSelect disabled={!isEditMode}>
+          {experienceOptions.map((option) => (
+            <Option key={option.value} value={option.value}>{option.label}</Option>
+          ))}
+        </AntdSelect>
+      </Form.Item>
+      <Form.Item label="Subject" name="subject" rules={[{ required: true }]}>
+        <Input disabled={!isEditMode} />
+      </Form.Item>
+      <Form.Item label="Details" name="experienceDetails" rules={[{ required: true }, { max: 500 }]}>
+        <TextArea rows={3} disabled={!isEditMode} />
+      </Form.Item>
+      <Form.Item label="Impact" name="impact" rules={[{ required: true }]}>
+        <AntdSelect disabled={!isEditMode}>
+          {impactOptions.map((option) => (
+            <Option key={option.value} value={option.value}>{option.label}</Option>
+          ))}
+        </AntdSelect>
+      </Form.Item>
+      <Form.Item label="Attach Files" style={{ marginBottom: 0 }}>
+        <Upload
+          beforeUpload={() => false}
+          maxCount={1}
+          showUploadList={false}
+          onChange={handleFileChange}
+          fileList={selectedFile ? [{ uid: '-1', name: selectedFile.name, status: 'done' }] : []}
+          disabled={!isEditMode}
+        >
+          <AntdButton icon={<UploadOutlined />} disabled={!isEditMode}>Attach Files</AntdButton>
+        </Upload>
+        {(editValues.filename || selectedFile) && (
+          <div style={{
+            marginTop: 8,
+            color: '#3e4396',
+            background: '#f5f5f5',
+            borderRadius: 6,
+            padding: '6px 12px',
+            fontSize: 14,
+            fontWeight: 500,
+            display: 'inline-block',
+            boxShadow: '1px 1px 4px rgba(62,67,150,0.08)'
+          }}>
+            {editValues.fileurl ? (
+              <a href={editValues.fileurl} target="_blank" rel="noopener noreferrer">
+                {editValues.filename}
+              </a>
+            ) : (
+              editValues.filename || (selectedFile && selectedFile.name)
+            )}
+          </div>
+        )}
+      </Form.Item>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
+        {!isEditMode ? (
+          <>
+            <AntdButton
+              type="primary"
+              onClick={() => setIsEditMode(true)}
+              style={{
+                background: "#3e4396",
+                borderColor: "#3e4396",
+                color: "#fff",
+                fontWeight: "bold",
+                minWidth: 120,
+              }}
+            >
+              Edit
+            </AntdButton>
+            <AntdButton
+              style={{ marginLeft: 12 }}
+              onClick={handleModalClose}
+              danger
+            >
+              Close
+            </AntdButton>
+          </>
+        ) : (
+          <>
+            <AntdButton
+              type="primary"
+              onClick={handleEditSubmit}
+              loading={isLoading}
+              style={{
+                background: "#3e4396",
+                borderColor: "#3e4396",
+                color: "#fff",
+                fontWeight: "bold",
+                minWidth: 120,
+              }}
+            >
+              Update
+            </AntdButton>
+            <AntdButton
+              style={{ marginLeft: 12 }}
+              onClick={handleCancelEdit}
+              danger
+            >
+              Cancel
+            </AntdButton>
+          </>
+        )}
+      </div>
+    </Form>
+  </Modal>
+
       <div style={{ backgroundColor: "#fff", padding: 20 }}>
         <Form
           form={form}
@@ -150,10 +341,9 @@ const CmForm = () => {
                   transition: "0.3s",
                   width: isMobile ? "100%" : 250,
                   marginBottom: 4,
-                  // padding: "10px",
                 }}
               >
-                <span style={{fontSize:"17px"}}>{option.label}</span>
+                <span style={{ fontSize: "17px" }}>{option.label}</span>
               </AntdButton>
             ))}
           </div>
@@ -189,7 +379,7 @@ const CmForm = () => {
             rules={[{ required: true, message: 'Impact selection is required' }]}
             style={{ marginBottom: 8 }}
           >
-            <AntdSelect placeholder="Select an impact" style={{ height: 45, background: '#fff',  boxShadow: '2px 2px 5px rgba(0,0,0,0.1)' }}>
+            <AntdSelect placeholder="Select an impact" style={{ height: 45, background: '#fff', boxShadow: '2px 2px 5px rgba(0,0,0,0.1)' }}>
               {impactOptions.map((option) => (
                 <Option key={option.value} value={option.value}>{option.label}</Option>
               ))}
@@ -207,7 +397,6 @@ const CmForm = () => {
             >
               <AntdButton icon={<UploadOutlined />}>Attach Files</AntdButton>
             </Upload>
-            {/* Show selected file name below the input, styled for clarity */}
             {selectedFile && (
               <div style={{
                 marginTop: 8,
@@ -239,8 +428,8 @@ const CmForm = () => {
                 background: '#3e4396',
                 transition: "0.3s",
                 textTransform: "none",
-                width: '100%', // Full width on mobile
-                maxWidth: 250, // Limit width on desktop
+                width: '100%',
+                maxWidth: 250,
               }}
               className="cmform-submit-btn"
             >

@@ -6,7 +6,7 @@ import {
   useTheme,
   IconButton,
 } from "@mui/material";
-import { message } from "antd";
+import { message, Modal } from "antd";
 import { Formik } from "formik";
 import { tokens } from "../../theme";
 import * as yup from "yup";
@@ -113,7 +113,7 @@ const TicketDetails = () => {
 
   const initialValues = {
     organizationid: ticket.organizationid || "",
-    organization: ticket.organization || "",
+    organization: ticket.organizationname || "",
     crmid: ticket.crmid || "",
     cmname: ticket.cmname || "",
     experience: ticket.experience || "",
@@ -125,11 +125,13 @@ const TicketDetails = () => {
     date: ticket.date || "",
     time: ticket.time || "",
     subject: ticket.subject || "",
-    requestdetails: ticket.requestdetails || "",
+    requestdetails: ticket.experiencedetails || "",
     phoneCode: ticket.phoneCode || "",
     PhoneNo: ticket.PhoneNo || "",
     notes: ticket.notes || "",
+    impact: ticket.impact || "",
     id: ticket.experienceid || "",
+    imageUrl: ticket.imageUrl || "",
   };
 
   useEffect(() => {
@@ -176,18 +178,34 @@ const TicketDetails = () => {
     notes: yup.string(),
   });
 
-  const fileUrl =
-    "https://upload.wikimedia.org/wikipedia/commons/4/4d/sample.jpg";
-  const filename = "sample-file.jpg";
 
-  const handleDownload = async () => {
+
+  const fileUrl = ticket.imageUrl || ""; // your file URL
+  const filename = fileUrl.split("/").pop() || "attachment";
+
+  const handleDownload = async (fileUrl) => {
+    if (!fileUrl) {
+      message.error("No attachment available.");
+      return;
+    }
     setIsDownloading(true);
     try {
       const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error("File not found or server error");
+      }
       const blob = await response.blob();
-      download(blob, filename);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Download failed:", error);
+      message.error("Download failed. Please try again or contact support.");
     } finally {
       setIsDownloading(false);
     }
@@ -536,7 +554,7 @@ const TicketDetails = () => {
                   >
                     Impact
                   </Typography>
-                  <Typography>{values.department}</Typography>
+                  <Typography>{values.impact}</Typography>
                 </Box>
 
                 <Box
@@ -578,71 +596,20 @@ const TicketDetails = () => {
                   </Typography>
                 </Box>
 
-                {/* File Upload Section */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    p: 1,
-                    borderRadius: 1,
-                    width: "fit-content",
-                    cursor: "pointer",
-                    "&:hover": { backgroundColor: "#f5f5f5" },
-                    position: "relative",
-                    overflow: "hidden",
-                    border: "1px solid #ccc",
-                  }}
-                >
-                  <Box
-                    component="label"
-                    htmlFor="fileInput"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 576 512"
-                      width="20"
-                      height="20"
-                      fill="#555"
-                      style={{ marginRight: "8px" }}
-                    >
-                      <path d="M64 480H296.2C305.1 491.8 317.3 502.3 329.7 511.3C326.6 511.7 323.3 512 320 512H64C28.65 512 0 483.3 0 448V64C0 28.65 28.65 0 64 0H220.1C232.8 0 245.1 5.057 254.1 14.06L369.9 129.9C378.9 138.9 384 151.2 384 163.9V198.6C372.8 201.8 362.1 206 352 211.2V192H240C213.5 192 192 170.5 192 144V32H64C46.33 32 32 46.33 32 64V448C32 465.7 46.33 480 64 480V480zM347.3 152.6L231.4 36.69C229.4 34.62 226.8 33.18 224 32.48V144C224 152.8 231.2 160 240 160H351.5C350.8 157.2 349.4 154.6 347.3 152.6zM448 351.1H496C504.8 351.1 512 359.2 512 367.1C512 376.8 504.8 383.1 496 383.1H448V431.1C448 440.8 440.8 447.1 432 447.1C423.2 447.1 416 440.8 416 431.1V383.1H368C359.2 383.1 352 376.8 352 367.1C352 359.2 359.2 351.1 368 351.1H416V303.1C416 295.2 423.2 287.1 432 287.1C440.8 287.1 448 295.2 448 303.1V351.1zM576 368C576 447.5 511.5 512 432 512C352.5 512 288 447.5 288 368C288 288.5 352.5 224 432 224C511.5 224 576 288.5 576 368zM432 256C370.1 256 320 306.1 320 368C320 429.9 370.1 480 432 480C493.9 480 544 429.9 544 368C544 306.1 493.9 256 432 256z" />
-                    </svg>
-                    <Typography variant="body2">
-                      {selectedFile ? selectedFile.name : "Attach Files"}
-                    </Typography>
-                  </Box>
-                  <input
-                    id="fileInput"
-                    type="file"
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      top: 0,
-                      width: "100%",
-                      height: "100%",
-                      opacity: 0,
-                      cursor: "pointer",
-                      fontSize: 0,
-                    }}
-                    onChange={handleFileChange}
-                  />
-                </Box>
 
                 {/* Download Button */}
                 <Box sx={{ display: "flex", gap: 2 }}>
-                  <Button
-                    variant="contained"
-                    disabled={isDownloading}
-                    onClick={handleDownload}
-                    sx={{ minWidth: 180 }}
-                  >
-                    {isDownloading ? "Downloading..." : "Download Attachment"}
-                  </Button>
+                  {ticket.imageUrl && (
+                    <Button
+                      variant="contained"
+                      // icon={<DownloadOutlined />}
+                      disabled={isDownloading}
+                      onClick={handleDownload}
+                      sx={{ minWidth: 180 }}
+                    >
+                      {isDownloading ? "Downloading..." : "Download Attachment"}
+                    </Button>
+                  )}
                 </Box>
 
                 {/* Action Buttons */}
@@ -654,6 +621,7 @@ const TicketDetails = () => {
                     mt: 1,
                   }}
                 >
+                  {ticket.status === "New" && (
                   <Button
                     variant="contained"
                     sx={{
@@ -671,29 +639,37 @@ const TicketDetails = () => {
                         boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
                       },
                     }}
-                    onClick={async () => {
-                      try {
-                        await fetch(
-                          `${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`,
-                          {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                              experienceid: ticket.experienceid,
-                            }),
+                    onClick={() => {
+                      Modal.confirm({
+                        title: "Are you sure you want to delete this experience?",
+                        content: "This action cannot be undone.",
+                        okText: "Yes, Delete",
+                        okType: "danger",
+                        cancelText: "Cancel",
+                        onOk: async () => {
+                          try {
+                            await fetch(
+                              `${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`,
+                              {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  experienceid: ticket.experienceid,
+                                }),
+                              }
+                            );
+                            message.success("Experience deleted successfully!");
+                            Navigate("/");
+                          } catch (error) {
+                            message.error("Failed to delete experience.");
                           }
-                        );
-                        message.success(
-                          "Experience status updated to Resolved!"
-                        );
-                        Navigate("/");
-                      } catch (error) {
-                        message.error("Failed to update status.");
-                      }
+                        },
+                      });
                     }}
                   >
                     Delete
                   </Button>
+              )}
                 </Box>
               </Box>
             </form>

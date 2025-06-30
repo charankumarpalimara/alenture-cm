@@ -12,58 +12,39 @@ import StatBox from "../../components/StatBox";
 // import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import React, {useState, useEffect, useRef} from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { message } from "antd";
 
 const Dashboard = () => {
   // const theme = useTheme();
   // const colors = tokens(theme.palette.mode); // Get theme colors
 
 
-
-  const [allExperienceCount, setAllExperienceCount] = useState(0);
-  const [newExperienceCount, setNewExperienceCount] = useState(0);
-  const [resolvedExperienceCount, setResolvedExperienceCount] = useState(0);
-  const [pendingExperienceCount, setPendingExperienceCount] = useState(0);
-
+    const [counts, setCounts] = useState(null);
   const ws = useRef(null);
 
-  const fetchAllCounts = async () => {
- const userDetails = JSON.parse(sessionStorage.getItem('CmDetails')) || {};
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/getAllExperiencesCountByCmId/${userDetails.cmid}`);
-      const data = await response.json();
-      setAllExperienceCount(data.count || 0);
-    } catch {
-      setAllExperienceCount(0);
-    }
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/getNewExperiencesCountByCmId/${userDetails.cmid}`);
-      const data = await response.json();
-      setNewExperienceCount(data.count || 0);
-    } catch {
-      setNewExperienceCount(0);
-    }
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/getResolvedExperiencesCountByCmId/${userDetails.cmid}`);
-      const data = await response.json();
-      setResolvedExperienceCount(data.count || 0);
-    } catch {
-      setResolvedExperienceCount(0);
-    }
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/getPendingExperiencesCountByCmId/${userDetails.cmid}`);
-      const data = await response.json();
-      setPendingExperienceCount(data.count || 0);
-    } catch {
-      setPendingExperienceCount(0);
-    }
-  };
 
-  useEffect(() => {
-    fetchAllCounts();
+  // AllExperiencesCountByCrmid
+
+    useEffect(() => {
+    const fetchCounts = async () => {
+      // setLoading(true);
+       const userDetails = JSON.parse(sessionStorage.getItem('CmDetails')) || {};
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/v1/AllExperiencesCountByCmid/${userDetails.cmid}`);
+                // const res = await axios.get(`http://127.0.0.1:8080/v1/AllExperiencesCountByCmid/${userDetails.cmid}`);
+        setCounts(res.data);
+      } catch (err) {
+        message.error("Failed to fetch experience counts");
+      } finally {
+        // setLoading(false);
+      }
+    };
+    fetchCounts();
     ws.current = new window.WebSocket(process.env.REACT_APP_WS_URL);
     ws.current.onmessage = (event) => {
       // Optionally, check event.data for specific update types
-      fetchAllCounts();
+      fetchCounts();
     };
     ws.current.onerror = (err) => {
       // Optionally handle error
@@ -73,35 +54,40 @@ const Dashboard = () => {
     };
   }, []);
 
+
+
+
+
+
   
 
 
   const data = [
     {
-      title: `${allExperienceCount}`,
+      title: `${counts?.total ?? 0}`,
       subtitle: "ALL EXPERIENCE",
-      progress: allExperienceCount > 0 ? 1 : 0,
+      progress: counts?.total > 0 ? 1 : 0,
       icon: <ReceiptLongIcon />,
       link: "/allExperiences",
     },
     {
-      title: `${newExperienceCount}`,
+      title: `${counts?.new ?? 0}`,
       subtitle: "NEW EXPERIENCE",
-      progress: allExperienceCount > 0 ? newExperienceCount / allExperienceCount : 0,
+      progress: counts?.new > 0 ? counts?.new / counts?.total : 0,
       icon: <NewReleasesIcon />,
       link: "/newExperiences",
     },
     {
-      title: `${resolvedExperienceCount}`,
+      title: `${counts?.resolved ?? 0}`,
       subtitle: "RESOLVED EXPERIENCE",
-      progress: allExperienceCount > 0 ? resolvedExperienceCount / allExperienceCount : 0,
+      progress: counts?.resolved > 0 ? counts?.resolved / counts?.total : 0,
       icon: <CheckCircleIcon />,
       link: "/resolvedExperiences",
     },
     {
-      title: `${pendingExperienceCount}`,
+      title: `${counts?.processing ?? 0}`,
       subtitle: "PENDING EXPERIENCE",
-      progress: allExperienceCount > 0 ? pendingExperienceCount / allExperienceCount : 0,
+      progress: counts?.processing > 0 ? counts?.processing / counts?.total : 0,
       icon: <HourglassEmptyIcon />,
       link: "/pendingExperiences",
     },

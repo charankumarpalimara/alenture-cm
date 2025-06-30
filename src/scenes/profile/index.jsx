@@ -288,7 +288,7 @@ const Profile = () => {
       />
     </Form.Item>
   </Col>
-  <Col xs={24} md={8}>
+  {/* <Col xs={24} md={8}>
     <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Middle Name</div>
     <Form.Item
       validateStatus={touched.middleName && errors.middleName ? 'error' : ''}
@@ -304,7 +304,7 @@ const Profile = () => {
         size="large"
       />
     </Form.Item>
-  </Col>
+  </Col> */}
   <Col xs={24} md={8}>
     <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Last Name</div>
     <Form.Item

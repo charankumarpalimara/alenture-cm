@@ -65,7 +65,7 @@ const ResolvedExperiences = () => {
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState({ priority: [], status: [] });
 
-const userDetails = JSON.parse(sessionStorage.getItem('userDetails')) || {}; // Retrieve user details from sessionStorage
+const userDetails = JSON.parse(sessionStorage.getItem('CmDetails')) || {}; // Retrieve user details from sessionStorage
    const cmid = userDetails.cmid; // Construct username or fallback to 'Guest'
 
   useEffect(() => {
@@ -74,10 +74,13 @@ const userDetails = JSON.parse(sessionStorage.getItem('userDetails')) || {}; // 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/v1/getResolvedTicketsbyCmid/${cmid}`);
         const data = await response.json();
         console.log('Fetched data:', data); // Debug: log backend response
-        if (response.ok && Array.isArray(data.experienceDetails)) {
-          const transformedData = data.experienceDetails.map((item, idx) => ({
-            id: item.id || idx,
+        if (response.ok && Array.isArray(data.updatedData)) {
+          const transformedData = data.updatedData.map((item, idx) => ({
+            id: item.experienceid || idx, // DataGrid requires unique id
             experienceid: item.experienceid || "N/A",
+            experience: item.experience || "N/A",
+            experiencedetails: item.experiencedetails || "N/A",
+            impact: item.impact || "N/A",
             subject: item.subject || "N/A",
             priority: item.priority || "N/A",
             status: item.status || "N/A",
@@ -85,15 +88,15 @@ const userDetails = JSON.parse(sessionStorage.getItem('userDetails')) || {}; // 
             updated: item.updated || "N/A",
             organizationid: item.organizationid,
             organizationname: item.organizationname || "N/A",
-            cmid: item.cmid || "N/A",
             branch: item.branch || "N/A",
-            crmname: item.crmname || "N/A",
-            crmid: item.extraind1 ,
+            crmid: item.extraind1 || "N/A",
+            crmname: item.extraind2 || "N/A",
             cmname: item.cmname || "N/A",
             state: item.extraind4 || "N/A",
             city: item.extraind5 || "N/A",
             postalcode: item.extraind6 || "N/A",
             time: item.time || "N/A",
+            imageUrl: `${item.imageUrl || ""}`,
           }));
           console.log('Transformed data:', transformedData); // Debug: log transformed data
           setTickets(transformedData);

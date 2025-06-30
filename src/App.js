@@ -43,6 +43,8 @@ import Login from "./scenes/login";
 // import Tasks from "./scenes/tasks";
 // import TaskForm from "./scenes/taskform";
 // import TaskDetails from "./scenes/taskdetails";
+import PasswordReset from "./scenes/login/passwordReset";
+import ForgotPassword from "./scenes/login/forgotPassword";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -164,8 +166,12 @@ function App() {
             }}
           >
             <Routes>
+              <Route path="/reset-password/:cmid" element={<PasswordReset />} />
               {!isAuthenticated ? (
-                <Route path="*" element={<Login onLogin={handleLogin} />} />
+                <>
+                  <Route path="*" element={<Login onLogin={handleLogin} />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                </>
               ) : (
                 <>
                   <Route path="/" element={<Dashboard />} />
