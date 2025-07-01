@@ -32,7 +32,7 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import logoLight from "./logo.png";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCmId } from "../../../config";
+import { getCmId, getCreaterName } from "../../../config";
 
 import {
   getNotificationsDetails,
@@ -607,7 +607,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {username}
+                  {getCreaterName()}
                 </Typography>
               </IconButton>
             </Box>

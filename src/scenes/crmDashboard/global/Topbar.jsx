@@ -766,7 +766,7 @@ const Topbar = ({ onLogout }) => {
                 }}
               >
                 <HomeOutlinedIcon
-                  onClick={() => navigate("/crm")}
+                  onClick={() => navigate("/")}
                   fontSize="small"
                   sx={{ cursor: "pointer" }}
                 />
@@ -819,7 +819,7 @@ const Topbar = ({ onLogout }) => {
                 }}
               >
                 <HomeOutlinedIcon
-                  onClick={() => navigate("/crm")}
+                  onClick={() => navigate("/")}
                   fontSize="small"
                   sx={{ cursor: "pointer" }}
                 />
