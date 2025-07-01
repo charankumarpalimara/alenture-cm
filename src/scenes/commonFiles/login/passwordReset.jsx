@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, Input, message } from "antd";
-import Logo from "./logo.png";
+import Logo from "./alentur-logo.avif";
 
 
 const PasswordReset = () => {

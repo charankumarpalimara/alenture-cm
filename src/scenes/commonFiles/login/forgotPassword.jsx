@@ -9,7 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Form, Input, message } from "antd";
-import Logo from "./logo.png";
+import Logo from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {

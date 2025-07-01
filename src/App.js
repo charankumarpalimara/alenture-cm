@@ -24,8 +24,8 @@ import { getCreaterRole } from "./config";
 
 
 //cm dashboard unique files
-import CmTopbar from "./scenes/cmDashboard/global/Topbar";
-import CmSidebar from "./scenes/cmDashboard/global/Sidebar";
+import CmTopbar from "./scenes/cmDashboard/global/Topbar.jsx";
+import CmSidebar from "./scenes/cmDashboard/global/Sidebar.jsx";
 import CmTicketDetails from "./scenes/cmDashboard/ticketsdetails";
 import CmExperienceRegistrationForm from "./scenes/cmDashboard/experienceForm";
 import CmProfile from "./scenes/cmDashboard/profile";
@@ -35,7 +35,7 @@ import CmProfile from "./scenes/cmDashboard/profile";
 
 
 //crm dashboard unique files
-import CrmTopbar from "./scenes/crmDashboard/global/Topbar";
+import CrmTopbar from "./scenes/crmDashboard/global/Topbar.jsx";
 import CrmSidebar from "./scenes/crmDashboard/global/Sidebar";
 import CrmProfile from "./scenes/crmDashboard/profile";
 import CrmTicketDetails from "./scenes/crmDashboard/ticketdetails";
