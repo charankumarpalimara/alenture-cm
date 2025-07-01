@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { CssBaseline, Box, useMediaQuery } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 
 // Import Poppins font weights
 import "@fontsource/poppins/300.css"; // Light
@@ -12,39 +13,78 @@ import "@fontsource/poppins/500.css"; // Medium
 import "@fontsource/poppins/600.css"; // Semi-bold
 import "@fontsource/poppins/700.css"; // Bold
 
-import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
-import Dashboard from "./scenes/dashboard";
-import Cm from "./scenes/cm";
-// import Hob from "./scenes/hob";
-import Crm from "./scenes/crm";
-import Bar from "./scenes/bar";
-import Form from "./scenes/form";
-import CmForm from "./scenes/cmform";
-// import CrmForm from "./scenes/crmform";
-// import BsuForm from "./scenes/bsuform";
-// import Line from "./scenes/line";
-// import Pie from "./scenes/pie";
-// import FAQ from "./scenes/faq";
-import Geography from "./scenes/geography";
-import Calendar from "./scenes/calendar/calendar";
-import Profile from "./scenes/profile";
-import AllExperiences from "./scenes/experiences/allExperiences";
-import NewExperiences from "./scenes/experiences/newExperiences";
-import PendingExperiences from "./scenes/experiences/pendingExperiences";
-import ResolvedExperiences from "./scenes/experiences/resolvedExperiences";
-import Notes from "./scenes/notes";
-import TicketDetails from "./scenes/ticketsdetails";
-// import TaskDetails from "./scenes/taskdetails";
-import Login from "./scenes/login";
-// import TicketDetails from "./scenes/ticketsdetails";
+//config details 
+import { getCreaterRole } from "./config";
+
+
+
+
+
+
+
+
+//cm dashboard unique files
+import CmTopbar from "./scenes/cmDashboard/global/Topbar";
+import CmSidebar from "./scenes/cmDashboard/global/Sidebar";
+import CmTicketDetails from "./scenes/cmDashboard/ticketsdetails";
+import CmExperienceRegistrationForm from "./scenes/cmDashboard/experienceForm";
+import CmProfile from "./scenes/cmDashboard/profile";
+
+
+
+
+
+//crm dashboard unique files
+import CrmTopbar from "./scenes/crmDashboard/global/Topbar";
+import CrmSidebar from "./scenes/crmDashboard/global/Sidebar";
+import CrmProfile from "./scenes/crmDashboard/profile";
+import CrmTicketDetails from "./scenes/crmDashboard/ticketdetails";
+
+
+
+
+
+//hob And admin dashboard uniwue files
+import AdminSidebar from "./scenes/hobDashboard/global/Sidebar";
+import AdminTopbar from "./scenes/hobDashboard/global/Topbar";
+import AdminProfile from "./scenes/hobDashboard/profile";
+import AdminTicketDetails from "./scenes/hobDashboard/ticketsdetails";
+import HobProfile from "./scenes/hobDashboard/profile/hobProfile";
+
+
+
+//common files  in four dashboards
+import Calendar from "./scenes/commonFiles/calendar/calendar";
+import Dashboard from "./scenes/commonFiles/dashboard";
+import Experinces from "./scenes/commonFiles/experiences";
+import AllExperiences from "./scenes/commonFiles/experiences/allExperiences";
+import NewExperiences from "./scenes/commonFiles/experiences/newExperiences";
+import PendingExperiences from "./scenes/commonFiles/experiences/pendingExperiences";
+import ResolvedExperiences from "./scenes/commonFiles/experiences/resolvedExperiences";
+import Notes from "./scenes/commonFiles/notes"
+import Login from "./scenes/commonFiles/login";
+import PasswordReset from "./scenes/commonFiles/login/passwordReset";
+import ForgotPassword from "./scenes/commonFiles/login/forgotPassword";
+import Cm from "./scenes/commonFiles/cm"
+import CmForm from "./scenes/commonFiles/cmform";
+import CmDetails from "./scenes/commonFiles/cmdetails";
+import Crm from "./scenes/commonFiles/crm";
+import CrmForm from "./scenes/commonFiles/cmform";
+import CrmDetails from "./scenes/commonFiles/crmdetails";
+import Hob from "./scenes/commonFiles/hob";
+import HobForm from "./scenes/commonFiles/hobform";
+import HobDetails from "./scenes/commonFiles/hobdetails";
+import Organization from "./scenes/commonFiles/organization";
+import OrganizationDetails from "./scenes/commonFiles/organizationdetails";
+import TaskDetails from "./scenes/commonFiles/taskdetails";
+// import CrmTaskDetails from "./scenes/taskdetails";
+
+// import CrmTicketDetails from "./scenes/commonFiles/ticketsdetails";
+
 // import Organization from "./scenes/organization";
 // import OrganizationDetails from "./scenes/organizationdetails";
-// import Tasks from "./scenes/tasks";
-// import TaskForm from "./scenes/taskform";
-// import TaskDetails from "./scenes/taskdetails";
-import PasswordReset from "./scenes/login/passwordReset";
-import ForgotPassword from "./scenes/login/forgotPassword";
+
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -52,18 +92,36 @@ function App() {
   const queryClient = new QueryClient();
   // const [drawer, setDrawerOpen] = useState(true);
   const isMobile = useMediaQuery("(max-width: 900px)"); // Detect mobile screen
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    !!sessionStorage.getItem("cmtoken")
-  );
+const [isAuthenticated, setIsAuthenticated] = useState(
+  !!(
+    sessionStorage.getItem('cmtoken') ||
+    sessionStorage.getItem('crmtoken') ||
+    sessionStorage.getItem('hobtoken') ||
+    sessionStorage.getItem('token')
+  )
+);
+
 
   const handleLogin = () => {
     setIsAuthenticated(true);
+    console.log("getCreaterRole:", getCreaterRole);
   };
   const handlelogout = () => {
     setIsAuthenticated(false);
-    sessionStorage.removeItem("cmtoken"); // Remove the authentication token
-    sessionStorage.removeItem("CmDetails"); // Remove user data
-  };
+    sessionStorage.removeItem('cmtoken'); // Remove the authentication token
+    sessionStorage.removeItem('CmDetails'); // Remove user data
+
+    sessionStorage.removeItem('hobtoken'); // Remove the authentication token
+    sessionStorage.removeItem('hobDetails'); // Remove user data
+
+    sessionStorage.removeItem('crmtoken'); // Remove the authentication token
+    sessionStorage.removeItem('CrmDetails'); // Remove user data
+
+    sessionStorage.removeItem('token'); // Remove the authentication token
+    sessionStorage.removeItem('userDetails'); // Remove user data
+  }
+
+
 
   const appTheme = createTheme(theme, {
     typography: {
@@ -118,10 +176,12 @@ function App() {
           <CssBaseline />
 
           {/* Topbar: Full width at the top */}
-          {isAuthenticated && (
+
+          {isAuthenticated && getCreaterRole() === "cm" ? (
             <>
               <Box sx={{ width: "100vw", top: 5, zIndex: 1000 }}>
-                <Topbar setIsSidebar={setIsSidebar} onLogout={handlelogout} />
+
+                <CmTopbar setIsSidebar={setIsSidebar} onLogout={handlelogout} />
               </Box>
 
               {!isMobile && isSidebar && (
@@ -135,21 +195,63 @@ function App() {
                     zIndex: 900,
                   }}
                 >
-                  <Sidebar isSidebar={isSidebar} onLogout={handlelogout} />
+
+                  <CmSidebar isSidebar={isSidebar} onLogout={handlelogout} />
                 </Box>
               )}
             </>
-          )}
+          ) : getCreaterRole() === "crm" ? (
+            <>
+              <Box sx={{ width: "100vw", top: 5, zIndex: 1000 }}>
+
+                <CrmTopbar setIsSidebar={setIsSidebar} onLogout={handlelogout} />
+              </Box>
+
+              {!isMobile && isSidebar && (
+                <Box
+                  sx={{
+                    position: "fixed",
+                    left: 0,
+                    top: "64px",
+                    height: "calc(100vh - 64px)",
+                    width: "260px",
+                    zIndex: 900,
+                  }}
+                >
+                  <CrmSidebar isSidebar={isSidebar} onLogout={handlelogout} />
+                </Box>
+              )}
+            </>
+          ) : getCreaterRole() === "admin" || getCreaterRole() === "hob" ? (
+            <>
+              <Box sx={{ width: "100vw", top: 5, zIndex: 1000 }}>
+
+                <AdminTopbar setIsSidebar={setIsSidebar} onLogout={handlelogout} />
+              </Box>
+
+              {!isMobile && isSidebar && (
+                <Box
+                  sx={{
+                    position: "fixed",
+                    left: 0,
+                    top: "64px",
+                    height: "calc(100vh - 64px)",
+                    width: "260px",
+                    zIndex: 900,
+                  }}
+                >
+                  <AdminSidebar isSidebar={isSidebar} onLogout={handlelogout} />
+                </Box>
+              )}
+            </>
+          ) : null}
           {/* Main Content */}
           <Box
             component="main"
             sx={{
               flexGrow: 1,
-              marginLeft: isMobile
-                ? "0px"
-                : isSidebar && isAuthenticated
-                ? "260px"
-                : "0px",
+
+              marginLeft: isMobile ? "0px" : isSidebar && isAuthenticated ? "260px" : "0px",
               marginTop: isAuthenticated ? "0px" : "60px",
               padding: "20px 20px 20px",
               overflowY: "auto",
@@ -162,55 +264,110 @@ function App() {
                 backgroundColor: "#000000",
                 borderRadius: "4px",
               },
-              fontFamily: "Poppins, sans-serif !important",
+
+              fontFamily: 'Poppins, sans-serif !important',
             }}
           >
             <Routes>
-              <Route path="/reset-password/:cmid" element={<PasswordReset />} />
+              <Route path="/reset-password/:email" element={<PasswordReset />} />
               {!isAuthenticated ? (
                 <>
                   <Route path="*" element={<Login onLogin={handleLogin} />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path='/forgot-password' element={<ForgotPassword />} />
                 </>
-              ) : (
+              ) : getCreaterRole() === "cm" ? (
                 <>
                   <Route path="/" element={<Dashboard />} />
-                  <Route path="/cm" element={<Cm />} />
-                  <Route path="/crm" element={<Crm />} />
-                  {/* <Route path="/tasks" element={<Tasks />} /> */}
-                  {/* <Route path="/hob" element={<Hob />} /> */}
-                  <Route path="/form" element={<Form />} />
-                  <Route path="/cmform" element={<CmForm />} />
-                  {/* <Route path="/taskform" element={<TaskForm />} /> */}
-                  {/* <Route path="/crmform" element={<CrmForm />} /> */}
-                  {/* <Route path="/bsuform" element={<BsuForm />} /> */}
-                  <Route path="/bar" element={<Bar />} />
-                  {/* <Route path="/pie" element={<Pie />} /> */}
-                  {/* <Route path="/line" element={<Line />} /> */}
-                  {/* <Route path="/faq" element={<FAQ />} /> */}
+                  <Route path="/experinces" element={<Experinces />} />
+                  <Route path="/experienceRegistrationform" element={<CmExperienceRegistrationForm />} />
                   <Route path="/calendar" element={<Calendar />} />
-                  <Route path="/geography" element={<Geography />} />
                   <Route path="/notes" element={<Notes />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/ticketdetails" element={<TicketDetails />} />
-                  {/* <Route path="/taskdetails" element={<TaskDetails />} /> */}
-                  {/* <Route path="/organization" element={<Organization />} /> */}
-                  {/* <Route path="/organizationdetails" element={<OrganizationDetails />} /> */}
-                  {/* <Route path="/cmdetails" element={<CmDetails />} /> */}
-
-                  {/* Experience Routes */}
+                  <Route path="/profile" element={<CmProfile />} />
+                  <Route path="/ticketdetails" element={<CmTicketDetails />} />
                   <Route path="/allExperiences" element={<AllExperiences />} />
                   <Route path="/newExperiences" element={<NewExperiences />} />
-                  <Route
-                    path="/pendingExperiences"
-                    element={<PendingExperiences />}
-                  />
-                  <Route
-                    path="/resolvedExperiences"
-                    element={<ResolvedExperiences />}
-                  />
+                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
+                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
                 </>
-              )}
+              ) : getCreaterRole() === "crm" ? (
+                <>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path='/cm' element={<Cm />} />
+                  <Route path="/cmform" element={<CmForm />} />
+                  <Route path="/cmdetails" element={<CmDetails />} />
+                  <Route path="/experiences" element={<Experinces />} />
+                  <Route path="/calendar" element={<Calendar />} />
+                  <Route path="/notes" element={<Notes />} />
+                  <Route path="/ticketdetails" element={<CrmTicketDetails />} />
+                  <Route path="/allExperiences" element={<AllExperiences />} />
+                  <Route path="/newExperiences" element={<NewExperiences />} />
+                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
+                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
+                  <Route path="/organization" element={<Organization />} />
+                  <Route path="/organizationdetails" element={<OrganizationDetails />} />
+                  <Route path="/taskdetails" element={<TaskDetails />} />
+                  <Route path="/profile" element={<CrmProfile />} />
+
+                </>
+              ) : getCreaterRole() === "admin" ? (
+                <>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path='/cm' element={<Cm />} />
+                  <Route path="/cmform" element={<CmForm />} />
+                  <Route path="/cmdetails" element={<CmDetails />} />
+                  <Route path='/crm' element={<Crm />} />
+                  <Route path="/crmform" element={<CrmForm />} />
+                  <Route path="/crmdetails" element={<CrmDetails />} />
+                  <Route path="/hob" element={<Hob />} />
+                  <Route path="/hobform" element={<HobForm />} />
+                  <Route path="/hobdetails" element={<HobDetails />} />
+                  <Route path="/profile" element={<AdminProfile />} />
+                  <Route path="/hobprofile" element={<HobProfile />} />
+                  <Route path="/calendar" element={<Calendar />} />
+                  <Route path="/notes" element={<Notes />} />
+                  <Route path="/ticketdetails" element={<AdminTicketDetails />} />
+                  <Route path="/experiences" element={<Experinces />} />
+                  <Route path="/allExperiences" element={<AllExperiences />} />
+                  <Route path="/newExperiences" element={<NewExperiences />} />
+                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
+                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
+                  <Route path="/organization" element={<Organization />} />
+                  <Route path="/organizationdetails" element={<OrganizationDetails />} />
+                  <Route path="/taskdetails" element={<TaskDetails />} />
+
+                </>
+
+
+              ) : getCreaterRole() === "hob" ? (
+
+                <>       
+
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path='/cm' element={<Cm />} />
+                  <Route path="/cmform" element={<CmForm />} />
+                  <Route path="/cmdetails" element={<CmDetails />} />
+                  <Route path='/crm' element={<Crm />} />
+                  <Route path="/crmform" element={<CrmForm />} />
+                  <Route path="/crmdetails" element={<CrmDetails />} />
+                  <Route path="/hob" element={<Hob />} />
+                  <Route path="/hobform" element={<HobForm />} />
+                  <Route path="/hobdetails" element={<HobDetails />} />
+                  {/* <Route path="/profile" element={<AdminProfile />} /> */}
+                  <Route path="/profile" element={<HobProfile />} />
+                  <Route path="/calendar" element={<Calendar />} />
+                  <Route path="/notes" element={<Notes />} />
+                  <Route path="/ticketdetails" element={<AdminTicketDetails />} />
+                  <Route path="/experiences" element={<Experinces />} />
+                  <Route path="/allExperiences" element={<AllExperiences />} />
+                  <Route path="/newExperiences" element={<NewExperiences />} />
+                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
+                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
+                  <Route path="/organization" element={<Organization />} />
+                  <Route path="/organizationdetails" element={<OrganizationDetails />} />
+                  <Route path="/taskdetails" element={<TaskDetails />} />
+
+                </>
+              ) : null}
             </Routes>
           </Box>
         </ThemeProvider>
