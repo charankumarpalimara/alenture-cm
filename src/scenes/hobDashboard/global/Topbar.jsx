@@ -24,7 +24,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
-// import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -43,35 +43,34 @@ import {
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
-  if (pathname.includes("/hob/crm") || pathname.includes("/hob/crmform")) {
-    return "/hob/crm";
-  } else if (pathname.includes("/hob/cm") || pathname.includes("/hob/cmform")) {
-    return "/hob/cm";
-  } else if (pathname.includes("/hob/hob") || pathname.includes("/hob/form")) {
-    return "/hob/hob";
-  } else if (pathname.includes("/hob/notes")) {
-    return "/hob/notes";
-  } else if (pathname.includes("/hob/calendar")) {
-    return "/hob/calendar";
+  if (pathname.includes("/crm") || pathname.includes("/crmform")) {
+    return "/crm";
+  } else if (pathname.includes("/cm") || pathname.includes("/cmform")) {
+    return "/cm";
+  } else if (pathname.includes("/hob") || pathname.includes("/hobform")) {
+    return "/hob";
+  } else if (pathname.includes("/notes")) {
+    return "/notes";
+  } else if (pathname.includes("/calendar")) {
+    return "/calendar";
   } else if (
-    pathname.includes("/hob/tasks") ||
-    pathname.includes("/hob/taskform")
+    pathname.includes("/tasks") ||
+    pathname.includes("/taskform")
   ) {
-    return "/hob/tasks";
-  } else if (pathname.includes("/hob/organization")) {
-    return "/hob/organization";
+    return "/tasks";
+  } else if (pathname.includes("/organization")) {
+    return "/organization";
   } else if (
-    pathname === "/hob" ||
-    pathname === "/hob/" ||
-    pathname.includes("/hob/ticketdetails") ||
-    pathname.includes("/hob/allExperiences") ||
-    pathname.includes("/hob/newExperiences") ||
-    pathname.includes("/hob/profile") ||
-    pathname.includes("/hob/taskdetails") ||
-    pathname.includes("/hob/pendingExperiences") ||
-    pathname.includes("/hob/resolvedExperiences")
+    pathname === "/" ||
+    pathname.includes("/ticketdetails") ||
+    pathname.includes("/allExperiences") ||
+    pathname.includes("/newExperiences") ||
+    pathname.includes("/profile") ||
+    pathname.includes("/taskdetails") ||
+    pathname.includes("/pendingExperiences") ||
+    pathname.includes("/resolvedExperiences")
   ) {
-    return "/hob"; // Dashboard is active for these routes
+    return "/"; // Dashboard is active for these routes
   } else {
     return pathname;
   }
@@ -133,7 +132,7 @@ const Topbar = ({ onLogout }) => {
   const userDetails = JSON.parse(sessionStorage.getItem("hobDetails")) || {}; // Retrieve user details from sessionStorage
 
   // WebSocket connection for live notifications
-  const [notifications, setNotifications] = useState([]);
+  // const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
@@ -165,7 +164,7 @@ const Topbar = ({ onLogout }) => {
 
       queryClient.invalidateQueries("admin-notifications");
     },
-    onError: (error) => {},
+    onError: (error) => { },
   });
 
   useEffect(() => {
@@ -224,80 +223,78 @@ const Topbar = ({ onLogout }) => {
 
   const getPageTitle = () => {
     switch (location.pathname) {
-      case "/hob":
+      case "/":
         return "Dashboard";
-      case "/hob/":
-        return "Dashboard";
-      case "/hob/cm":
+      case "/cm":
         return "Customer Manager";
 
-      case "/hob/crm":
+      case "/crm":
         return "Customer Relationship Manager";
 
-      case "/hob/cmform":
+      case "/cmform":
         return "Create a New Customer Manager";
 
-      case "/hob/crmform":
+      case "/crmform":
         return " Create a New Customer Relationship Manager";
 
-      case "/hob/hob":
+      case "/hob":
         return "Head of the Business";
 
-      case "/hob/tasks":
+      case "/tasks":
         return "Tasks List";
 
-      case "/hob/taskdetails":
+      case "/taskdetails":
         return "Task Details";
 
-      case "/hob/taskform":
+      case "/taskform":
         return "Create New Task";
 
-      case "/hob/crmdetails":
+      case "/crmdetails":
         return "Customer Relationship Manager Details";
 
-      case "/hob/cmdetails":
+      case "/cmdetails":
         return "Customer Manager Details";
 
-      case "/hob/organizationdetails":
+      case "/organizationdetails":
         return " Organization Details";
 
-      case "/hob/organizationform":
+      case "/organizationform":
         return "Create a New Organization";
 
-      case "/hob/organizationadd":
+      case "/organizationadd":
         return "Add New Branch";
 
-      case "/hob/ticketdetails":
+      case "/ticketdetails":
         return " Experience Details";
 
-      case "/hob/form":
-        return "Create a New Organization";
+      case "/hobform":
+        return "Create a New Hob";
 
-      case "/hob/hobdetails":
+      case "/hobdetails":
         return "Head of The Department Details";
 
-      case "/hob/allExperiences":
+      case "/allExperiences":
         return "All Experiences";
 
-      case "/hob/organization":
+      case "/organization":
         return "Organizations";
 
-      case "/hob/newExperiences":
+      case "/newExperiences":
         return "New Experiences";
 
-      case "/hob/pendingExperiences":
+      case "/pendingExperiences":
         return "Pending Experiences";
 
-      case "/hob/resolvedExperiences":
+      case "/resolvedExperiences":
         return "Resolved Experiences";
 
-      case "/hob/profile":
+      case "/profile":
         return "Profile";
 
-      case "/hob/notes":
+      case "/notes":
         return "Notes";
 
-      case "/hob/calendar":
+      case "/calendar":
         return "Calendar";
       default:
         return "Page Not Found";
@@ -305,88 +302,86 @@ const Topbar = ({ onLogout }) => {
   };
   const getPageTitle1 = () => {
     switch (location.pathname) {
-      case "/hob":
+      case "/":
         return { primaryTitle: "Dashboard", secondaryTitle: null };
-      case "/hob/":
-        return { primaryTitle: "Dashboard", secondaryTitle: null };
-      case "/hob/cm":
+      case "/cm":
         return { primaryTitle: "Customer Manager", secondaryTitle: null };
-      case "/hob/crm":
+      case "/crm":
         return {
           primaryTitle: "Customer Relationship Manager",
           secondaryTitle: null,
         };
-      case "/hob/cmdetails":
+      case "/cmdetails":
         return {
           primaryTitle: "Customer Manager Details ",
           secondaryTitle: null,
         };
-      case "/hob/organization":
+      case "/organization":
         return { primaryTitle: "Organization", secondaryTitle: null };
-      case "/hob/ticketdetails":
+      case "/ticketdetails":
         return { primaryTitle: "Experience Details", secondaryTitle: null };
-      case "/hob/organizationdetails":
+      case "/organizationdetails":
         return { primaryTitle: "Organizations Details", secondaryTitle: null };
-      case "/hob/organizationform":
+      case "/organizationform":
         return {
           primaryTitle: "Organization",
           secondaryTitle: "Create a New Organization",
         };
 
-      case "/hob/organizationadd":
+      case "/organizationadd":
         return {
           primaryTitle: "Organization",
           secondaryTitle: " Add New Organization",
         };
-      case "/hob/cmform":
+      case "/cmform":
         return {
           primaryTitle: "Customer Manager",
           secondaryTitle: "Create a New Customer Manager",
         };
-      case "/hob/crmdetails":
+      case "/crmdetails":
         return {
           primaryTitle: "Customer Relationship Manager Details ",
           secondaryTitle: null,
         };
-      case "/hob/crmform":
+      case "/crmform":
         return {
           primaryTitle: "Customer Relationship Manager",
           secondaryTitle: "Create a New Customer Relationship Manager",
         };
-      case "/hob/hob":
+      case "/hob":
         return { primaryTitle: "Head of the Business", secondaryTitle: null };
-      case "/hob/tasks":
+      case "/tasks":
         return { primaryTitle: "Tasks List", secondaryTitle: null };
-      case "/hob/taskform":
+      case "/taskform":
         return {
           primaryTitle: "Tasks List",
           secondaryTitle: "Create a New Task",
         };
-      case "/hob/taskdetails":
+      case "/taskdetails":
         return { primaryTitle: "Task Details", secondaryTitle: null };
-      case "/hob/form":
+      case "/form":
         return {
           primaryTitle: "Head of the Business",
           secondaryTitle: "Create a New Head of the Business Unit",
         };
-      case "/hob/hobdetails":
+      case "/hobdetails":
         return {
           primaryTitle: "Head of The Business Details",
           secondaryTitle: null,
         };
-      case "/hob/allExperiences":
+      case "/allExperiences":
         return { primaryTitle: "All Experiences", secondaryTitle: null };
-      case "/hob/newExperiences":
+      case "/newExperiences":
         return { primaryTitle: "New Experiences", secondaryTitle: null };
-      case "/hob/pendingExperiences":
+      case "/pendingExperiences":
         return { primaryTitle: "Pending Experiences", secondaryTitle: null };
-      case "/hob/resolvedExperiences":
+      case "/resolvedExperiences":
         return { primaryTitle: "Resolved Experiences", secondaryTitle: null };
-      case "/hob/profile":
+      case "/profile":
         return { primaryTitle: "Profile", secondaryTitle: null };
-      case "/hob/notes":
+      case "/notes":
         return { primaryTitle: "Notes", secondaryTitle: null };
-      case "/hob/calendar":
+      case "/calendar":
         return { primaryTitle: "Calendar", secondaryTitle: null };
       default:
         return { primaryTitle: "Page Not Found", secondaryTitle: null };
@@ -952,7 +947,7 @@ const Topbar = ({ onLogout }) => {
           >
             <Item
               title="Dashboard"
-              to="/hob"
+              to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -960,7 +955,7 @@ const Topbar = ({ onLogout }) => {
             />
             <Item
               title="Customer Manager"
-              to="/hob/cm"
+              to="/cm"
               icon={<PeopleAltOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -968,16 +963,24 @@ const Topbar = ({ onLogout }) => {
             />
             <Item
               title="Customer Relationship Manager"
-              to="/hob/crm"
+              to="/crm"
               icon={<HandshakeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
-            {/* <Item title="Head of the Business" to="/hob" icon={<StorefrontOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
+            {getCreaterRole() === "admin" && (
+              <Item
+                title="Head of the Business"
+                to="/hob"
+                icon={<StorefrontOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
             <Item
               title="Organization"
-              to="/hob/organization"
+              to="/organization"
               icon={<BusinessOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -986,7 +989,7 @@ const Topbar = ({ onLogout }) => {
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item
               title="Notes"
-              to="/hob/notes"
+              to="/notes"
               icon={<DescriptionOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -994,7 +997,7 @@ const Topbar = ({ onLogout }) => {
             />
             <Item
               title="Calendar"
-              to="/hob/calendar"
+              to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

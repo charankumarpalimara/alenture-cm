@@ -50,14 +50,15 @@ const getActivePage = (pathname) => {
     return "/calendar";
   } else if (
     pathname.includes("/allExperiences") ||
-    pathname.includes("/cmform") ||
+    pathname.includes("/experiences") ||
+    pathname.includes("/CmExperienceRegistrationForm") ||
     pathname.includes("/taskdetails") ||
     pathname.includes("/ticketdetails") ||
     pathname.includes("/newExperiences") ||
     pathname.includes("/pendingExperiences") ||
     pathname.includes("/resolvedExperiences")
   ) {
-    return "/cm"; // Ensure this matches the `to` prop of the Experiences Item
+    return "/experiences"; // Ensure this matches the `to` prop of the Experiences Item
   } else {
     return pathname;
   }
@@ -124,14 +125,14 @@ const Topbar = ({ isSidebar, onLogout }) => {
     switch (location.pathname) {
       case "/":
         return "Dashboard";
-      case "/cm":
+      case "/experiences":
         return "Experiences";
       case "/crm":
         return "Customer Relationship Manager";
       case "/hob":
         return "Head of The Business";
       case "/cmform":
-        return "Create a New Customer Manager";
+        return "Create a New Experience";
       case "/crmform":
         return "Allot New Experience";
       case "/ticketdetails":
@@ -175,7 +176,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
         return { primaryTitle: "Experience Details", secondaryTitle: null };
       case "/taskdetails":
         return { primaryTitle: "Task Details", secondaryTitle: null };
-      case "/cmform":
+      case "/CmExperienceRegistrationForm":
         return {
           primaryTitle: "Experiences",
           secondaryTitle: "Create a New Experience",
@@ -780,7 +781,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
             />
             <Item
               title="Experinces"
-              to="/cm"
+              to="/experiences"
               icon={<WorkOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

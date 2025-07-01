@@ -23,13 +23,14 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { useNavigate } from "react-router-dom";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-// import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
+import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-// import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
-import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+// import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
+import { getCreaterRole } from "../../../config";
 
 import logoLight from "./logo.png";
 
@@ -46,46 +47,45 @@ import {
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
-  if (pathname.includes("/crm/notes")) {
-    return "/crm/notes";
-  } else if (pathname.includes("/crm/calendar")) {
-    return "/crm/calendar";
+  if (pathname.includes("/crm") || pathname.includes("/crmform")) {
+    return "/crm";
   } else if (
-    pathname.includes("/crm/profile") ||
-    pathname === "/crm/" ||
-    pathname === "/crm"
+    pathname.includes("/cm") ||
+    pathname.includes("/cmform")
   ) {
-    return "/crm"; // Ensure this matches the `to` prop of the Experiences Item
+    return "/cm";
   } else if (
-    pathname.includes("/crm/allExperiences") ||
-    pathname.includes("/crm/ticketdetails") ||
+    pathname.includes("/hob") ||
+    pathname.includes("/hobform")
+  ) {
+    return "/hob";
+  } else if (pathname.includes("/notes")) {
+    return "/notes";
+  } else if (pathname.includes("/calendar")) {
+    return "/calendar";
+  } else if (
+    pathname.includes("/tasks") ||
+    pathname.includes("/taskform")
+  ) {
+    return "/tasks";
+  } else if (pathname.includes("/organization")) {
+    return "/organization";
+  } else if (
+    pathname === "/" ||
+    pathname.includes("/ticketdetails") ||
+    pathname.includes("/allExperiences") ||
     pathname.includes("/newExperiences") ||
-    pathname.includes("/crm/pendingExperiences") ||
-    pathname.includes("/crm/resolvedExperiences") ||
-    pathname.includes("/crm/taskdetails")
+    pathname.includes("/profile") ||
+    pathname.includes("/taskdetails") ||
+    pathname.includes("/pendingExperiences") ||
+    pathname.includes("/resolvedExperiences")
   ) {
-    return "/crm/tickets"; // Ensure this matches the `to` prop of the Experiences Item
-  } else if (
-    pathname.includes("/crm/cmform") ||
-    pathname.includes("/crm/cmdetails") ||
-    pathname.includes("/crm/cm")
-  ) {
-    return "/crm/cm"; // Ensure this matches the `to` prop of the Experiences Item
-  } else if (
-    pathname.includes("/crm/tasks") ||
-    pathname.includes("/crm/taskform") ||
-    pathname.includes("/crm/taskdetails")
-  ) {
-    return "/crm/tickets"; // Ensure this matches the `to` prop of the Experiences Item
-  } else if (
-    pathname.includes("/crm/organization") ||
-    pathname.includes("/crm/organizationdetails")
-  ) {
-    return "/crm/organization"; // Ensure this matches the `to` prop of the Experiences Item
+    return "/"; // Dashboard is active for these routes
   } else {
     return pathname;
   }
 };
+
 // Sidebar Item Component (Reused from Sidebar)
 const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
   const theme = useTheme();
@@ -212,8 +212,8 @@ const Topbar = ({ onLogout }) => {
   const notifClick = (data) => {
     setDrawerOpen(false);
     console.log(window.location.pathname);
-    if (window.location.pathname === "/crm/ticketdetails") {
-      navigate("/crm");
+    if (window.location.pathname === "/ticketdetails") {
+      navigate("/");
     }
     if (data.type === "experience_registration") {
       mutate({
@@ -247,137 +247,146 @@ const Topbar = ({ onLogout }) => {
 
   const getPageTitle = () => {
     switch (location.pathname) {
-      case "/crm":
+      case "/":
         return "Dashboard";
-      case "/crm/":
+      case "":
         return "Dashboard";
-      case "/crm/cm":
+      case "/cm":
         return "Customer Manager";
-      case "/crm/crm":
+      case "/crm":
         return "Customer Relationship Manager";
-      case "/crm/hob":
-        return "Head of The Business";
-      case "/crm/cmform":
+      case "/cmform":
         return "Create a New Customer Manager";
-      case "/crm/crmform":
-        return "Allot New Experience";
-      case "/crm/form":
-        return "";
-      case "/crm/tasks":
+      case "/crmform":
+        return " Create a New Customer Relationship Manager";
+      case "/hob":
+        return "Head of the Business";
+      case "/tasks":
         return "Tasks List";
-      case "/crm/taskdetails":
+      case "/taskdetails":
         return "Task Details";
-      case "/crm/taskform":
+      case "/taskform":
         return "Create New Task";
-      case "/crm/ticketdetails":
-        return " Experience Details";
-      case "/crm/cmdetails":
+      case "/crmdetails":
+        return "Customer Relationship Manager Details";
+      case "/cmdetails":
         return "Customer Manager Details";
-      case "/crm/allExperiences":
+      case "/organizationdetails":
+        return " Organization Details";
+      case "/organizationform":
+        return "Create a New Organization";
+      case "/ticketdetails":
+        return " Experience Details";
+      case "/hobform":
+        return "Create a New Hob";
+      case "/hobdetails":
+        return "Head of The Department Details";
+      case "/allExperiences":
         return "All Experiences";
-      case "/crm/organization":
-        return "Organization";
-      case "/crm/organizationdetails":
-        return "Organization Details";
-      case "/crm/newExperiences":
+      case "/organization":
+        return "Organizations";
+      case "/newExperiences":
         return "New Experiences";
-      case "/crm/pendingExperiences":
+      case "/pendingExperiences":
         return "Pending Experiences";
-      case "/crm/resolvedExperiences":
+      case "/resolvedExperiences":
         return "Resolved Experiences";
-      case "/crm/profile":
+      case "/profile":
         return "Profile";
-      case "/crm/notes":
+      case "/notes":
         return "Notes";
-      case "/crm/calendar":
+      case "/calendar":
         return "Calendar";
-      case "/crm/tickets":
-        return "Experiences";
       default:
         return "Page Not Found";
     }
   };
   const getPageTitle1 = () => {
     switch (location.pathname) {
-      case "/crm":
+      case "/":
         return { primaryTitle: "Dashboard", secondaryTitle: null };
-      case "/crm/":
-        return { primaryTitle: "Dashboard", secondaryTitle: null };
-      case "/crm/cm":
+      // case "/admin/":
+      //   return { primaryTitle: "Dashboard", secondaryTitle: null };
+      case "/cm":
         return { primaryTitle: "Customer Manager", secondaryTitle: null };
-      case "/crm/cmdetails":
+      case "/crm":
+        return {
+          primaryTitle: "Customer Relationship Manager",
+          secondaryTitle: null,
+        };
+      case "/cmdetails":
         return {
           primaryTitle: "Customer Manager Details ",
           secondaryTitle: null,
         };
-      case "/crm/crm":
-        return { primaryTitle: "Experiences", secondaryTitle: null };
-      case "/crm/hob":
-        return { primaryTitle: "Head of The Business", secondaryTitle: null };
-      case "/crm/organization":
-        return { primaryTitle: "Organizations", secondaryTitle: null };
-      case "/crm/organizationdetails":
-        return { primaryTitle: "Organization Details", secondaryTitle: null };
-      case "/crm/ticketdetails":
+      case "/organization":
+        return { primaryTitle: "Organization", secondaryTitle: null };
+      case "/ticketdetails":
         return { primaryTitle: "Experience Details", secondaryTitle: null };
-      case "/crm/tasks":
-        return { primaryTitle: "Tasks List", secondaryTitle: null };
-      case "/crm/taskform":
+      case "/organizationdetails":
+        return { primaryTitle: "Organizations Details", secondaryTitle: null };
+      case "/organizationadd":
+        return { primaryTitle: "Organizations Add", secondaryTitle: null };
+      case "/organizationform":
         return {
-          primaryTitle: "Tasks List",
-          secondaryTitle: "Create a New Task",
+          primaryTitle: "Organization",
+          secondaryTitle: "Create a New Organization",
         };
-      case "/crm/taskdetails":
-        return { primaryTitle: "Task Details", secondaryTitle: null };
-      // case "/cmdetails":
-      //   return { primaryTitle: "Customer Manager Details ", secondaryTitle: null };
-      case "/crm/cmform":
+      case "/cmform":
         return {
           primaryTitle: "Customer Manager",
           secondaryTitle: "Create a New Customer Manager",
         };
-      case "/crm/crmform":
+      case "/crmdetails":
         return {
-          primaryTitle: "Experiences",
-          secondaryTitle: "Allot New Experience",
+          primaryTitle: "Customer Relationship Manager Details ",
+          secondaryTitle: null,
         };
-      case "/crm/form":
+      case "/crmform":
+        return {
+          primaryTitle: "Customer Relationship Manager",
+          secondaryTitle: "Create a New Customer Relationship Manager",
+        };
+      case "/hob":
+        return { primaryTitle: "Head of the Business", secondaryTitle: null };
+      case "/tasks":
+        return { primaryTitle: "Tasks List", secondaryTitle: null };
+      case "/taskform":
+        return {
+          primaryTitle: "Tasks List",
+          secondaryTitle: "Create a New Task",
+        };
+      case "/taskdetails":
+        return { primaryTitle: "Task Details", secondaryTitle: null };
+      case "/hobform":
         return {
           primaryTitle: "Head of the Business",
           secondaryTitle: "Create a New Head of the Business Unit",
         };
-      case "/crm/allExperiences":
+      case "/hobdetails":
         return {
-          primaryTitle: "Experiences",
-          secondaryTitle: "All Experiences",
+          primaryTitle: "Head of The Business Details",
+          secondaryTitle: null,
         };
-      case "/crm/newExperiences":
-        return {
-          primaryTitle: "Experinces",
-          secondaryTitle: "New Experiences",
-        };
-      case "/crm/pendingExperiences":
-        return {
-          primaryTitle: "Experinces",
-          secondaryTitle: "Pending Experiences",
-        };
-      case "/crm/resolvedExperiences":
-        return {
-          primaryTitle: "Experinces",
-          secondaryTitle: "Resolved Experiences",
-        };
-      case "/crm/profile":
+      case "/allExperiences":
+        return { primaryTitle: "All Experiences", secondaryTitle: null };
+      case "/newExperiences":
+        return { primaryTitle: "New Experiences", secondaryTitle: null };
+      case "/pendingExperiences":
+        return { primaryTitle: "Pending Experiences", secondaryTitle: null };
+      case "/resolvedExperiences":
+        return { primaryTitle: "Resolved Experiences", secondaryTitle: null };
+      case "/profile":
         return { primaryTitle: "Profile", secondaryTitle: null };
-      case "/crm/notes":
+      case "/notes":
         return { primaryTitle: "Notes", secondaryTitle: null };
-      case "/crm/calendar":
+      case "/calendar":
         return { primaryTitle: "Calendar", secondaryTitle: null };
-      case "/crm/tickets":
-        return { primaryTitle: "Experiences", secondaryTitle: null };
       default:
         return { primaryTitle: "Page Not Found", secondaryTitle: null };
     }
   };
+
 
   const { primaryTitle, secondaryTitle } = getPageTitle1();
 
@@ -871,31 +880,41 @@ const Topbar = ({ onLogout }) => {
           >
             <Item
               title="Dashboard"
-              to="/crm"
+              to="/"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
             <Item
-              title="Experiences"
-              to="/crm/tickets"
-              icon={<WorkOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              handleClose={() => setIsModalOpen(false)}
-            />
-            <Item
               title="Customer Manager"
-              to="/crm/cm"
+              to="/cm"
               icon={<PeopleAltOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
             <Item
+              title="Customer Relationship Manager"
+              to="/crm"
+              icon={<HandshakeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            {getCreaterRole() === "admin" && (
+            <Item
+              title="Head of the Business"
+              to="/hob"
+              icon={<StorefrontOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            )}
+            <Item
               title="Organization"
-              to="/crm/organization"
+              to="/organization"
               icon={<BusinessOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -904,7 +923,7 @@ const Topbar = ({ onLogout }) => {
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item
               title="Notes"
-              to="/crm/notes"
+              to="/notes"
               icon={<DescriptionOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -912,7 +931,7 @@ const Topbar = ({ onLogout }) => {
             />
             <Item
               title="Calendar"
-              to="/crm/calendar"
+              to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
