@@ -76,7 +76,7 @@ const handleSubmit = async (values) => {
   setLoading(false);
 
   if (!success) {
-    message.error("Invalid credentials for all user types.");
+    message.error("User Not Found.");
   }
 };
 
