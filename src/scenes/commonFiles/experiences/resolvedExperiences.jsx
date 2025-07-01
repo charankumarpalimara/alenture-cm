@@ -18,7 +18,7 @@ import {
   Search as SearchIcon,
   FilterList as FilterIcon,
   ImportExport as ImportExportIcon,
-  // Add as AddIcon,
+  Add as AddIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
@@ -201,6 +201,11 @@ const ResolvedExperiences = ({ apiUrl }) => {
     ...new Set(tickets.map((ticket) => ticket[key])),
   ];
 
+
+  const handleNewTicket = () => {
+     Navigate('/experienceRegistrationform')
+   };
+
   const handleRowClick = (params) => {
     Navigate("/ticketdetails", { state: { ticket: params.row } });
   };
@@ -307,7 +312,8 @@ const ResolvedExperiences = ({ apiUrl }) => {
             ))}
           </Box>
         </Menu>
-        {/* <Button
+        {getCreaterRole() === "cm" && (
+        <Button
           variant="contained"
           sx={{
             background: colors.blueAccent[500],
@@ -323,7 +329,8 @@ const ResolvedExperiences = ({ apiUrl }) => {
           onClick={handleNewTicket}
         >
           New Experience
-        </Button> */}
+        </Button>
+        )}
       </Box>
 
       {/* DataGrid */}

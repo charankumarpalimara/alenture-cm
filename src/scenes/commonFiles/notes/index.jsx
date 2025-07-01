@@ -183,6 +183,12 @@ const Notes = () => {
     }
   };
 
+    const filteredNotes = notes.filter(
+    (note) =>
+      note.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      note.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // const StyledTextField = ({ label, name, value, handleChange, handleBlur, error, multiline = false, rows = 1 }) => {
   //   return (
   //     <TextField
@@ -344,7 +350,7 @@ const Notes = () => {
             gap: 2,
           }}
         >
-          {notes.map((note, index) => (
+          {filteredNotes.map((note, index) => (
             <Box
               key={note.id || index}
               sx={{

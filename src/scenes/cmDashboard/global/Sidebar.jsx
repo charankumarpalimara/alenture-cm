@@ -29,7 +29,7 @@ const getActivePage = (pathname) => {
     return "/";
   } else if (
     pathname.includes("/experienceRegistrationform") ||
-    pathname.includes("/experinces") ||
+    pathname.includes("/experiences") ||
     pathname.includes("/allExperiences") ||
     pathname.includes("/ticketdetails") ||
     pathname.includes("/taskdetails") ||
@@ -37,7 +37,7 @@ const getActivePage = (pathname) => {
     pathname.includes("/pendingExperiences") ||
     pathname.includes("/resolvedExperiences")
   ) {
-    return "/experinces"; // Ensure this matches the `to` prop of the Experiences Item
+    return "/experiences"; // Ensure this matches the `to` prop of the Experiences Item
   } else {
     return pathname;
   }
@@ -138,7 +138,7 @@ const CmSidebar = ({ isSidebar, onLogout }) => {
       {/* Menu Items */}
       <List sx={{ padding: "20px" }}>
         <Item title="Dashboard" to="/" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
-        <Item title="Experiences" to="/experinces" icon={<WorkOutlineOutlinedIcon />} selected={selected} setSelected={setSelected} />
+        <Item title="Experiences" to="/experiences" icon={<WorkOutlineOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Notes" to="/notes" icon={<DescriptionOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Calendar" to="/calendar" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} />
  <ListItem

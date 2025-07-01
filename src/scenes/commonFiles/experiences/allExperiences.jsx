@@ -18,7 +18,7 @@ import {
   Search as SearchIcon,
   FilterList as FilterIcon,
   ImportExport as ImportExportIcon,
-  // Add as AddIcon,
+  Add as AddIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
@@ -220,6 +220,10 @@ const fetchTickets = async () => {
     ...new Set(tickets.map((ticket) => ticket[key])),
   ];
 
+  const handleNewTicket = () => {
+     Navigate('/experienceRegistrationform')
+   };
+
   const handleRowClick = (params) => {
     Navigate("/ticketdetails", { state: { ticket: params.row } });
   };
@@ -285,6 +289,26 @@ const fetchTickets = async () => {
           Filter
         </Button>
 
+        {getCreaterRole() === "cm" && (
+        <Button
+          variant="contained"
+          sx={{
+            background: colors.blueAccent[500],
+            fontWeight: "bold",
+            color: "#ffffff",
+            whiteSpace: "nowrap",
+            // paddingX: "15px"
+            // padding: "12px 18px ",
+            // fontSize: "14px",
+            textTransform: "none"
+          }}
+          startIcon={<AddIcon />}
+          onClick={handleNewTicket}
+        >
+          New Experience
+        </Button>
+        )}
+
         {/* Filter Menu */}
         <Menu
           anchorEl={filterAnchorEl}
@@ -326,6 +350,7 @@ const fetchTickets = async () => {
             ))}
           </Box>
         </Menu>
+
         {/* <Button
           variant="contained"
           sx={{

@@ -278,7 +278,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
               ) : getCreaterRole() === "cm" ? (
                 <>
                   <Route path="/" element={<Dashboard />} />
-                  <Route path="/experinces" element={<Experinces />} />
+                  <Route path="/experiences" element={<Experinces />} />
                   <Route path="/experienceRegistrationform" element={<CmExperienceRegistrationForm />} />
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/notes" element={<Notes />} />

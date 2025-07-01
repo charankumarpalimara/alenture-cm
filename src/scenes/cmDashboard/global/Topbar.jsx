@@ -131,7 +131,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
         return "Customer Relationship Manager";
       case "/hob":
         return "Head of The Business";
-      case "/cmform":
+      case "/experienceRegistrationform":
         return "Create a New Experience";
       case "/crmform":
         return "Allot New Experience";
@@ -176,7 +176,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
         return { primaryTitle: "Experience Details", secondaryTitle: null };
       case "/taskdetails":
         return { primaryTitle: "Task Details", secondaryTitle: null };
-      case "/CmExperienceRegistrationForm":
+      case "/experienceRegistrationform":
         return {
           primaryTitle: "Experiences",
           secondaryTitle: "Create a New Experience",
@@ -210,6 +210,11 @@ const Topbar = ({ isSidebar, onLogout }) => {
         return {
           primaryTitle: "Experiences",
           secondaryTitle: "Resolved Experiences",
+        };
+        case "/experiences":
+        return {
+          primaryTitle: "Experiences",
+          secondaryTitle: null,
         };
       case "/profile":
         return { primaryTitle: "Profile", secondaryTitle: null };

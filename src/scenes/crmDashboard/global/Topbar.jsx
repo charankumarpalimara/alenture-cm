@@ -579,7 +579,7 @@ const Topbar = ({ onLogout }) => {
               </IconButton>
               {/* <NotificationDropdown /> */}
               <IconButton
-                onClick={() => navigate("/crm/profile")}
+                onClick={() => navigate("/profile")}
                 sx={{ gap: 1 }}
               >
                 <Box
@@ -692,7 +692,7 @@ const Topbar = ({ onLogout }) => {
                 </Badge>
               </IconButton>
               <IconButton
-                onClick={() => navigate("/crm/profile")}
+                onClick={() => navigate("/profile")}
                 sx={{ gap: 1 }}
               >
                 <Box
