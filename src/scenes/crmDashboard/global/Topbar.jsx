@@ -251,6 +251,8 @@ const Topbar = ({ onLogout }) => {
         return "Dashboard";
       case "":
         return "Dashboard";
+      case "/experiences":
+        return "Experiences";
       case "/cm":
         return "Customer Manager";
       case "/crm":
@@ -305,8 +307,8 @@ const Topbar = ({ onLogout }) => {
     switch (location.pathname) {
       case "/":
         return { primaryTitle: "Dashboard", secondaryTitle: null };
-      // case "/admin/":
-      //   return { primaryTitle: "Dashboard", secondaryTitle: null };
+      case "/admin/":
+        return { primaryTitle: "Dashboard", secondaryTitle: null };
       case "/cm":
         return { primaryTitle: "Customer Manager", secondaryTitle: null };
       case "/crm":
@@ -340,6 +342,11 @@ const Topbar = ({ onLogout }) => {
       case "/crmdetails":
         return {
           primaryTitle: "Customer Relationship Manager Details ",
+          secondaryTitle: null,
+        };
+      case "/experiences":
+        return {
+          primaryTitle: "Experiences",
           secondaryTitle: null,
         };
       case "/crmform":
