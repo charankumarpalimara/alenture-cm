@@ -19,7 +19,7 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import logoLight from "./logo.5311861d2018c5f4ae2d.avif";
+import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
 // Shared getActivePage function

@@ -17,7 +17,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { getCreaterRole, getCreaterId, getCreaterName } from "../../../config";
+import { getCreaterId, getCreaterRole } from "../../../config";
 
 const { Option } = Select;
 
