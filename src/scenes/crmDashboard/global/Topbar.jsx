@@ -32,7 +32,7 @@ import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { getCreaterRole } from "../../../config";
 
-import logoLight from "./logo.png";
+import logoLight from "./logo.5311861d2018c5f4ae2d.avif";
 
 import Badge from "@mui/material/Badge";
 import Snackbar from "@mui/material/Snackbar";

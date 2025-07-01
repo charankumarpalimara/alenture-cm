@@ -22,7 +22,8 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { getCreaterRole } from "../../../config";
 
 import { useNavigate } from "react-router-dom";
-import logoLight from "./logo.png";
+import logoAvifFormate from "./logo.5311861d2018c5f4ae2d.avif";
+import logoWebpFormate from "./logo.5311861d2018c5f4ae2d.webp";
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
@@ -130,7 +131,7 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
     sessionStorage.setItem("selectedSidebarItem", location.pathname);
   }, [location.pathname]);
 
-  const logoSrc = logoLight;
+  const logoSrc = logoAvifFormate;
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");

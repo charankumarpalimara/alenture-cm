@@ -29,7 +29,7 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import logoLight from "./logo.png";
+
 import { useNavigate } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import Snackbar from "@mui/material/Snackbar";
@@ -40,6 +40,9 @@ import {
   getAdminNotifications,
   markNotificationRead,
 } from "../../../utils/http";
+
+
+import logoLight from "./logo.5311861d2018c5f4ae2d.avif";
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
@@ -129,7 +132,6 @@ const Topbar = ({ onLogout }) => {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  const userDetails = JSON.parse(sessionStorage.getItem("hobDetails")) || {}; // Retrieve user details from sessionStorage
 
   // WebSocket connection for live notifications
   // const [notifications, setNotifications] = useState([]);
@@ -455,7 +457,7 @@ const Topbar = ({ onLogout }) => {
     sessionStorage.removeItem("token");
     onLogout();
     window.location.reload();
-    navigate("/hob/login");
+    navigate("/login");
   };
 
   return (
@@ -592,7 +594,7 @@ const Topbar = ({ onLogout }) => {
                 </Badge>
               </IconButton>
               <IconButton
-                onClick={() => navigate("/hob/profile")}
+                onClick={() => navigate("/profile")}
                 sx={{ gap: 1 }}
               >
                 <Box
@@ -613,7 +615,7 @@ const Topbar = ({ onLogout }) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {userDetails.firstname} {userDetails.lastname}
+                  {getCreaterName()}
                 </Typography>
               </IconButton>
             </Box>
@@ -691,7 +693,7 @@ const Topbar = ({ onLogout }) => {
                 </Badge>
               </IconButton>
               <IconButton
-                onClick={() => navigate("/hob/profile")}
+                onClick={() => navigate("/profile")}
                 sx={{ gap: 1 }}
               >
                 <Box
@@ -712,7 +714,7 @@ const Topbar = ({ onLogout }) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {userDetails.firstname} {userDetails.lastname}
+                  {getCreaterName()}
                 </Typography>
               </IconButton>
               <Snackbar

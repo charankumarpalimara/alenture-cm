@@ -11,8 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, message } from "antd";
-import Logo from "./logo.png";
-
+import logoLight from "./logo.5311861d2018c5f4ae2d.avif";
 const Login = ({ onLogin }) => {
   const [form] = Form.useForm();
   const theme = useTheme();
@@ -142,7 +141,7 @@ const handleSubmit = async (values) => {
           >
             <Box textAlign="center" mb={5}>
               <img
-                src={Logo}
+                src={logoLight}
                 alt="logo"
                 style={{ minWidth: 100, width: "80%" }}
               />

@@ -29,7 +29,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-import logoLight from "./logo.png";
+import logoLight from "./logo.5311861d2018c5f4ae2d.avif";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCmId, getCreaterName } from "../../../config";
