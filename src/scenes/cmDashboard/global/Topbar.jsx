@@ -32,11 +32,13 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import logoLight from "./logo.png";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCmId } from "../../../config";
 
-import { markNotificationRead } from "../../../utils/http";
-import { getCreaterId } from "../../../config";
-import { getCmNotifications } from "../../../utils/http";
-import { getNotificationsDetails } from "../../../utils/http";
+import {
+  getNotificationsDetails,
+  getCmNotifications,
+  markNotificationRead,
+} from "../../../utils/http";
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
@@ -48,15 +50,14 @@ const getActivePage = (pathname) => {
     return "/calendar";
   } else if (
     pathname.includes("/allExperiences") ||
-    pathname.includes("/experiences") ||
-    pathname.includes("/CmExperienceRegistrationForm") ||
+    pathname.includes("/cmform") ||
     pathname.includes("/taskdetails") ||
     pathname.includes("/ticketdetails") ||
     pathname.includes("/newExperiences") ||
     pathname.includes("/pendingExperiences") ||
     pathname.includes("/resolvedExperiences")
   ) {
-    return "/experiences"; // Ensure this matches the `to` prop of the Experiences Item
+    return "/cm"; // Ensure this matches the `to` prop of the Experiences Item
   } else {
     return pathname;
   }
@@ -123,14 +124,14 @@ const Topbar = ({ isSidebar, onLogout }) => {
     switch (location.pathname) {
       case "/":
         return "Dashboard";
-      case "/experiences":
+      case "/cm":
         return "Experiences";
       case "/crm":
         return "Customer Relationship Manager";
       case "/hob":
         return "Head of The Business";
       case "/cmform":
-        return "Create a New Experience";
+        return "Create a New Customer Manager";
       case "/crmform":
         return "Allot New Experience";
       case "/ticketdetails":
@@ -174,7 +175,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
         return { primaryTitle: "Experience Details", secondaryTitle: null };
       case "/taskdetails":
         return { primaryTitle: "Task Details", secondaryTitle: null };
-      case "/CmExperienceRegistrationForm":
+      case "/cmform":
         return {
           primaryTitle: "Experiences",
           secondaryTitle: "Create a New Experience",
@@ -233,7 +234,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
     isError,
   } = useQuery({
     queryKey: ["cm-notifications"],
-    queryFn: () => getCmNotifications({ cmId: getCreaterId() }),
+    queryFn: () => getCmNotifications({ cmId: getCmId() }),
   });
   const { mutate: markNotificationReadMutate } = useMutation({
     mutationFn: markNotificationRead,
@@ -267,13 +268,12 @@ const Topbar = ({ isSidebar, onLogout }) => {
 
   // WebSocket connection for live notifications
   useEffect(() => {
-    // const WS_URL = "ws://147.182.163.213:3000/ws/";
     const ws = new WebSocket(process.env.REACT_APP_WS_URL);
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
         console.log("WebSocket data:", data); // Debug incoming messages
-        if (data.type === "notification" && data.cmid === getCreaterId()) {
+        if (data.type === "notification" && data.cmid === getCmId()) {
           // setNotifications((prev) => [data, ...prev]);
           // setUnreadCount((prev) => prev + 1);
           queryClient.invalidateQueries("cm-notifications");
@@ -780,7 +780,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
             />
             <Item
               title="Experinces"
-              to="/experiences"
+              to="/cm"
               icon={<WorkOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
