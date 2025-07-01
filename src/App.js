@@ -69,7 +69,7 @@ import Cm from "./scenes/commonFiles/cm"
 import CmForm from "./scenes/commonFiles/cmform";
 import CmDetails from "./scenes/commonFiles/cmdetails";
 import Crm from "./scenes/commonFiles/crm";
-import CrmForm from "./scenes/commonFiles/cmform";
+import CrmForm from "./scenes/commonFiles/crmform"
 import CrmDetails from "./scenes/commonFiles/crmdetails";
 import Hob from "./scenes/commonFiles/hob";
 import HobForm from "./scenes/commonFiles/hobform";
@@ -316,7 +316,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/cmform" element={<CmForm />} />
                   <Route path="/cmdetails" element={<CmDetails />} />
                   <Route path='/crm' element={<Crm />} />
-                  <Route path="/crmform" element={<CrmForm />} />
+                    <Route path='/crmform' element={<CrmForm />} />
                   <Route path="/crmdetails" element={<CrmDetails />} />
                   <Route path="/hob" element={<Hob />} />
                   <Route path="/hobform" element={<HobForm />} />
@@ -347,7 +347,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/cmform" element={<CmForm />} />
                   <Route path="/cmdetails" element={<CmDetails />} />
                   <Route path='/crm' element={<Crm />} />
-                  <Route path="/crmform" element={<CrmForm />} />
+                  <Route path='/crmform' element={<CrmForm />} />
                   <Route path="/crmdetails" element={<CrmDetails />} />
                   <Route path="/hob" element={<Hob />} />
                   <Route path="/hobform" element={<HobForm />} />

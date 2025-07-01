@@ -171,8 +171,7 @@ const CrmForm = () => {
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
-    // const sessionData = JSON.parse(sessionStorage.getItem("userDetails"));
-    const createrrole = getCreaterRole();
+    const createrrole = getCreaterRole() ;
     const createrid = getCreaterId() || "";
     const password = (values.firstName || "") + (values.PhoneNo || "");
 
@@ -253,8 +252,8 @@ const CrmForm = () => {
     const values = editValues;
     setIsLoading(true);
     const formData = new FormData();
-    const createrrole = getCreaterRole();
-    const createrid = getCreaterId() || "";
+    const createrrole = getCreaterRole() || "";
+    const createrid =  getCreaterId() || "";
     const password = (values.firstName || "") + (values.PhoneNo || "");
     formData.append("crmid", createdCrmId);
     formData.append("firstname", values.firstName || "");
