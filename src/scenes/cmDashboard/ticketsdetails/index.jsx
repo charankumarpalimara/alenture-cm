@@ -12,7 +12,7 @@ import { tokens } from "../../../theme";
 import * as yup from "yup";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import download from "downloadjs";
+// import download from "downloadjs";
 import {
   FormatBold,
   FormatItalic,

@@ -1,5 +1,25 @@
 const api_url = "https://alantur-api.softplix.com/v1/";
 
+export async function getAdminNotifications() {
+  try {
+    const response = await fetch(`${api_url}get-admin-notifications`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("something went wrong");
+    }
+
+    const res = await response.json();
+
+    return res;
+  } catch (e) {
+    throw new Error("something went wrong");
+  }
+}
+
 export async function getCrmNotifications({ crmId }) {
   try {
     const response = await fetch(`${api_url}get-crm-notifications/${crmId}`, {

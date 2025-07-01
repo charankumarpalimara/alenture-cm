@@ -70,7 +70,7 @@ const TicketDetails = () => {
   const colors = tokens(theme.palette.mode);
   const location = useLocation();
   const [isDownloading, setIsDownloading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [crmIdList, setCrmIdList] = useState([]);
   const [tasks, setTasks] = useState([]);

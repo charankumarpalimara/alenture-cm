@@ -35,7 +35,11 @@ import Badge from "@mui/material/Badge";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getHobNotifications, markNotificationRead } from "../../../utils/http";
+import { getCreaterName, getCreaterRole } from "../../../config";
+import {
+  getAdminNotifications,
+  markNotificationRead,
+} from "../../../utils/http";
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
@@ -128,6 +132,7 @@ const Topbar = ({ onLogout }) => {
 
   const userDetails = JSON.parse(sessionStorage.getItem("hobDetails")) || {}; // Retrieve user details from sessionStorage
 
+  // WebSocket connection for live notifications
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -140,14 +145,14 @@ const Topbar = ({ onLogout }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["hob-notifications"],
-    queryFn: () => getHobNotifications(),
+    queryKey: ["admin-notifications"],
+    queryFn: () => getAdminNotifications(),
   });
   const { mutate: markNotificationReadMutate } = useMutation({
     mutationFn: markNotificationRead,
     onSuccess: (data) => {
+      queryClient.invalidateQueries("admin-notifications");
       console.log("updated");
-      queryClient.invalidateQueries("hob-notifications");
     },
     onError: (error) => {
       console.log("eror");
@@ -158,7 +163,7 @@ const Topbar = ({ onLogout }) => {
     onSuccess: (data) => {
       navigate("/ticketdetails", { state: { ticket: data.data } });
 
-      queryClient.invalidateQueries("hob-notifications");
+      queryClient.invalidateQueries("admin-notifications");
     },
     onError: (error) => {},
   });
@@ -174,7 +179,6 @@ const Topbar = ({ onLogout }) => {
     }
   }, [isLoading, isError, notificationList]);
 
-  // WebSocket connection for live notifications
   useEffect(() => {
     // Replace with your actual WebSocket server URL
     const ws = new WebSocket(process.env.REACT_APP_WS_URL); // <-- adjust if needed
@@ -184,9 +188,9 @@ const Topbar = ({ onLogout }) => {
         const data = JSON.parse(event.data);
         console.log("WebSocket data:", data);
         if (data.type === "notification") {
-          queryClient.invalidateQueries("hob-notifications");
           // setNotifications((prev) => [data, ...prev]);
           // setUnreadCount((prev) => prev + 1);
+          queryClient.invalidateQueries("admin-notifications");
           setSnackbarMsg(data.message);
           setSnackbarOpen(true);
         }
@@ -574,24 +578,23 @@ const Topbar = ({ onLogout }) => {
               }}
             >
               <IconButton sx={{ gap: 1 }} onClick={handleNotificationsClick}>
-                <Box
-                  sx={{
-                    width: isMobile ? 25 : 30,
-                    height: isMobile ? 25 : 30,
-                    borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <NotificationsIcon
-                    sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
-                  />
-                </Box>
-                {/* <Typography sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}>
-                  Delphin
-                </Typography> */}
+                <Badge badgeContent={unreadCount} color="error">
+                  <Box
+                    sx={{
+                      width: isMobile ? 25 : 30,
+                      height: isMobile ? 25 : 30,
+                      borderRadius: "50%",
+                      backgroundColor: colors.blueAccent[500],
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <NotificationsIcon
+                      sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
+                    />
+                  </Box>
+                </Badge>
               </IconButton>
               <IconButton
                 onClick={() => navigate("/hob/profile")}
@@ -781,7 +784,7 @@ const Topbar = ({ onLogout }) => {
                 }}
               >
                 <HomeOutlinedIcon
-                  onClick={() => navigate("/hob")}
+                  onClick={() => navigate("/")}
                   fontSize="small"
                   sx={{ cursor: "pointer" }}
                 />
@@ -834,7 +837,7 @@ const Topbar = ({ onLogout }) => {
                 }}
               >
                 <HomeOutlinedIcon
-                  onClick={() => navigate("/hob")}
+                  onClick={() => navigate("/")}
                   fontSize="small"
                   sx={{ cursor: "pointer" }}
                 />
