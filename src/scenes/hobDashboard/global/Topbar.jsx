@@ -34,7 +34,9 @@ import { useNavigate } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCreaterName, getCreaterRole } from "../../../config";
+import { getAdminNotifications, markNotificationRead } from "../../../utils/http";
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
@@ -131,13 +133,54 @@ const AdminTopbar = ({ onLogout }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
 
-  const [notifications, setNotifications] = useState([]);
+
+  // WebSocket connection for live notifications
+ const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const queryClient = useQueryClient();
 
-  // WebSocket connection for live notifications
+  const {
+    data: notificationList,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["admin-notifications"],
+    queryFn: () => getAdminNotifications(),
+  });
+  const { mutate: markNotificationReadMutate } = useMutation({
+    mutationFn: markNotificationRead,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("admin-notifications");
+      console.log("updated");
+    },
+    onError: (error) => {
+      console.log("eror");
+    },
+  });
+  const { mutate, isPending: loading } = useMutation({
+    mutationFn: "getNotificationsDetails",
+    onSuccess: (data) => {
+      navigate("/ticketdetails", { state: { ticket: data.data } });
+
+      queryClient.invalidateQueries("admin-notifications");
+    },
+    onError: (error) => {},
+  });
+
+  useEffect(() => {
+    if (!isLoading && !isError && notificationList?.data?.length > 0) {
+      const unreadNotifs = notificationList.data.filter(
+        (notif) => notif.is_read === 0
+      );
+      const totalUnread = unreadNotifs.length;
+      console.log("Total unread notifications:", totalUnread);
+      setUnreadCount(totalUnread);
+    }
+  }, [isLoading, isError, notificationList]);
+
   useEffect(() => {
     // Replace with your actual WebSocket server URL
     const ws = new WebSocket(process.env.REACT_APP_WS_URL);
@@ -146,8 +189,9 @@ const AdminTopbar = ({ onLogout }) => {
       try {
         const data = JSON.parse(event.data);
         if (data.type === "notification") {
-          setNotifications((prev) => [data, ...prev]);
-          setUnreadCount((prev) => prev + 1);
+          // setNotifications((prev) => [data, ...prev]);
+          // setUnreadCount((prev) => prev + 1);
+          queryClient.invalidateQueries("admin-notifications");
           setSnackbarMsg(data.message);
           setSnackbarOpen(true);
         }
@@ -160,9 +204,23 @@ const AdminTopbar = ({ onLogout }) => {
   }, []);
 
   const handleNotificationsClick = () => {
-    setUnreadCount(0);
     setDrawerOpen(true);
     // Optionally open a modal/dropdown with notifications
+  };
+  const notifClick = (data) => {
+    setDrawerOpen(false);
+    console.log(window.location.pathname);
+    if (window.location.pathname === "/ticketdetails") {
+      navigate("/");
+    }
+    if (data.type === "experience_resolved") {
+      mutate({
+        id: data.finalExperienceid,
+      });
+    }
+    markNotificationReadMutate({
+      id: data.id,
+    });
   };
 
   const getPageTitle = () => {
@@ -492,24 +550,23 @@ const AdminTopbar = ({ onLogout }) => {
               }}
             >
               <IconButton sx={{ gap: 1 }} onClick={handleNotificationsClick}>
-                <Box
-                  sx={{
-                    width: isMobile ? 25 : 30,
-                    height: isMobile ? 25 : 30,
-                    borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <NotificationsIcon
-                    sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
-                  />
-                </Box>
-                {/* <Typography sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}>
-                  Delphin
-                </Typography> */}
+                <Badge badgeContent={unreadCount} color="error">
+                  <Box
+                    sx={{
+                      width: isMobile ? 25 : 30,
+                      height: isMobile ? 25 : 30,
+                      borderRadius: "50%",
+                      backgroundColor: colors.blueAccent[500],
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <NotificationsIcon
+                      sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
+                    />
+                  </Box>
+                </Badge>
               </IconButton>
               <IconButton
                 onClick={() => navigate("/profile")}
@@ -699,7 +756,7 @@ const AdminTopbar = ({ onLogout }) => {
                 }}
               >
                 <HomeOutlinedIcon
-                  onClick={() => navigate("/admin")}
+                  onClick={() => navigate("/")}
                   fontSize="small"
                   sx={{ cursor: "pointer" }}
                 />
@@ -752,7 +809,7 @@ const AdminTopbar = ({ onLogout }) => {
                 }}
               >
                 <HomeOutlinedIcon
-                  onClick={() => navigate("/admin")}
+                  onClick={() => navigate("/")}
                   fontSize="small"
                   sx={{ cursor: "pointer" }}
                 />
@@ -793,29 +850,43 @@ const AdminTopbar = ({ onLogout }) => {
             Notifications
           </Typography>
           <List>
-            {notifications.length === 0 && (
+            {notificationList && notificationList.data.length === 0 && (
               <ListItem>
                 <ListItemText primary="No notifications yet." />
               </ListItem>
             )}
-            {notifications.map((notif, idx) => (
-              <ListItem key={idx} divider>
-                <ListItemText
-                  primary={notif.title || "Notification"}
-                  secondary={
-                    <>
-                      <span>{notif.message}</span>
-                      <br />
-                      <span style={{ fontSize: 12, color: "#888" }}>
-                        {notif.timestamp
-                          ? new Date(notif.timestamp).toLocaleString()
-                          : ""}
-                      </span>
-                    </>
-                  }
-                />
-              </ListItem>
-            ))}
+            {notificationList &&
+              notificationList.data.map((notif, idx) => (
+                <ListItem
+                  sx={{
+                    cursor: "pointer",
+                    marginBottom: "8px",
+                    "&:hover": {
+                      backgroundColor: colors.grey[700],
+                      color: "white",
+                    },
+                  }}
+                  className=""
+                  onClick={() => notifClick(notif)}
+                  key={idx}
+                  divider
+                >
+                  <ListItemText
+                    primary={notif.title || "Notification"}
+                    secondary={
+                      <>
+                        <span>{notif.message}</span>
+                        <br />
+                        <span style={{ fontSize: 12, color: "#888" }}>
+                          {notif.timestamp
+                            ? new Date(notif.created_at).toLocaleString()
+                            : ""}
+                        </span>
+                      </>
+                    }
+                  />
+                </ListItem>
+              ))}
           </List>
         </Box>
       </Drawer>
