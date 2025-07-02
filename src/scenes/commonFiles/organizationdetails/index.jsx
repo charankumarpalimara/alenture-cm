@@ -219,7 +219,7 @@ const OrganizationDetails = () => {
             const editData = isEditing ? branchEdits : branch;
             return (
               <Collapse.Panel
-                header={`${branch.branch} (${branch.branchtype})`}
+                header={`${branch.organizationname} (${branch.branchtype})`}
                 key={branch.id || idx}
               >
                 <Row gutter={16}>

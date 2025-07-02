@@ -185,8 +185,8 @@ const Notes = () => {
 
     const filteredNotes = notes.filter(
     (note) =>
-      note.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.description.toLowerCase().includes(searchTerm.toLowerCase())
+      note.name.toLowerCase().includes(searchTerm.toLowerCase()) 
+      // note.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // const StyledTextField = ({ label, name, value, handleChange, handleBlur, error, multiline = false, rows = 1 }) => {

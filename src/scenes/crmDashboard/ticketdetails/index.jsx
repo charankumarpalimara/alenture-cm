@@ -61,7 +61,7 @@ import { getCreaterId } from "../../../config";
 
 const { Option } = Select;
 
-const TicketDetails = () => {
+const CrmTicketDetails = () => {
   const [form] = Form.useForm();
   const socketRef = useRef(null);
   const theme = useTheme();
@@ -73,6 +73,7 @@ const TicketDetails = () => {
   // const [selectedFile, setSelectedFile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [crmIdList, setCrmIdList] = useState([]);
+  const [crmNameList, setCrmNameList] = useState([]);
   const [tasks, setTasks] = useState([]);
   const Navigate = useNavigate();
   const [openTaskModal, setOpenTaskModal] = useState(false);
@@ -529,6 +530,19 @@ const handleDownload = async (fileUrl) => {
     }
   }, [ticket.experienceid]);
 
+
+        useEffect(() => {
+        const fetchCrmNames = async () => {
+          const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
+          const data = await res.json();
+          setCrmNameList(data.data || []);
+        };
+        fetchCrmNames();
+      }, []);
+
+
+  
+
   const createtaskmodel = {
     position: "absolute",
     top: "50%",
@@ -764,7 +778,7 @@ const handleDownload = async (fileUrl) => {
     );
   };
 
-  const AssignCrm = ({ handleClose, crmIdList = [] }) => {
+  const AssignCrm = ({ handleClose, crmNameList = [] }) => {
     const [assignForm] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
@@ -805,49 +819,40 @@ const handleDownload = async (fileUrl) => {
         onFinish={handleFinish}
         initialValues={{ crmid: "", crmname: "" }}
       >
-        <Row gutter={16} style={{ flexDirection: "column" }}>
-          <Col span={24}>
-            <Form.Item
-              label="CRM ID"
-              name="crmid"
-              rules={[{ required: true, message: "Please select CRM ID" }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select CRM ID"
-                optionFilterProp="children"
-                size="large"
-                getPopupContainer={(trigger) => trigger.parentNode}
-                onChange={async (value) => {
-                  try {
-                    const res = await fetch(
-                      `${process.env.REACT_APP_API_URL}/v1/getCrmNamebyId/${value}`
-                    );
-                    const data = await res.json();
-                    assignForm.setFieldsValue({ crmname: data.crmNames || "" });
-                  } catch {
-                    assignForm.setFieldsValue({ crmname: "" });
-                  }
-                }}
-              >
-                {crmIdList.map((id) => (
-                  <Select.Option key={id} value={id}>
-                    {id}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={24}>
+          <Col xs={24} md={24} style={{ width: "100%" }}>
             <Form.Item
               label="CRM Name"
               name="crmname"
               rules={[{ required: true, message: "CRM Name is required" }]}
+              style={{ width: "100%" }}
             >
-              <Input placeholder="CRM Name" disabled readOnly size="large" />
+              <Select
+                showSearch
+                placeholder="Select CRM Name"
+                optionFilterProp="children"
+                size="large"
+                style={{ width: "100%" }}
+                getPopupContainer={trigger => trigger.parentNode}
+                onChange={(value) => {
+                  const selected = crmNameList.find(crm => crm.crmid === value);
+                  // Set both crmname and crmid in the form
+                  assignForm.setFieldsValue({
+                    crmname: selected ? selected.name : "",
+                    crmid: value
+                  });
+                }}
+              >
+                {crmNameList.map((crm) => (
+                  <Select.Option key={crm.crmid} value={crm.crmid}>
+                    {crm.name} ({crm.crmid})
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+              <Input disabled />
             </Form.Item>
           </Col>
-        </Row>
         <Row justify="end" gutter={8}>
           <Col>
             <Button
@@ -900,7 +905,7 @@ const handleDownload = async (fileUrl) => {
         gridTemplateColumns: {
           xs: "1fr",
           sm: "1fr",
-          md: "repeat(2, 1fr)",
+               md: "60% 40%",
         },
         gap: { xs: 2, sm: 3 },
         p: { xs: 1, sm: 2 },
@@ -1751,7 +1756,7 @@ const handleDownload = async (fileUrl) => {
             </Typography>
             <AssignCrm
               handleClose={() => setshareEntireExperience(false)}
-              crmIdList={crmIdList}
+      crmNameList={crmNameList}
             />
           </Box>
         </Modal>
@@ -1760,4 +1765,4 @@ const handleDownload = async (fileUrl) => {
   );
 };
 
-export default TicketDetails;
+export default CrmTicketDetails;

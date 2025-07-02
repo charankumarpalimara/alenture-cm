@@ -57,6 +57,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { use } from "react";
 
 const { Option } = Select;
 
@@ -71,7 +72,9 @@ const AdminTicketDetails = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   // const [selectedFile, setSelectedFile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [crmIdList, setCrmIdList] = useState([]);
+  // const [crmIdList, setCrmIdList] = useState([]); 
+  const [crmNameList, setCrmNameList] = useState([]);
+  const [crmNamelistExp, setCrmNameListExp] = useState([]);
   const [tasks, setTasks] = useState([]);
   const Navigate = useNavigate();
   const [openTaskModal, setOpenTaskModal] = useState(false);
@@ -81,7 +84,7 @@ const AdminTicketDetails = () => {
   const [deletingTaskId, setDeletingTaskId] = useState(null);
   const [completeModalVisible, setCompleteModalVisible] = useState(false);
   const [completeTaskId, setCompleteTaskId] = useState(null);
-    const [openConfirm, setOpenConfirm] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const getExperienceColor = (experience) => {
     switch (experience) {
@@ -192,27 +195,27 @@ const AdminTicketDetails = () => {
     PhoneNo: ticket.PhoneNo || "",
     notes: ticket.notes || "",
     id: ticket.experienceid || "",
-    imageURl: ticket.imageUrl || "",  
+    imageURl: ticket.imageUrl || "",
   };
 
   console.log("Ticket Details:", ticket);
 
-  useEffect(() => {
-    const fetchCrmIds = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getCrmId`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          if (Array.isArray(data.crmid)) {
-            setCrmIdList(data.crmid.map((item) => item.crmid));
-          }
-        }
-      } catch (error) {}
-    };
-    fetchCrmIds();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCrmIds = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${process.env.REACT_APP_API_URL}/v1/getCrmId`
+  //       );
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         if (Array.isArray(data.crmid)) {
+  //           setCrmIdList(data.crmid.map((item) => item.crmid));
+  //         }
+  //       }
+  //     } catch (error) {}
+  //   };
+  //   fetchCrmIds();
+  // }, []);
 
   const crmidValue = form.getFieldValue("crmid");
 
@@ -324,36 +327,36 @@ const AdminTicketDetails = () => {
   });
 
 
-const fileUrl = ticket.imageUrl || ""; // your file URL
-const filename = fileUrl.split("/").pop() || "attachment";
+  const fileUrl = ticket.imageUrl || ""; // your file URL
+  const filename = fileUrl.split("/").pop() || "attachment";
 
-const handleDownload = async (fileUrl) => {
-  if (!fileUrl) {
-    message.error("No attachment available.");
-    return;
-  }
-  setIsDownloading(true);
-  try {
-    const response = await fetch(fileUrl);
-    if (!response.ok) {
-      throw new Error("File not found or server error");
+  const handleDownload = async (fileUrl) => {
+    if (!fileUrl) {
+      message.error("No attachment available.");
+      return;
     }
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Download failed:", error);
-    message.error("Download failed. Please try again or contact support.");
-  } finally {
-    setIsDownloading(false);
-  }
-};
+    setIsDownloading(true);
+    try {
+      const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error("File not found or server error");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+      message.error("Download failed. Please try again or contact support.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   // const handleFileChange = (event) => {
   //   const file = event.target.files[0];
@@ -445,6 +448,8 @@ const handleDownload = async (fileUrl) => {
   }, [ticket.experienceid, ticket.crmid]);
 
 
+
+
   useEffect(() => {
     const fetchMessages = async () => {
       if (!ticket.experienceid || !ticket.crmid) return;
@@ -499,6 +504,28 @@ const handleDownload = async (fileUrl) => {
   //   }
   // }, [ticket.experienceid]);
 
+
+
+  useEffect(() => {
+    const fetchCrmNamesByExperienceid = async () => {
+      if (!ticket.experienceid) return;
+      try {
+        const res = await fetch(
+          `http://127.0.0.1:8080/v1/getCrmNamesByExperienceid/${ticket.experienceid}`
+        );
+        const data = await res.json();
+        if (data && Array.isArray(data.data)) {
+          setCrmNameListExp(data.data);
+        } else {
+          setCrmNameListExp([]);
+        }
+      } catch (error) {
+        setCrmNameListExp([]);
+      }
+    };
+    fetchCrmNamesByExperienceid();
+  }, [ticket.experienceid]);
+
   const createtaskmodel = {
     position: "absolute",
     top: "50%",
@@ -528,7 +555,7 @@ const handleDownload = async (fileUrl) => {
   };
 
   const handleRowClick = (params) => {
-    Navigate("/admin/taskdetails", { state: { ticket: params.row } });
+    Navigate("/taskdetails", { state: { ticket: params.row } });
   };
 
   // const handleCompleteTask = (id) => (event) => {
@@ -585,25 +612,36 @@ const handleDownload = async (fileUrl) => {
 
 
   const handleCloseExperience = async () => {
-  try {
-    await fetch(
-      `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
-      //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          experienceid: ticket.experienceid,
-          status: "Resolved",
-        }),
-      }
-    );
-    message.success("Experience status updated to Resolved!");
-    Navigate("/hob");
-  } catch (error) {
-    message.error("Failed to update status.");
+    try {
+      await fetch(
+        `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
+        //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            experienceid: ticket.experienceid,
+            status: "Resolved",
+          }),
+        }
+      );
+      message.success("Experience status updated to Resolved!");
+      Navigate("/resolvedExperiences");
+    } catch (error) {
+      message.error("Failed to update status.");
+    }
   }
-}
+    useEffect(() => {
+      const fetchCrmNames = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
+        const data = await res.json();
+        setCrmNameList(data.data || []);
+      };
+      fetchCrmNames();
+    }, []);
+
+
+
 
   const TaskForm = ({ handleClose, fetchTasks }) => {
     const [taskForm] = Form.useForm();
@@ -646,6 +684,9 @@ const handleDownload = async (fileUrl) => {
       }
       setLoading(false);
     };
+
+
+
 
     return (
       <Form
@@ -736,7 +777,7 @@ const handleDownload = async (fileUrl) => {
     );
   };
 
-  const AssignCrm = ({ handleClose, crmIdList = [] }) => {
+  const AssignCrm = ({ handleClose, crmNameList = [] }) => {
     const [assignForm] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
@@ -749,7 +790,7 @@ const handleDownload = async (fileUrl) => {
         const crmname = values.crmname;
 
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/AssignTask`,
+          `http://127.0.0.1:8080/v1/AssignTask`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -770,53 +811,60 @@ const handleDownload = async (fileUrl) => {
       setLoading(false);
     };
 
+    //     useEffect(() => {
+    //   const fetchCrmNames = async () => {
+    //     try {
+    //       const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
+    //       const data = await res.json();
+    //       setCrmNameList(data.data || []);
+    //     } catch (error) {
+    //       setCrmNameList([]);
+    //     }
+    //   };
+    //   fetchCrmNames();
+    // }, []);
+
     return (
       <Form
         form={assignForm}
         layout="vertical"
         onFinish={handleFinish}
         initialValues={{ crmid: "", crmname: "" }}
+        style={{ minHeight: "200px", justifyContent: "space-between" }}
       >
         <Row gutter={16} style={{ flexDirection: "column" }}>
-          <Col span={24}>
-            <Form.Item
-              label="CRM ID"
-              name="crmid"
-              rules={[{ required: true, message: "Please select CRM ID" }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select CRM ID"
-                optionFilterProp="children"
-                size="large"
-                getPopupContainer={(trigger) => trigger.parentNode}
-                onChange={async (value) => {
-                  try {
-                    const res = await fetch(
-                      `${process.env.REACT_APP_API_URL}/v1/getCrmNamebyId/${value}`
-                    );
-                    const data = await res.json();
-                    assignForm.setFieldsValue({ crmname: data.crmNames || "" });
-                  } catch {
-                    assignForm.setFieldsValue({ crmname: "" });
-                  }
-                }}
-              >
-                {crmIdList.map((id) => (
-                  <Select.Option key={id} value={id}>
-                    {id}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={24}>
+          <Col xs={24} md={24} style={{ width: "100%" }}>
             <Form.Item
               label="CRM Name"
               name="crmname"
               rules={[{ required: true, message: "CRM Name is required" }]}
+              style={{ width: "100%" }}
             >
-              <Input placeholder="CRM Name" disabled readOnly size="large" />
+              <Select
+                showSearch
+                placeholder="Select CRM Name"
+                optionFilterProp="children"
+                size="large"
+                style={{ width: "100%" }}
+                getPopupContainer={trigger => trigger.parentNode}
+                onChange={(value) => {
+                  const selected = crmNameList.find(crm => crm.crmid === value);
+                  // Set both crmname and crmid in the form
+                  assignForm.setFieldsValue({
+                    crmname: selected ? selected.name : "",
+                    crmid: value
+                  });
+                }}
+              >
+                {crmNameList.map((crm) => (
+                  <Select.Option key={crm.crmid} value={crm.crmid}>
+                    {crm.name} ({crm.crmid})
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+              <Input disabled />
             </Form.Item>
           </Col>
         </Row>
@@ -824,7 +872,7 @@ const handleDownload = async (fileUrl) => {
           <Col>
             <Button
               onClick={handleClose}
-              style={{ background: "#e57373", color: "#fff", borderRadius: 8 }}
+              style={{ background: "#e57373", color: "#fff", borderRadius: 8, }}
             >
               Cancel
             </Button>
@@ -838,7 +886,7 @@ const handleDownload = async (fileUrl) => {
                 background: "#3e4396",
                 borderRadius: 8,
                 color: "#fff",
-                ...(loading && { opacity: 0.7 }), // Visual feedback for loading state
+                ...(loading && { opacity: 0.7 }),
               }}
             >
               {loading ? "Assigning..." : "Assign"}
@@ -872,7 +920,7 @@ const handleDownload = async (fileUrl) => {
         gridTemplateColumns: {
           xs: "1fr",
           sm: "1fr",
-          md: "repeat(2, 1fr)",
+          md: "60% 40%",
         },
         gap: { xs: 2, sm: 3 },
         p: { xs: 1, sm: 2 },
@@ -895,7 +943,7 @@ const handleDownload = async (fileUrl) => {
         <Formik
           initialValues={initialValues}
           validationSchema={checkoutSchema}
-          // onSubmit={handleFormSubmit}
+        // onSubmit={handleFormSubmit}
         >
           {({
             values,
@@ -957,13 +1005,22 @@ const handleDownload = async (fileUrl) => {
                 </Box>
 
                 <Box>
+
                   <Typography
                     variant="subtitle2"
                     sx={{ color: "#555", fontWeight: "bold" }}
                   >
                     Customer Relationship Manager
                   </Typography>
-                  <Typography>{values.crmname}</Typography>
+                  {crmNamelistExp && crmNamelistExp.length > 0 ? (
+                    crmNamelistExp.map((crm, idx) => (
+                      <Typography key={crm.crmid || idx}>
+                        {idx + 1}. {crm.crmnamebyexp} {crm.crmid ? `(${crm.crmid})` : ""}
+                      </Typography>
+                    ))
+                  ) : (
+                    <Typography>No CRM assigned</Typography>
+                  )}
                 </Box>
 
                 {isEditing ? (
@@ -1092,16 +1149,18 @@ const handleDownload = async (fileUrl) => {
                     Experience
                   </Typography>
                   <Typography
-                    sx={{       color:
-        values.experience?.trim() === "Frustrated"
-          ? "#E64A19"
-          : values.experience?.trim() === "Extremely Frustrated"
-          ? "#D32F2F"
-          : values.experience?.trim() === "Happy"
-          ? "#FBC02D"
-          : values.experience?.trim() === "Extremely Happy"
-          ? "#388E3C"
-          : "#616161", }}
+                    sx={{
+                      color:
+                        values.experience?.trim() === "Frustrated"
+                          ? "#E64A19"
+                          : values.experience?.trim() === "Extremely Frustrated"
+                            ? "#D32F2F"
+                            : values.experience?.trim() === "Happy"
+                              ? "#FBC02D"
+                              : values.experience?.trim() === "Extremely Happy"
+                                ? "#388E3C"
+                                : "#616161",
+                    }}
                   >
                     {values.experience}
                   </Typography>
@@ -1156,13 +1215,13 @@ const handleDownload = async (fileUrl) => {
                   </Typography>
                 </Box>
 
-  
+
 
                 {/* Download Button */}
                 <Box sx={{ display: "flex", gap: 2 }}>
                   <Button
                     variant="contained"
-                      icon={<DownloadOutlined />}
+                    icon={<DownloadOutlined />}
                     disabled={isDownloading}
                     onClick={handleDownload}
                     sx={{ minWidth: 180 }}
@@ -1180,50 +1239,50 @@ const handleDownload = async (fileUrl) => {
                     mt: 1,
                   }}
                 >
-             <Button
-                variant="contained"
-                sx={{
-                  padding: "12px 24px",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  borderRadius: "8px",
-                  boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                  transition: "0.3s",
-                  backgroundColor: colors.redAccent[400],
-                  color: "#ffffff",
-                  textTransform: "none",
-                  "&:hover": {
-                    backgroundColor: colors.redAccent[500],
-                    boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-                  },
-                }}
-                onClick={() => setOpenConfirm(true)}
-              >
-                Close
-              </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      padding: "12px 24px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      borderRadius: "8px",
+                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+                      transition: "0.3s",
+                      backgroundColor: colors.redAccent[400],
+                      color: "#ffffff",
+                      textTransform: "none",
+                      "&:hover": {
+                        backgroundColor: colors.redAccent[500],
+                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
+                      },
+                    }}
+                    onClick={() => setOpenConfirm(true)}
+                  >
+                    Close
+                  </Button>
 
 
-            <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
-              <DialogTitle>Are you sure?</DialogTitle>
-              <DialogContent>
-                <Typography>Are you sure you want to close this experience?</Typography>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setOpenConfirm(false)} color="primary">
-                  Cancel
-                </Button>
-                <Button
-                  onClick={async () => {
-                    setOpenConfirm(false);
-                    await handleCloseExperience();
-                  }}
-                  color="error"
-                  variant="contained"
-                >
-                  Yes, Close
-                </Button>
-              </DialogActions>
-            </Dialog>
+                  <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
+                    <DialogTitle>Are you sure?</DialogTitle>
+                    <DialogContent>
+                      <Typography>Are you sure you want to close this experience?</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => setOpenConfirm(false)} color="primary">
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={async () => {
+                          setOpenConfirm(false);
+                          await handleCloseExperience();
+                        }}
+                        color="error"
+                        variant="contained"
+                      >
+                        Yes, Close
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
 
                   {isEditing ? (
                     <Box sx={{ display: "flex", gap: 2 }}>
@@ -1312,6 +1371,7 @@ const handleDownload = async (fileUrl) => {
           },
           display: "flex",
           flexDirection: "column",
+          width: "100%",
           gap: 3,
         }}
       >
@@ -1333,7 +1393,7 @@ const handleDownload = async (fileUrl) => {
             Discuss with Customer Support
           </Typography>
           {/* Messages Display */}
-    <Box
+          <Box
             sx={{
               flex: 1,
               backgroundColor: "white",
@@ -1532,7 +1592,7 @@ const handleDownload = async (fileUrl) => {
 
       </Box>
 
-   <Box
+      <Box
         sx={{
           backgroundColor: "#ffffff",
           p: { xs: 1, sm: isDesktop ? 3 : 2 },
@@ -1698,14 +1758,14 @@ const handleDownload = async (fileUrl) => {
             </Typography>
             <AssignCrm
               handleClose={() => setshareEntireExperience(false)}
-              crmIdList={crmIdList}
+              crmNameList={crmNameList}
             />
           </Box>
         </Modal>
       </Box>
     </Box>
 
-    
+
   );
 };
 

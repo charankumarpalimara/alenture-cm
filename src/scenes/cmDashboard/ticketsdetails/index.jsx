@@ -687,7 +687,7 @@ const CmTicketDetails = () => {
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          width: "100%",
+          width: "80%",
           minWidth: 0,
         }}
       >

@@ -858,7 +858,7 @@ const CrmDetails = () => {
                           </Form.Item>
                         </Col>
                         <Col xs={24} md={24} style={{ marginTop: 8 }}>
-                          {isEditingRow ? (
+                          {isEditingRow && !editingRelationId ? (
                             <>
                               <Button
                                 type="primary"
@@ -1063,7 +1063,7 @@ const CrmDetails = () => {
           {!isEditing ? (
             <Row style={{ width: "100%", justifyContent: "space-between" }} gutter={16}>
               <Col>
-              {getCreaterRole === "admin" && (
+              {getCreaterRole() === "admin" &&  getCreaterRole() === "hob" && (
                 <Button
                   variant="contained"
                   size="large"
@@ -1115,7 +1115,7 @@ const CrmDetails = () => {
                 </Button>
                 )}
               </Col>
-              <Col>
+              <Col style={{display : assignForm ? 'none': 'block'}}>
                 <Button
                   type="primary"
                   style={{
@@ -1132,24 +1132,26 @@ const CrmDetails = () => {
               </Col>
             </Row>
           ) : (
-            <>
-              <Col>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  size="large"
-                  style={{ background: "#3e4396" }}
-                  onClick={() => form.submit()}
-                >
-                  Save
-                </Button>
-              </Col>
-              <Col>
-                <Button size="large" danger onClick={handleCancel}>
-                  Cancel
-                </Button>
-              </Col>
-            </>
+// {!assignForm && (
+  <Row>
+    <Col style={{display : assignForm ? 'none': 'block'}}>
+      <Button
+        type="primary"
+        htmlType="submit"
+        size="large"
+        style={{ background: "#3e4396" }}
+        onClick={() => form.submit()}
+      >
+        Save
+      </Button>
+    </Col>
+    <Col style={{display : assignForm ? 'none': 'block'}}> 
+      <Button size="large" danger onClick={handleCancel}>
+        Cancel
+      </Button>
+    </Col>
+  </Row>
+// )}
           )}
         </Row>
 
