@@ -511,7 +511,7 @@ const AdminTicketDetails = () => {
       if (!ticket.experienceid) return;
       try {
         const res = await fetch(
-          `http://127.0.0.1:8080/v1/getCrmNamesByExperienceid/${ticket.experienceid}`
+          `${process.env.REACT_APP_API_URL}/v1/getCrmNamesByExperienceid/${ticket.experienceid}`
         );
         const data = await res.json();
         if (data && Array.isArray(data.data)) {
