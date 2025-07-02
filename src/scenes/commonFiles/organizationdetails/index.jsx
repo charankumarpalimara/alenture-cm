@@ -223,7 +223,7 @@ const OrganizationDetails = () => {
                 key={branch.id || idx}
               >
                 <Row gutter={16}>
-                  <Col xs={24} md={8}>
+                  <Col xs={24} md={8} style={{ display: "none" }}>
                     <Typography.Text strong>Organization Name</Typography.Text>
                     <Input
                       value={editData.organizationname}

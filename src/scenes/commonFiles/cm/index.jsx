@@ -605,6 +605,7 @@ const Cm = () => {
           rows={filteredTickets}
           columns={columns}
           pageSize={10}
+             getRowId={(row) => row.id} 
           // rowsPerPageOptions={[10, 25, 50]} // Add this to include 10 in the options
           onRowClick={handleRowClick}
         />

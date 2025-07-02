@@ -20,7 +20,7 @@ import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Country, State } from "country-state-city";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getCreaterRole } from "../../../config";
+import { getCreaterRole, getCreaterId } from "../../../config";
 
 const { Text } = Typography;
 // const { Option } = Select;
@@ -66,7 +66,7 @@ const CrmDetails = () => {
   const [form] = Form.useForm();
   const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
 
-  useEffect(() => {
+  // useEffect(() => {
     const fetchRelations = async () => {
       try {
         const response = await fetch(
@@ -81,7 +81,13 @@ const CrmDetails = () => {
       }
     };
     fetchRelations();
-  }, [ticket.crmid]);
+  // }, [ticket.crmid]);
+
+
+  useEffect(() => {
+  fetchRelations();
+}, [ticket.crmid]);
+
 
   const orgGroups = relationsData.reduce((acc, item) => {
     if (!acc[item.organizationid]) acc[item.organizationid] = [];
@@ -185,9 +191,9 @@ const CrmDetails = () => {
       passwords: values.passwords || "",
     });
 
-    const sessionData = JSON.parse(sessionStorage.getItem("userDetails")); // replace with your actual key
-    const createrrole = "admin";
-    const createrid = sessionData?.id || "";
+    // const sessionData = JSON.parse(sessionStorage.getItem("userDetails")); // replace with your actual key
+    const createrrole = getCreaterRole(); // Default to 'admin' if not found
+    const createrid = getCreaterId() || "";
     formData.append("createrrole", createrrole);
     formData.append("createrid", createrid);
 
@@ -307,9 +313,10 @@ const CrmDetails = () => {
       setIsLoading(true);
 
       // Prepare the data to log
-      const sessionData = JSON.parse(sessionStorage.getItem("userDetails")); // replace with your actual key
-      const createrrole = "admin";
-      const createrid = sessionData?.id || "";
+      // const sessionData = JSON.parse(sessionStorage.getItem("userDetails")); // replace with your actual key
+      // const createrrole = "admin";
+
+      // const createrid = sessionData?.id || "";
 
       // Log the values that will be sent
       const payload = {
@@ -319,8 +326,8 @@ const CrmDetails = () => {
         cmname: values.cmname,
         crmid: ticket.crmid,
         crmname: ticket.firstname + " " + ticket.lastname,
-        createrid: createrid || "",
-        createrrole: createrrole || "",
+        createrid: getCreaterId() || "",
+        createrrole: getCreaterRole() || "",
       };
       console.log("Assign Payload:", payload);
 
@@ -337,8 +344,10 @@ const CrmDetails = () => {
       const data = await response.json();
       if (response.ok) {
         message.success("Assigned successfully!");
-
+             setIsLoading(false);
+       await fetchRelations(); 
         setAssingForm(false);
+   
         form.resetFields(["organization", "branch", "cmname"]);
       } else {
         message.error(data?.error || "Assignment failed");

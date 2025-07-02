@@ -136,8 +136,17 @@ const PendingExperiences = ({ apiUrl }) => {
           time: item.time || "N/A",
           imageUrl: `${item.imageUrl || ""}`,
         }));
-        setTickets(transformedData);
-        setFilteredTickets(transformedData);
+            const uniqueData = [];
+      const seen = new Set();
+      for (const row of transformedData) {
+        if (!seen.has(row.experienceid)) {
+          uniqueData.push(row);
+          seen.add(row.experienceid);
+        }
+      }
+
+      setTickets(uniqueData);
+      setFilteredTickets(uniqueData);
       }
       } catch (error) {
         console.error("Error fetching tickets:", error);
@@ -323,6 +332,7 @@ const PendingExperiences = ({ apiUrl }) => {
             ))}
           </Box>
         </Menu>
+        {getCreaterRole() === "cm" && (
         <Button
           variant="contained"
           sx={{
@@ -340,6 +350,7 @@ const PendingExperiences = ({ apiUrl }) => {
         >
           New Experience
         </Button>
+        )}
       </Box>
 
       {/* DataGrid */}

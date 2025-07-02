@@ -790,7 +790,7 @@ const AdminTicketDetails = () => {
         const crmname = values.crmname;
 
         const response = await fetch(
-          `http://127.0.0.1:8080/v1/AssignTask`,
+          `${process.env.REACT_APP_API_URL}/v1/AssignTask`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
