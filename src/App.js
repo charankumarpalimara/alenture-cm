@@ -75,7 +75,9 @@ import Hob from "./scenes/commonFiles/hob";
 import HobForm from "./scenes/commonFiles/hobform";
 import HobDetails from "./scenes/commonFiles/hobdetails";
 import Organization from "./scenes/commonFiles/organization";
+import OrganizationForm from "./scenes/commonFiles/organizationform/index.jsx";
 import OrganizationDetails from "./scenes/commonFiles/organizationdetails";
+import Organizationadd from "./scenes/commonFiles/organizationdetails/organizationadd";
 import TaskDetails from "./scenes/commonFiles/taskdetails";
 // import CrmTaskDetails from "./scenes/taskdetails";
 
@@ -332,7 +334,9 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/pendingExperiences" element={<PendingExperiences />} />
                   <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
                   <Route path="/organization" element={<Organization />} />
+                  <Route path="/organizationform" element={<OrganizationForm />} />
                   <Route path="/organizationdetails" element={<OrganizationDetails />} />
+                  <Route path="/organizationadd" element={<Organizationadd />} />
                   <Route path="/taskdetails" element={<TaskDetails />} />
 
                 </>
@@ -352,7 +356,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/hob" element={<Hob />} />
                   <Route path="/hobform" element={<HobForm />} />
                   <Route path="/hobdetails" element={<HobDetails />} />
-                  {/* <Route path="/profile" element={<AdminProfile />} /> */}
+
                   <Route path="/profile" element={<HobProfile />} />
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/notes" element={<Notes />} />
@@ -363,7 +367,9 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/pendingExperiences" element={<PendingExperiences />} />
                   <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
                   <Route path="/organization" element={<Organization />} />
+                  <Route path="/organizationform" element={<OrganizationForm />} />
                   <Route path="/organizationdetails" element={<OrganizationDetails />} />
+                  <Route path="/organizationadd" element={<Organizationadd />} />
                   <Route path="/taskdetails" element={<TaskDetails />} />
 
                 </>

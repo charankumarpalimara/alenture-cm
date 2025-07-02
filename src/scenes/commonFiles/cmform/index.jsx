@@ -18,7 +18,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import { Country } from "country-state-city";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { getCreaterId, getCreaterRole, getCreaterName } from "../../../config";
+import { getCreaterRole, getCreaterId } from "../../../config"; // Adjust the path as necessary
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -37,8 +37,10 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   };
 }
 
-const CmForm = ({ apiUrl }) => {
+const CmForm = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  // const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [originalImage, setOriginalImage] = useState(null);
   const [cropModalOpen, setCropModalOpen] = useState(false);
@@ -49,15 +51,14 @@ const CmForm = ({ apiUrl }) => {
   const fileInputRef = useRef(null);
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
-  const [crmName, setCrmName] = useState("");
+  const [crmNameList, setCrmNameList] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editValues, setEditValues] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
   const [originalEditValues, setOriginalEditValues] = useState({});
-    const [createdCmId, setCreatedCmId] = useState(null);
-    const [modalOrganizationNames, setModalOrganizationNames] = useState([]);
-const [modalBranchNames, setModalBranchNames] = useState([]);
-  const navigate = useNavigate();
+  const [createdCmId, setCreatedCmId] = useState(null);
+  const [modalOrganizationNames, setModalOrganizationNames] = useState([]);
+  const [modalBranchNames, setModalBranchNames] = useState([]);
 
   //  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
   useEffect(() => {
@@ -78,6 +79,7 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
     };
     fetchOrganizations();
   }, []);
+  // const crmidValue = form.getFieldValue("crmid");
 
 
   const fetchBranch = async (orgName) => {
@@ -101,22 +103,29 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
     } catch (error) { }
   };
 
-  const crmidValue = form.getFieldValue("crmid");
-
   useEffect(() => {
-    // if (!isEditing) return;
-    if (crmidValue) {
-      fetch(`${process.env.REACT_APP_API_URL}/v1/getCrmNamebyId/${crmidValue}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setCrmName(data.crmNames || "");
-          form.setFieldsValue({ crmname: data.crmNames || "" });
-        });
-    } else {
-      setCrmName("");
-      form.setFieldsValue({ crmname: "" });
-    }
-  }, [crmidValue, form]);
+    const fetchCrmNames = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
+      const data = await res.json();
+      setCrmNameList(data.data || []);
+    };
+    fetchCrmNames();
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchCrmNames = async () => {
+  //     try {
+  //       // const res = await fetch(`${process.env.REACT_APP_API_URL}/GetCrmNames`);
+  //       const res = await fetch(`http://127.0.0.1:8080/GetCrmNames`);
+  //       const data = await res.json();
+  //       setCrmNameList(data.data || []);
+  //     } catch {
+  //       setCrmNameList([]);
+  //     }
+  //   };
+  //   fetchCrmNames();
+  // }, []);
+
 
 
 
@@ -190,7 +199,10 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
 
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
+    // console.log(crmName);
     const formData = new FormData();
+
+    // Use the exact field names as in your form and backend
     formData.append("firstname", values.firstName || "");
     formData.append("lastname", values.lastName || "");
     formData.append("phonecode", values.phoneCode || "");
@@ -201,11 +213,12 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
     formData.append("organization", values.organization || "");
     formData.append("branch", values.branch || "");
     formData.append("username", values.email || "");
+    formData.append("crmId", values.crmid || "");
+    formData.append("crmName", values.crmname || "");
+
+    // const sessionData = JSON.parse(sessionStorage.getItem("hobDetails"));
+    const createrrole = getCreaterRole();
     const createrid = getCreaterId() || "";
-    const creatername = getCreaterName();
-    formData.append("crmId", createrid || "");
-    formData.append("crmName", creatername || "");
-    const createrrole = getCreaterRole() || "";
     const password = (values.firstName || "") + (values.PhoneNo || "");
     formData.append("createrrole", createrrole);
     formData.append("createrid", createrid);
@@ -213,6 +226,7 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
 
     if (profileImage) {
       try {
+        // Convert base64 to blob if needed
         let blob;
         if (profileImage.startsWith("data:")) {
           const res = await fetch(profileImage);
@@ -225,7 +239,6 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
         console.error("Error converting image to blob:", error);
       }
     }
-
     try {
       const responce = await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/createCm`,
@@ -235,23 +248,25 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+      // Modal.success({ content: "CM Registered Successfully!" });
+      message.success("CM Registered Successfully!");
       const cmData = responce.data.data || {};
       const FinalCmid = responce.data.cmid || cmData.cmid;
 
       message.success("CM Registered Successfully!");
       setEditValues({ ...values, profileImage, cmid: FinalCmid }); // <-- set modal values
-      setCreatedCmId(FinalCmid); 
+      setCreatedCmId(FinalCmid);
       setOriginalEditValues({ ...values, profileImage });
       setShowEditModal(true); // <-- open modal
       setIsEditMode(false);
       setIsLoading(false);
-      // Do NOT reset form or navigate yet, let user edit in modal
     } catch (error) {
-      message.error("Error submitting form!");
+      // Modal.error({ content: "Error submitting form" });
+      message.error("Error submitting form");
+    } finally {
       setIsLoading(false);
     }
   };
-
 
 
   // Actually submit to backend
@@ -270,11 +285,13 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
     formData.append("organization", values.organization || "");
     formData.append("branch", values.branch || "");
     formData.append("username", values.email || "");
+
+    formData.append("crmId", values.crmid || "");
+    formData.append("crmName", values.crmname || "");
+    // const createrrole = getCreaterRole() || "";
+    // const sessionData = JSON.parse(sessionStorage.getItem("hobDetails"));
+    const createrrole = getCreaterRole();
     const createrid = getCreaterId() || "";
-    const creatername = getCreaterName();
-    formData.append("crmId", createrid || "");
-    formData.append("crmName", creatername || "");
-    const createrrole = getCreaterRole() || "";
     const password = (values.firstName || "") + (values.PhoneNo || "");
     formData.append("createrrole", createrrole);
     formData.append("createrid", createrid);
@@ -298,7 +315,7 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
     try {
       await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/UpdateCm`,
-            // `http://127.0.0.1:8080/v1/updateCm`,
+        // `http://127.0.0.1:8080/v1/updateCm`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -310,7 +327,7 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
       setOriginalImage(null);
       setShowEditModal(false);
       setIsLoading(false);
-      navigate("/cm");
+      navigate(-1);
     } catch (error) {
       message.error("Error submitting form!");
       setIsLoading(false);
@@ -328,7 +345,6 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
     setShowEditModal(false);
     navigate(-1); // Go to previous page
   };
-  // const uniqueBranchNames = Array.from(new Set(branchNames));
 
   const countries = Country.getAllCountries();
   const gender = ["Male", "Female"];
@@ -359,11 +375,12 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
         </div>
       )}
 
+
       <Modal
         open={showEditModal}
         title="Review & Edit CM Details"
         onCancel={handleModalClose}
-            closable={false}
+        closable={false}
         footer={null}
         width="80%"
       >
@@ -425,11 +442,11 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
             </Col>
           </Row>
           <Row gutter={24}>
-            <Col xs={24} md={8}>
+            {/* <Col xs={24} md={8}>
               <Form.Item label="Designation" name="designation" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col xs={24} md={8}>
               <Form.Item
                 label="Organization"
@@ -454,26 +471,59 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-            <Form.Item
-              label="Organization Unit"
-              name="branch"
-              rules={[{ required: true, message: "Organization Unit is required" }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Organization Unit"
-                disabled={!isEditMode}
+              <Form.Item
+                label="Organization Unit"
+                name="branch"
+                rules={[{ required: true, message: "Organization Unit is required" }]}
               >
-                {modalBranchNames.map((item, idx) => (
-                  <Select.Option key={idx} value={item.branch}>
-                    {item.branch}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
+                <Select
+                  showSearch
+                  placeholder="Select Organization Unit"
+                  disabled={!isEditMode}
+                >
+                  {modalBranchNames.map((item, idx) => (
+                    <Select.Option key={idx} value={item.branch}>
+                      {item.branch}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label="CRM Name"
+                name="crmname"
+                rules={[{ required: true, message: "CRM Name is required" }]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select CRM Name"
+                  optionFilterProp="children"
+                  disabled={!isEditMode}
+                  onChange={(value) => {
+                    const selected = crmNameList.find(crm => crm.crmid === value);
+                    // Set both crmname and crmid in the form and in editValues
+                    setEditValues((prev) => ({
+                      ...prev,
+                      crmname: selected ? selected.name : "",
+                      crmid: value,
+                    }));
+                  }}
+                  value={editValues.crmid}
+                >
+                  {crmNameList.map((crm) => (
+                    <Select.Option key={crm.crmid} value={crm.crmid}>
+                      {crm.name} ({crm.crmid})
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+                <Input disabled />
+              </Form.Item>
             </Col>
           </Row>
-  
+
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
             {!isEditMode ? (
               <>
@@ -527,6 +577,10 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
         </Form>
       </Modal>
 
+
+
+
+
       <div
         style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
       >
@@ -534,7 +588,8 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
           form={form}
           layout="vertical"
           onFinish={(values) => {    // <-- open the modal
-    handleFormSubmit(values);}}
+            handleFormSubmit(values);
+          }}
           initialValues={{
             firstName: "",
             lastName: "",
@@ -673,7 +728,7 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
                     >
                       {countries.map((c) => (
                         <Select.Option
-                          key={`${c.isoCode}-${c.phonecode}`}
+                          key={c.isoCode}
                           value={`+${c.phonecode}`}
                         >{`+${c.phonecode} (${c.name})`}</Select.Option>
                       ))}
@@ -716,7 +771,7 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
                 </Select>
               </Form.Item>
             </Col>
-            <Col xs={24} md={8}>
+            {/* <Col xs={24} md={8}>
               <Form.Item
                 label={<Text strong>Designation</Text>}
                 name="designation"
@@ -728,7 +783,7 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
                   style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
                 />
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col xs={24} md={8}>
               <Form.Item
                 label={<Text strong>Organization</Text>}
@@ -773,6 +828,38 @@ const [modalBranchNames, setModalBranchNames] = useState([]);
                     </Select.Option>
                   ))}
                 </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label="CRM Name"
+                name="crmname"
+                rules={[{ required: true, message: "CRM Name is required" }]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select CRM Name"
+                  optionFilterProp="children"
+                  size="large"
+                  onChange={(value) => {
+                    const selected = crmNameList.find(crm => crm.crmid === value);
+                    form.setFieldsValue({
+                      crmname: selected ? selected.name : "",
+                      crmid: value
+                    });
+                  }}
+                >
+                  {crmNameList.map((crm) => (
+                    <Select.Option key={crm.crmid} value={crm.crmid}>
+                      {crm.name} ({crm.crmid})
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+                {/* <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}> */}
+                <Input disabled />
+                {/* </Form.Item> */}
               </Form.Item>
             </Col>
           </Row>

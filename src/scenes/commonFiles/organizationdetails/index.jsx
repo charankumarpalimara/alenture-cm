@@ -255,13 +255,13 @@ const OrganizationDetails = () => {
                     </Select>
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Branch Unit</Typography.Text>
+                    <Typography.Text strong>Organization Unit</Typography.Text>
                     <Input
                       value={editData.branch}
                       onChange={(e) =>
                         handleBranchInputChange("branch", e.target.value)
                       }
-                      placeholder="Branch Unit"
+                      placeholder="Organization Unit"
                       size="large"
                       disabled={!isEditing}
                       style={{ marginBottom: 12 }}
@@ -476,11 +476,11 @@ const OrganizationDetails = () => {
             );
           })}
         </Collapse>
-        {getCreaterRole() === "admin" && getCreaterRole() === "hob" && (
+        {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
           <Button
             type="primary"
             onClick={() => {
-              Navigate("/admin/organizationadd", {
+              Navigate("/organizationadd", {
                 state: {
                   organizationid: ticket.id,
                   organizationname: ticket.name,
