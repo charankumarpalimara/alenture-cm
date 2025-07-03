@@ -61,7 +61,13 @@ const getActivePage = (pathname) => {
     pathname.includes("/taskform")
   ) {
     return "/tasks";
-  } else if (pathname.includes("/organization")) {
+  } else if (
+    pathname.includes("/organization") ||
+    pathname.includes("/organizationform") ||
+    pathname.includes("/organizationdetails") ||
+    pathname.includes("/organizationadd") ||
+    pathname.includes("/OrganizationUnitadd"))
+    {
     return "/organization";
   } else if (
     pathname === "/" ||
@@ -263,6 +269,8 @@ const Topbar = ({ onLogout }) => {
       case "/organizationform":
         return "Create a New Organization";
 
+      case "/organizationunitadd":
+         return "Create a New Organization";
       case "/organizationadd":
         return "Add New Branch";
 
@@ -329,6 +337,13 @@ const Topbar = ({ onLogout }) => {
           primaryTitle: "Organization",
           secondaryTitle: "Create a New Organization",
         };
+
+      case "/organizationunitadd":
+        return {
+          primaryTitle: "Organization",
+          secondaryTitle: "Create a New Organization",
+        };
+        
 
       case "/organizationadd":
         return {

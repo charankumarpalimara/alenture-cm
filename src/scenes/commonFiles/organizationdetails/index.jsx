@@ -36,40 +36,16 @@ const OrganizationDetails = () => {
   // Get initial data from navigation (organization.jsx sends via state)
   const ticket = location.state?.ticket || {};
 
-  // Single branch state
-  // const [branch, setBranch] = useState({
-  //   orgid: ticket.id || "",
-  //   organizationname: ticket.name || "",
-  //   branchtype: ticket.branchtype || "",
-  //   branch: ticket.brachname || "",
-  //   email: ticket.email || "",
-  //   phoneCode: ticket.phonecode || "",
-  //   phoneno: ticket.mobile || "",
-  //   address: ticket.address || "",
-  //   city: ticket.district || "",
-  //   province: ticket.state || "",
-  //   country: ticket.country || "",
-  //   postcode: ticket.postalcode || "",
-  //   passwords: ticket.passwords || "",
-  // });
+  const oragnizationid = ticket.id || ticket;
 
-  // For country/state/city select sync
-  // const getStates = (countryName) => {
-  //   const country = countries.find(c => c.name === countryName);
-  //   return country ? State.getStatesOfCountry(country.isoCode) : [];
-  // };
-  // const getCities = (countryName, stateName) => {
-  //   const country = countries.find(c => c.name === countryName);
-  //   const state = country ? State.getStatesOfCountry(country.isoCode).find(s => s.name === stateName) : null;
-  //   return (country && state) ? City.getCitiesOfState(country.isoCode, state.isoCode) : [];
-  // };
+  // Single branch state
 
   // Fetch all branches for this organization (full objects)
   useEffect(() => {
     const fetchGetAllData = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getOrganizationBranchesByOrgid/${ticket.id}`
+          `${process.env.REACT_APP_API_URL}/v1/getOrganizationBranchesByOrgid/${oragnizationid}`
         );
         const data = await response.json();
         if (response.ok && Array.isArray(data.rows)) {

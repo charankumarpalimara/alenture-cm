@@ -50,6 +50,7 @@ import AdminTopbar from "./scenes/hobDashboard/global/Topbar";
 import AdminProfile from "./scenes/hobDashboard/profile";
 import AdminTicketDetails from "./scenes/hobDashboard/ticketsdetails";
 import HobProfile from "./scenes/hobDashboard/profile/hobProfile";
+import OrganizationUnitadd from "./scenes/commonFiles/organizationform/organizationUnitadd.jsx";
 
 
 
@@ -78,6 +79,7 @@ import Organization from "./scenes/commonFiles/organization";
 import OrganizationForm from "./scenes/commonFiles/organizationform/index.jsx";
 import OrganizationDetails from "./scenes/commonFiles/organizationdetails";
 import Organizationadd from "./scenes/commonFiles/organizationdetails/organizationadd";
+// import OrganizationUnit from "./scenes/commonFiles/organizationdetails/organizationUnit";
 import TaskDetails from "./scenes/commonFiles/taskdetails";
 // import CrmTaskDetails from "./scenes/taskdetails";
 
@@ -337,6 +339,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/organizationform" element={<OrganizationForm />} />
                   <Route path="/organizationdetails" element={<OrganizationDetails />} />
                   <Route path="/organizationadd" element={<Organizationadd />} />
+                  <Route path='/organizationunitadd' element={<OrganizationUnitadd />} />
                   <Route path="/taskdetails" element={<TaskDetails />} />
 
                 </>
@@ -370,6 +373,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/organizationform" element={<OrganizationForm />} />
                   <Route path="/organizationdetails" element={<OrganizationDetails />} />
                   <Route path="/organizationadd" element={<Organizationadd />} />
+                  <Route path='/organizationunitadd' element={<OrganizationUnitadd />} />
                   <Route path="/taskdetails" element={<TaskDetails />} />
 
                 </>

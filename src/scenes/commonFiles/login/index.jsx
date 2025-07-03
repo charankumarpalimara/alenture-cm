@@ -22,7 +22,7 @@ const Login = ({ onLogin }) => {
 
 const handleSubmit = async (values) => {
   setLoading(true);
-  let success = false;
+  // let success = false;
 
   try {
     const response = await fetch(
@@ -62,7 +62,7 @@ const handleSubmit = async (values) => {
       console.log("API response:", data);
       console.log("Saving token:", data.token);
       console.log("Saving data:", data.data);
-      success = true;
+      // success = true;
       if (onLogin) onLogin(); // Call parent login handler if provided
     } else {
       message.error("Invalid credentials.");

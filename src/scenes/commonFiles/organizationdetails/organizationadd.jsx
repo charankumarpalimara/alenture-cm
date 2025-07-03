@@ -8,12 +8,14 @@ import {
   Select,
   message,
   Typography,
+  Spin
 } from "antd";
 import { Country, State, City } from "country-state-city";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Spin } from 'antd';
+import { getCreaterId, getCreaterRole } from "../../../config";
+
 
 const { Text } = Typography;
 
@@ -69,9 +71,9 @@ const Organizationadd = () => {
 
 const handleFormSubmit = async () => {
   setIsLoading(true);
-  const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {};
-  const createrrole =  "admin";
-  const createrid = userDetails.id;
+  // const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {};
+  const createrrole =  getCreaterRole();
+  const createrid = getCreaterId();
   try {
     for (const branch of branchInstances) {
       const payload = {
@@ -131,7 +133,7 @@ const handleFormSubmit = async () => {
         passwords: "",
       },
     ]);
-    Navigate("/admin/organization");
+    Navigate("/organization");
   } catch (error) {
     console.error("Error submitting form data:", error);
     message.error("Error submitting form data");

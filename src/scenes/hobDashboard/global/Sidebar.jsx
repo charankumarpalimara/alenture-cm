@@ -56,7 +56,10 @@ const getActivePage = (pathname) => {
     return "/calendar";
   } else if (
     pathname.includes("/organization") ||
-    pathname.includes("/organizationdetails")
+    pathname.includes("/organizationform") ||
+    pathname.includes("/organizationdetails") ||
+    pathname.includes("/organizationadd") ||
+    pathname.includes("/OrganizationUnitadd")
   ) {
     return "/organization";
   } else if (
