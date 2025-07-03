@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import {
   Input,
   Button,
@@ -15,10 +15,6 @@ import {
   Result
 } from "antd";
 import { CheckCircleTwoTone } from "@ant-design/icons";
-import {
-  useMediaQuery
-
-} from "@mui/material";
 import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
 import { Country, State, City } from "country-state-city";
@@ -26,12 +22,14 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
+// import ReactCrop from "react-image-crop";
 // import { heIL } from "@mui/x-data-grid";
 // import { Height } from "@mui/icons-material";
 
 // const { Typography } = Typography;
 
 const { Option } = Select;
+const { Panel } = Collapse;
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   const cropWidth = mediaWidth * 0.9;
@@ -522,9 +520,9 @@ setShowSuccess(true); // Show success message
             height: "100%",
           }}
         >
-          <Typography.Title level={5} style={{ margin: "16px 0 8px 0" }}>
+          <Typography.Text level={5} style={{ margin: "16px 0 8px 0" }}>
             Oragnization
-          </Typography.Title>
+          </Typography.Text>
           <Collapse
             accordion
             defaultActiveKey={
@@ -550,7 +548,7 @@ setShowSuccess(true); // Show success message
                 >
                   <Row gutter={16}>
                     <Col xs={24} md={8} style={{ display: "none" }}>
-                      <Typography.Typography strong>Organization Name</Typography.Typography>
+                      <Typography.Text strong>Organization Name</Typography.Text>
                       <Input
                         value={editData.organizationname}
                         onChange={(e) =>
@@ -566,7 +564,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8} style={{ display: "none" }}>
-                      <Typography.Typography strong>Branch Type</Typography.Typography>
+                      <Typography.Text strong>Branch Type</Typography.Text>
                       <Select
                         value={editData.branchtype}
                         onChange={(value) =>
@@ -581,7 +579,7 @@ setShowSuccess(true); // Show success message
                       </Select>
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Organization Unit</Typography.Typography>
+                      <Typography.Text strong>Organization Unit</Typography.Text>
                       <Input
                         value={editData.branch}
                         onChange={(e) =>
@@ -594,7 +592,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Phone Code</Typography.Typography>
+                      <Typography.Text strong>Phone Code</Typography.Text>
                       <Input
                         value={editData.phonecode}
                         onChange={(e) =>
@@ -607,7 +605,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Mobile</Typography.Typography>
+                      <Typography.Text strong>Mobile</Typography.Text>
                       <Input
                         value={editData.mobile}
                         onChange={(e) =>
@@ -620,7 +618,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Email</Typography.Typography>
+                      <Typography.Text strong>Email</Typography.Text>
                       <Input
                         value={editData.email}
                         onChange={(e) =>
@@ -633,7 +631,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Country</Typography.Typography>
+                      <Typography.Text strong>Country</Typography.Text>
                       <Input
                         value={editData.country}
                         onChange={(e) =>
@@ -646,7 +644,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>State</Typography.Typography>
+                      <Typography.Text strong>State</Typography.Text>
                       <Input
                         value={editData.state}
                         onChange={(e) =>
@@ -659,7 +657,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>District</Typography.Typography>
+                      <Typography.Text strong>District</Typography.Text>
                       <Input
                         value={editData.district}
                         onChange={(e) =>
@@ -672,7 +670,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     {/* <Col xs={24} md={8}>
-                    <Typography.Typography strong>Address</Typography.Typography>
+                    <Typography.Text strong>Address</Typography.Text>
                     <Input
                       value={editData.address}
                       onChange={(e) =>
@@ -685,7 +683,7 @@ setShowSuccess(true); // Show success message
                     />
                   </Col> */}
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Postal Code</Typography.Typography>
+                      <Typography.Text strong>Postal Code</Typography.Text>
                       <Input
                         value={editData.postalcode}
                         onChange={(e) =>
@@ -698,7 +696,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Date</Typography.Typography>
+                      <Typography.Text strong>Date</Typography.Text>
                       <Input
                         value={editData.date}
                         disabled
@@ -707,7 +705,7 @@ setShowSuccess(true); // Show success message
                       />
                     </Col>
                     <Col xs={24} md={8}>
-                      <Typography.Typography strong>Time</Typography.Typography>
+                      <Typography.Text strong>Time</Typography.Text>
                       <Input
                         value={editData.time}
                         disabled
