@@ -48,7 +48,7 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
 
 const SuccessScreen = ({ onNext }) => (
 
-  <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16 , boxShadow: "0 4px 24px #0001" }}>
+  <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
     <Result
       icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
       title={<span style={{ fontSize: 50, fontWeight: 700 }}>Congratulations!</span>}
@@ -219,7 +219,7 @@ const OrganizationUnitadd = () => {
   const fetchBranch = async (orgName) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/getBranchbyOrganizationname/${orgName}`
+        `${process.env.REACT_APP_API_URL}/v1/getBranchbyOrganizationname/${organizationname}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -240,6 +240,9 @@ const OrganizationUnitadd = () => {
     } catch (error) { }
   };
 
+  useEffect(() => {
+    fetchBranch()
+  }, [organizationname]);
 
   useEffect(() => {
     const fetchCrmNames = async () => {
@@ -447,10 +450,10 @@ const OrganizationUnitadd = () => {
       );
       // Modal.success({ content: "CM Registered Successfully!" });
       message.success("CM Registered Successfully!");
-// setIsLoading(false);
-setCmform(false); // <-- Fix here
-setUnitAddForm(false); // Close the unit add form
-setShowSuccess(true); // Show success message
+      // setIsLoading(false);
+      setCmform(false); // <-- Fix here
+      setUnitAddForm(false); // Close the unit add form
+      setShowSuccess(true); // Show success message
       // Navigate('/')
 
       // const cmData = responce.data.data || {};
@@ -511,165 +514,165 @@ setShowSuccess(true); // Show success message
 
       {!showSuccess && (
         <>
-        <Box
-          mt={4}
-          style={{
-            padding: "16px",
-            backgroundColor: "#ffffff",
-            borderRadius: "8px",
-            height: "100%",
-          }}
-        >
-          <Typography.Text level={5} style={{ margin: "16px 0 8px 0" }}>
-            Oragnization
-          </Typography.Text>
-          <Collapse
-            accordion
-            defaultActiveKey={
-              sortedBranches.length > 0
-                ? String(
-                  sortedBranches.findIndex((b) => b.branchtype === "Parent")
-                )
-                : undefined
-            }
+          <Box
+            mt={4}
+            style={{
+              padding: "16px",
+              backgroundColor: "#ffffff",
+              borderRadius: "8px",
+              height: "100%",
+            }}
           >
-            {sortedBranches.map((branch, idx) => {
-              const isEditing = editingBranchIndex === idx;
-              const editData = isEditing ? branchEdits : branch;
+            <Typography.Text level={5} style={{ margin: "16px 0 8px 0" }}>
+              Oragnization
+            </Typography.Text>
+            <Collapse
+              accordion
+              defaultActiveKey={
+                sortedBranches.length > 0
+                  ? String(
+                    sortedBranches.findIndex((b) => b.branchtype === "Parent")
+                  )
+                  : undefined
+              }
+            >
+              {sortedBranches.map((branch, idx) => {
+                const isEditing = editingBranchIndex === idx;
+                const editData = isEditing ? branchEdits : branch;
 
-              const panelLabel =
-                branch.branchtype === "Parent"
-                  ? `${branch.organizationname} (Parent)`
-                  : `${branch.organizationname} (Unit)`;
-              return (
-                <Collapse.Panel
-                  header={panelLabel}
-                  key={branch.id || idx}
-                >
-                  <Row gutter={16}>
-                    <Col xs={24} md={8} style={{ display: "none" }}>
-                      <Typography.Text strong>Organization Name</Typography.Text>
-                      <Input
-                        value={editData.organizationname}
-                        onChange={(e) =>
-                          handleBranchInputChange(
-                            "organizationname",
-                            e.target.value
-                          )
-                        }
-                        placeholder="Organization Name"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8} style={{ display: "none" }}>
-                      <Typography.Text strong>Branch Type</Typography.Text>
-                      <Select
-                        value={editData.branchtype}
-                        onChange={(value) =>
-                          handleBranchInputChange("branchtype", value)
-                        }
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ width: "100%", marginBottom: 12 }}
-                      >
-                        <Select.Option value="Parent">Parent</Select.Option>
-                        <Select.Option value="Branch">Branch</Select.Option>
-                      </Select>
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Organization Unit</Typography.Text>
-                      <Input
-                        value={editData.branch}
-                        onChange={(e) =>
-                          handleBranchInputChange("branch", e.target.value)
-                        }
-                        placeholder="Organization Unit"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Phone Code</Typography.Text>
-                      <Input
-                        value={editData.phonecode}
-                        onChange={(e) =>
-                          handleBranchInputChange("phonecode", e.target.value)
-                        }
-                        placeholder="Phone Code"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Mobile</Typography.Text>
-                      <Input
-                        value={editData.mobile}
-                        onChange={(e) =>
-                          handleBranchInputChange("mobile", e.target.value)
-                        }
-                        placeholder="Mobile"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Email</Typography.Text>
-                      <Input
-                        value={editData.email}
-                        onChange={(e) =>
-                          handleBranchInputChange("email", e.target.value)
-                        }
-                        placeholder="Email"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Country</Typography.Text>
-                      <Input
-                        value={editData.country}
-                        onChange={(e) =>
-                          handleBranchInputChange("country", e.target.value)
-                        }
-                        placeholder="Country"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>State</Typography.Text>
-                      <Input
-                        value={editData.state}
-                        onChange={(e) =>
-                          handleBranchInputChange("state", e.target.value)
-                        }
-                        placeholder="State"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>District</Typography.Text>
-                      <Input
-                        value={editData.district}
-                        onChange={(e) =>
-                          handleBranchInputChange("district", e.target.value)
-                        }
-                        placeholder="District"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    {/* <Col xs={24} md={8}>
+                const panelLabel =
+                  branch.branchtype === "Parent"
+                    ? `${branch.organizationname} (Parent)`
+                    : `${branch.organizationname} (Unit)`;
+                return (
+                  <Collapse.Panel
+                    header={panelLabel}
+                    key={branch.id || idx}
+                  >
+                    <Row gutter={16}>
+                      <Col xs={24} md={8} style={{ display: "none" }}>
+                        <Typography.Text strong>Organization Name</Typography.Text>
+                        <Input
+                          value={editData.organizationname}
+                          onChange={(e) =>
+                            handleBranchInputChange(
+                              "organizationname",
+                              e.target.value
+                            )
+                          }
+                          placeholder="Organization Name"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8} style={{ display: "none" }}>
+                        <Typography.Text strong>Branch Type</Typography.Text>
+                        <Select
+                          value={editData.branchtype}
+                          onChange={(value) =>
+                            handleBranchInputChange("branchtype", value)
+                          }
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ width: "100%", marginBottom: 12 }}
+                        >
+                          <Select.Option value="Parent">Parent</Select.Option>
+                          <Select.Option value="Branch">Branch</Select.Option>
+                        </Select>
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Organization Unit</Typography.Text>
+                        <Input
+                          value={editData.branch}
+                          onChange={(e) =>
+                            handleBranchInputChange("branch", e.target.value)
+                          }
+                          placeholder="Organization Unit"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Phone Code</Typography.Text>
+                        <Input
+                          value={editData.phonecode}
+                          onChange={(e) =>
+                            handleBranchInputChange("phonecode", e.target.value)
+                          }
+                          placeholder="Phone Code"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Mobile</Typography.Text>
+                        <Input
+                          value={editData.mobile}
+                          onChange={(e) =>
+                            handleBranchInputChange("mobile", e.target.value)
+                          }
+                          placeholder="Mobile"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Email</Typography.Text>
+                        <Input
+                          value={editData.email}
+                          onChange={(e) =>
+                            handleBranchInputChange("email", e.target.value)
+                          }
+                          placeholder="Email"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Country</Typography.Text>
+                        <Input
+                          value={editData.country}
+                          onChange={(e) =>
+                            handleBranchInputChange("country", e.target.value)
+                          }
+                          placeholder="Country"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>State</Typography.Text>
+                        <Input
+                          value={editData.state}
+                          onChange={(e) =>
+                            handleBranchInputChange("state", e.target.value)
+                          }
+                          placeholder="State"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>District</Typography.Text>
+                        <Input
+                          value={editData.district}
+                          onChange={(e) =>
+                            handleBranchInputChange("district", e.target.value)
+                          }
+                          placeholder="District"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      {/* <Col xs={24} md={8}>
                     <Typography.Text strong>Address</Typography.Text>
                     <Input
                       value={editData.address}
@@ -682,628 +685,634 @@ setShowSuccess(true); // Show success message
                       style={{ marginBottom: 12 }}
                     />
                   </Col> */}
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Postal Code</Typography.Text>
-                      <Input
-                        value={editData.postalcode}
-                        onChange={(e) =>
-                          handleBranchInputChange("postalcode", e.target.value)
-                        }
-                        placeholder="Postal Code"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Date</Typography.Text>
-                      <Input
-                        value={editData.date}
-                        disabled
-                        size="large"
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                    <Col xs={24} md={8}>
-                      <Typography.Text strong>Time</Typography.Text>
-                      <Input
-                        value={editData.time}
-                        disabled
-                        size="large"
-                        style={{ marginBottom: 12 }}
-                      />
-                    </Col>
-                  </Row>
-                  <div style={{ marginTop: 16 }}>
-                    {isEditing ? (
-                      <>
-                        <Button
-                          type="primary"
-                          onClick={() => handleBranchSave(idx)}
-                          loading={isLoading}
-                          style={{
-                            backgroundColor: "#3e4396",
-                            color: "#fff",
-                            fontWeight: "bold",
-                            marginRight: 8,
-                          }}
-                        >
-                          Save
-                        </Button>
-                        <Button onClick={handleBranchCancel}>Cancel</Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button
-                          type="primary"
-                          onClick={() => handleBranchEdit(idx)}
-                          style={{
-                            backgroundColor: "#3e4396",
-                            color: "#fff",
-                            fontWeight: "bold",
-                            marginRight: 8,
-                          }}
-                        >
-                          Edit
-                        </Button>
-                        {getCreaterRole() === "admin" && (
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Postal Code</Typography.Text>
+                        <Input
+                          value={editData.postalcode}
+                          onChange={(e) =>
+                            handleBranchInputChange("postalcode", e.target.value)
+                          }
+                          placeholder="Postal Code"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Date</Typography.Text>
+                        <Input
+                          value={editData.date}
+                          disabled
+                          size="large"
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text strong>Time</Typography.Text>
+                        <Input
+                          value={editData.time}
+                          disabled
+                          size="large"
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                    </Row>
+                    <div style={{ marginTop: 16 }}>
+                      {isEditing ? (
+                        <>
                           <Button
-                            // type="outlined"
-
-                            // size="small"
-                            danger
+                            type="primary"
+                            onClick={() => handleBranchSave(idx)}
+                            loading={isLoading}
                             style={{
-                              // backgroundColor: "#3e4396",
-                              // color: "#fff",
+                              backgroundColor: "#3e4396",
+                              color: "#fff",
                               fontWeight: "bold",
                               marginRight: 8,
-                              // borderColor: "#f8dcdb",
-
-                            }}
-
-                            onClick={() => {
-                              Modal.confirm({
-                                title: "Are you sure you want to delete this Organization?",
-                                content: "This action cannot be undone.",
-                                okText: "Yes, Delete",
-                                okType: "danger",
-                                cancelText: "Cancel",
-                                onOk: async () => {
-                                  try {
-                                    const branch = sortedBranches[idx];
-                                    await fetch(
-                                      `${process.env.REACT_APP_API_URL}/v1/OrganizationDelete/${branch.id}`,
-                                      {
-                                        method: "DELETE",
-                                        headers: { "Content-Type": "application/json" },
-                                      }
-                                    );
-                                    message.success("Organization deleted successfully!");
-                                    setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-                                    Navigate("/organization");
-                                  } catch (error) {
-                                    message.error("Failed to delete Organization.");
-                                  }
-                                },
-                              });
                             }}
                           >
-                            Delete
+                            Save
                           </Button>
+                          <Button onClick={handleBranchCancel}>Cancel</Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button
+                            type="primary"
+                            onClick={() => handleBranchEdit(idx)}
+                            style={{
+                              backgroundColor: "#3e4396",
+                              color: "#fff",
+                              fontWeight: "bold",
+                              marginRight: 8,
+                            }}
+                          >
+                            Edit
+                          </Button>
+                          {getCreaterRole() === "admin" && (
+                            <Button
+                              // type="outlined"
+
+                              // size="small"
+                              danger
+                              style={{
+                                // backgroundColor: "#3e4396",
+                                // color: "#fff",
+                                fontWeight: "bold",
+                                marginRight: 8,
+                                // borderColor: "#f8dcdb",
+
+                              }}
+
+                              onClick={() => {
+                                Modal.confirm({
+                                  title: "Are you sure you want to delete this Organization?",
+                                  content: "This action cannot be undone.",
+                                  okText: "Yes, Delete",
+                                  okType: "danger",
+                                  cancelText: "Cancel",
+                                  onOk: async () => {
+                                    try {
+                                      const branch = sortedBranches[idx];
+                                      await fetch(
+                                        `${process.env.REACT_APP_API_URL}/v1/OrganizationDelete/${branch.id}`,
+                                        {
+                                          method: "DELETE",
+                                          headers: { "Content-Type": "application/json" },
+                                        }
+                                      );
+                                      message.success("Organization deleted successfully!");
+                                      setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
+                                      Navigate("/organization");
+                                    } catch (error) {
+                                      message.error("Failed to delete Organization.");
+                                    }
+                                  },
+                                });
+                              }}
+                            >
+                              Delete
+                            </Button>
 
 
-                        )}
-                      </>
-                    )}
-                  </div>
-                </Collapse.Panel>
-              );
-            })}
-          </Collapse>
-          {/* {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && ( */}
-          {(!unitAddForm && !cmform) && (
-            <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", marginTop: 16 }}>
-              <Button
-                type="primary"
-                onClick={() => setUnitAddForm(true)}
-                style={{
-                  marginTop: 16,
-                  backgroundColor: "#3e4396",
-                  color: "#fff",
-                  fontWeight: "bold",
-                }}
-              >
-                Add Organization Unit
-              </Button>
-              <Button
-                type="primary"
-                onClick={() => setCmform(true)}
-                style={{
-                  marginTop: 16,
-                  backgroundColor: "#3e4396",
-                  color: "#fff",
-                  fontWeight: "bold",
-                }}
-              >
-                Add Customer Manager
-              </Button>
-            </div>
-          )}
-          {/* )} */}
-          {unitAddForm ? (
-            <div style={{ display: "flex", marginTop: 16 }}>
-              <Typography style={{ fontWeight: "bold", fontSize: 20 }} >ADD OragnizationUnit</Typography>
-            </div>
-          ) : cmform ? (
-            <div style={{ display: "flex", marginTop: 16 }}>
-              <Typography style={{ fontWeight: "bold", fontSize: 20 }} >ADD Custmer manager</Typography>
-            </div>
-          ) : null}
-        </Box>
-       
-
-
-
-      {/* organization unit add */}
-
-
-      <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px", display: unitAddForm ? "block" : "none" }}>
-        <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
-          <Row gutter={16}>
-            <Col xs={24} md={8} style={{ display: "none" }}>
-              <Form.Item label="Organization Id">
-                <Input
-                  value={firstBranch.organizationid || ""}
-                  disabled
-                  size="large"
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </Collapse.Panel>
+                );
+              })}
+            </Collapse>
+            {/* {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && ( */}
+            {(!unitAddForm && !cmform) && (
+              <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", marginTop: 16 }}>
+                <Button
+                  type="primary"
+                  onClick={() => setUnitAddForm(true)}
                   style={{
-                    borderRadius: 8,
-                    background: "#f5f5f5",
-                    fontSize: 16,
-                    color: "#888",
-                    cursor: "not-allowed",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col xs={24} md={8} style={{ display: "none" }} >
-              <Form.Item label="Organization Name">
-                <Input
-                  value={firstBranch.organizationname || ""}
-                  disabled
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    background: "#f5f5f5",
-                    fontSize: 16,
-                    color: "#888",
-                    cursor: "not-allowed",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-
-
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>Organization Unit</b>}
-                name="branch"
-                rules={[{ required: true, message: "Organization Unit is required" }]}
-              >
-                <Input
-                  placeholder="Organization Unit"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col xs={24} md={8}>
-              <Form.Item label="Email" name="email">
-                <Input
-                  value={firstBranch.email || ""}
-                  // disabled 
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    // background: "#f5f5f5",
-                    fontSize: 16,
-                    // color: "#888",
-                    // cursor: "not-allowed",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col xs={24} md={8}>
-              <Form.Item
-                label="Phone Code"
-                name="phoneCode"
-                initialValue={firstBranch.phonecode || ""}
-                rules={[{ required: true, message: "Code is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Phone Code"
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    background: "#fff",
-                    fontSize: 16,
+                    marginTop: 16,
+                    backgroundColor: "#3e4396",
+                    color: "#fff",
+                    fontWeight: "bold",
                   }}
                 >
-                  {countries.map((c) => (
-                    <Select.Option
-                      key={c.isoCode}
-                      value={`+${c.phonecode}`}
-                    >{`+${c.phonecode} (${c.name})`}</Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
+                  Add Organization Unit
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={() => setCmform(true)}
+                  style={{
+                    marginTop: 16,
+                    backgroundColor: "#3e4396",
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Add Customer Manager
+                </Button>
+              </div>
+            )}
+            {/* )} */}
 
-            <Col xs={24} md={8}>
-              <Form.Item label="Mobile" name="phoneno">
-                <Input
-                  value={firstBranch.mobile || ""}
-                  // disabled
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    // background: "#f5f5f5",
-                    fontSize: 16,
-                    // color: "#888",
-                    // cursor: "not-allowed",
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label="Country"
-                name="country"
-                rules={[{ required: true, message: "Country is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Country"
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    background: "#fff",
-                    fontSize: 16,
-                  }}
-                  onChange={(value) => {
-                    setSelectedCountry(value);
-                    setSelectedState("");
-                    form.setFieldsValue({ province: "", city: "" });
-                  }}
-                >
-                  {countries.map((c) => (
-                    <Select.Option key={c.isoCode} value={c.name}>
-                      {c.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label="State/Province"
-                name="province"
-                rules={[{ required: true, message: "State/Province is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select State/Province"
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    background: "#fff",
-                    fontSize: 16,
-                  }}
-                  onChange={(value) => {
-                    setSelectedState(value);
-                    form.setFieldsValue({ city: "" });
-                  }}
-                  disabled={!selectedCountry}
-                >
-                  {(selectedCountry
-                    ? State.getStatesOfCountry(
-                      countries.find((c) => c.name === selectedCountry)?.isoCode || ""
-                    )
-                    : []
-                  ).map((s) => (
-                    <Select.Option key={s.isoCode} value={s.name}>
-                      {s.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label="City"
-                name="city"
-                rules={[{ required: true, message: "City is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select City"
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    background: "#fff",
-                    fontSize: 16,
-                  }}
-                  disabled={!selectedState}
-                >
-                  {(selectedState
-                    ? City.getCitiesOfState(
-                      countries.find((c) => c.name === selectedCountry)?.isoCode || "",
-                      State.getStatesOfCountry(
-                        countries.find((c) => c.name === selectedCountry)?.isoCode || ""
-                      ).find((s) => s.name === selectedState)?.isoCode || ""
-                    )
-                    : []
-                  ).map((city) => (
-                    <Select.Option key={city.name} value={city.name}>
-                      {city.name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label="Postal Code"
-                name="postcode"
-                rules={[{ required: true, message: "Postal Code is required" }]}
-              >
-                <Input
-                  placeholder="Postal Code"
-                  size="large"
-                  style={{
-                    borderRadius: 8,
-                    background: "#fff",
-                    fontSize: 16,
-                  }}
-                />
-              </Form.Item>
-            </Col>
-            {/* Add more fields as needed */}
-          </Row>
-          <Box display="flex" justifyContent="space-between" mt="10px" gap="10px">
-            <Button
-              type="primary"
-              // htmlType="submit"
-              onClick={handleBack}
-              style={{
-                padding: "12px 24px",
-                fontSize: "14px",
-                fontWeight: "bold",
-                borderRadius: "8px",
-                backgroundColor: "#3e4396",
-                color: "#fff",
-              }}
-            >
-              Back
-            </Button>
-
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={isLoading} // <-- Add this line
-              style={{
-                padding: "12px 24px",
-                fontSize: "14px",
-                fontWeight: "bold",
-                borderRadius: "8px",
-                backgroundColor: "#3e4396",
-                color: "#fff",
-              }}
-            >
-              Save and Next
-            </Button>
           </Box>
-        </Form>
-      </Box>
 
 
 
 
-      {cmform && (
+          {/* organization unit add */}
+            {unitAddForm && (
+              <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
+                <Typography style={{ fontWeight: "bold", fontSize: 20, color:"#3e4396" }} >ADD Oragnization Unit</Typography>
+              </div>
+            )}
 
-        <div
-          style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
-        >
-          <Form
-            form={cmForm}
-            layout="vertical"
-            onFinish={handleCmSubmit}
-            initialValues={{
-              firstName: "",
-              lastName: "",
-              email: "",
-              phoneCode: "",
-              PhoneNo: "",
-              gender: "",
-              designation: "",
-              organization: "",
-              branch: "",
-              crmid: "",
-              crmname: "",
-            }}
-            validateTrigger={["onChange", "onBlur"]}
-            scrollToFirstError
-            autoComplete="off"
-          >
-            <Row justify="center" style={{ marginBottom: 24 }}>
-              <Col>
-                <div style={{ position: "relative", display: "inline-block" }}>
-                  <Avatar
-                    src={profileImage || "https://via.placeholder.com/150"}
-                    size={120}
-                    style={{
-                      border: "2px solid #1677ff",
-                      cursor: "pointer",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                    }}
-                    onClick={triggerFileInput}
-                  />
-                  <Button
-                    icon={<CameraOutlined />}
-                    shape="circle"
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      right: 0,
-                      background: "#1677ff",
-                      color: "#fff",
-                      border: "none",
-                    }}
-                    onClick={triggerFileInput}
-                  />
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageUpload}
-                    accept="image/*"
-                    style={{ display: "none" }}
-                  />
+          <Box sx={{ backgroundColor: "#ffffff", borderRadius:"8px", padding: "24px", margin:"10px"  , display: unitAddForm ? "block" : "none" }}>
+
+            <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
+              <Row gutter={16}>
+                <Col xs={24} md={8} style={{ display: "none" }}>
+                  <Form.Item label="Organization Id">
+                    <Input
+                      value={firstBranch.organizationid || ""}
+                      disabled
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        background: "#f5f5f5",
+                        fontSize: 16,
+                        color: "#888",
+                        cursor: "not-allowed",
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24} md={8} style={{ display: "none" }} >
+                  <Form.Item label="Organization Name">
+                    <Input
+                      value={firstBranch.organizationname || ""}
+                      disabled
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        background: "#f5f5f5",
+                        fontSize: 16,
+                        color: "#888",
+                        cursor: "not-allowed",
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+
+
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<b>Organization Unit</b>}
+                    name="branch"
+                    rules={[{ required: true, message: "Organization Unit is required" }]}
+                  >
+                    <Input
+                      placeholder="Organization Unit"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24} md={8}>
+                  <Form.Item 
+                    label={<Typography.Text strong >Email</Typography.Text>}
+                    name="email">
+                    <Input
+                      value={firstBranch.email || ""}
+                      // disabled 
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        // background: "#f5f5f5",
+                        fontSize: 16,
+                        // color: "#888",
+                        // cursor: "not-allowed",
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Typography.Text strong >Phone Code</Typography.Text>}
+                    name="phoneCode"
+                    initialValue={firstBranch.phonecode || ""}
+                    rules={[{ required: true, message: "Code is required" }]}
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select Phone Code"
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        background: "#fff",
+                        fontSize: 16,
+                      }}
+                    >
+                      {countries.map((c) => (
+                        <Select.Option
+                          key={c.isoCode}
+                          value={`+${c.phonecode}`}
+                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24} md={8}>
+                  <Form.Item 
+                    label={<Typography.Text strong >Mobile</Typography.Text>}
+                    name="phoneno">
+                    <Input
+                      value={firstBranch.mobile || ""}
+                      // disabled
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        // background: "#f5f5f5",
+                        fontSize: 16,
+                        // color: "#888",
+                        // cursor: "not-allowed",
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Typography.Text strong >Country</Typography.Text>}
+                    name="country"
+                    rules={[{ required: true, message: "Country is required" }]}
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select Country"
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        background: "#fff",
+                        fontSize: 16,
+                      }}
+                      onChange={(value) => {
+                        setSelectedCountry(value);
+                        setSelectedState("");
+                        form.setFieldsValue({ province: "", city: "" });
+                      }}
+                    >
+                      {countries.map((c) => (
+                        <Select.Option key={c.isoCode} value={c.name}>
+                          {c.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Typography.Text strong >State/Province</Typography.Text>}
+                    name="province"
+                    rules={[{ required: true, message: "State/Province is required" }]}
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select State/Province"
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        background: "#fff",
+                        fontSize: 16,
+                      }}
+                      onChange={(value) => {
+                        setSelectedState(value);
+                        form.setFieldsValue({ city: "" });
+                      }}
+                      disabled={!selectedCountry}
+                    >
+                      {(selectedCountry
+                        ? State.getStatesOfCountry(
+                          countries.find((c) => c.name === selectedCountry)?.isoCode || ""
+                        )
+                        : []
+                      ).map((s) => (
+                        <Select.Option key={s.isoCode} value={s.name}>
+                          {s.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Typography.Text strong >City</Typography.Text>}
+                    name="city"
+                    rules={[{ required: true, message: "City is required" }]}
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select City"
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        background: "#fff",
+                        fontSize: 16,
+                      }}
+                      disabled={!selectedState}
+                    >
+                      {(selectedState
+                        ? City.getCitiesOfState(
+                          countries.find((c) => c.name === selectedCountry)?.isoCode || "",
+                          State.getStatesOfCountry(
+                            countries.find((c) => c.name === selectedCountry)?.isoCode || ""
+                          ).find((s) => s.name === selectedState)?.isoCode || ""
+                        )
+                        : []
+                      ).map((city) => (
+                        <Select.Option key={city.name} value={city.name}>
+                          {city.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Typography.Text strong >Postal Code</Typography.Text>}
+                    name="postcode"
+                    rules={[{ required: true, message: "Postal Code is required" }]}
+                  >
+                    <Input
+                      placeholder="Postal Code"
+                      size="large"
+                      style={{
+                        borderRadius: 8,
+                        background: "#fff",
+                        fontSize: 16,
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                {/* Add more fields as needed */}
+              </Row>
+              <Box display="flex" justifyContent="space-between" mt="10px" gap="10px">
+                <Button
+                  type="primary"
+                  // htmlType="submit"
+                  onClick={handleBack}
+                  style={{
+                    padding: "12px 24px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    borderRadius: "8px",
+                    backgroundColor: "#3e4396",
+                    color: "#fff",
+                  }}
+                >
+                  Back
+                </Button>
+
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={isLoading} // <-- Add this line
+                  style={{
+                    padding: "12px 24px",
+                    fontSize: "14px",
+                    fontWeight: "bold",
+                    borderRadius: "8px",
+                    backgroundColor: "#3e4396",
+                    color: "#fff",
+                  }}
+                >
+                  Save and Next
+                </Button>
+              </Box>
+            </Form>
+          </Box>
+
+
+
+              {cmform && (
+                <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
+                  <Typography style={{ fontWeight: "bold", fontSize: 20, color:"#3e4396" }} >ADD Custmer manager</Typography>
                 </div>
-              </Col>
-            </Row>
-            <Modal
-              open={cropModalOpen}
-              title="Crop Profile Picture"
-              onCancel={() => setCropModalOpen(false)}
-              onOk={handleSaveCroppedImage}
-              okText="Save Photo"
-              cancelText="Cancel"
-              width={400}
-              styles={{ body: { height: 350 } }} // <-- updated from bodyStyle
-            >
-              {originalImage && (
-                <ReactCrop
-                  crop={crop}
-                  onChange={(c) => setCrop(c)}
-                  onComplete={handleCropComplete}
-                  aspect={1}
-                  circularCrop
-                >
-                  <img
-                    ref={imgRef}
-                    src={originalImage}
-                    onLoad={onImageLoad}
-                    style={{ maxHeight: "70vh", maxWidth: "100%" }}
-                    alt="Crop preview"
-                  />
-                </ReactCrop>
               )}
-            </Modal>
-            <Row gutter={24}>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  label={<Typography strong>First Name</Typography>}
-                  name="firstName"
-                  rules={[{ required: true, message: "First Name is required" }]}
+          {cmform && (
+
+            <div
+              style={{ background: "#fff", borderRadius: 8, padding: 24, margin:"10px"  }}
+            >
+
+              <Form
+                form={cmForm}
+                layout="vertical"
+                onFinish={handleCmSubmit}
+                initialValues={{
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                  phoneCode: "",
+                  PhoneNo: "",
+                  gender: "",
+                  designation: "",
+                  organization: organizationname || "",
+                  branch: "",
+                  crmid: "",
+                  crmname: "",
+                }}
+                validateTrigger={["onChange", "onBlur"]}
+                scrollToFirstError
+                autoComplete="off"
+              >
+                <Row justify="center" style={{ marginBottom: 24 }}>
+                  <Col>
+                    <div style={{ position: "relative", display: "inline-block" }}>
+                      <Avatar
+                        src={profileImage || "https://via.placeholder.com/150"}
+                        size={120}
+                        style={{
+                          border: "2px solid #1677ff",
+                          cursor: "pointer",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                        }}
+                        onClick={triggerFileInput}
+                      />
+                      <Button
+                        icon={<CameraOutlined />}
+                        shape="circle"
+                        style={{
+                          position: "absolute",
+                          bottom: 0,
+                          right: 0,
+                          background: "#1677ff",
+                          color: "#fff",
+                          border: "none",
+                        }}
+                        onClick={triggerFileInput}
+                      />
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleImageUpload}
+                        accept="image/*"
+                        style={{ display: "none" }}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Modal
+                  open={cropModalOpen}
+                  title="Crop Profile Picture"
+                  onCancel={() => setCropModalOpen(false)}
+                  onOk={handleSaveCroppedImage}
+                  okText="Save Photo"
+                  cancelText="Cancel"
+                  width={400}
+                  styles={{ body: { height: 350 } }} // <-- updated from bodyStyle
                 >
-                  <Input
-                    placeholder="First Name"
-                    size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  label={<Typography strong>Last Name</Typography>}
-                  name="lastName"
-                  rules={[{ required: true, message: "Last Name is required" }]}
-                >
-                  <Input
-                    placeholder="Last Name"
-                    size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  label={<Typography strong>Email Id</Typography>}
-                  name="email"
-                  rules={[{ required: true, message: "Email is required" }]}
-                >
-                  <Input
-                    placeholder="Email"
-                    size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={8}>
-                <Form.Item label={<Typography strong>Phone Number</Typography>} required>
-                  <Input.Group compact>
+                  {originalImage && (
+                    <ReactCrop
+                      crop={crop}
+                      onChange={(c) => setCrop(c)}
+                      onComplete={handleCropComplete}
+                      aspect={1}
+                      circularCrop
+                    >
+                      <img
+                        ref={imgRef}
+                        src={originalImage}
+                        onLoad={onImageLoad}
+                        style={{ maxHeight: "70vh", maxWidth: "100%" }}
+                        alt="Crop preview"
+                      />
+                    </ReactCrop>
+                  )}
+                </Modal>
+                <Row gutter={24}>
+                  <Col xs={24} md={8}>
                     <Form.Item
-                      name="phoneCode"
-                      noStyle
-                      rules={[{ required: true, message: "Code is required" }]}
+                      label={<Typography.Text strong>First Name</Typography.Text>}
+                      name="firstName"
+                      rules={[{ required: true, message: "First Name is required" }]}
+                    >
+                      <Input
+                        placeholder="First Name"
+                        size="large"
+                        style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Typography.Text strong>Last Name</Typography.Text>}
+                      name="lastName"
+                      rules={[{ required: true, message: "Last Name is required" }]}
+                    >
+                      <Input
+                        placeholder="Last Name"
+                        size="large"
+                        style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Typography.Text strong>Email Id</Typography.Text>}
+                      name="email"
+                      rules={[{ required: true, message: "Email is required" }]}
+                    >
+                      <Input
+                        placeholder="Email"
+                        size="large"
+                        style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item label={<Typography.Text strong>Phone Number</Typography.Text>} required>
+                      <Input.Group compact>
+                        <Form.Item
+                          name="phoneCode"
+                          noStyle
+                          rules={[{ required: true, message: "Code is required" }]}
+                        >
+                          <Select
+                            showSearch
+                            style={{ width: 160 }}
+                            placeholder="Code"
+                            optionFilterProp="children"
+                            size="large"
+                          >
+                            {countries.map((c) => (
+                              <Select.Option
+                                key={c.isoCode}
+                                value={`+${c.phonecode}`}
+                              >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                        <Form.Item
+                          name="PhoneNo"
+                          noStyle
+                          rules={[
+                            { required: true, message: "Phone number is required" },
+                            { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                            { min: 10, message: "At least 10 digits" },
+                          ]}
+                        >
+                          <Input
+                            style={{ width: "calc(100% - 160px)" }}
+                            placeholder="Phone Number"
+                            size="large"
+                          />
+                        </Form.Item>
+                      </Input.Group>
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Typography.Text strong>Gender</Typography.Text>}
+                      name="gender"
+                      rules={[{ required: true, message: "Gender is required" }]}
                     >
                       <Select
-                        showSearch
-                        style={{ width: 160 }}
-                        placeholder="Code"
-                        optionFilterProp="children"
+                        placeholder="Select Gender"
                         size="large"
+                        style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
                       >
-                        {countries.map((c) => (
-                          <Select.Option
-                            key={c.isoCode}
-                            value={`+${c.phonecode}`}
-                          >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                        {gender.map((g) => (
+                          <Option key={g} value={g}>
+                            {g}
+                          </Option>
                         ))}
                       </Select>
                     </Form.Item>
-                    <Form.Item
-                      name="PhoneNo"
-                      noStyle
-                      rules={[
-                        { required: true, message: "Phone number is required" },
-                        { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
-                        { min: 10, message: "At least 10 digits" },
-                      ]}
-                    >
-                      <Input
-                        style={{ width: "calc(100% - 160px)" }}
-                        placeholder="Phone Number"
-                        size="large"
-                      />
-                    </Form.Item>
-                  </Input.Group>
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  label={<Typography strong>Gender</Typography>}
-                  name="gender"
-                  rules={[{ required: true, message: "Gender is required" }]}
-                >
-                  <Select
-                    placeholder="Select Gender"
-                    size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  >
-                    {gender.map((g) => (
-                      <Option key={g} value={g}>
-                        {g}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              {/* <Col xs={24} md={8}>
+                  </Col>
+                  {/* <Col xs={24} md={8}>
                        <Form.Item
                          label={<Typography strong>Designation</Typography>}
                          name="designation"
@@ -1316,126 +1325,144 @@ setShowSuccess(true); // Show success message
                          />
                        </Form.Item>
                      </Col> */}
-              <Col xs={24} md={8}>
-                <Form.Item
-                  label={<Typography strong>Organization</Typography>}
-                  name="organization"
-                  rules={[
-                    { required: true, message: "Organization is required" },
-                  ]}
-                >
-                  <Select
-                    showSearch
-                    placeholder="Select Organization"
-                    size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                    onChange={async (value) => {
-                      form.setFieldsValue({ organization: value, branch: "" });
-                      await fetchBranch(value);
-                    }}
-                  >
-                    {organizationNames.map((org) => (
-                      <Option key={org} value={org}>
-                        {org}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  label={<Typography strong>Organization Unit</Typography>}
-                  name="branch"
-                  rules={[{ required: true, message: "Organization Unit is required" }]}
-                >
-                  <Select
-                    showSearch
-                    placeholder="Select Organization Unit"
-                    size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  >
-                    {branchNames.map((item, idx) => (
-                      <Select.Option key={idx} value={item.branch}>
-                        {item.branch}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  label="CRM Name"
-                  name="crmname"
-                  rules={[{ required: true, message: "CRM Name is required" }]}
-                >
-                  <Select
-                    showSearch
-                    placeholder="Select CRM Name"
-                    optionFilterProp="children"
-                    size="large"
-                    onChange={(value) => {
-                      const selected = crmNameList.find(crm => crm.crmid === value);
-                      cmForm.setFieldsValue({
-                        crmname: selected ? selected.name : "",
-                        crmid: value
-                      });
-                    }}
-                  >
-                    {crmNameList.map((crm) => (
-                      <Select.Option key={crm.crmid} value={crm.crmid}>
-                        {crm.name} ({crm.crmid})
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
-                  <Input disabled />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row justify="end" style={{ marginTop: 32, justifyContent: "space-between" }} gutter={16}>
-              <Col>
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={() => setCmform(false)} // <-- Add this
-                  style={{
-                    background: "#3e4396",
-                    color: "#fff",
-                    fontWeight: "bold",
-                    borderRadius: 8,
-                  }}
-                >
-                  Back
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  loading={isLoading} // <-- Add this line
-                  size="large"
-                  style={{
-                    background: "#3e4396",
-                    color: "#fff",
-                    fontWeight: "bold",
-                    borderRadius: 8,
-                  }}
-                >
-                  Submit
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </div>
+                  {/* <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Typography strong>Organization</Typography>}
+                      name="organization"
+                      rules={[
+                        { required: true, message: "Organization is required" },
+                      ]}
+                    >
+                      <Select
+                        showSearch
+                        placeholder="Select Organization"
+                        size="large"
+                        style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                        onChange={async (value) => {
+                          form.setFieldsValue({ organization: value, branch: "" });
+                          await fetchBranch(value);
+                        }}
+                      >
+                        {organizationNames.map((org) => (
+                          <Option key={org} value={org}>
+                            {org}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col> */}
 
+                  <Col xs={24} md={8} >
+                    <Form.Item
+                      label={<Typography.Text strong>Organization</Typography.Text>}
+                      name="organization"
+                      rules={[{ required: true, message: "Organization is required" }]}
+                    >
+                      <Input
+                        placeholder="Organization Name"
+                        size="large"
+                        style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                        disabled // if you want it to be read-only
+                      />
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Typography.Text strong>Organization Unit</Typography.Text>}
+                      name="branch"
+                      rules={[{ required: true, message: "Organization Unit is required" }]}
+                    >
+                      <Select
+                        showSearch
+                        placeholder="Select Organization Unit"
+                        value={organizationname}
+                        size="large"
+                        style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                      >
+                        {branchNames.map((item, idx) => (
+                          <Select.Option key={idx} value={item.branch}>
+                            {item.branch}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Typography.Text strong>CRM Name</Typography.Text>}
+                      name="crmname"
+                      rules={[{ required: true, message: "CRM Name is required" }]}
+                    >
+                      <Select
+                        showSearch
+                        placeholder="Select CRM Name"
+                        optionFilterProp="children"
+                        size="large"
+                        onChange={(value) => {
+                          const selected = crmNameList.find(crm => crm.crmid === value);
+                          cmForm.setFieldsValue({
+                            crmname: selected ? selected.name : "",
+                            crmid: value
+                          });
+                        }}
+                      >
+                        {crmNameList.map((crm) => (
+                          <Select.Option key={crm.crmid} value={crm.crmid}>
+                            {crm.name} ({crm.crmid})
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+                      <Input disabled />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row justify="end" style={{ marginTop: 32, justifyContent: "space-between" }} gutter={16}>
+                  <Col>
+                    <Button
+                      type="primary"
+                      size="large"
+                      onClick={() => setCmform(false)} // <-- Add this
+                      style={{
+                        background: "#3e4396",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        borderRadius: 8,
+                      }}
+                    >
+                      Back
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      loading={isLoading} // <-- Add this line
+                      size="large"
+                      style={{
+                        background: "#3e4396",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        borderRadius: 8,
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  </Col>
+                </Row>
+              </Form>
+            </div>
+
+          )}
+        </>
       )}
- </>
-     )}
 
 
-    {showSuccess && (
-<SuccessScreen onNext={() => Navigate("/organizationdetails", { state: { ticket: firstBranch.organizationid } })} />
+      {showSuccess && (
+        <SuccessScreen onNext={() => Navigate("/organizationdetails", { state: { ticket: firstBranch.organizationid } })} />
       )}
 
 

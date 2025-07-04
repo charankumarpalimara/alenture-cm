@@ -16,6 +16,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCreaterRole } from "../../../config";
+import { UpOutlined, DownOutlined } from "@ant-design/icons";
 // import { heIL } from "@mui/x-data-grid";
 // import { Height } from "@mui/icons-material";
 
@@ -178,10 +179,14 @@ const OrganizationDetails = () => {
         }}
       >
         <Typography.Title level={5} style={{ margin: "16px 0 8px 0" }}>
-          Oragnization
+          Oragnization Details
         </Typography.Title>
         <Collapse
           accordion
+          expandIconPosition="end"
+            expandIcon={({ isActive }) =>
+    isActive ? <DownOutlined /> : <UpOutlined />
+  }
           defaultActiveKey={
             sortedBranches.length > 0
               ? String(
@@ -194,10 +199,17 @@ const OrganizationDetails = () => {
             const isEditing = editingBranchIndex === idx;
             const editData = isEditing ? branchEdits : branch;
             return (
-              <Collapse.Panel
-                header={`${branch.organizationname} (${branch.branchtype})`}
-                key={branch.id || idx}
-              >
+             <Collapse.Panel
+              header={
+                <span>
+                  <Typography.Text strong style={{ fontSize: "16px" }}>
+                    {branch.organizationname}
+                  </Typography.Text>{" "}
+                  ({branch.branchtype})
+                </span>
+              }
+              key={branch.id || idx}
+            >
                 <Row gutter={16}>
                   <Col xs={24} md={8} style={{ display: "none" }}>
                     <Typography.Text strong>Organization Name</Typography.Text>
