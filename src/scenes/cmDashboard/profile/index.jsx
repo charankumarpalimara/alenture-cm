@@ -146,7 +146,7 @@ const handleFinish = async (values) => {
   }
   try {
     const response = await axios.post(
-      `http://127.0.0.1:8080/v1/updateCmProfile`,
+      `${process.env.REACT_APP_API_URL}/v1/updateCmProfile`,
       formData,
       {
         headers: {
