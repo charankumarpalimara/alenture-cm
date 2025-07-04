@@ -22,6 +22,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
+import { UpOutlined, DownOutlined } from "@ant-design/icons";
 // import ReactCrop from "react-image-crop";
 // import { heIL } from "@mui/x-data-grid";
 // import { Height } from "@mui/icons-material";
@@ -523,11 +524,15 @@ const OrganizationUnitadd = () => {
               height: "100%",
             }}
           >
-            <Typography.Text level={5} style={{ margin: "16px 0 8px 0" }}>
-              Oragnization
+            <Typography.Text level={5} style={{ margin: "16px 0 8px 0", marginBottom: "16px", }}>
+              Oragnization Details
             </Typography.Text>
             <Collapse
               accordion
+              expandIconPosition="end"
+              expandIcon={({ isActive }) =>
+                isActive ? <DownOutlined /> : <UpOutlined />
+              }
               defaultActiveKey={
                 sortedBranches.length > 0
                   ? String(
@@ -542,8 +547,8 @@ const OrganizationUnitadd = () => {
 
                 const panelLabel =
                   branch.branchtype === "Parent"
-                    ? `${branch.organizationname} (Parent)`
-                    : `${branch.organizationname} (Unit)`;
+                    ? <span>  <Typography.Text  strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
+                    : <span> <Typography.Text strong>{branch.organizationname}</Typography.Text> (Unit) </span>;
                 return (
                   <Collapse.Panel
                     header={panelLabel}
@@ -840,13 +845,13 @@ const OrganizationUnitadd = () => {
 
 
           {/* organization unit add */}
-            {unitAddForm && (
-              <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
-                <Typography style={{ fontWeight: "bold", fontSize: 20, color:"#3e4396" }} >ADD Oragnization Unit</Typography>
-              </div>
-            )}
+          {unitAddForm && (
+            <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
+              <Typography style={{ fontWeight: "bold", fontSize: 20, color: "#3e4396" }} >ADD Oragnization Unit</Typography>
+            </div>
+          )}
 
-          <Box sx={{ backgroundColor: "#ffffff", borderRadius:"8px", padding: "24px", margin:"10px"  , display: unitAddForm ? "block" : "none" }}>
+          <Box sx={{ backgroundColor: "#ffffff", borderRadius: "8px", padding: "24px", margin: "10px", display: unitAddForm ? "block" : "none" }}>
 
             <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
               <Row gutter={16}>
@@ -900,7 +905,7 @@ const OrganizationUnitadd = () => {
                 </Col>
 
                 <Col xs={24} md={8}>
-                  <Form.Item 
+                  <Form.Item
                     label={<Typography.Text strong >Email</Typography.Text>}
                     name="email">
                     <Input
@@ -946,7 +951,7 @@ const OrganizationUnitadd = () => {
                 </Col>
 
                 <Col xs={24} md={8}>
-                  <Form.Item 
+                  <Form.Item
                     label={<Typography.Text strong >Mobile</Typography.Text>}
                     name="phoneno">
                     <Input
@@ -1116,15 +1121,15 @@ const OrganizationUnitadd = () => {
 
 
 
-              {cmform && (
-                <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
-                  <Typography style={{ fontWeight: "bold", fontSize: 20, color:"#3e4396" }} >ADD Custmer manager</Typography>
-                </div>
-              )}
+          {cmform && (
+            <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
+              <Typography style={{ fontWeight: "bold", fontSize: 20, color: "#3e4396" }} >ADD Custmer manager</Typography>
+            </div>
+          )}
           {cmform && (
 
             <div
-              style={{ background: "#fff", borderRadius: 8, padding: 24, margin:"10px"  }}
+              style={{ background: "#fff", borderRadius: 8, padding: 24, margin: "10px" }}
             >
 
               <Form
