@@ -172,10 +172,10 @@ const OrganizationForm = () => {
               <Form.Item
                 label={<b>Organization Unit</b>}
                 name="branch"
-                rules={[{ required: true, message: "Branch Unit is required" }]}
+                rules={[{ required: true, message: "Organization Unit is required" }]}
               >
                 <Input
-                  placeholder="Branch Unit"
+                  placeholder="Organization Unit"
                   size="large"
                   style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
                 />

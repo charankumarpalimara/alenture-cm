@@ -224,7 +224,7 @@ const handleFormSubmit = async () => {
                         updated[index].branch = e.target.value;
                         setBranchInstances(updated);
                       }}
-                      placeholder="Branch Name"
+                      placeholder="Organization Unit"
                       size="large"
                       style={{
                         borderRadius: 8,
