@@ -244,9 +244,7 @@ const CmForm = () => {
         `${process.env.REACT_APP_API_URL}/v1/createCm`,
         // `http://127.0.0.1:8080/v1/createCm`,
         formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        { headers: { "Content-Type": "multipart/form-data, charset=utf-8" } }
       );
       // Modal.success({ content: "CM Registered Successfully!" });
       message.success("CM Registered Successfully!");

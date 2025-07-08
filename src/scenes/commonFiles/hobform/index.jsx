@@ -229,9 +229,7 @@ const HobForm = () => {
         `${process.env.REACT_APP_API_URL}/v1/updateHob`,
         // `http://127.0.0.1:8080/v1/updateHob`,
         formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        { headers: { "Content-Type": "multipart/form-data, charset=utf-8" } }
       );
       // Modal.success({ content: "Form Data Submitted Successfully" });
       console.log("Response:", response);
@@ -372,6 +370,7 @@ const HobForm = () => {
       </Col>
     </Row>
     <Row gutter={24}>
+
       <Col xs={24} md={8}>
         <Form.Item label="Country" name="country" rules={[{ required: true }]}>
           <Select
@@ -442,6 +441,7 @@ const HobForm = () => {
           </Select>
         </Form.Item>
       </Col>
+      
     </Row>
     <Row gutter={24}>
       <Col xs={24} md={8}>

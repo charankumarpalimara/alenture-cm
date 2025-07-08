@@ -293,9 +293,7 @@ const CrmForm = () => {
         `${process.env.REACT_APP_API_URL}/v1/updateCrm`,
         //  `http://127.0.0.1:8080/v1/updateCrm`,
         formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        { headers: { "Content-Type": "multipart/form-data, charset=utf-8" } }
       );
       if (
         response.status === 200 &&

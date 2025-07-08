@@ -48,7 +48,7 @@ const OrganizationForm = () => {
       formData.append("country", values.country);
       formData.append("state", values.province);
       formData.append("district", values.city);
-      formData.append("address", values.address);
+      formData.append("address", "null");
       formData.append("postalcode", values.postcode);
       formData.append("createrid", createrid);
       formData.append("createrrole", createrrole);
@@ -56,7 +56,7 @@ const OrganizationForm = () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/createOrganization`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data, charset=utf-8" } }
       );
 
 
