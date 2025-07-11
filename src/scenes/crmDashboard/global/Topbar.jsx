@@ -105,7 +105,7 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        backgroundColor: selected === to ? colors.blueAccent[700] : "inherit",
+        background: selected === to ? colors.blueAccent[1000] : "inherit",
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
@@ -543,7 +543,7 @@ const Topbar = ({ onLogout }) => {
                 {getGreeting()} Delphin
               </Typography> */}
               <Typography
-                sx={{ color: "#8d8d8d", fontSize: isMobile ? "16px" : "16px" }}
+                sx={{ color: "#000000", fontSize: isMobile ? "16px" : "16px" }}
               >
                 {currentTime.toLocaleString("en-US", {
                   month: "long",
@@ -572,7 +572,7 @@ const Topbar = ({ onLogout }) => {
                       width: isMobile ? 25 : 30,
                       height: isMobile ? 25 : 30,
                       borderRadius: "50%",
-                      backgroundColor: colors.blueAccent[500],
+                      background: colors.blueAccent[1000],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -594,7 +594,7 @@ const Topbar = ({ onLogout }) => {
                     width: isMobile ? 25 : 30,
                     height: isMobile ? 25 : 30,
                     borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
+                    background: colors.blueAccent[1000],
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -657,7 +657,7 @@ const Topbar = ({ onLogout }) => {
                 {getGreeting()} Delphin
               </Typography> */}
               <Typography
-                sx={{ color: "#8d8d8d", fontSize: isMobile ? "14px" : "16px" }}
+                sx={{ color: "#000000", fontSize: isMobile ? "14px" : "16px" }}
               >
                 {currentTime.toLocaleString("en-US", {
                   month: "long",
@@ -686,7 +686,7 @@ const Topbar = ({ onLogout }) => {
                       width: isMobile ? 25 : 30,
                       height: isMobile ? 25 : 30,
                       borderRadius: "50%",
-                      backgroundColor: colors.blueAccent[500],
+                      background: colors.blueAccent[1000],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -707,7 +707,7 @@ const Topbar = ({ onLogout }) => {
                     width: isMobile ? 25 : 30,
                     height: isMobile ? 25 : 30,
                     borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
+                    background: colors.blueAccent[1000],
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -728,131 +728,128 @@ const Topbar = ({ onLogout }) => {
         )}
 
         {/* Page Title Section */}
-        {isMobile ? (
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-            width="100%"
-            flexShrink={0}
-            sx={{
-              backgroundColor: colors.blueAccent[700],
-              paddingX: isMobile ? 2 : 4,
-              boxShadow: "0px 4px 8px -2px rgba(62, 67, 150, 0.5)",
-              padding: "20px",
-            }}
-          >
-            {/* Greeting Message */}
-            <Box
-              borderRadius="3px"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "fit-content",
-                padding: "8px",
-                paddingLeft: isMobile ? "12px" : "20px",
-                textAlign: isMobile ? "text" : "text",
-              }}
+ {/* {isMobile ? (
+  <Box
+    display="flex"
+    flexDirection="row"
+    justifyContent="space-between"
+    alignItems="center"
+    width="100%"
+    flexShrink={0}
+    sx={{
+      backgroundColor: colors.blueAccent[700],
+      paddingX: isMobile ? 2 : 4,
+      boxShadow: "0px 4px 8px -2px rgba(62, 67, 150, 0.5)",
+      padding: "20px",
+    }}
+  >
+    <Box
+      borderRadius="3px"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "fit-content",
+        padding: "8px",
+        paddingLeft: isMobile ? "12px" : "20px",
+        textAlign: isMobile ? "text" : "text",
+      }}
+    >
+      <Typography
+        sx={{
+          color: "#ffffff",
+          fontSize: isMobile ? "20px" : "20px",
+          fontWeight: "bold",
+        }}
+      >
+        {getPageTitle()}
+      </Typography>
+      <Box
+        sx={{
+          color: "#ffffff",
+          alignItems: "center",
+          gap: 1,
+          display: "flex",
+        }}
+      >
+        <HomeOutlinedIcon
+          onClick={() => navigate("/")}
+          fontSize="small"
+          sx={{ cursor: "pointer" }}
+        />
+        <CustomDivider />
+        <Typography>{getPageTitle()}</Typography>
+      </Box>
+    </Box>
+  </Box>
+) : (
+  <Box
+    display="flex"
+    flexDirection="row"
+    justifyContent="space-between"
+    alignItems="center"
+    width="100%"
+    flexShrink={0}
+    sx={{
+      backgroundColor: colors.blueAccent[500],
+      paddingX: isMobile ? 2 : 4,
+      paddingLeft: 35,
+    }}
+  >
+    <Box
+      borderRadius="3px"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "fit-content",
+        padding: "8px",
+        paddingLeft: isMobile ? "12px" : "20px",
+      }}
+    >
+      <Typography
+        sx={{
+          color: "#ffffff",
+          fontSize: isMobile ? "17px" : "20px",
+          fontWeight: "bold",
+        }}
+      >
+        {primaryTitle}
+      </Typography>
+      <Box
+        sx={{
+          color: "#ffffff",
+          alignItems: "center",
+          gap: 1,
+          display: "flex",
+        }}
+      >
+        <HomeOutlinedIcon
+          onClick={() => navigate("/")}
+          fontSize="small"
+          sx={{ cursor: "pointer" }}
+        />
+        <CustomDivider />
+        <Typography
+          sx={{ cursor: "pointer", fontSize: "14px" }}
+          onClick={secondaryTitle ? () => navigate(-1) : undefined}
+        >
+          {primaryTitle}
+        </Typography>
+        {secondaryTitle && (
+          <>
+            <CustomDivider />
+            <Typography
+              sx={{ cursor: "pointer", fontSize: "14px" }}
+              onClick={() => navigate(location.pathname)}
             >
-              <Typography
-                sx={{
-                  color: "#ffffff",
-                  fontSize: isMobile ? "20px" : "20px",
-                  fontWeight: "bold",
-                }}
-              >
-                {getPageTitle()}
-              </Typography>
-              <Box
-                sx={{
-                  color: "#ffffff",
-                  alignItems: "center",
-                  gap: 1,
-                  display: "flex",
-                }}
-              >
-                <HomeOutlinedIcon
-                  onClick={() => navigate("/")}
-                  fontSize="small"
-                  sx={{ cursor: "pointer" }}
-                />
-
-                <CustomDivider />
-                <Typography>{getPageTitle()}</Typography>
-              </Box>
-            </Box>
-          </Box>
-        ) : (
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-            width="100%"
-            flexShrink={0}
-            sx={{
-              backgroundColor: colors.blueAccent[500],
-              paddingX: isMobile ? 2 : 4,
-              paddingLeft: 35,
-            }}
-          >
-            {/* Greeting Message */}
-            <Box
-              borderRadius="3px"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "fit-content",
-                padding: "8px",
-                paddingLeft: isMobile ? "12px" : "20px",
-              }}
-            >
-              <Typography
-                sx={{
-                  color: "#ffffff",
-                  fontSize: isMobile ? "17px" : "20px",
-                  fontWeight: "bold",
-                }}
-              >
-                {primaryTitle}
-              </Typography>
-              <Box
-                sx={{
-                  color: "#ffffff",
-                  alignItems: "center",
-                  gap: 1,
-                  display: "flex",
-                }}
-              >
-                <HomeOutlinedIcon
-                  onClick={() => navigate("/")}
-                  fontSize="small"
-                  sx={{ cursor: "pointer" }}
-                />
-                <CustomDivider />
-                <Typography
-                  sx={{ cursor: "pointer", fontSize: "14px" }}
-                  onClick={secondaryTitle ? () => navigate(-1) : undefined}
-                >
-                  {primaryTitle}
-                </Typography>
-                {secondaryTitle && (
-                  <>
-                    <CustomDivider />
-                    <Typography
-                      sx={{ cursor: "pointer", fontSize: "14px" }}
-                      onClick={() => navigate(location.pathname)}
-                    >
-                      {secondaryTitle}
-                    </Typography>
-                  </>
-                )}
-              </Box>
-            </Box>
-          </Box>
+              {secondaryTitle}
+            </Typography>
+          </>
         )}
       </Box>
+    </Box>
+  </Box>
+ )} */}
+       </Box>
       <Box sx={{ alignItems: "center" }}>
         {/* Mobile Sidebar Modal */}
         <Modal

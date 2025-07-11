@@ -82,7 +82,7 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        backgroundColor: selected === to ? colors.blueAccent[700] : "inherit",
+        background: selected === to ? colors.blueAccent[1000] : "inherit",
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
@@ -452,7 +452,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
                 {getGreeting()} Delphin
               </Typography> */}
               <Typography
-                sx={{ color: "#8d8d8d", fontSize: isMobile ? "16px" : "16px" }}
+                sx={{ color: "#000000", fontSize: isMobile ? "16px" : "16px" }}
               >
                 {currentTime.toLocaleString("en-US", {
                   month: "long",
@@ -472,24 +472,27 @@ const Topbar = ({ isSidebar, onLogout }) => {
                 display: "flex",
                 width: "fit-content",
                 alignItems: "center",
+                // gap: 1,
               }}
             >
-              <IconButton sx={{ gap: 1 }}>
-                <Box
-                  sx={{
-                    width: isMobile ? 25 : 30,
-                    height: isMobile ? 25 : 30,
-                    borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <NotificationsIcon
-                    sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
-                  />
-                </Box>
+              <IconButton sx={{ gap: 1 }} onClick={handleNotificationsClick}>
+                <Badge badgeContent={unreadCount} color="error">
+                  <Box
+                    sx={{
+                      width: isMobile ? 25 : 30,
+                      height: isMobile ? 25 : 30,
+                      borderRadius: "50%",
+                      background: colors.blueAccent[1000],
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <NotificationsIcon
+                      sx={{ fontSize: isMobile ? 18 : 20, color: "#fff" }}
+                    />
+                  </Box>
+                </Badge>
                 {/* <Typography sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}>
                   Delphin
                 </Typography> */}
@@ -500,7 +503,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
                     width: isMobile ? 25 : 30,
                     height: isMobile ? 25 : 30,
                     borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
+                    background: colors.blueAccent[1000],
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -549,7 +552,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
                 {getGreeting()} Delphin
               </Typography> */}
               <Typography
-                sx={{ color: "#8d8d8d", fontSize: isMobile ? "14px" : "16px" }}
+                sx={{ color: "#000000", fontSize: isMobile ? "14px" : "16px" }}
               >
                 {currentTime.toLocaleString("en-US", {
                   month: "long",
@@ -569,6 +572,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
                 display: "flex",
                 width: "fit-content",
                 alignItems: "center",
+                gap: 1,
               }}
             >
               <IconButton sx={{ gap: 1 }} onClick={handleNotificationsClick}>
@@ -578,7 +582,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
                       width: isMobile ? 25 : 30,
                       height: isMobile ? 25 : 30,
                       borderRadius: "50%",
-                      backgroundColor: colors.blueAccent[500],
+                      background: colors.blueAccent[1000],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -599,7 +603,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
                     width: isMobile ? 25 : 30,
                     height: isMobile ? 25 : 30,
                     borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
+                    background: colors.blueAccent[1000],
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -620,7 +624,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
         )}
 
         {/* Page Title Section */}
-        {isMobile ? (
+        {/* {isMobile ? (
           <Box
             display="flex"
             flexDirection="row"
@@ -635,7 +639,6 @@ const Topbar = ({ isSidebar, onLogout }) => {
               padding: "20px",
             }}
           >
-            {/* Greeting Message */}
             <Box
               borderRadius="3px"
               sx={{
@@ -688,7 +691,6 @@ const Topbar = ({ isSidebar, onLogout }) => {
               paddingLeft: 35,
             }}
           >
-            {/* Greeting Message */}
             <Box
               borderRadius="3px"
               sx={{
@@ -742,7 +744,9 @@ const Topbar = ({ isSidebar, onLogout }) => {
               </Box>
             </Box>
           </Box>
-        )}
+        )} */}
+
+
       </Box>
       <Box sx={{ alignItems: "center" }}>
         {/* Mobile Sidebar Modal */}

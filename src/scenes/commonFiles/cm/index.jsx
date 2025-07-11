@@ -6,85 +6,52 @@ import {
   InputBase,
   useTheme,
   useMediaQuery,
-  // MenuItem,
-  // Menu,
-  // Typography,
-  // Checkbox,
-  // FormControlLabel,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../../theme";
 import {
   Search as SearchIcon,
-  // FilterList as FilterIcon,
-  // ImportExport as ImportExportIcon,
   Add as AddIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-// import { first } from "lodash";
+import { Table } from "antd";
+import "antd/dist/reset.css"; // Ant Design resets
 
-// Initial ticket data
-// const initialTickets = [
-//   { id: 1, name: "Charan Palemala", email: "charan@gmail.com", phone: "1234567890", city: "Visakhapatnam", created: "14th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", organization: "Wipro" },
-//   { id: 2, name: "Satya Narayana", email: "Satya@gmail.com", phone: "1234567890", city: "Visakhapatnam", created: "14th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode: "+91", customermanager: "RamBabu", organization: "Infosys" },
-//   { id: 3, name: "Rambabu bade", email: "john@gmail.com", phone: "1234567890", city: "New York", created: "15th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", organization: "TCS" },
-//   { id: 4, name: "Charan Palemala", email: "charan@gmail.com", phone: "1234567890", city: "Visakhapatnam", created: "14th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", organization: "HCL" },
-//   { id: 5, name: "Satya Narayana", email: "Satya@gmail.com", phone: "1234567890", city: "Visakhapatnam", created: "14th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", organization: "Tech Mahindra" },
-//   { id: 6, name: "John Doe", email: "john@gmail.com", phone: "1234567890", city: "New York", created: "15th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", Organization: "HCL" },
-//   { id: 7, name: "Charan Palemala", email: "charan@gmail.com", phone: "1234567890", city: "Visakhapatnam", created: "14th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", organization: "Infosys" },
-//   { id: 8, name: "Satya Narayana", email: "Satya@gmail.com", phone: "1234567890", city: "Visakhapatnam", created: "14th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", organization: "Wipro" },
-//   { id: 9, name: "John Doe", email: "john@gmail.com", phone: "1234567890", city: "New York", created: "15th March, 2025", country: "India", state: "Andhra Pradesh", phoneno: "7386569469", phonenocode:"+91", customermanager:"RamBabu", organization: "TCS" },
-// ];
-
-// Columns for DataGrid
 const columns = [
   {
-    field: "id",
-    headerName: "ID",
-    flex: 0.4,
-    headerClassName: "bold-header",
-    disableColumnMenu: false,
-    minWidth: 100,
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
+    width: 100,
+    ellipsis: true,
+    render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
   },
   {
-    field: "name",
-    headerName: "Name",
-    flex: 2,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 200,
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    width: 200,
+    ellipsis: true,
   },
   {
-    field: "email",
-    headerName: "Email",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+    width: 150,
+    ellipsis: true,
   },
   {
-    field: "contact",
-    headerName: "Phone",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Phone",
+    dataIndex: "contact",
+    key: "contact",
+    width: 150,
+    ellipsis: true,
   },
-  // {
-  //   field: "city",
-  //   headerName: "City",
-  //   flex: 1,
-  //   headerClassName: "bold-header",
-  //   disableColumnMenu: true,
-  //   minWidth: 150,
-  // },
   {
-    field: "date",
-    headerName: "Created",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Created",
+    dataIndex: "date",
+    key: "date",
+    width: 150,
+    ellipsis: true,
   },
 ];
 
@@ -93,16 +60,10 @@ const Cm = () => {
   const colors = tokens(theme.palette.mode);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const Navigate = useNavigate();
-  const [originalTickets, setOriginalTickets] = useState([]); // State to store the original data
+  const [originalTickets, setOriginalTickets] = useState([]);
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [statusFilter, setStatusFilter] = useState("Active");
-
-  // State for tickets
-  // const [tickets] = useState(initialTickets); // Removed setTickets since it's unused
-  // const [filteredTickets, setFilteredTickets] = useState(initialTickets);
   const [searchTerm, setSearchTerm] = useState("");
-  // const [filterAnchorEl, setFilterAnchorEl] = useState(null);
-  // const [selectedFilters, setSelectedFilters] = useState({ priority: [], status: [] });
 
   // Search filter
   const handleSearchChange = (event) => {
@@ -110,7 +71,7 @@ const Cm = () => {
     setSearchTerm(searchValue);
 
     if (searchValue === "") {
-      setFilteredTickets(originalTickets); // Reset to original data when search is cleared
+      setFilteredTickets(originalTickets);
     } else {
       const filtered = originalTickets.filter(
         (ticket) =>
@@ -132,6 +93,7 @@ const Cm = () => {
         const data = await response.json();
         if (response.ok && Array.isArray(data.data)) {
           const transformedData = data.data.map((item) => ({
+            key: item.cmid || "N/A",
             id: item.cmid || "N/A",
             name: `${item.firstname || ""} ${item.lastname || ""}`.trim(),
             firstname: item.firstname || "N/A",
@@ -184,13 +146,11 @@ const Cm = () => {
 
       ws.onmessage = (event) => {
         const newCrm = JSON.parse(event.data);
-        console.log("Received WebSocket message:", newCrm); // Debugging log
-
-        // Ensure the new row has a unique `id` property and construct the `name` field
         const transformedCrm = {
           ...newCrm,
-          crmid: newCrm.crmid, // Map crmid to id
-          name: `${newCrm.firstname || ""} ${newCrm.lastname || ""}`.trim(), // Construct name
+          key: newCrm.cmid,
+          id: newCrm.cmid,
+          name: `${newCrm.firstname || ""} ${newCrm.lastname || ""}`.trim(),
         };
 
         setOriginalTickets((prev) => [transformedCrm, ...prev]);
@@ -203,7 +163,7 @@ const Cm = () => {
 
       ws.onclose = (event) => {
         console.warn("WebSocket closed. Reconnecting in 5 seconds...", event);
-        setTimeout(connectWebSocket, 5000); // Attempt reconnection after 5 seconds
+        setTimeout(connectWebSocket, 5000);
       };
 
       return ws;
@@ -212,51 +172,16 @@ const Cm = () => {
     const ws = connectWebSocket();
 
     return () => {
-      ws.close(); // Clean up WebSocket connection
+      ws.close();
     };
   }, []);
-
-  // Open & Close Filter Menu
-  // const handleFilterClick = (event) => setFilterAnchorEl(event.currentTarget);
-  // const handleFilterClose = () => setFilterAnchorEl(null);
-
-  // Handle Filter Selection
-  // const handleFilterSelect = (filterType, value) => {
-  //   setSelectedFilters((prev) => {
-  //     const updatedFilters = { ...prev };
-  //     updatedFilters[filterType] = updatedFilters[filterType].includes(value)
-  //       ? updatedFilters[filterType].filter((item) => item !== value)
-  //       : [...updatedFilters[filterType], value];
-  //     applyFilters(searchTerm, updatedFilters);
-  //     return updatedFilters;
-  //   });
-  // };
-
-  // Apply Filters
-  // const applyFilters = (search, filters) => {
-  //   let filtered = tickets;
-  //   if (search.trim()) {
-  //     filtered = filtered.filter((ticket) =>
-  //       Object.values(ticket).some((value) =>
-  //         String(value).toLowerCase().includes(search.toLowerCase())
-  //       )
-  //     );
-  //   }
-  //   if (filters.priority.length) {
-  //     filtered = filtered.filter((ticket) => filters.priority.includes(ticket.priority));
-  //   }
-  //   if (filters.status.length) {
-  //     filtered = filtered.filter((ticket) => filters.status.includes(ticket.status));
-  //   }
-  //   setFilteredTickets(filtered);
-  // };
 
   const handleNewTicket = () => {
     Navigate("/cmform");
   };
 
-  const handleRowClick = (params) => {
-    Navigate("/cmdetails", { state: { ticket: params.row } });
+  const handleRowClick = (record) => {
+    Navigate(`/cmdetails/${record.id}`);
   };
 
   const handleStatusFilter = (status) => {
@@ -269,11 +194,6 @@ const Cm = () => {
       )
     );
   };
-
-
-
-  // Get Unique Values for Filters
-  // const getUniqueValues = (key) => [...new Set(tickets.map((ticket) => ticket[key]))];
 
   return (
     <Box m="10px">
@@ -303,86 +223,17 @@ const Cm = () => {
             <SearchIcon />
           </IconButton>
         </Box>
-
-        {/* Export Button */}
-        {/* <Button 
-         sx={{
-          backgroundColor: colors.blueAccent[500],
-          color: "#ffffff",
-          whiteSpace: "nowrap",
-          fontWeight: "bold",
-        }}
-          variant="contained" 
-          startIcon={<ImportExportIcon />} 
-          onClick={() => alert("Export Data!")}
-        >
-          Export
-        </Button> */}
-
-        {/* Filter Button */}
-        {/* <Button           
-                  sx={{
-                    backgroundColor: colors.blueAccent[500],
-                    color: "#ffffff",
-                    whiteSpace: "nowrap",
-                    fontWeight: "bold",
-                      textTransform:"none"
-                  }}
-          variant="contained" 
-          startIcon={<FilterIcon />} 
-          onClick={handleFilterClick}
-        >
-          Filter
-        </Button> */}
         <Button
           variant="contained"
-          sx={{
-            background: colors.blueAccent[500],
-            fontWeight: "bold",
-            color: "#ffffff",
-            whiteSpace: "nowrap",
-            // paddingX: "15px"
-            // padding: "12px 18px ",
-            // fontSize: "14px",
-            textTransform: "none",
-          }}
+          className="custom-button-color"
           startIcon={<AddIcon />}
           onClick={handleNewTicket}
         >
           Create New
         </Button>
-
-
-
-        {/* Filter Menu */}
-        {/* <Menu anchorEl={filterAnchorEl} open={Boolean(filterAnchorEl)} onClose={handleFilterClose}>
-          <Box p={2}>
-            <Typography variant="h6">Priority</Typography>
-            {getUniqueValues("priority").map((priority) => (
-              <MenuItem key={priority}>
-                <FormControlLabel
-                  control={<Checkbox checked={selectedFilters.priority.includes(priority)} onChange={() => handleFilterSelect("priority", priority)} />}
-                  label={priority}
-                />
-              </MenuItem>
-            ))}
-          </Box>
-
-          <Box p={2}>
-            <Typography variant="h6">Status</Typography>
-            {getUniqueValues("status").map((status) => (
-              <MenuItem key={status}>
-                <FormControlLabel
-                  sx={{ backgroundColor: "#ffffff" }}
-                  control={<Checkbox checked={selectedFilters.status.includes(status)} onChange={() => handleFilterSelect("status", status)} />}
-                  label={status}
-                />
-              </MenuItem>
-            ))}
-          </Box>
-        </Menu> */}
       </Box>
 
+      {/* Status Filter Buttons */}
       <Box
         sx={{
           display: "flex",
@@ -390,21 +241,17 @@ const Cm = () => {
           mb: "10px",
           justifyContent: "center",
           alignItems: "center",
-          // boxShadow: "0 2px 8px rgba(62,67,150,0.10)",
           borderRadius: "12px",
-          // p: "10px",
-          // background: "#f6f8ff",
-          // border: "1px solid #e3e8ff",
         }}
       >
         <Button
           variant={statusFilter === "Active" ? "contained" : "outlined"}
           onClick={() => handleStatusFilter("Active")}
           sx={{
-            backgroundColor:
-              statusFilter === "Active"
-                ? colors.blueAccent[500]
-                : "#e3e8ff",
+          background: statusFilter === "Active"
+            ? colors.blueAccent[1000] 
+            : "#e3e8ff",
+
             color:
               statusFilter === "Active"
                 ? "#ffffff"
@@ -425,10 +272,9 @@ const Cm = () => {
           variant={statusFilter === "Suspend" ? "contained" : "outlined"}
           onClick={() => handleStatusFilter("Suspend")}
           sx={{
-            backgroundColor:
-              statusFilter === "Suspend"
-                ? colors.blueAccent[500]
-                : "#e3e8ff",
+            background: statusFilter === "Suspend"
+             ? colors.blueAccent[1000] 
+             : "#e3e8ff",
             color:
               statusFilter === "Suspend"
                 ? "#ffffff"
@@ -447,169 +293,38 @@ const Cm = () => {
         </Button>
       </Box>
 
-      {/* DataGrid */}
+      {/* Table */}
       <Box
-        height="70vh"
-        m="13px 0 0 0"
         sx={{
-          overflowX: "hidden",
-          // "& .MuiDataGrid-root": {
-          //   border: "none",
-          //   overflowX: "auto", // Enable horizontal scrolling
-          // },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-            fontSize: "16px",
-            whiteSpace: "nowrap", // Prevent text wrapping
-            overflow: "visible", // Prevent text truncation
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none", // Remove the border below the header
-            fontWeight: "bold !important",
-            fontSize: "16px !important",
-            color: "#ffffff",
-          },
-          // "& .MuiDataGrid-root::-webkit-scrollbar-thumb":{
-          //    width: "2px !important",
-          //    height: "6px !important"
-          //  },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none", // Hide the column separator
-          },
-          // "& .MuiDataGrid-root::-webkit-scrollbar": {
-          //   display: "none", // Hides scrollbar in Chrome, Safari
-          // },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold !important", // Ensure header text is bold
-          },
-          // "& .MuiDataGrid-virtualScroller": {
-          //   backgroundColor: "#ffffff",
-          // },
-          "& .MuiDataGrid-root::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-root": {
-            scrollbarWidth: "none !important", // Hides scrollbar in Firefox
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "#D9EAFD",
-            },
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            // scrollbarWidth: "none !important",
-            backgroundColor: "#ffffff",
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "#D9EAFD",
-            },
-          },
-          "& .MuiTablePagination-root": {
-            color: "#ffffff !important", // Ensure pagination text is white
-          },
-          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-            color: "#ffffff !important", // Ensure select label and input text are white
-          },
-          "& .MuiTablePagination-displayedRows": {
-            color: "#ffffff !important", // Ensure displayed rows text is white
-          },
-          "& .MuiSvgIcon-root": {
-            color: "#ffffff !important", // Ensure pagination icons are white
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-            color: "#ffffff",
-          },
+          margin: "13px 0 0 0",
+          backgroundColor: "#ffffff",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          width: "100%",
+          overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-        <DataGrid
-          sx={{
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-              fontSize: "16px",
-              whiteSpace: "nowrap", // Prevent text wrapping
-              overflow: "visible", // Prevent text truncation
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none", // Remove the border below the header
-              fontWeight: "bold !important",
-              fontSize: "16px !important",
-              color: "#ffffff",
-            },
-            // "& .MuiDataGrid-root::-webkit-scrollbar-thumb":{
-            //    width: "2px !important",
-            //    height: "6px !important"
-            //  },
-            "& .MuiDataGrid-columnSeparator": {
-              display: "none", // Hide the column separator
-            },
-            // "& .MuiDataGrid-root::-webkit-scrollbar": {
-            //   display: "none", // Hides scrollbar in Chrome, Safari
-            // },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important", // Ensure header text is bold
-            },
-            // "& .MuiDataGrid-virtualScroller": {
-            //   backgroundColor: "#ffffff",
-            // },
-            "& .MuiDataGrid-root::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-root": {
-              // scrollbarWidth: "none !important", // Hides scrollbar in Firefox
-              "&:hover": {
-                cursor: "pointer",
-                backgroundColor: "#D9EAFD",
-              },
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              // scrollbarWidth: "none !important",
-              backgroundColor: "#ffffff",
-            },
-            "& .MuiDataGrid-row": {
-              borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-              "&:hover": {
-                cursor: "pointer",
-                backgroundColor: "#D9EAFD",
-              },
-            },
-            "& .MuiTablePagination-root": {
-              color: "#ffffff !important", // Ensure pagination text is white
-            },
-            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-              color: "#ffffff !important", // Ensure select label and input text are white
-            },
-            "& .MuiTablePagination-displayedRows": {
-              color: "#ffffff !important", // Ensure displayed rows text is white
-            },
-            "& .MuiSvgIcon-root": {
-              color: "#ffffff !important", // Ensure pagination icons are white
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-              color: "#ffffff",
-            },
-          }}
-          rows={filteredTickets}
+        <Table
+          dataSource={filteredTickets}
           columns={columns}
-          pageSize={10}
-             getRowId={(row) => row.id} 
-          // rowsPerPageOptions={[10, 25, 50]} // Add this to include 10 in the options
-          onRowClick={handleRowClick}
+          pagination={{
+            pageSize: 10,          // Always show 10 rows per page
+            showSizeChanger: false, // Remove the option to change page size
+            position: ["bottomCenter"],
+          }}
+          onRow={(record) => ({
+            onClick: () => handleRowClick(record),
+            style: { cursor: "pointer" },
+          })}
+          bordered={false}
+          showHeader={true}
+          rowClassName={() => "custom-row"}
+          className="custom-ant-table-header"
+          scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
       </Box>
+
+      {/* Custom styles for removing header divider */}
     </Box>
   );
 };

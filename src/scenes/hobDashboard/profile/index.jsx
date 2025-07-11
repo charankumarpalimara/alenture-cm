@@ -23,8 +23,12 @@ import axios from "axios";
 import "antd/dist/reset.css";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
 
 const AdminProfile = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -422,7 +426,7 @@ const AdminProfile = () => {
                           style={{
                             fontWeight: "bold",
                             borderRadius: 8,
-                            background: "#3e4396",
+                            background: colors.blueAccent[1000],
                           }}
                         >
                           Save
@@ -460,7 +464,7 @@ const AdminProfile = () => {
                       icon={<EditOutlined />}
                       size="large"
                       style={{
-                        background: "#3e4396",
+                        background: colors.blueAccent[1000],
                         color: "#fff",
                         fontWeight: "bold",
                         borderRadius: 8,

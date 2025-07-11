@@ -14,6 +14,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 const { getCreaterRole, getCreaterId } = require("../../../config"); // Adjust the path as necessary
 
 const Dashboard = () => {
@@ -215,16 +216,38 @@ const fetchCounts = async () => {
           </Box>
         </Grid> */}
 
-        <Grid item xs={12} md={4}>
-          <Box p={2} borderRadius={2} sx={{ bgcolor: "#ffffff" }} >
-            <Typography variant="h6" mb={1} fontWeight="bold">
-              Experience Quantity
-            </Typography>
-            <Box height="250px"   >
-              {/* <PieChart isDashboard={true} /> */}
-            </Box>
-          </Box>
-        </Grid>
+<Grid item xs={12} md={4}>
+  <Box p={2} borderRadius={2} sx={{ bgcolor: "#ffffff" }}>
+    <Typography variant="h6" mb={1} fontWeight="bold">
+      Experience Quantity
+    </Typography>
+    <Box height="250px">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={[
+              { name: "New", value: counts?.new ?? 0 },
+              { name: "Resolved", value: counts?.resolved ?? 0 },
+              { name: "Pending", value: counts?.processing ?? 0 },
+            ]}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            label
+          >
+            <Cell key="cell-new" fill="#1976d2" />        {/* Blue for New */}
+            <Cell key="cell-resolved" fill="#43a047" />   {/* Green for Resolved */}
+            <Cell key="cell-pending" fill="#fbc02d" />    {/* Yellow for Pending */}
+          </Pie>
+          <Tooltip />
+          <Legend verticalAlign="bottom" height={36}/>
+        </PieChart>
+      </ResponsiveContainer>
+    </Box>
+  </Box>
+</Grid>
       </Grid>
     </Box>
   );

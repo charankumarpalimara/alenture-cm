@@ -21,8 +21,11 @@ import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getCreaterRole, getCreaterId } from "../../../config";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
+import { useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
+import { getCreaterRole, getCreaterId } from "../../../config";
+
 // import ReactCrop from "react-image-crop";
 // import { heIL } from "@mui/x-data-grid";
 // import { Height } from "@mui/icons-material";
@@ -52,8 +55,8 @@ const SuccessScreen = ({ onNext }) => (
   <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
     <Result
       icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
-      title={<span style={{ fontSize: 50, fontWeight: 700 }}>Congratulations!</span>}
-      subTitle={<span style={{ fontSize: 30 }}>Your account has been created successfully.</span>}
+      title={<span style={{ fontSize: 45, fontWeight: 700 }}>Congratulations!</span>}
+      subTitle={<span style={{ fontSize: 25 }}>Your account has been created successfully.</span>}
       extra={[
         <Button type="primary" size="large" key="next" onClick={onNext} style={{ fontSize: 18, borderRadius: 8, backgroundColor: '#3e4396', borderColor: '#3e4396' }}>
           Continue
@@ -66,6 +69,8 @@ const SuccessScreen = ({ onNext }) => (
 
 
 const OrganizationUnitadd = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const [cmForm] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -306,7 +311,7 @@ const OrganizationUnitadd = () => {
       setEditingBranchIndex(null);
       setBranchEdits({});
       fetchGetAllData(); // Refresh data
-      message.success("Branch updated successfully!");
+      // message.success("Branch updated successfully!");
     } catch (error) {
       message.error("Error updating branch");
       console.error(error);
@@ -450,7 +455,7 @@ const OrganizationUnitadd = () => {
         }
       );
       // Modal.success({ content: "CM Registered Successfully!" });
-      message.success("CM Registered Successfully!");
+      // message.success("CM Registered Successfully!");
       // setIsLoading(false);
       setCmform(false); // <-- Fix here
       setUnitAddForm(false); // Close the unit add form
@@ -1093,7 +1098,7 @@ const OrganizationUnitadd = () => {
                     fontSize: "14px",
                     fontWeight: "bold",
                     borderRadius: "8px",
-                    backgroundColor: "#3e4396",
+                    background: colors.blueAccent[1000],
                     color: "#fff",
                   }}
                 >
@@ -1109,7 +1114,7 @@ const OrganizationUnitadd = () => {
                     fontSize: "14px",
                     fontWeight: "bold",
                     borderRadius: "8px",
-                    backgroundColor: "#3e4396",
+                    background: colors.blueAccent[1000],
                     color: "#fff",
                   }}
                 >
@@ -1448,7 +1453,7 @@ const OrganizationUnitadd = () => {
                       loading={isLoading} // <-- Add this line
                       size="large"
                       style={{
-                        background: "#3e4396",
+                        background: colors.blueAccent[1000],
                         color: "#fff",
                         fontWeight: "bold",
                         borderRadius: 8,

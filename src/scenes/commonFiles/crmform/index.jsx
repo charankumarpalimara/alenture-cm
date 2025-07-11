@@ -10,6 +10,7 @@ import {
   Col,
   message,
   Spin,
+    Result
 } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 import { Country, State, City } from "country-state-city";
@@ -17,7 +18,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { CheckCircleTwoTone } from "@ant-design/icons";
 import { getCreaterId, getCreaterRole } from "../../../config";
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
 
 const { Option } = Select;
 
@@ -35,8 +39,29 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   };
 }
 
+const SuccessScreen = ({ onNext }) => (
+
+  <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
+    <Result
+      icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
+      title={<span style={{ fontSize: 45, fontWeight: 700 }}>Congratulations!</span>}
+      subTitle={<span style={{ fontSize: 25 }}>Your account has been created successfully.</span>}
+      extra={[
+        <Button type="primary" size="large" key="next" onClick={onNext} style={{ fontSize: 18, borderRadius: 8, backgroundColor: '#3e4396', borderColor: '#3e4396' }}>
+          Continue
+        </Button>
+      ]}
+      style={{ background: "#fff", borderRadius: 16, padding: 32, }}
+    />
+  </div>
+);
+
+
+
 const CrmForm = () => {
   const [form] = Form.useForm();
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isLoading, setIsLoading] = useState(false);
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
@@ -56,6 +81,8 @@ const CrmForm = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [originalEditValues, setOriginalEditValues] = useState({});
   const [createdCrmId, setCreatedCrmId] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   useEffect(() => {
     const fetchOrganizations = async () => {
       try {
@@ -228,8 +255,9 @@ const CrmForm = () => {
         setEditValues({ ...values, profileImage, crmid: FinalCrmid }); // <-- set modal values
         setCreatedCrmId(FinalCrmid);
         setOriginalEditValues({ ...values, profileImage });
-        setShowEditModal(true); // <-- open modal
-        setIsEditMode(false);
+        setShowSuccess(true)
+        // setShowEditModal(true); // <-- open modal
+        // setIsEditMode(false);
         setIsLoading(false);
         console.log("CRM created with ID:", FinalCrmid);
         // Navigate("/hob/crm");
@@ -607,6 +635,8 @@ const CrmForm = () => {
           </div>
         </Form>
       </Modal>
+
+      {!showSuccess && (
       <div
         style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
       >
@@ -891,7 +921,7 @@ const CrmForm = () => {
                 htmlType="submit"
                 size="large"
                 style={{
-                  background: "#3e4396",
+                  background: colors.blueAccent[1000],
                   color: "#fff",
                   fontWeight: "bold",
                   borderRadius: 8,
@@ -904,6 +934,11 @@ const CrmForm = () => {
           </Row>
         </Form>
       </div>
+      )}
+
+      {showSuccess && (
+        <SuccessScreen onNext={() => navigate(`/crmdetails/${createdCrmId}`)} />
+      )}
     </>
   );
 };

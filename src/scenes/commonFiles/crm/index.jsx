@@ -15,57 +15,48 @@ import {
   // PostAdd,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { Table } from "antd";
+import "antd/dist/reset.css"; // Ant Design resets
 // import { first } from "lodash";
 
 // Columns for DataGrid
 const columns = [
   {
-    field: "crmid",
-    headerName: "ID",
-    flex: 0.4,
-    headerClassName: "bold-header",
-    disableColumnMenu: false,
-    minWidth: 100,
+    title: "ID",
+    dataIndex: "crmid",
+    key: "crmid",
+    width: 100,
+    render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
   },
   {
-    field: "name",
-    headerName: "Name",
-    flex: 2,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 200,
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    width: 200,
   },
   {
-    field: "email",
-    headerName: "Email",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+    width: 150,
   },
   {
-    field: "mobile",
-    headerName: "Mobile",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Mobile",
+    dataIndex: "mobile",
+    key: "mobile",
+    width: 150,
   },
   {
-    field: "city",
-    headerName: "City",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "City",
+    dataIndex: "city",
+    key: "city",
+    width: 150,
   },
   {
-    field: "date",
-    headerName: "Created",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Created",
+    dataIndex: "date",
+    key: "date",
+    width: 150,
   },
 ];
 
@@ -107,7 +98,8 @@ const Crm = () => {
         const data = await response.json();
         if (response.ok && Array.isArray(data.data)) {
           const transformedData = data.data.map((item) => ({
-            id: item.id,
+            key: item.crmid || item.id || Math.random().toString(36), // fallback for key
+            // ...rest of your mapping
             crmid: item.crmid || "N/A",
             name: `${item.firstname || ""} ${item.lastname || ""}`.trim(),
             firstname: item.firstname || "N/A",
@@ -184,8 +176,8 @@ const Crm = () => {
     Navigate("/crmform");
   };
 
-  const handleRowClick = (params) => {
-    Navigate("/crmdetails", { state: { ticket: params.row } });
+  const handleRowClick = (record) => {
+    Navigate(`/crmdetails/${record.crmid}`);
   };
 
   const handleStatusFilter = (status) => {
@@ -232,7 +224,7 @@ const Crm = () => {
         <Button
           variant="contained"
           sx={{
-            background: colors.blueAccent[500],
+            background: colors.blueAccent[1000],
             fontWeight: "bold",
             color: "#ffffff",
             whiteSpace: "nowrap",
@@ -262,9 +254,9 @@ const Crm = () => {
           variant={statusFilter === "Active" ? "contained" : "outlined"}
           onClick={() => handleStatusFilter("Active")}
           sx={{
-            backgroundColor:
+            background:
               statusFilter === "Active"
-                ? colors.blueAccent[500]
+                ? colors.blueAccent[1000]
                 : "#e3e8ff",
             color:
               statusFilter === "Active"
@@ -286,9 +278,9 @@ const Crm = () => {
           variant={statusFilter === "Suspend" ? "contained" : "outlined"}
           onClick={() => handleStatusFilter("Suspend")}
           sx={{
-            backgroundColor:
+            background:
               statusFilter === "Suspend"
-                ? colors.blueAccent[500]
+                ? colors.blueAccent[1000]
                 : "#e3e8ff",
             color:
               statusFilter === "Suspend"
@@ -310,130 +302,35 @@ const Crm = () => {
 
       {/* DataGrid */}
       <Box
-        height="70vh"
-        m="13px 0 0 0"
         sx={{
-          overflowX: "hidden",
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-            fontSize: "16px",
-            whiteSpace: "nowrap", // Prevent text wrapping
-            overflow: "visible", // Prevent text truncation
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none", // Remove the border below the header
-            fontWeight: "bold !important",
-            fontSize: "16px !important",
-            color: "#ffffff",
-          },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none", // Hide the column separator
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold !important", // Ensure header text is bold
-          },
-          "& .MuiDataGrid-root::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-root": {
-            scrollbarWidth: "none !important", // Hides scrollbar in Firefox
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: "#ffffff",
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "#D9EAFD",
-            },
-          },
-          "& .MuiTablePagination-root": {
-            color: "#ffffff !important", // Ensure pagination text is white
-          },
-          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-            color: "#ffffff !important", // Ensure select label and input text are white
-          },
-          "& .MuiTablePagination-displayedRows": {
-            color: "#ffffff !important", // Ensure displayed rows text is white
-          },
-          "& .MuiSvgIcon-root": {
-            color: "#ffffff !important", // Ensure pagination icons are white
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-            color: "#ffffff",
-          },
+          margin: "13px 0 0 0",
+          backgroundColor: "#ffffff",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          width: "100%",
+          overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-        <DataGrid
-          rows={filteredTickets}
+        <Table
+          dataSource={filteredTickets}
           columns={columns}
-          pageSize={10}
-          // rowsPerPageOptions={[10, 25, 50]} // Add this to include 10 in the options
-          getRowId={(row) => row.id} // Use `crmid` as the unique identifier
-          onRowClick={handleRowClick}
-          sx={{
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-              fontSize: "16px",
-              whiteSpace: "nowrap", // Prevent text wrapping
-              overflow: "visible", // Prevent text truncation
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none", // Remove the border below the header
-              fontWeight: "bold !important",
-              fontSize: "16px !important",
-              color: "#ffffff",
-            },
-            "& .MuiDataGrid-columnSeparator": {
-              display: "none", // Hide the column separator
-            },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important", // Ensure header text is bold
-            },
-            "& .MuiDataGrid-root::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: "#ffffff",
-            },
-            "& .MuiDataGrid-row": {
-              borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-              "&:hover": {
-                cursor: "pointer",
-                backgroundColor: "#D9EAFD",
-              },
-            },
-            "& .MuiTablePagination-root": {
-              color: "#ffffff !important", // Ensure pagination text is white
-            },
-            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-              color: "#ffffff !important", // Ensure select label and input text are white
-            },
-            "& .MuiTablePagination-displayedRows": {
-              color: "#ffffff !important", // Ensure displayed rows text is white
-            },
-            "& .MuiSvgIcon-root": {
-              color: "#ffffff !important", // Ensure pagination icons are white
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-              color: "#ffffff",
-            },
+          pagination={{
+            pageSize: 10,          // Always show 10 rows per page
+            showSizeChanger: false, // Remove the option to change page size
+            position: ["bottomCenter"],
           }}
+          onRow={(record) => ({
+            onClick: () => handleRowClick(record),
+            style: { cursor: "pointer" },
+          })}
+          bordered={false}
+          showHeader={true}
+          rowClassName={() => "custom-row"}
+          className="custom-ant-table-header"
+          scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
       </Box>
+
     </Box>
   );
 };

@@ -10,13 +10,16 @@ import {
   Col,
   message,
   Spin,
+  Result
 } from "antd";
-import { CameraOutlined } from "@ant-design/icons";
+import { CameraOutlined, CheckCircleTwoTone } from "@ant-design/icons";
 import { Country, State, City } from "country-state-city";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
 
 const { Option } = Select;
 
@@ -34,7 +37,27 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   };
 }
 
+
+const SuccessScreen = ({ onNext }) => (
+
+  <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
+    <Result
+      icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
+      title={<span style={{ fontSize: 45, fontWeight: 700 }}>Congratulations!</span>}
+      subTitle={<span style={{ fontSize: 25 }}>Your account has been created successfully.</span>}
+      extra={[
+        <Button type="primary" size="large" key="next" onClick={onNext} style={{ fontSize: 18, borderRadius: 8, backgroundColor: '#3e4396', borderColor: '#3e4396' }}>
+          Continue
+        </Button>
+      ]}
+      style={{ background: "#fff", borderRadius: 16, padding: 32, }}
+    />
+  </div>
+);
+
 const HobForm = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -49,11 +72,12 @@ const HobForm = () => {
   const [completedCrop, setCompletedCrop] = useState();
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [editValues, setEditValues] = useState({});
-      const [isEditMode, setIsEditMode] = useState(false);
-      const [originalEditValues, setOriginalEditValues] = useState({});
-      const [createdHobId, setCreatedHobId] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editValues, setEditValues] = useState({});
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [originalEditValues, setOriginalEditValues] = useState({});
+  const [createdHobId, setCreatedHobId] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const countries = Country.getAllCountries();
 
@@ -156,7 +180,7 @@ const HobForm = () => {
       } catch (error) {
         console.error("Error converting image to blob:", error);
       }
-    } 
+    }
 
     try {
       const response = await axios.post(
@@ -167,18 +191,19 @@ const HobForm = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-        const hobData = response.data.data || {};
-        const FinalHobid = response.data.hobid || hobData.hobid;
+      const hobData = response.data.data || {};
+      const FinalHobid = response.data.hobid || hobData.hobid;
       // Modal.success({ content: "Form Data Submitted Successfully" });
       console.log("Response:", response);
-      message.success("Hob Registerd Successfully");
-        setEditValues({ ...values, profileImage, hobid: FinalHobid }); // <-- set modal values
-        setCreatedHobId(FinalHobid);
-        setOriginalEditValues({ ...values, profileImage });
-        setShowEditModal(true); // <-- open modal
-        setIsEditMode(false);
-        setIsLoading(false);
-        console.log("CRM created with ID:", FinalHobid);
+      // message.success("Hob Registerd Successfully");
+      setEditValues({ ...values, profileImage, hobid: FinalHobid }); // <-- set modal values
+      setCreatedHobId(FinalHobid);
+      setOriginalEditValues({ ...values, profileImage });
+      // setShowEditModal(true); // <-- open modal
+      // setIsEditMode(false);
+      setShowSuccess(true);
+      setIsLoading(false);
+      console.log("CRM created with ID:", FinalHobid);
       // Navigate("/admin/hob");
     } catch (error) {
       Modal.error({ content: "Error submitting form data" });
@@ -190,8 +215,8 @@ const HobForm = () => {
 
 
 
-    const handleUpdate = async () => {
-          const values = editValues;
+  const handleUpdate = async () => {
+    const values = editValues;
     setIsLoading(true);
     const formData = new FormData();
     formData.append("hobid", createdHobId);
@@ -222,7 +247,7 @@ const HobForm = () => {
       } catch (error) {
         console.error("Error converting image to blob:", error);
       }
-    } 
+    }
 
     try {
       const response = await axios.post(
@@ -258,15 +283,15 @@ const HobForm = () => {
 
   const states = selectedCountry
     ? State.getStatesOfCountry(
-        countries.find((c) => c.name === selectedCountry)?.isoCode || ""
-      )
+      countries.find((c) => c.name === selectedCountry)?.isoCode || ""
+    )
     : [];
 
   const cities = selectedState
     ? City.getCitiesOfState(
-        countries.find((c) => c.name === selectedCountry)?.isoCode || "",
-        states.find((s) => s.name === selectedState)?.isoCode || ""
-      )
+      countries.find((c) => c.name === selectedCountry)?.isoCode || "",
+      states.find((s) => s.name === selectedState)?.isoCode || ""
+    )
     : [];
   const gender = ["Male", "Female"];
 
@@ -296,219 +321,221 @@ const HobForm = () => {
         </div>
       )}
 
-<Modal
-  open={showEditModal}
-  title="Review & Edit HOB Details"
-  onCancel={handleModalClose}
-  closable={false}
-  footer={null}
-  width="80%"
-  okButtonProps={{
-    style: {
-      background: "#3e4396",
-      borderColor: "#3e4396",
-      color: "#fff",
-      fontWeight: "bold",
-    },
-  }}
->
-  <Form
-    layout="vertical"
-    initialValues={editValues}
-    onValuesChange={(_, allValues) => setEditValues({ ...editValues, ...allValues })}
-  >
-    <Row justify="center" style={{ marginBottom: 24 }}>
-      <Col>
-        <div style={{ position: "relative", display: "inline-block" }}>
-          <Avatar
-            src={editValues.profileImage || "https://via.placeholder.com/150"}
-            size={120}
-            style={{
-              border: "2px solid #1677ff",
-              cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-            }}
-          />
-        </div>
-      </Col>
-    </Row>
-    <Row gutter={24}>
-      <Col xs={24} md={8}>
-        <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
-          <Input disabled={!isEditMode} />
-        </Form.Item>
-      </Col>
-      <Col xs={24} md={8}>
-        <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
-          <Input disabled={!isEditMode} />
-        </Form.Item>
-      </Col>
-      <Col xs={24} md={8}>
-        <Form.Item label="Email" name="email" rules={[{ required: true, type: "email" }]}>
-          <Input disabled={!isEditMode} />
-        </Form.Item>
-      </Col>
-    </Row>
-    <Row gutter={24}>
-      <Col xs={24} md={8}>
-        <Form.Item label="Phone Code" name="phoneCode" rules={[{ required: true }]}>
-          <Input disabled={!isEditMode} />
-        </Form.Item>
-      </Col>
-      <Col xs={24} md={8}>
-        <Form.Item label="Phone Number" name="PhoneNo" rules={[{ required: true }]}>
-          <Input disabled={!isEditMode} />
-        </Form.Item>
-      </Col>
-      <Col xs={24} md={8}>
-        <Form.Item label="Gender" name="gender" rules={[{ required: true }]}>
-          <Select disabled={!isEditMode}>
-            <Option value="Male">Male</Option>
-            <Option value="Female">Female</Option>
-          </Select>
-        </Form.Item>
-      </Col>
-    </Row>
-    <Row gutter={24}>
+      <Modal
+        open={showEditModal}
+        title="Review & Edit HOB Details"
+        onCancel={handleModalClose}
+        closable={false}
+        footer={null}
+        width="80%"
+        okButtonProps={{
+          style: {
+            background: "#3e4396",
+            borderColor: "#3e4396",
+            color: "#fff",
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Form
+          layout="vertical"
+          initialValues={editValues}
+          onValuesChange={(_, allValues) => setEditValues({ ...editValues, ...allValues })}
+        >
+          <Row justify="center" style={{ marginBottom: 24 }}>
+            <Col>
+              <div style={{ position: "relative", display: "inline-block" }}>
+                <Avatar
+                  src={editValues.profileImage || "https://via.placeholder.com/150"}
+                  size={120}
+                  style={{
+                    border: "2px solid #1677ff",
+                    cursor: "pointer",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col xs={24} md={8}>
+              <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+                <Input disabled={!isEditMode} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+                <Input disabled={!isEditMode} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label="Email" name="email" rules={[{ required: true, type: "email" }]}>
+                <Input disabled={!isEditMode} />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col xs={24} md={8}>
+              <Form.Item label="Phone Code" name="phoneCode" rules={[{ required: true }]}>
+                <Input disabled={!isEditMode} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label="Phone Number" name="PhoneNo" rules={[{ required: true }]}>
+                <Input disabled={!isEditMode} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label="Gender" name="gender" rules={[{ required: true }]}>
+                <Select disabled={!isEditMode}>
+                  <Option value="Male">Male</Option>
+                  <Option value="Female">Female</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={24}>
 
-      <Col xs={24} md={8}>
-        <Form.Item label="Country" name="country" rules={[{ required: true }]}>
-          <Select
-            showSearch
-            placeholder="Select Country"
-            disabled={!isEditMode}
-            style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-            onChange={(value) => {
-              setSelectedCountry(value);
-              // Reset state and city if country changes
-              setEditValues((prev) => ({ ...prev, state: "", city: "" }));
-            }}
-          >
-            {countries.map((c) => (
-              <Option key={c.isoCode} value={c.name}>
-                {c.name}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Col>
-      <Col xs={24} md={8}>
-        <Form.Item label="State" name="state" rules={[{ required: true }]}>
-          <Select
-            showSearch
-            placeholder="Select State"
-            disabled={!isEditMode || !editValues.country}
-            style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-            onChange={(value) => {
-              setSelectedState(value);
-              setEditValues((prev) => ({ ...prev, city: "" }));
-            }}
-          >
-            {(editValues.country
-              ? State.getStatesOfCountry(
-                  countries.find((c) => c.name === editValues.country)?.isoCode || ""
-                )
-              : []
-            ).map((s) => (
-              <Option key={s.isoCode} value={s.name}>
-                {s.name}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Col>
-      <Col xs={24} md={8}>
-        <Form.Item label="City" name="city" rules={[{ required: true }]}>
-          <Select
-            showSearch
-            placeholder="Select City"
-            disabled={!isEditMode || !editValues.state}
-            style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-          >
-            {(editValues.country && editValues.state
-              ? City.getCitiesOfState(
-                  countries.find((c) => c.name === editValues.country)?.isoCode || "",
-                  State.getStatesOfCountry(
-                    countries.find((c) => c.name === editValues.country)?.isoCode || ""
-                  ).find((s) => s.name === editValues.state)?.isoCode || ""
-                )
-              : []
-            ).map((city) => (
-              <Option key={city.name} value={city.name}>
-                {city.name}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
-      </Col>
-      
-    </Row>
-    <Row gutter={24}>
-      <Col xs={24} md={8}>
-        <Form.Item label="Postal Code" name="postcode" rules={[{ required: true }]}>
-          <Input disabled={!isEditMode} />
-        </Form.Item>
-      </Col>
-    </Row>
-    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
-      {!isEditMode ? (
-        <>
-          <Button
-            type="primary"
-            onClick={() => setIsEditMode(true)}
-            style={{
-              background: "#3e4396",
-              borderColor: "#3e4396",
-              color: "#fff",
-              fontWeight: "bold",
-              minWidth: 120,
-            }}
-          >
-            Edit
-          </Button>
-          <Button
-            style={{ marginLeft: 12 }}
-            onClick={handleModalClose}
-            danger
-          >
-            Close
-          </Button>
-        </>
-      ) : (
-        <>
-          <Button
-            type="primary"
-            onClick={handleUpdate}
-            loading={isLoading}
-            style={{
-              background: "#3e4396",
-              borderColor: "#3e4396",
-              color: "#fff",
-              fontWeight: "bold",
-              minWidth: 120,
-            }}
-          >
-            Update
-          </Button>
-          <Button
-            style={{ marginLeft: 12 }}
-            onClick={handleCancelEdit}
-            danger
-          >
-            Cancel
-          </Button>
-        </>
-      )}
-    </div>
-  </Form>
-</Modal>
+            <Col xs={24} md={8}>
+              <Form.Item label="Country" name="country" rules={[{ required: true }]}>
+                <Select
+                  showSearch
+                  placeholder="Select Country"
+                  disabled={!isEditMode}
+                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  onChange={(value) => {
+                    setSelectedCountry(value);
+                    // Reset state and city if country changes
+                    setEditValues((prev) => ({ ...prev, state: "", city: "" }));
+                  }}
+                >
+                  {countries.map((c) => (
+                    <Option key={c.isoCode} value={c.name}>
+                      {c.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label="State" name="state" rules={[{ required: true }]}>
+                <Select
+                  showSearch
+                  placeholder="Select State"
+                  disabled={!isEditMode || !editValues.country}
+                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  onChange={(value) => {
+                    setSelectedState(value);
+                    setEditValues((prev) => ({ ...prev, city: "" }));
+                  }}
+                >
+                  {(editValues.country
+                    ? State.getStatesOfCountry(
+                      countries.find((c) => c.name === editValues.country)?.isoCode || ""
+                    )
+                    : []
+                  ).map((s) => (
+                    <Option key={s.isoCode} value={s.name}>
+                      {s.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label="City" name="city" rules={[{ required: true }]}>
+                <Select
+                  showSearch
+                  placeholder="Select City"
+                  disabled={!isEditMode || !editValues.state}
+                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                >
+                  {(editValues.country && editValues.state
+                    ? City.getCitiesOfState(
+                      countries.find((c) => c.name === editValues.country)?.isoCode || "",
+                      State.getStatesOfCountry(
+                        countries.find((c) => c.name === editValues.country)?.isoCode || ""
+                      ).find((s) => s.name === editValues.state)?.isoCode || ""
+                    )
+                    : []
+                  ).map((city) => (
+                    <Option key={city.name} value={city.name}>
+                      {city.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+
+          </Row>
+          <Row gutter={24}>
+            <Col xs={24} md={8}>
+              <Form.Item label="Postal Code" name="postcode" rules={[{ required: true }]}>
+                <Input disabled={!isEditMode} />
+              </Form.Item>
+            </Col>
+          </Row>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 24 }}>
+            {!isEditMode ? (
+              <>
+                <Button
+                  type="primary"
+                  onClick={() => setIsEditMode(true)}
+                  style={{
+                    background: "#3e4396",
+                    borderColor: "#3e4396",
+                    color: "#fff",
+                    fontWeight: "bold",
+                    minWidth: 120,
+                  }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  style={{ marginLeft: 12 }}
+                  onClick={handleModalClose}
+                  danger
+                >
+                  Close
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="primary"
+                  onClick={handleUpdate}
+                  loading={isLoading}
+                  style={{
+                    background: "#3e4396",
+                    borderColor: "#3e4396",
+                    color: "#fff",
+                    fontWeight: "bold",
+                    minWidth: 120,
+                  }}
+                >
+                  Update
+                </Button>
+                <Button
+                  style={{ marginLeft: 12 }}
+                  onClick={handleCancelEdit}
+                  danger
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
+          </div>
+        </Form>
+      </Modal>
+
+      {!showSuccess && (
       <div
         style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
       >
         <Form
           form={form}
           layout="vertical"
-    onFinish={(values) => {    // <-- open the modal
+          onFinish={(values) => {    // <-- open the modal
             handleFormSubmit(values);
           }}
           initialValues={{
@@ -770,7 +797,7 @@ const HobForm = () => {
                 htmlType="submit"
                 size="large"
                 style={{
-                  background: "#3e4396",
+                  background: colors.blueAccent[1000],
                   color: "#fff",
                   fontWeight: "bold",
                   borderRadius: 8,
@@ -783,6 +810,11 @@ const HobForm = () => {
           </Row>
         </Form>
       </div>
+      )}
+
+      {showSuccess && (
+        <SuccessScreen onNext={() => navigate(`/hobdetails/${createdHobId}`)} />
+      )}
     </>
   );
 };

@@ -764,7 +764,7 @@ const AdminTicketDetails = () => {
               onClick={() => taskForm.submit()}
               disabled={loading}
               style={{
-                background: "#3e4396",
+                background: colors.blueAccent[1000],
                 borderRadius: 8,
                 fontWeight: "bold",
               }}
@@ -883,7 +883,7 @@ const AdminTicketDetails = () => {
               onClick={() => assignForm.submit()}
               disabled={loading}
               style={{
-                background: "#3e4396",
+                background: colors.blueAccent[1000],
                 borderRadius: 8,
                 color: "#fff",
                 ...(loading && { opacity: 0.7 }),
@@ -1318,7 +1318,7 @@ const AdminTicketDetails = () => {
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
-                          backgroundColor: colors.blueAccent[700],
+                          background: colors.blueAccent[1000],
                           color: "#ffffff",
                           textTransform: "none",
                           "&:hover": {
@@ -1341,7 +1341,7 @@ const AdminTicketDetails = () => {
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
-                        backgroundColor: colors.blueAccent[700],
+                        background: colors.blueAccent[1000],
                         color: "#ffffff",
                         textTransform: "none",
                         "&:hover": {
@@ -1699,14 +1699,14 @@ const AdminTicketDetails = () => {
             variant="contained"
             fullWidth
             sx={{
-              background: colors.blueAccent[500],
+              background: colors.blueAccent[1000],
               fontWeight: "bold",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",
               // padding: "14px 20px",
               "&:hover": {
-                backgroundColor: colors.blueAccent[600],
+                backgroundColor: colors.blueAccent[900],
               },
               width: isMobile ? "25%" : "20%",
               fontSize: { xs: "12px", sm: "14px" },

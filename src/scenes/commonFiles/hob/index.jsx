@@ -7,52 +7,48 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+// import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../../theme";
 import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-
+import { Table } from "antd";
 // Columns for DataGrid
 const columns = [
   {
-    field: "hobid",
-    headerName: "ID",
-    flex: 0.4,
-    headerClassName: "bold-header",
-    disableColumnMenu: false,
-    minWidth: 100,
+    title: "ID",
+    dataIndex: "hobid",
+    key: "hobid",
+    width: 100,
+    ellipsis: true,
+    render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
   },
   {
-    field: "name",
-    headerName: "Name",
-    flex: 2,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 200,
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+    width: 200,
+    ellipsis: true,
   },
   {
-    field: "email",
-    headerName: "Email",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+    width: 150,
+    ellipsis: true,
   },
   {
-    field: "totalNumber",
-    headerName: "Phone",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Phone",
+    dataIndex: "totalNumber",
+    key: "totalNumber",
+    width: 150,
+    ellipsis: true,
   },
   {
-    field: "city",
-    headerName: "City",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "City",
+    dataIndex: "city",
+    key: "city",
+    width: 150,
+    ellipsis: true,
   },
 ];
 
@@ -100,6 +96,7 @@ const Hob = () => {
         if (response.ok) {
           if (Array.isArray(data.data)) {
             const transformedData = data.data.map((item) => ({
+              key: item.hobid || item.id || Math.random().toString(36),
               hobid: item.hobid || "N/A", // Map hobid to id for unique row identification
               name: `${item.firstname || ""} ${item.lastname || ""}`.trim(),
               firstname: item.firstname || "N/A",
@@ -174,8 +171,8 @@ const Hob = () => {
     Navigate("/hobform");
   };
 
-  const handleRowClick = (params) => {
-    Navigate("/hobdetails", { state: { ticket: params.row } });
+  const handleRowClick = (record) => {
+    Navigate(`/hobdetails/${record.hobid}`);
   };
 
 
@@ -223,7 +220,7 @@ const Hob = () => {
         <Button
           variant="contained"
           sx={{
-            background: colors.blueAccent[500],
+            background: colors.blueAccent[1000],
             fontWeight: "bold",
             color: "#ffffff",
             whiteSpace: "nowrap",
@@ -254,9 +251,9 @@ const Hob = () => {
                 variant={statusFilter === "Active" ? "contained" : "outlined"}
                 onClick={() => handleStatusFilter("Active")}
                 sx={{
-                  backgroundColor:
+                  background:
                     statusFilter === "Active"
-                      ? colors.blueAccent[500]
+                      ? colors.blueAccent[1000]
                       : "#e3e8ff",
                   color:
                     statusFilter === "Active"
@@ -278,9 +275,9 @@ const Hob = () => {
                 variant={statusFilter === "Suspend" ? "contained" : "outlined"}
                 onClick={() => handleStatusFilter("Suspend")}
                 sx={{
-                  backgroundColor:
+                  background:
                     statusFilter === "Suspend"
-                      ? colors.blueAccent[500]
+                      ? colors.blueAccent[1000]
                       : "#e3e8ff",
                   color:
                     statusFilter === "Suspend"
@@ -302,145 +299,35 @@ const Hob = () => {
 
       {/* DataGrid */}
       <Box
-        height="70vh"
-        m="13px 0 0 0"
         sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-            overflowX: "auto", // Enable horizontal scrolling
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-            fontSize: "16px",
-            whiteSpace: "nowrap", // Prevent text wrapping
-            overflow: "visible", // Prevent text truncation
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none", // Remove the border below the header
-            fontWeight: "bold !important",
-            fontSize: "16px !important",
-            color: "#ffffff",
-          },
-          // "& .MuiDataGrid-root::-webkit-scrollbar-thumb":{
-          //    width: "2px !important",
-          //    height: "6px !important"
-          //  },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none", // Hide the column separator
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold !important", // Ensure header text is bold
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: "#ffffff",
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "#D9EAFD",
-            },
-          },
-          "& .MuiTablePagination-root": {
-            color: "#ffffff !important", // Ensure pagination text is white
-          },
-          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-            color: "#ffffff !important", // Ensure select label and input text are white
-          },
-          "& .MuiTablePagination-displayedRows": {
-            color: "#ffffff !important", // Ensure displayed rows text is white
-          },
-          "& .MuiSvgIcon-root": {
-            color: "#ffffff !important", // Ensure pagination icons are white
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-            color: "#ffffff",
-          },
+          margin: "13px 0 0 0",
+          backgroundColor: "#ffffff",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          width: "100%",
+          overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-        <DataGrid
-          rows={filteredTickets}
+        <Table
+          dataSource={filteredTickets}
           columns={columns}
-          pageSize={10}
-          // rowsPerPageOptions={[10, 25, 50]} // Add this to include 10 in the options
-          getRowId={(row) => row.hobid} // Ensure unique row IDs
-          onRowClick={handleRowClick}
-          sx={{
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-              fontSize: "16px",
-              whiteSpace: "nowrap", // Prevent text wrapping
-              overflow: "visible", // Prevent text truncation
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none", // Remove the border below the header
-              fontWeight: "bold !important",
-              fontSize: "16px !important",
-              color: "#ffffff",
-            },
-            // "& .MuiDataGrid-root::-webkit-scrollbar-thumb":{
-            //    width: "2px !important",
-            //    height: "6px !important"
-            //  },
-            "& .MuiDataGrid-columnSeparator": {
-              display: "none", // Hide the column separator
-            },
-            // "& .MuiDataGrid-root::-webkit-scrollbar": {
-            //   display: "none", // Hides scrollbar in Chrome, Safari
-            // },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important", // Ensure header text is bold
-            },
-            // "& .MuiDataGrid-virtualScroller": {
-            //   backgroundColor: "#ffffff",
-            // },
-            "& .MuiDataGrid-root::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-root": {
-              // scrollbarWidth: "none !important", // Hides scrollbar in Firefox
-              "&:hover": {
-                cursor: "pointer",
-              },
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              // scrollbarWidth: "none !important",
-              backgroundColor: "#ffffff",
-            },
-            "& .MuiDataGrid-row": {
-              borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-              "&:hover": {
-                cursor: "pointer",
-                backgroundColor: "#D9EAFD",
-              },
-            },
-            "& .MuiTablePagination-root": {
-              color: "#ffffff !important", // Ensure pagination text is white
-            },
-            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-              color: "#ffffff !important", // Ensure select label and input text are white
-            },
-            "& .MuiTablePagination-displayedRows": {
-              color: "#ffffff !important", // Ensure displayed rows text is white
-            },
-            "& .MuiSvgIcon-root": {
-              color: "#ffffff !important", // Ensure pagination icons are white
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-              color: "#ffffff",
-            },
+          pagination={{
+            pageSize: 10,          // Always show 10 rows per page
+            showSizeChanger: false, // Remove the option to change page size
+            position: ["bottomCenter"],
           }}
+          onRow={(record) => ({
+            onClick: () => handleRowClick(record),
+            style: { cursor: "pointer" },
+          })}
+          bordered={false}
+          showHeader={true}
+          rowClassName={() => "custom-row"}
+          className="custom-ant-table-header"
+          scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
       </Box>
+
     </Box>
   );
 };

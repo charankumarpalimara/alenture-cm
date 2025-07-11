@@ -14,9 +14,19 @@ import {
 // import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
-import { getCreaterRole } from "../../../config";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
+
+
+
+
+
+
+import { getCreaterRole } from "../../../config";
+
 // import { heIL } from "@mui/x-data-grid";
 // import { Height } from "@mui/icons-material";
 
@@ -24,6 +34,8 @@ import { UpOutlined, DownOutlined } from "@ant-design/icons";
 
 const OrganizationDetails = () => {
   // const [form] = Form.useForm();
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isLoading, setIsLoading] = useState(false);
   // const [editMode, setEditMode] = useState(false);
   // const [originalBranch, setOriginalBranch] = useState(null);
@@ -185,7 +197,7 @@ const OrganizationDetails = () => {
           accordion
           expandIconPosition="end"
             expandIcon={({ isActive }) =>
-    isActive ? <DownOutlined /> : <UpOutlined />
+    isActive ?  <UpOutlined />  :<DownOutlined />
   }
           defaultActiveKey={
             sortedBranches.length > 0
@@ -386,7 +398,7 @@ const OrganizationDetails = () => {
                         onClick={() => handleBranchSave(idx)}
                         loading={isLoading}
                         style={{
-                          backgroundColor: "#3e4396",
+                          background: colors.blueAccent[1000],
                           color: "#fff",
                           fontWeight: "bold",
                           marginRight: 8,
@@ -402,7 +414,7 @@ const OrganizationDetails = () => {
                         type="primary"
                         onClick={() => handleBranchEdit(idx)}
                         style={{
-                          backgroundColor: "#3e4396",
+                          background: colors.blueAccent[1000],
                           color: "#fff",
                           fontWeight: "bold",
                           marginRight: 8,
@@ -477,7 +489,7 @@ const OrganizationDetails = () => {
             }}
             style={{
               marginTop: 16,
-              backgroundColor: "#3e4396",
+              background: colors.blueAccent[1000],
               color: "#fff",
               fontWeight: "bold",
             }}

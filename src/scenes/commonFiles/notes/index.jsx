@@ -281,7 +281,7 @@ const Notes = () => {
             <Button
               variant="contained"
               sx={{
-                background: colors.blueAccent[500],
+                background: colors.blueAccent[1000],
                 color: "#ffffff",
                 width: "40%",
                 height: "55px",
@@ -327,7 +327,7 @@ const Notes = () => {
             <Button
               variant="contained"
               sx={{
-                background: colors.blueAccent[500],
+                background: colors.blueAccent[1000],
                 color: "#ffffff",
                 width: "15%",
                 height: "45px",
@@ -443,7 +443,7 @@ const Notes = () => {
                 style={{
                   padding: "8px 32px",
                   fontSize: 14,
-                  background: "#3e4396",
+                  background: colors.blueAccent[1000],
                   color: "#fff",
                   fontWeight: "bold",
                 }}
@@ -514,7 +514,7 @@ const Notes = () => {
               style={{
                 padding: "8px 32px",
                 fontSize: 14,
-                background: "#3e4396",
+                background: colors.blueAccent[1000],
                 color: "#fff",
                 fontWeight: "bold",
               }}

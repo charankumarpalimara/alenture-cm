@@ -48,14 +48,32 @@ body,
   scrollbar-width: none !important; /* Firefox */
 }
 
+
+.custom-ant-table-header .ant-table-thead > tr {
+  background:  linear-gradient( to bottom, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
+}
+.custom-row:hover td {
+       background: #e3e8ff !important;
+}
+.custom-button-color {
+    background: linear-gradient(90deg, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
+    font-weight: bold !important;
+    color: #fff !important;
+    white-space: nowrap !important;
+    text-transform: none !important;
+}
 /* Ant Design Table header customizations */
 .custom-ant-table-header .ant-table-thead > tr > th {
-  background: #3e4396 !important;
+  background: transparent !important;
   color: #fff !important;
-  font-weight: bold;
+  /* font-weight: bold; */
   border-right: none !important;
   border-bottom: none !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  height: 45px !important; /* optional, for extra control */
 }
+
 
 /* Remove all header column dividers */
 .custom-ant-table-header .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {

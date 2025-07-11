@@ -13,17 +13,17 @@ import {
   Collapse,
   Spin,
   Space
-
 } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Country, State } from "country-state-city";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
 import { getCreaterRole, getCreaterId } from "../../../config";
 
 const { Text } = Typography;
-// const { Option } = Select;
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   const cropWidth = mediaWidth * 0.9;
@@ -40,12 +40,12 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
 }
 
 const CrmDetails = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
-  // const [orgManagerPairs, setOrgManagerPairs] = useState([{ org: '', manager: '' }]);
   const [profileImage, setProfileImage] = useState(null);
   const [cropModalVisible, setCropModalVisible] = useState(false);
   const [originalImage, setOriginalImage] = useState(null);
@@ -62,15 +62,68 @@ const CrmDetails = () => {
   const [editingRelationId, setEditingRelationId] = useState(null);
   const [relationEdits, setRelationEdits] = useState({});
   const [assignForm, setAssingForm] = useState(false);
+  const [crmDetails, setcrmDetails] = useState(null);
 
   const [form] = Form.useForm();
-  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
+  const { createdCrmId } = useParams();
 
-  // useEffect(() => {
-    const fetchRelations = async () => {
+  // Defensive: ticket may be undefined after refresh, so fallback to param
+  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
+  const crmid = ticket.crmid || createdCrmId || "";
+
+  // Fetch CRM details
+  useEffect(() => {
+    const fetchCrmData = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getRelationsDataByCrmid/${ticket.crmid}`
+          `${process.env.REACT_APP_API_URL}/v1/crmDetailsGet/${crmid}`
+        );
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        if (data && Array.isArray(data.data) && data.data.length > 0) {
+          setcrmDetails(data.data[0]);
+        } else {
+          setcrmDetails({});
+        }
+      } catch (error) {
+        console.error("Error fetching CRM Details:", error);
+        setcrmDetails({});
+        message.error(
+          "Failed to load CRM details. Please try again later."
+        );
+      }
+    };
+    if (crmid) fetchCrmData();
+  }, [crmid]);
+
+  // Build initial values for the form
+  const buildInitialValues = (data = {}) => ({
+    crmid: data.crmid || "",
+    firstName: data.firstname || "",
+    lastName: data.lastname || "",
+    phoneCode: data.phonecode || "",
+    PhoneNo: data.mobile || "",
+    gender: data.extraind2 || "",
+    email: data.email || "",
+    status: data.extraind7 || "",
+    country: data.extraind3 || "",
+    state: data.state || "",
+    city: data.city || "",
+    street: data.street || "",
+    passwords: data.passwords || "",
+    postalcode: data.postalcode || "",
+    organization0: data.organization || "",
+    customerManager0: data.customermanager || "",
+    imageUrl: data.imageUrl || "",
+  });
+
+  // Fetch relations
+  useEffect(() => {
+    const fetchRelations = async () => {
+      if (!crmid) return;
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/v1/getRelationsDataByCrmid/${crmid}`
         );
         const data = await response.json();
         if (response.ok && Array.isArray(data.data)) {
@@ -81,20 +134,18 @@ const CrmDetails = () => {
       }
     };
     fetchRelations();
-  // }, [ticket.crmid]);
+  }, [crmid]);
 
+  const orgGroups = useMemo(() => {
+    // Defensive: relationsData may be empty
+    return relationsData.reduce((acc, item) => {
+      if (!acc[item.organizationid]) acc[item.organizationid] = [];
+      acc[item.organizationid].push(item);
+      return acc;
+    }, {});
+  }, [relationsData]);
 
-  useEffect(() => {
-  fetchRelations();
-}, [ticket.crmid]);
-
-
-  const orgGroups = relationsData.reduce((acc, item) => {
-    if (!acc[item.organizationid]) acc[item.organizationid] = [];
-    acc[item.organizationid].push(item);
-    return acc;
-  }, {});
-
+  // Relation delete
   const RelationDelete = async (id) => {
     setIsLoading(true);
     try {
@@ -108,7 +159,6 @@ const CrmDetails = () => {
         setRelationsData((prev) => prev.filter((item) => item.id !== id));
         setIsEditing(false);
         message.success("Relation deleted successfully");
-        setIsLoading(false);
       } else {
         const errorData = await response.json();
         message.error(
@@ -118,54 +168,26 @@ const CrmDetails = () => {
     } catch (error) {
       message.error("Error deleting relation");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (ticket.country) {
+    if (crmDetails?.country) {
       const country = Country.getAllCountries().find(
-        (c) => c.name === ticket.country
+        (c) => c.name === crmDetails.country
       );
       setSelectedCountry(country || null);
     }
-    if (ticket.state && selectedCountry) {
+    if (crmDetails?.state && selectedCountry) {
       const state = State.getStatesOfCountry(selectedCountry.isoCode).find(
-        (s) => s.name === ticket.state
+        (s) => s.name === crmDetails.state
       );
       setSelectedState(state || null);
     }
-    // selectedCity removed as unused
-  }, [ticket, selectedCountry, selectedState]);
-
-  const initialValues = useMemo(
-    () => ({
-      crmid: ticket.crmid || "",
-      // Assuming ticket.name is in "First Last" format
-      firstName: ticket.firstname || "",
-      lastName: ticket.lastname || "",
-      street: ticket.street || "",
-      city: ticket.city || "",
-      state: ticket.state || "",
-      status: ticket.status || "",
-      country: ticket.country || "",
-      email: ticket.email || "",
-      PhoneNo: ticket.mobile || "",
-      phoneCode: ticket.phonecode || "",
-      passwords: ticket.passwords || "",
-      postalcode: ticket.postalcode || "",
-      organization0: ticket.organization || "",
-      customerManager0: ticket.customermanager || "",
-
-      gender: ticket.gender || "",
-      imageUrl: ticket.imageUrl || "",
-    }),
-    [ticket]
-  );
-
-  // const [form] = Form.useForm();
+  }, [crmDetails, selectedCountry]);
 
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
-    // Build FormData for multipart/form-data
     const formData = new FormData();
     formData.append("crmid", values.crmid);
     formData.append("firstname", values.firstName);
@@ -175,33 +197,14 @@ const CrmDetails = () => {
     formData.append("PhoneNo", values.PhoneNo);
     formData.append("gender", values.gender);
     formData.append("status", values.status);
-    formData.append('passwords', ticket.passwords || '');
-    // formData.append('createrrole', createrrole);
-    // formData.append('createrid', createrid);
-
-    console.log("Form Data:", {
-      crmid: values.crmid || ticket.crmid || "",
-      firstname: values.firstName || "",
-      lastname: values.lastName || "",
-      email: values.email || "",
-      phoneCode: values.phoneCode || "",
-      mobile: values.PhoneNo || "",
-      status: values.status || "",
-      gender: values.gender || "",
-      passwords: values.passwords || "",
-    });
-
-    // const sessionData = JSON.parse(sessionStorage.getItem("userDetails")); // replace with your actual key
-    const createrrole = getCreaterRole(); // Default to 'admin' if not found
+    formData.append("passwords", values.passwords || "");
+    const createrrole = getCreaterRole();
     const createrid = getCreaterId() || "";
     formData.append("createrrole", createrrole);
     formData.append("createrid", createrid);
 
-    console.log();
-
     // Add profile image if present
     if (profileImage) {
-      // Convert base64 to Blob
       const arr = profileImage.split(",");
       const mime = arr[0].match(/:(.*?);/)[1];
       const bstr = atob(arr[1]);
@@ -216,7 +219,6 @@ const CrmDetails = () => {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/UpdatecrmProfileByAdminAndHob`,
-        // "http://127.0.0.1:8080/v1/UpdatecrmProfileByAdminAndHob",
         {
           method: "POST",
           body: formData,
@@ -228,16 +230,13 @@ const CrmDetails = () => {
         message.success(
           "Customer Relationship Manager details updated successfully"
         );
-        // alert('CRM details updated successfully');
         setIsEditing(false);
       } else {
         alert("Update failed: " + (data?.error || response.statusText));
       }
     } catch (error) {
       setIsLoading(false);
-      // message.failed('Customer Relationship Manager details updated successfully');
       message.error("Error Updating form");
-      // alert('Error submitting form');
     }
   };
 
@@ -246,7 +245,6 @@ const CrmDetails = () => {
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/v1/getAllOrganizationnames`
-          // "http://127.0.0.1:8080/v1/getAllOrganizationnames",
         );
         const data = await response.json();
         if (response.ok && Array.isArray(data.data)) {
@@ -258,7 +256,6 @@ const CrmDetails = () => {
     };
     fetchTickets();
   }, []);
-
 
   const fetchBranch = async (orgName) => {
     try {
@@ -278,12 +275,10 @@ const CrmDetails = () => {
     } catch (error) { }
   };
 
-
   const fetchCmNames = async (orgName, branch) => {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/GetCmNames`,
-        // "http://127.0.0.1:8080/v1/GetCmNames",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -293,7 +288,7 @@ const CrmDetails = () => {
       if (response.ok) {
         const data = await response.json();
         if (Array.isArray(data.data)) {
-          setCmNames(data.data); // or setCmNames(data.data)
+          setCmNames(data.data);
         } else {
           setCmNames([]);
         }
@@ -303,35 +298,19 @@ const CrmDetails = () => {
     }
   };
 
-
-
-
-
-
   const handleAssign = async (values) => {
     try {
       setIsLoading(true);
-
-      // Prepare the data to log
-      // const sessionData = JSON.parse(sessionStorage.getItem("userDetails")); // replace with your actual key
-      // const createrrole = "admin";
-
-      // const createrid = sessionData?.id || "";
-
-      // Log the values that will be sent
       const payload = {
         organization: values.organization,
         branch: values.branch,
         cmid: values.cmid,
         cmname: values.cmname,
-        crmid: ticket.crmid,
-        crmname: ticket.firstname + " " + ticket.lastname,
+        crmid: crmid,
+        crmname: crmDetails ? `${crmDetails.firstname} ${crmDetails.lastname}` : "",
         createrid: getCreaterId() || "",
         createrrole: getCreaterRole() || "",
       };
-      console.log("Assign Payload:", payload);
-
-      // Prepare FormData
       const formData = new FormData();
       Object.entries(payload).forEach(([key, value]) => {
         formData.append(key, value);
@@ -344,10 +323,16 @@ const CrmDetails = () => {
       const data = await response.json();
       if (response.ok) {
         message.success("Assigned successfully!");
-             setIsLoading(false);
-       await fetchRelations(); 
+        setIsLoading(false);
+        // refetch relations
+        const relRes = await fetch(
+          `${process.env.REACT_APP_API_URL}/v1/getRelationsDataByCrmid/${crmid}`
+        );
+        const relData = await relRes.json();
+        if (relRes.ok && Array.isArray(relData.data)) {
+          setRelationsData(relData.data);
+        }
         setAssingForm(false);
-   
         form.resetFields(["organization", "branch", "cmname"]);
       } else {
         message.error(data?.error || "Assignment failed");
@@ -358,19 +343,6 @@ const CrmDetails = () => {
       setIsLoading(false);
     }
   };
-
-
-
-
-  useEffect(() => {
-    form.setFieldsValue(initialValues);
-  }, [form, initialValues]);
-
-  // const handleFormSubmit = (values) => {
-  //   // const formData = { ...values, profileImage: profileImage };
-  //   setIsEditing(false);
-  //   // handle submit
-  // };
 
   const handleImageUpload = (event) => {
     if (!isEditing) return;
@@ -447,25 +419,23 @@ const CrmDetails = () => {
   };
 
   const countries = Country.getAllCountries();
-  // const states = selectedCountry ? State.getStatesOfCountry(selectedCountry.isoCode) : [];
-  // const cities = selectedState ? City.getCitiesOfState(selectedCountry?.isoCode, selectedState.isoCode) : [];
-  // const customerManagers = ['Rambabu', 'Charan', 'Sathira', 'Jyothika'];
   const gender = ["Male", "Female"];
   const status = ["Suspend", "Active"];
 
-  // getPhoneCodeDisplay removed as unused
-
-  // const addOrgManagerPair = () => {
-  //   setOrgManagerPairs([...orgManagerPairs, { org: '', manager: '' }]);
-  // };
-
-  // const removeOrgManagerPair = (index) => {
-  //   if (orgManagerPairs.length > 1) {
-  //     const updatedPairs = [...orgManagerPairs];
-  //     updatedPairs.splice(index, 1);
-  //     setOrgManagerPairs(updatedPairs);
-  //   }
-  // };
+  if (crmDetails === null) {
+    return (
+      <div
+        style={{
+          minHeight: 300,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -487,9 +457,6 @@ const CrmDetails = () => {
           }}
         >
           <Spin size="large" fullscreen />
-          {/* <div style={{ position: 'absolute', top: '60%', width: '100%', textAlign: 'center', color: '#fff', fontSize: 18 }}>
-                        Loading... Please wait while we process your request.
-                      </div> */}
         </div>
       )}
 
@@ -499,7 +466,8 @@ const CrmDetails = () => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={initialValues}
+          enableReinitialize
+          initialValues={buildInitialValues(crmDetails)}
           onFinish={handleFormSubmit}
         >
           {/* Profile Image Section */}
@@ -509,7 +477,7 @@ const CrmDetails = () => {
                 <Avatar
                   src={
                     profileImage ||
-                    initialValues.imageUrl ||
+                    crmDetails?.imageUrl ||
                     "https://via.placeholder.com/150"
                   }
                   size={120}
@@ -691,83 +659,6 @@ const CrmDetails = () => {
                 </Select>
               </Form.Item>
             </Col>
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>Country</Text>}
-              name="country"
-              rules={[{ required: true, message: 'Country is required' }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Country"
-                optionFilterProp="children"
-                onChange={(val) => {
-                  const country = countries.find((c) => c.name === val);
-                  setSelectedCountry(country);
-                  setSelectedState(null);
-                  form.setFieldsValue({ state: '', city: '' });
-                }}
-                disabled={!isEditing}
-                size="large"
-              >
-                {countries.map((c) => (
-                  <Select.Option key={c.isoCode} value={c.name}>{c.name}</Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>State</Text>}
-              name="state"
-              rules={[{ required: true, message: 'State is required' }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select State"
-                optionFilterProp="children"
-                onChange={(val) => {
-                  const state = states.find((s) => s.name === val);
-                  setSelectedState(state);
-                  form.setFieldsValue({ city: '' });
-                }}
-                disabled={!isEditing || !selectedCountry}
-                size="large"
-              >
-                {states.map((s) => (
-                  <Select.Option key={s.isoCode} value={s.name}>{s.name}</Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>City</Text>}
-              name="city"
-              rules={[{ required: true, message: 'City is required' }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select City"
-                optionFilterProp="children"
-                disabled={!isEditing || !selectedState}
-                size="large"
-              >
-                {cities.map((c) => (
-                  <Select.Option key={c.name} value={c.name}>{c.name}</Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>Postal Code</Text>}
-              name="postalcode"
-              rules={[{ required: true, message: 'Postal code is required' }]}
-            >
-              <Input placeholder="Postal Code" disabled={!isEditing} size="large" />
-            </Form.Item>
-          </Col> */}
             <Col xs={24} md={8}>
               <Form.Item
                 label={<Text strong>Status</Text>}
@@ -880,7 +771,6 @@ const CrmDetails = () => {
                                   padding: "10px",
                                 }}
                                 onClick={() => {
-                                  // Save changes to state
                                   const updated = relationsData.map((r) =>
                                     r.id === item.id
                                       ? { ...r, ...relationEdits }
@@ -889,7 +779,6 @@ const CrmDetails = () => {
                                   setRelationsData(updated);
                                   setEditingRelationId(null);
                                   setRelationEdits({});
-                                  // TODO: Call backend API to save changes here
                                 }}
                               >
                                 Save
@@ -907,23 +796,6 @@ const CrmDetails = () => {
                             </>
                           ) : (
                             <>
-                              {/* <Button
-                                type="primary"
-                                size="small"
-                                style={{
-                                  backgroundColor: "#3e4396",
-                                  color: "#fff",
-                                  fontWeight: "bold",
-                                  marginRight: 8,
-                                  padding: "10px",
-                                }}
-                                onClick={() => {
-                                  setEditingRelationId(item.id);
-                                  setRelationEdits(item);
-                                }}
-                              >
-                                Edit
-                              </Button> */}
                               <Button
                                 size="small"
                                 danger
@@ -947,7 +819,7 @@ const CrmDetails = () => {
           </Col>
         </Form>
         {assignForm && (
-          <Form layout="vertical" form={form} onFinish={handleAssign}  >
+          <Form layout="vertical" form={form} onFinish={handleAssign}>
             <Row gutter={16} style={{ marginTop: 24, alignItems: "center" }}>
               <Col xs={24} md={8}>
                 <Form.Item
@@ -1025,8 +897,6 @@ const CrmDetails = () => {
                       ))}
                   </Select>
                 </Form.Item>
-
-                {/* Show cmid in an input below */}
                 <Form.Item label="CM ID" name="cmid" style={{ display: 'none' }}>
                   <Input disabled />
                 </Form.Item>
@@ -1038,7 +908,7 @@ const CrmDetails = () => {
                       type="primary"
                       htmlType="submit"
                       size="large"
-                      style={{ background: "#3e4396" }}
+                      style={{ background: colors.blueAccent[1000] }}
                     >
                       Assign
                     </Button>
@@ -1059,7 +929,7 @@ const CrmDetails = () => {
             }}
             style={{
               marginTop: 16,
-              backgroundColor: "#3e4396",
+              background: colors.blueAccent[1000],
               color: "#fff",
               fontWeight: "bold",
             }}
@@ -1067,68 +937,63 @@ const CrmDetails = () => {
             Add Customer Manager
           </Button>
         )}
-        {/* Form Actions moved outside the Form to keep buttons always enabled */}
         <Row justify="end" style={{ marginTop: 32 }} gutter={16}>
           {!isEditing ? (
             <Row style={{ width: "100%", justifyContent: "space-between" }} gutter={16}>
               <Col>
-              {getCreaterRole() === "admin" &&  getCreaterRole() === "hob" && (
-                <Button
-                  variant="contained"
-                  size="large"
-                  danger
-                  sx={{
-                    padding: "12px 24px",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    borderRadius: "8px",
-                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                    transition: "0.3s",
-                    backgroundColor: "#af3f3b",
-                    color: "#ffffff",
-                    textTransform: "none",
-                    "&:hover": {
-                      backgroundColor: "#db4f4a",
-                      boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-                    },
-                  }}
-                  onClick={() => {
-                    Modal.confirm({
-                      title: "Are you sure you want to delete this CRM?",
-                      content: "This action cannot be undone.",
-                      okText: "Yes, Delete",
-                      okType: "danger",
-                      cancelText: "Cancel",
-                      onOk: async () => {
-                        try {
-                          await fetch(
-                            `${process.env.REACT_APP_API_URL}/v1/deleteCrmByAdminAndHob`,
-                            {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({
-                                crmid: ticket.crmid,
-                              }),
-                            }
-                          );
-                          message.success("Crm deleted successfully!");
-                          Navigate("/crm");
-                        } catch (error) {
-                          message.error("Failed to delete Crm.");
-                        }
-                      },
-                    });
-                  }}
-                >
-                  Delete
-                </Button>
+                {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
+                  <Button
+                    variant="contained"
+                    size="large"
+                    danger
+                    style={{
+                      padding: "12px 24px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      borderRadius: "8px",
+                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+                      transition: "0.3s",
+                      backgroundColor: "#af3f3b",
+                      color: "#ffffff",
+                      textTransform: "none",
+                    }}
+                    onClick={() => {
+                      Modal.confirm({
+                        title: "Are you sure you want to delete this CRM?",
+                        content: "This action cannot be undone.",
+                        okText: "Yes, Delete",
+                        okType: "danger",
+                        cancelText: "Cancel",
+                        onOk: async () => {
+                          try {
+                            await fetch(
+                              `${process.env.REACT_APP_API_URL}/v1/deleteCrmByAdminAndHob`,
+                              {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  crmid: crmid,
+                                }),
+                              }
+                            );
+                            message.success("Crm deleted successfully!");
+                            Navigate("/crm");
+                          } catch (error) {
+                            message.error("Failed to delete Crm.");
+                          }
+                        },
+                      });
+                    }}
+                  >
+                    Delete
+                  </Button>
                 )}
               </Col>
-              <Col style={{display : assignForm ? 'none': 'block'}}>
+              <Col style={{ display: assignForm ? 'none' : 'block' }}>
                 <Button
                   type="primary"
                   style={{
-                    background: "#3e4396",
+                    background: colors.blueAccent[1000],
                     color: "#fff",
                     fontWeight: "bold",
                     borderRadius: 8,
@@ -1141,31 +1006,29 @@ const CrmDetails = () => {
               </Col>
             </Row>
           ) : (
-// {!assignForm && (
-  <Row>
-    <Col style={{display : assignForm ? 'none': 'block'}}>
-      <Button
-        type="primary"
-        htmlType="submit"
-        size="large"
-        style={{ background: "#3e4396" }}
-        onClick={() => form.submit()}
-      >
-        Save
-      </Button>
-    </Col>
-    <Col style={{display : assignForm ? 'none': 'block'}}> 
-      <Button size="large" danger onClick={handleCancel}>
-        Cancel
-      </Button>
-    </Col>
-  </Row>
-// )}
+            <Row>
+              <Col style={{ display: assignForm ? 'none' : 'block' }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  style={{
+                    background: colors.blueAccent[1000],
+                  }}
+                  onClick={() => form.submit()}
+                >
+                  Save
+                </Button>
+              </Col>
+              <Col style={{ display: assignForm ? 'none' : 'block' }}>
+                <Button size="large" danger onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </Col>
+            </Row>
           )}
         </Row>
-
       </div>
-
     </>
   );
 };

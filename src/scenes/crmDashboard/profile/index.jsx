@@ -7,8 +7,12 @@ import axios from 'axios';
 import 'antd/dist/reset.css';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { tokens } from '../../../theme'; // Adjust the path as necessary
+import { useTheme } from '@mui/material';
 
 const CrmProfile = ({apiUrl}) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -363,7 +367,7 @@ const CrmProfile = ({apiUrl}) => {
                   icon={<SaveOutlined />}
                   loading={isLoading}
                   size="large"
-                  style={{ fontWeight: 'bold', borderRadius: 8, background: '#3e4396' }}
+                  style={{ fontWeight: 'bold', borderRadius: 8, background: colors.blueAccent[1000] }}
                 >
                   Save
                 </Button>
@@ -396,7 +400,7 @@ const CrmProfile = ({apiUrl}) => {
               htmlType="button"
               icon={<EditOutlined />}
               size="large"
-              style={{ background: '#3e4396', color: '#fff', fontWeight: 'bold', borderRadius: 8 }}
+              style={{ background: colors.blueAccent[1000], color: '#fff', fontWeight: 'bold', borderRadius: 8 }}
               onClick={() => setIsEditing(true)}
             >
               Edit

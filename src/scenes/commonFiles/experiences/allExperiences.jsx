@@ -22,56 +22,51 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
+import { Table } from "antd";
 
 // Columns for DataGrid
 const columns = [
   {
-    field: "experienceid",
-    headerName: "ID",
-    flex: 0.4,
-    headerClassName: "bold-header",
-    disableColumnMenu: false,
-    minWidth: 100,
+    title: "ID",
+    dataIndex: "experienceid",
+    key: "experienceid",
+    width: 100,
+    ellipsis: true,
   },
   {
-    field: "subject",
-    headerName: "Subject",
-    flex: 2,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 200,
+    title: "Subject",
+    dataIndex: "subject",
+    key: "subject",
+    width: 200,
+    ellipsis: true,
   },
   {
-    field: "priority",
-    headerName: "Priority",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Priority",
+    dataIndex: "priority",
+    key: "priority",
+    width: 150,
+    ellipsis: true,
   },
   {
-    field: "status",
-    headerName: "Status",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+    width: 150,
+    ellipsis: true,
   },
   {
-    field: "date",
-    headerName: "Created",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Created",
+    dataIndex: "date",
+    key: "date",
+    width: 150,
+    ellipsis: true,
   },
   {
-    field: "time",
-    headerName: "Updated",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Updated",
+    dataIndex: "time",
+    key: "time",
+    width: 150,
+    ellipsis: true,
   },
 ];
 
@@ -92,67 +87,68 @@ const AllExperiences = () => {
   });
 
   // Fetch from API on mount
-const fetchTickets = async () => {
-  try {
-    const role = getCreaterRole();
-    let url = "";
-    console.log("Current role:", getCreaterRole());
-    if (role === "crm") {
-      url = `${process.env.REACT_APP_API_URL}/v1/getTicketsbycrmId/${getCreaterId()}`;
-    } else if (role === "cm") {
-      url = `${process.env.REACT_APP_API_URL}/v1/getTicketsbyCmid/${getCreaterId()}`;
-    } else if (role === "hob" || role === "admin") {
-      url = `${process.env.REACT_APP_API_URL}/v1/getAllExperiences`;
-    } else {
-      console.error("Invalid user role");
-      return;
-    }
-
-    const response = await fetch(url);
-    const data = await response.json();
-
-    // FIX: Use data.data instead of data.updatedData
-    if (response.ok && Array.isArray(data.data)) {
-      const transformedData = data.data.map((item, idx) => ({
-        id: item.experienceid || idx,
-        experienceid: item.experienceid || "N/A",
-        experience: item.experience || "N/A",
-        experiencedetails: item.experiencedetails || "N/A",
-        impact: item.impact || "N/A",
-        subject: item.subject || "N/A",
-        priority: item.priority || "N/A",
-        status: item.status || "N/A",
-        date: item.date || "N/A",
-        updated: item.updated || "N/A",
-        organizationid: item.organizationid,
-        organizationname: item.organizationname || "N/A",
-        branch: item.branch || "N/A",
-        cmid: item.cmid || "N/A",
-        crmid: item.extraind1 || "N/A",
-        crmname: item.extraind2 || "N/A",
-        cmname: item.cmname || "N/A",
-        state: item.extraind4 || "N/A",
-        city: item.extraind5 || "N/A",
-        postalcode: item.extraind6 || "N/A",
-        time: item.time || "N/A",
-        imageUrl: `${item.imageUrl || ""}`,
-      }));
-            const uniqueData = [];
-      const seen = new Set();
-      for (const row of transformedData) {
-        if (!seen.has(row.experienceid)) {
-          uniqueData.push(row);
-          seen.add(row.experienceid);
-        }
+  const fetchTickets = async () => {
+    try {
+      const role = getCreaterRole();
+      let url = "";
+      console.log("Current role:", getCreaterRole());
+      if (role === "crm") {
+        url = `${process.env.REACT_APP_API_URL}/v1/getTicketsbycrmId/${getCreaterId()}`;
+      } else if (role === "cm") {
+        url = `${process.env.REACT_APP_API_URL}/v1/getTicketsbyCmid/${getCreaterId()}`;
+      } else if (role === "hob" || role === "admin") {
+        url = `${process.env.REACT_APP_API_URL}/v1/getAllExperiences`;
+      } else {
+        console.error("Invalid user role");
+        return;
       }
 
-      setTickets(uniqueData);
-      setFilteredTickets(uniqueData);
+      const response = await fetch(url);
+      const data = await response.json();
+
+      // FIX: Use data.data instead of data.updatedData
+      if (response.ok && Array.isArray(data.data)) {
+        const transformedData = data.data.map((item, idx) => ({
+          key: item.experienceid || item.id, // Use experienceid or index as key
+          id: item.experienceid || idx,
+          experienceid: item.experienceid || "N/A",
+          experience: item.experience || "N/A",
+          experiencedetails: item.experiencedetails || "N/A",
+          impact: item.impact || "N/A",
+          subject: item.subject || "N/A",
+          priority: item.priority || "N/A",
+          status: item.status || "N/A",
+          date: item.date || "N/A",
+          updated: item.updated || "N/A",
+          organizationid: item.organizationid,
+          organizationname: item.organizationname || "N/A",
+          branch: item.branch || "N/A",
+          cmid: item.cmid || "N/A",
+          crmid: item.extraind1 || "N/A",
+          crmname: item.extraind2 || "N/A",
+          cmname: item.cmname || "N/A",
+          state: item.extraind4 || "N/A",
+          city: item.extraind5 || "N/A",
+          postalcode: item.extraind6 || "N/A",
+          time: item.time || "N/A",
+          imageUrl: `${item.imageUrl || ""}`,
+        }));
+        const uniqueData = [];
+        const seen = new Set();
+        for (const row of transformedData) {
+          if (!seen.has(row.experienceid)) {
+            uniqueData.push(row);
+            seen.add(row.experienceid);
+          }
+        }
+
+        setTickets(uniqueData);
+        setFilteredTickets(uniqueData);
+      }
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
     }
-  } catch (error) {
-    console.error("Error fetching tickets:", error);
-  }
-};
+  };
 
   React.useEffect(() => {
     fetchTickets();
@@ -230,12 +226,18 @@ const fetchTickets = async () => {
   ];
 
   const handleNewTicket = () => {
-     Navigate('/experienceRegistrationform')
-   };
-
-  const handleRowClick = (params) => {
-    Navigate("/ticketdetails", { state: { ticket: params.row } });
+    Navigate('/experienceRegistrationform')
   };
+
+
+
+  const handleRowClick = (record) => {
+    if (getCreaterRole() === "cm") {
+      Navigate(`/ticketdetails/${record.experienceid}`);
+    } else {
+      Navigate("/ticketdetails", { state: { ticket: record } });
+    }
+  }
 
   return (
     <Box m="10px">
@@ -269,7 +271,7 @@ const fetchTickets = async () => {
         {/* Export Button */}
         <Button
           sx={{
-            backgroundColor: colors.blueAccent[500],
+            background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
             fontWeight: "bold",
@@ -285,7 +287,7 @@ const fetchTickets = async () => {
         {/* Filter Button */}
         <Button
           sx={{
-            backgroundColor: colors.blueAccent[500],
+            background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
             fontWeight: "bold",
@@ -299,23 +301,23 @@ const fetchTickets = async () => {
         </Button>
 
         {getCreaterRole() === "cm" && (
-        <Button
-          variant="contained"
-          sx={{
-            background: colors.blueAccent[500],
-            fontWeight: "bold",
-            color: "#ffffff",
-            whiteSpace: "nowrap",
-            // paddingX: "15px"
-            // padding: "12px 18px ",
-            // fontSize: "14px",
-            textTransform: "none"
-          }}
-          startIcon={<AddIcon />}
-          onClick={handleNewTicket}
-        >
-          New Experience
-        </Button>
+          <Button
+            variant="contained"
+            sx={{
+              background: colors.blueAccent[1000],
+              fontWeight: "bold",
+              color: "#ffffff",
+              whiteSpace: "nowrap",
+              // paddingX: "15px"
+              // padding: "12px 18px ",
+              // fontSize: "14px",
+              textTransform: "none"
+            }}
+            startIcon={<AddIcon />}
+            onClick={handleNewTicket}
+          >
+            New Experience
+          </Button>
         )}
 
         {/* Filter Menu */}
@@ -381,155 +383,32 @@ const fetchTickets = async () => {
 
       {/* DataGrid */}
       <Box
-        height="70vh"
-        m="13px 0 0 0"
         sx={{
-          // overflowX: "hidden",
-          // "& .MuiDataGrid-root": {
-          //   border: "none",
-          //   overflowX: "auto", // Enable horizontal scrolling
-          // },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-            fontSize: "16px",
-            whiteSpace: "nowrap", // Prevent text wrapping
-            overflow: "visible", // Prevent text truncation
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none", // Remove the border below the header
-            fontWeight: "bold !important",
-            fontSize: "16px !important",
-            color: "#ffffff",
-          },
-          // "& .MuiDataGrid-root::-webkit-scrollbar-thumb":{
-          //    width: "2px !important",
-          //    height: "6px !important"
-          //  },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none", // Hide the column separator
-          },
-          // "& .MuiDataGrid-root::-webkit-scrollbar": {
-          //   display: "none", // Hides scrollbar in Chrome, Safari
-          // },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold !important", // Ensure header text is bold
-          },
-          // "& .MuiDataGrid-virtualScroller": {
-          //   backgroundColor: "#ffffff",
-          // },
-          "& .MuiDataGrid-root::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-root": {
-            // scrollbarWidth: "none !important", // Hides scrollbar in Firefox
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            // scrollbarWidth: "none !important",
-            backgroundColor: "#ffffff",
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "#D9EAFD",
-            },
-          },
-          "& .MuiTablePagination-root": {
-            color: "#ffffff !important", // Ensure pagination text is white
-          },
-          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-            color: "#ffffff !important", // Ensure select label and input text are white
-          },
-          "& .MuiTablePagination-displayedRows": {
-            color: "#ffffff !important", // Ensure displayed rows text is white
-          },
-          "& .MuiSvgIcon-root": {
-            color: "#ffffff !important", // Ensure pagination icons are white
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-            color: "#ffffff",
-          },
+          margin: "13px 0 0 0",
+          backgroundColor: "#ffffff",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          width: "100%",
+          overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-        <DataGrid
-          sx={{
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-              fontSize: "16px",
-              whiteSpace: "nowrap", // Prevent text wrapping
-              overflow: "visible", // Prevent text truncation
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none", // Remove the border below the header
-              fontWeight: "bold !important",
-              fontSize: "16px !important",
-              color: "#ffffff",
-            },
-            // "& .MuiDataGrid-root::-webkit-scrollbar-thumb":{
-            //    width: "2px !important",
-            //    height: "6px !important"
-            //  },
-            "& .MuiDataGrid-columnSeparator": {
-              display: "none", // Hide the column separator
-            },
-            // "& .MuiDataGrid-root::-webkit-scrollbar": {
-            //   display: "none", // Hides scrollbar in Chrome, Safari
-            // },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important", // Ensure header text is bold
-            },
-            // "& .MuiDataGrid-virtualScroller": {
-            //   backgroundColor: "#ffffff",
-            // },
-            "& .MuiDataGrid-root::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-root": {
-              // scrollbarWidth: "none !important", // Hides scrollbar in Firefox
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              // scrollbarWidth: "none !important",
-              backgroundColor: "#ffffff",
-            },
-            "& .MuiDataGrid-row": {
-              borderBottom: `0.5px solid ${colors.grey[300]}`, // Add border to the bottom of each row
-              "&:hover": {
-                cursor: "pointer",
-                backgroundColor: "#D9EAFD",
-              },
-            },
-            "& .MuiTablePagination-root": {
-              color: "#ffffff !important", // Ensure pagination text is white
-            },
-            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-              color: "#ffffff !important", // Ensure select label and input text are white
-            },
-            "& .MuiTablePagination-displayedRows": {
-              color: "#ffffff !important", // Ensure displayed rows text is white
-            },
-            "& .MuiSvgIcon-root": {
-              color: "#ffffff !important", // Ensure pagination icons are white
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-              color: "#ffffff",
-            },
-          }}
-          rows={filteredTickets}
+        <Table
+          dataSource={filteredTickets}
           columns={columns}
-          pageSize={10}
-          onRowClick={handleRowClick}
+          pagination={{
+            pageSize: 10,          // Always show 10 rows per page
+            showSizeChanger: false, // Remove the option to change page size
+            position: ["bottomCenter"],
+          }}
+          onRow={(record) => ({
+            onClick: () => handleRowClick(record),
+            style: { cursor: "pointer" },
+          })}
+          bordered={false}
+          showHeader={true}
+          rowClassName={() => "custom-row"}
+          className="custom-ant-table-header"
+          scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
       </Box>
     </Box>

@@ -4,9 +4,13 @@ import { Country, State, City } from "country-state-city";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
 import { getCreaterRole, getCreaterId } from "../../../config";
 
 const OrganizationForm = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -70,7 +74,7 @@ const OrganizationForm = () => {
         console.log("Final Organization ID:", FinalOrgid);
         const branch = response.data.branch;
 
-        message.success("Organization Registered successfully!");
+        // message.success("Organization Registered successfully!");
         // navigate("/organizationunitadd", { state: { orgid: FinalOrgid } });
         navigate("/organizationunitadd", { state: { orgid: FinalOrgid } });
         navigate("/organizationunitadd", { state: { orgid: FinalOrgid, organizationname: values.organization } });
@@ -332,7 +336,7 @@ const OrganizationForm = () => {
                 fontSize: "14px",
                 fontWeight: "bold",
                 borderRadius: "8px",
-                backgroundColor: "#3e4396",
+                background: colors.blueAccent[1000],
                 color: "#fff",
               }}
             >

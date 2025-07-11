@@ -10,9 +10,8 @@ import { message, Modal } from "antd";
 import { Formik } from "formik";
 import { tokens } from "../../../theme";
 import * as yup from "yup";
-import React, { useState, useEffect, useRef, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-// import download from "downloadjs";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   FormatBold,
   FormatItalic,
@@ -32,14 +31,48 @@ import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
 import Youtube from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
-// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { io } from "socket.io-client";
-// const SOCKET_URL = "http://147.182.163.213:3000/";
 
 const CmTicketDetails = () => {
-  const location = useLocation();
-  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
+  const { experienceid } = useParams();
+  const [experienceData, setExperienceData] = useState(null);
+  const [messages, setMessages] = useState([
+    { text: "Hello! How can I help you today?", sender: "support" },
+  ]);
+  const [newMessage, setNewMessage] = useState("");
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
+  const theme = useTheme();
+  const isDesktop = useMediaQuery("(min-width:600px)");
+  const isMobile = useMediaQuery("(max-width:484px)");
+  const colors = tokens(theme.palette.mode);
+  const Navigate = useNavigate();
+
+  // Fetch experience details from backend using URL param
+  useEffect(() => {
+    const fetchExperienceData = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8080/v1/experienceDetailsGet/${experienceid}`
+        );
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        if (data && Array.isArray(data.data) && data.data.length > 0) {
+          setExperienceData(data.data[0]);
+        } else {
+          setExperienceData({});
+        }
+      } catch (error) {
+        console.error("Error fetching experience data:", error);
+        setExperienceData({});
+        message.error("Failed to load experience data. Please try again later.");
+      }
+    };
+    if (experienceid) fetchExperienceData();
+  }, [experienceid]);
+
+  // Socket setup for chat (join after data is loaded)
   const socketRef = useRef();
   useEffect(() => {
     socketRef.current = io(process.env.REACT_APP_SOCKET_URL, {
@@ -47,49 +80,131 @@ const CmTicketDetails = () => {
       transports: ["websocket"],
       withCredentials: true,
     });
-    if (ticket.experienceid && ticket.crmid) {
-      socketRef.current.emit("joinRoom", {
-        experienceid: ticket.experienceid,
-        crmid: ticket.crmid,
-      });
-    }
-
-    socketRef.current.on("receiveMessage", (msg) => {
-      console.log("messag", msg);
-      setMessages((prev) => [
-        ...prev,
-        {
-          text: msg.message || msg.messege, // <-- handle both
-          sender: msg.sender,
-          time: msg.time,
-        },
-      ]);
-    });
-    socketRef.current.on("connect_error", (err) => {
-      console.error("Socket connect error:", err);
-    });
-
-    socketRef.current.on("disconnect", (reason) => {
-      console.warn("Socket disconnected:", reason);
-    });
 
     return () => {
       if (socketRef.current) socketRef.current.disconnect();
     };
-  }, [ticket.experienceid, ticket.crmid]);
+  }, []);
 
-  const theme = useTheme();
-  const isDesktop = useMediaQuery("(min-width:600px)");
-  const isMobile = useMediaQuery("(max-width:484px)");
-  const colors = tokens(theme.palette.mode);
-  const [isDownloading, setIsDownloading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  // const [isEditing, setIsEditing] = useState(false);
-  const Navigate = useNavigate();
-  const [messages, setMessages] = useState([
-    { text: "Hello! How can I help you today?", sender: "support" },
+  // Join room after experienceData is loaded and has IDs
+  useEffect(() => {
+    if (
+      socketRef.current &&
+      experienceData &&
+      experienceData.experienceid &&
+      experienceData.extraind1
+    ) {
+      socketRef.current.emit("joinRoom", {
+        experienceid: experienceData.experienceid,
+        crmid: experienceData.extraind1,
+      });
+      socketRef.current.on("receiveMessage", (msg) => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: msg.message || msg.messege,
+            sender: msg.sender,
+            time: msg.time,
+          },
+        ]);
+      });
+      socketRef.current.on("connect_error", (err) => {
+        console.error("Socket connect error:", err);
+      });
+      socketRef.current.on("disconnect", (reason) => {
+        console.warn("Socket disconnected:", reason);
+      });
+    }
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.off("receiveMessage");
+        socketRef.current.off("connect_error");
+        socketRef.current.off("disconnect");
+      }
+    };
+  }, [
+    experienceData?.experienceid,
+    experienceData?.extraind1,
+    experienceData, // depend on object, safer for hot reloads
   ]);
-  const [newMessage, setNewMessage] = useState("");
+
+  // Fetch chat messages initially after data is loaded
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (!experienceData?.experienceid || !experienceData?.extraind1) return;
+      try {
+        const res = await fetch(
+          `${process.env.REACT_APP_API_URL}/v1/getChatMessages?experienceid=${experienceData.experienceid}&crmid=${experienceData.extraind1}`
+        );
+        const data = await res.json();
+        if (Array.isArray(data.messages)) {
+          setMessages(
+            data.messages.map((msg) => ({
+              text: msg.messege,
+              sender: msg.sender,
+              time: msg.time,
+              crmname: msg.extraind1,
+            }))
+          );
+        }
+      } catch (error) {
+        setMessages([
+          { text: "Failed to load messages.", sender: "support", time: "" },
+        ]);
+      }
+    };
+    fetchMessages();
+  }, [experienceData?.experienceid, experienceData?.extraind1]);
+
+  // TipTap Editor setup
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+      }),
+      TableTiptap.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+      Youtube,
+    ],
+    content: newMessage,
+    onUpdate: ({ editor }) => {
+      setNewMessage(editor.getHTML());
+    },
+    onTransaction: ({ editor }) => {
+      if (
+        socketRef.current &&
+        experienceData?.experienceid &&
+        experienceData?.extraind1
+      ) {
+        socketRef.current.emit("insert", {
+          experienceid: experienceData.experienceid,
+          crmid: experienceData.extraind1,
+          content: editor.getHTML(),
+        });
+      }
+    },
+  });
+
+  // Listen for 'insert' events to update the editor content in real-time
+  useEffect(() => {
+    if (!socketRef.current) return;
+    const handleInsert = (data) => {
+      if (data && data.content && editor) {
+        editor.commands.setContent(data.content);
+      }
+    };
+    socketRef.current.on("insert", handleInsert);
+    return () => {
+      socketRef.current.off("insert", handleInsert);
+    };
+  }, [editor, experienceData?.experienceid, experienceData?.extraind1]);
 
   const getExperienceColor = (experience) => {
     switch (experience) {
@@ -111,53 +226,34 @@ const CmTicketDetails = () => {
     console.log("Form Data:", { ...values, fullPhoneNumber });
   };
 
-  const initialValues = {
-    organizationid: ticket.organizationid || "",
-    organization: ticket.organizationname || "",
-    crmid: ticket.crmid || "",
-    cmname: ticket.cmname || "",
-    experience: ticket.experience || "",
-    branch: ticket.branch || "",
-    priority: ticket.priority || "",
-    crmname: ticket.crmname || "",
-    status: ticket.status || "",
-    department: ticket.department || "",
-    date: ticket.date || "",
-    time: ticket.time || "",
-    subject: ticket.subject || "",
-    requestdetails: ticket.experiencedetails || "",
-    phoneCode: ticket.phoneCode || "",
-    PhoneNo: ticket.PhoneNo || "",
-    notes: ticket.notes || "",
-    impact: ticket.impact || "",
-    id: ticket.experienceid || "",
-    imageUrl: ticket.imageUrl || "",
-  };
+  // Defensive: if experienceData is null, show loading
+  if (experienceData === null) {
+    return <Box>Loading...</Box>;
+  }
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      if (!ticket.experienceid || !ticket.crmid) return;
-      try {
-        const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getChatMessages?experienceid=${ticket.experienceid}&crmid=${ticket.crmid}`
-        );
-        const data = await res.json();
-        if (Array.isArray(data.messages)) {
-          setMessages(
-            data.messages.map((msg) => ({
-              text: msg.messege, // <-- use 'messege'
-              sender: msg.sender,
-              time: msg.time,
-              crmname: msg.extraind1, // <-- include crmname if available
-            }))
-          );
-        }
-      } catch (error) {
-        setMessages([{ text: "Failed to load messages.", sender: "support" }]);
-      }
-    };
-    fetchMessages();
-  }, [ticket.experienceid, ticket.crmid]);
+  // Defensive: buildInitialValues always receives an object
+  const buildInitialValues = (data = {}) => ({
+    organizationid: data.organizationid || "",
+    organization: data.organizationname || "",
+    crmid: data.extraind1 || "",
+    cmname: data.cmname || "",
+    crmname: data.extraind2 || "",
+    experience: data.experience || "",
+    branch: data.branch || "",
+    priority: data.priority || "",
+    status: data.status || "",
+    department: data.department || "",
+    date: data.date || "",
+    time: data.time || "",
+    subject: data.subject || "",
+    requestdetails: data.experiencedetails || "",
+    phoneCode: data.phonecode || "",
+    PhoneNo: data.Phoneno || "",
+    notes: data.notes || "",
+    impact: data.impact || "",
+    id: data.experienceid || "",
+    imageUrl: data.imageUrl || "",
+  });
 
   const checkoutSchema = yup.object().shape({
     organization: yup.string().required("Required"),
@@ -178,12 +274,10 @@ const CmTicketDetails = () => {
     notes: yup.string(),
   });
 
-
-
-  const fileUrl = ticket.imageUrl || ""; // your file URL
+  const fileUrl = experienceData.imageUrl || "";
   const filename = fileUrl.split("/").pop() || "attachment";
 
-  const handleDownload = async (fileUrl) => {
+  const handleDownload = async () => {
     if (!fileUrl) {
       message.error("No attachment available.");
       return;
@@ -219,53 +313,6 @@ const CmTicketDetails = () => {
     }
   };
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Image.configure({
-        inline: true,
-        allowBase64: true,
-      }),
-      TableTiptap.configure({
-        resizable: true,
-      }),
-      TableRow,
-      TableHeader,
-      TableCell,
-      Youtube,
-    ],
-    content: newMessage,
-    onUpdate: ({ editor }) => {
-      setNewMessage(editor.getHTML());
-    },
-    // Enable collaborative editing (emit changes)
-    onTransaction: ({ editor }) => {
-      // Emit the message content to the server for real-time sync
-      if (socketRef.current && ticket.experienceid && ticket.crmid) {
-        socketRef.current.emit("insert", {
-          experienceid: ticket.experienceid,
-          crmid: ticket.crmid,
-          content: editor.getHTML(),
-        });
-      }
-    },
-  });
-
-  // Listen for 'insert' events to update the editor content in real-time
-  useEffect(() => {
-    if (!socketRef.current) return;
-    const handleInsert = (data) => {
-      if (data && data.content && editor) {
-        editor.commands.setContent(data.content);
-      }
-    };
-    socketRef.current.on("insert", handleInsert);
-    return () => {
-      socketRef.current.off("insert", handleInsert);
-    };
-  }, [editor, ticket.experienceid, ticket.crmid]);
-
   const addImage = () => {
     const url = window.prompt("Enter the URL of the image:");
     if (url) {
@@ -298,34 +345,20 @@ const CmTicketDetails = () => {
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
-    const cmid = ticket.cmid || "";
+    const cmid = experienceData.cmid || "";
     const msgData = {
-      experienceid: ticket.experienceid,
-      crmid: ticket.crmid,
+      experienceid: experienceData.experienceid,
+      crmid: experienceData.extraind1,
       cmid,
       message: newMessage,
       sender: "user",
-      crmname: ticket.crmname,
+      crmname: experienceData.extraind2,
     };
-    console.log("msg data", msgData);
 
-    // Emit real-time message (do NOT optimistically add to UI)
     socketRef.current.emit("sendMessage", msgData);
 
-    // REMOVE this block:
-    // setMessages((prev) => [
-    //   ...prev,
-    //   {
-    //     text: newMessage,
-    //     sender: "user",
-    //     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    //   }
-    // ]);
-
-    // Save message to DB via REST API
     try {
-      // await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
-         await fetch(`http://127.0.0.1:8080/v1/chatInsert`, {
+      await fetch(`http://127.0.0.1:8080/v1/chatInsert`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(msgData),
@@ -336,54 +369,8 @@ const CmTicketDetails = () => {
     }
 
     setNewMessage("");
-    editor.commands.clearContent();
+    if (editor) editor.commands.clearContent();
   };
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      if (!ticket.experienceid || !ticket.crmid) return;
-      try {
-        const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getChatMessages?experienceid=${ticket.experienceid}&crmid=${ticket.crmid}`
-        );
-        const data = await res.json();
-        if (Array.isArray(data.messages)) {
-          setMessages(
-            data.messages.map((msg) => ({
-              text: msg.messege, // <-- use 'messege'
-              sender: msg.sender,
-              time: msg.time,
-            }))
-          );
-        }
-      } catch (error) {
-        setMessages([
-          { text: "Failed to load messages.", sender: "support", time: "" },
-        ]);
-      }
-    };
-    fetchMessages();
-  }, [ticket.experienceid, ticket.crmid]);
-
-  // const customerManagers = [
-  //   "Rambabu",
-  //   "Charan",
-  //   "Lakshman",
-  //   "Satya dev",
-  //   "Ram",
-  // ];
-
-  // const priority = [
-  //   "Urgent",
-  //   "High",
-  //   "Low",
-  // ];
-
-  // const status = [
-  //   "Pending",
-  //   "Processing",
-  //   "Closed",
-  // ];
 
   return (
     <Box
@@ -392,7 +379,7 @@ const CmTicketDetails = () => {
         gridTemplateColumns: {
           xs: "1fr",
           sm: "1fr",
-          md: "repeat(2, 1fr)",
+          md: "60% 40%",
         },
         gap: { xs: 2, sm: 3 },
         p: { xs: 1, sm: 2 },
@@ -413,7 +400,8 @@ const CmTicketDetails = () => {
         }}
       >
         <Formik
-          initialValues={initialValues}
+          enableReinitialize
+          initialValues={buildInitialValues(experienceData)}
           validationSchema={checkoutSchema}
           onSubmit={handleFormSubmit}
         >
@@ -597,13 +585,12 @@ const CmTicketDetails = () => {
                   </Typography>
                 </Box>
 
-
                 {/* Download Button */}
+                {experienceData.filename && (
                 <Box sx={{ display: "flex", gap: 2 }}>
-                  {ticket.imageUrl && (
+                  {fileUrl && (
                     <Button
                       variant="contained"
-                      // icon={<DownloadOutlined />}
                       disabled={isDownloading}
                       onClick={handleDownload}
                       sx={{ minWidth: 180 }}
@@ -612,6 +599,7 @@ const CmTicketDetails = () => {
                     </Button>
                   )}
                 </Box>
+                )}
 
                 {/* Action Buttons */}
                 <Box
@@ -622,55 +610,58 @@ const CmTicketDetails = () => {
                     mt: 1,
                   }}
                 >
-                  {ticket.status === "New" && (
-                  <Button
-                    variant="contained"
-                    sx={{
-                      padding: "12px 24px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      borderRadius: "8px",
-                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                      transition: "0.3s",
-                      backgroundColor: colors.redAccent[400],
-                      color: "#ffffff",
-                      textTransform: "none",
-                      "&:hover": {
-                        backgroundColor: colors.redAccent[500],
-                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-                      },
-                    }}
-                    onClick={() => {
-                      Modal.confirm({
-                        title: "Are you sure you want to delete this experience?",
-                        content: "This action cannot be undone.",
-                        okText: "Yes, Delete",
-                        okType: "danger",
-                        cancelText: "Cancel",
-                        onOk: async () => {
-                          try {
-                            await fetch(
-                              `${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`,
-                              {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                  experienceid: ticket.experienceid,
-                                }),
-                              }
-                            );
-                            message.success("Experience deleted successfully!");
-                            Navigate("/");
-                          } catch (error) {
-                            message.error("Failed to delete experience.");
-                          }
+                  {values.status === "New" && (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        padding: "12px 24px",
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        borderRadius: "8px",
+                        boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+                        transition: "0.3s",
+                        backgroundColor: colors.redAccent[400],
+                        color: "#ffffff",
+                        textTransform: "none",
+                        "&:hover": {
+                          backgroundColor: colors.redAccent[500],
+                          boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
                         },
-                      });
-                    }}
-                  >
-                    Delete
-                  </Button>
-              )}
+                      }}
+                      onClick={() => {
+                        Modal.confirm({
+                          title:
+                            "Are you sure you want to delete this experience?",
+                          content: "This action cannot be undone.",
+                          okText: "Yes, Delete",
+                          okType: "danger",
+                          cancelText: "Cancel",
+                          onOk: async () => {
+                            try {
+                              await fetch(
+                                `${process.env.REACT_APP_API_URL}/v1/deleteExperienceByCm`,
+                                {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify({
+                                    experienceid: values.id,
+                                  }),
+                                }
+                              );
+                              message.success("Experience deleted successfully!");
+                              Navigate("/");
+                            } catch (error) {
+                              message.error("Failed to delete experience.");
+                            }
+                          },
+                        });
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  )}
                 </Box>
               </Box>
             </form>
@@ -687,7 +678,7 @@ const CmTicketDetails = () => {
           display: "flex",
           flexDirection: "column",
           gap: 3,
-          width: "80%",
+          width: "100%",
           minWidth: 0,
         }}
       >
@@ -704,7 +695,6 @@ const CmTicketDetails = () => {
           }}
         >
           <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-            {" "}
             Discussions
           </Typography>
           <Typography sx={{ mb: 2, color: colors.grey[600] }}>
@@ -736,7 +726,6 @@ const CmTicketDetails = () => {
                 }}
               >
                 <Box>
-                  {/* Show extraind1 above the message if sender is manager */}
                   {message.sender === "manager" ? (
                     <Typography
                       variant="caption"
@@ -764,7 +753,6 @@ const CmTicketDetails = () => {
                       You
                     </Typography>
                   )}
-                  {/* Message bubble */}
                   <Box
                     sx={{
                       p: 1.5,
@@ -780,7 +768,6 @@ const CmTicketDetails = () => {
                     }}
                     dangerouslySetInnerHTML={{ __html: message.text }}
                   />
-                  {/* Time below the message */}
                   {message.time && (
                     <Typography
                       variant="caption"
@@ -809,7 +796,6 @@ const CmTicketDetails = () => {
               flexDirection: "column",
             }}
           >
-            {/* Toolbar */}
             {editor && (
               <Box
                 sx={{
@@ -870,7 +856,6 @@ const CmTicketDetails = () => {
                 </IconButton>
               </Box>
             )}
-            {/* Editor Content */}
             <Box
               sx={{
                 display: "flex",
@@ -915,7 +900,7 @@ const CmTicketDetails = () => {
             disabled={!newMessage.trim()}
             fullWidth
             sx={{
-              backgroundColor: colors.blueAccent[700],
+              background: colors.blueAccent[1000],
               color: "#ffffff",
               "&:hover": { backgroundColor: colors.blueAccent[600] },
               textTransform: "none",

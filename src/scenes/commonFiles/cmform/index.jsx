@@ -11,6 +11,7 @@ import {
   Typography,
   message,
   Spin,
+  Result
 } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
@@ -18,6 +19,9 @@ import "react-image-crop/dist/ReactCrop.css";
 import { Country } from "country-state-city";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
+import { CheckCircleTwoTone } from "@ant-design/icons";
 import { getCreaterRole, getCreaterId } from "../../../config"; // Adjust the path as necessary
 
 const { Option } = Select;
@@ -37,7 +41,27 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   };
 }
 
+
+const SuccessScreen = ({ onNext }) => (
+
+  <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
+    <Result
+      icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
+      title={<span style={{ fontSize: 45, fontWeight: 700 }}>Congratulations!</span>}
+      subTitle={<span style={{ fontSize: 25 }}>Your account has been created successfully.</span>}
+      extra={[
+        <Button type="primary" size="large" key="next" onClick={onNext} style={{ fontSize: 18, borderRadius: 8, backgroundColor: '#3e4396', borderColor: '#3e4396' }}>
+          Continue
+        </Button>
+      ]}
+      style={{ background: "#fff", borderRadius: 16, padding: 32, }}
+    />
+  </div>
+);
+
 const CmForm = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const navigate = useNavigate();
   // const [isEditing, setIsEditing] = useState(false);
@@ -59,6 +83,7 @@ const CmForm = () => {
   const [createdCmId, setCreatedCmId] = useState(null);
   const [modalOrganizationNames, setModalOrganizationNames] = useState([]);
   const [modalBranchNames, setModalBranchNames] = useState([]);
+    const [showSuccess, setShowSuccess] = useState(false);
 
   //  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
   useEffect(() => {
@@ -247,16 +272,17 @@ const CmForm = () => {
         { headers: { "Content-Type": "multipart/form-data, charset=utf-8" } }
       );
       // Modal.success({ content: "CM Registered Successfully!" });
-      message.success("CM Registered Successfully!");
+      // message.success("CM Registered Successfully!");
       const cmData = responce.data.data || {};
       const FinalCmid = responce.data.cmid || cmData.cmid;
 
-      message.success("CM Registered Successfully!");
+      // message.success("CM Registered Successfully!");
       setEditValues({ ...values, profileImage, cmid: FinalCmid }); // <-- set modal values
       setCreatedCmId(FinalCmid);
+      setShowSuccess(true);
       setOriginalEditValues({ ...values, profileImage });
-      setShowEditModal(true); // <-- open modal
-      setIsEditMode(false);
+      // setShowEditModal(true); // <-- open modal
+      // setIsEditMode(false);
       setIsLoading(false);
     } catch (error) {
       // Modal.error({ content: "Error submitting form" });
@@ -578,7 +604,7 @@ const CmForm = () => {
 
 
 
-
+{!showSuccess && (
       <div
         style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
       >
@@ -769,19 +795,6 @@ const CmForm = () => {
                 </Select>
               </Form.Item>
             </Col>
-            {/* <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>Designation</Text>}
-                name="designation"
-                rules={[{ required: true, message: "Designation is required" }]}
-              >
-                <Input
-                  placeholder="Designation"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col> */}
             <Col xs={24} md={8}>
               <Form.Item
                 label={<Text strong>Organization</Text>}
@@ -868,7 +881,7 @@ const CmForm = () => {
                 htmlType="submit"
                 size="large"
                 style={{
-                  background: "#3e4396",
+                  background: colors.blueAccent[1000],
                   color: "#fff",
                   fontWeight: "bold",
                   borderRadius: 8,
@@ -880,6 +893,10 @@ const CmForm = () => {
           </Row>
         </Form>
       </div>
+)}
+            {showSuccess && (
+        <SuccessScreen onNext={() => navigate(`/cmdetails/${createdCmId}`)} />
+      )}
     </>
   );
 };

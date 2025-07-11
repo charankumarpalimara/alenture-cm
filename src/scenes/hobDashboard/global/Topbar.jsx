@@ -104,7 +104,7 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        backgroundColor: selected === to ? colors.blueAccent[700] : "inherit",
+        background: selected === to ? colors.blueAccent[1000] : "inherit",
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
@@ -567,7 +567,7 @@ const Topbar = ({ onLogout }) => {
                 {getGreeting()} Delphin
               </Typography> */}
               <Typography
-                sx={{ color: "#8d8d8d", fontSize: isMobile ? "16px" : "16px" }}
+                sx={{ color: "#000000", fontSize: isMobile ? "16px" : "16px" }}
               >
                 {currentTime.toLocaleString("en-US", {
                   month: "long",
@@ -596,7 +596,7 @@ const Topbar = ({ onLogout }) => {
                       width: isMobile ? 25 : 30,
                       height: isMobile ? 25 : 30,
                       borderRadius: "50%",
-                      backgroundColor: colors.blueAccent[500],
+                      background: colors.blueAccent[1000],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -617,7 +617,7 @@ const Topbar = ({ onLogout }) => {
                     width: isMobile ? 25 : 30,
                     height: isMobile ? 25 : 30,
                     borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
+                    background: colors.blueAccent[1000],
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -666,7 +666,7 @@ const Topbar = ({ onLogout }) => {
                 {getGreeting()} Delphin
               </Typography> */}
               <Typography
-                sx={{ color: "#8d8d8d", fontSize: isMobile ? "14px" : "16px" }}
+                sx={{ color: "#000000", fontSize: isMobile ? "14px" : "16px" }}
               >
                 {currentTime.toLocaleString("en-US", {
                   month: "long",
@@ -686,6 +686,8 @@ const Topbar = ({ onLogout }) => {
                 display: "flex",
                 width: "fit-content",
                 alignItems: "center",
+                gap: 1,
+
               }}
             >
               <IconButton sx={{ gap: 1 }} onClick={handleNotificationsClick}>
@@ -695,7 +697,7 @@ const Topbar = ({ onLogout }) => {
                       width: isMobile ? 25 : 30,
                       height: isMobile ? 25 : 30,
                       borderRadius: "50%",
-                      backgroundColor: colors.blueAccent[500],
+                      background: colors.blueAccent[1000],
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -716,7 +718,7 @@ const Topbar = ({ onLogout }) => {
                     width: isMobile ? 25 : 30,
                     height: isMobile ? 25 : 30,
                     borderRadius: "50%",
-                    backgroundColor: colors.blueAccent[500],
+                    background: colors.blueAccent[1000],
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -751,7 +753,7 @@ const Topbar = ({ onLogout }) => {
         )}
 
         {/* Page Title Section */}
-        {isMobile ? (
+        {/* {isMobile ? (
           <Box
             display="flex"
             flexDirection="row"
@@ -766,7 +768,6 @@ const Topbar = ({ onLogout }) => {
               padding: "20px",
             }}
           >
-            {/* Greeting Message */}
             <Box
               borderRadius="3px"
               sx={{
@@ -820,7 +821,6 @@ const Topbar = ({ onLogout }) => {
               paddingLeft: 35,
             }}
           >
-            {/* Greeting Message */}
             <Box
               borderRadius="3px"
               sx={{
@@ -874,7 +874,7 @@ const Topbar = ({ onLogout }) => {
               </Box>
             </Box>
           </Box>
-        )}
+        )} */}
       </Box>
 
       <Drawer
@@ -979,7 +979,7 @@ const Topbar = ({ onLogout }) => {
               handleClose={() => setIsModalOpen(false)}
             />
             <Item
-              title="Customer Relationship Manager"
+              title="Relationship Manager"
               to="/crm"
               icon={<HandshakeOutlinedIcon />}
               selected={selected}

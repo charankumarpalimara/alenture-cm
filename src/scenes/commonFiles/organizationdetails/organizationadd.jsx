@@ -14,12 +14,16 @@ import { Country, State, City } from "country-state-city";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
 import { getCreaterId, getCreaterRole } from "../../../config";
 
 
 const { Text } = Typography;
 
 const Organizationadd = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const Navigate = useNavigate();
@@ -500,7 +504,7 @@ const handleFormSubmit = async () => {
                 fontSize: "14px",
                 fontWeight: "bold",
                 borderRadius: "8px",
-                backgroundColor: "#3e4396",
+                background: colors.blueAccent[1000],
                 color: "#fff",
               }}
             >

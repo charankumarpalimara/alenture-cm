@@ -12,6 +12,7 @@ import { tokens } from "../../../theme";
 import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole } from "../../../config";
+import { Table } from "antd";
 // import { Country } from "country-state-city";
 
 // const initialTickets = [
@@ -28,38 +29,41 @@ import { getCreaterRole } from "../../../config";
 
 const columns = [
   {
-    field: "id",
-    headerName: "ID",
-    flex: 0.4,
-    headerClassName: "bold-header",
-    disableColumnMenu: false,
-    minWidth: 100,
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
+    width: 100,
+    ellipsis: true,
+    render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
   },
   {
-    field: "name",
-    headerName: "Organization",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 200,
+    title: "Organization",
+    dataIndex: "name",
+    key: "name",
+    width: 200,
+    ellipsis: true,
   },
   {
-    field: "mobile",
-    headerName: "Phone",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "Phone",
+    dataIndex: "mobile",
+    key: "mobile",
+    width: 150,
+    ellipsis: true,
   },
   {
-    field: "district",
-    headerName: "City",
-    flex: 1,
-    headerClassName: "bold-header",
-    disableColumnMenu: true,
-    minWidth: 150,
+    title: "City",
+    dataIndex: "district",
+    key: "district",
+    width: 150,
+    ellipsis: true,
   },
-  // { field: "branchtype", headerName: "Branch Type", flex: 1, headerClassName: "bold-header", disableColumnMenu: true, minWidth: 150 },
+  // {
+  //   title: "Branch Type",
+  //   dataIndex: "branchtype",
+  //   key: "branchtype",
+  //   width: 150,
+  //   ellipsis: true,
+  // },
 ];
 
 const AdminANDHobOrganization = () => {
@@ -100,6 +104,7 @@ const AdminANDHobOrganization = () => {
         if (response.ok) {
           if (Array.isArray(data.data)) {
             const transformedData = data.data.map((item) => ({
+              key: item.organizationid || item.id || "N/A",
               id: item.organizationid || "N/A",
               name: item.organizationname || "N/A",
               phonenocode: item.phonecode || "N/A",
@@ -171,8 +176,8 @@ const handleNewTicket = () => {
   Navigate("/organizationform");
 };
 
-  const handleRowClick = (params) => {
-    Navigate("/organizationdetails", { state: { ticket: params.row } });
+  const handleRowClick = (record) => {
+    Navigate("/organizationdetails", { state: { ticket: record } });
   };
 
   return (
@@ -205,7 +210,7 @@ const handleNewTicket = () => {
   <Button
     variant="contained"
     sx={{
-      background: colors.blueAccent[500],
+      background: colors.blueAccent[1000],
       fontWeight: "bold",
       color: "#ffffff",
       whiteSpace: "nowrap",
@@ -219,138 +224,36 @@ const handleNewTicket = () => {
 )}
       </Box>
       <Box
-        height="70vh"
-        m="13px 0 0 0"
         sx={{
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-            fontSize: "16px",
-            whiteSpace: "nowrap",
-            overflow: "visible",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-            fontWeight: "bold !important",
-            fontSize: "16px !important",
-            color: "#ffffff",
-          },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            fontWeight: "bold !important",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: "#ffffff",
-          },
-          "& .MuiDataGrid-root::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-            display: "none !important",
-          },
-          "& .MuiDataGrid-root": {
-            scrollbarWidth: "none !important",
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "#D9EAFD",
-            },
-          },
-          "& .MuiDataGrid-row": {
-            borderBottom: `0.5px solid ${colors.grey[300]}`,
-            "&:hover": {
-              cursor: "pointer",
-              backgroundColor: "#D9EAFD",
-            },
-          },
-          "& .MuiTablePagination-root": {
-            color: "#ffffff !important",
-          },
-          "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-            color: "#ffffff !important",
-          },
-          "& .MuiTablePagination-displayedRows": {
-            color: "#ffffff !important",
-          },
-          "& .MuiSvgIcon-root": {
-            color: "#ffffff !important",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-            color: "#ffffff",
-          },
+          margin: "13px 0 0 0",
+          backgroundColor: "#ffffff",
+          borderRadius: "8px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          width: "100%",
+          overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-        <DataGrid
-          sx={{
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-              fontSize: "16px",
-              whiteSpace: "nowrap",
-              overflow: "visible",
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[700],
-              borderBottom: "none",
-              fontWeight: "bold !important",
-              fontSize: "16px !important",
-              color: "#ffffff",
-            },
-            "& .MuiDataGrid-columnSeparator": {
-              display: "none",
-            },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold !important",
-            },
-            "& .MuiDataGrid-root::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-virtualScroller::-webkit-scrollbar": {
-              display: "none !important",
-            },
-            "& .MuiDataGrid-root": {
-              "&:hover": {
-                cursor: "pointer",
-                backgroundColor: "#D9EAFD",
-              },
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: "#ffffff",
-            },
-            "& .MuiDataGrid-row": {
-              borderBottom: `0.5px solid ${colors.grey[300]}`,
-              "&:hover": {
-                cursor: "pointer",
-                backgroundColor: "#D9EAFD",
-              },
-            },
-            "& .MuiTablePagination-root": {
-              color: "#ffffff !important",
-            },
-            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
-              color: "#ffffff !important",
-            },
-            "& .MuiTablePagination-displayedRows": {
-              color: "#ffffff !important",
-            },
-            "& .MuiSvgIcon-root": {
-              color: "#ffffff !important",
-            },
-            "& .MuiDataGrid-footerContainer": {
-              borderTop: "none",
-              backgroundColor: colors.blueAccent[700],
-              color: "#ffffff",
-            },
-          }}
-          rows={filteredTickets}
+        <Table
+          dataSource={filteredTickets}
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          onRowClick={handleRowClick}
+          pagination={{
+            pageSize: 10,          // Always show 10 rows per page
+            showSizeChanger: false, // Remove the option to change page size
+            position: ["bottomCenter"],
+          }}
+          onRow={(record) => ({
+            onClick: () => handleRowClick(record),
+            style: { cursor: "pointer" },
+          })}
+          bordered={false}
+          showHeader={true}
+          rowClassName={() => "custom-row"}
+          className="custom-ant-table-header"
+          scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
       </Box>
+
+
     </Box>
   );
 };

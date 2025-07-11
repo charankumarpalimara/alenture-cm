@@ -1,10 +1,13 @@
 import {  getCreaterId, getCreaterName } from "../../../config";
-import { Form, Input, Button as AntdButton, Select as AntdSelect, Typography as AntdTypography, Upload, Spin, message, Modal } from 'antd';
+import { Form, Input, Button as AntdButton, Select as AntdSelect, Typography as AntdTypography, Upload, Spin, message, Modal, Result } from 'antd';
+import { CheckCircleTwoTone } from "@ant-design/icons";
 import { useMediaQuery } from "@mui/material";
 import { UploadOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
 const { Option } = AntdSelect;
 const { TextArea } = Input;
  // Adjust the import path as
@@ -22,7 +25,29 @@ const impactOptions = [
   { value: "Customer experience", label: "👥 Customer Experience", color: "#00ACC1" },
 ];
 
+
+
+
+const SuccessScreen = ({ onNext }) => (
+
+  <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
+    <Result
+      icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
+      title={<span style={{ fontSize: 45, fontWeight: 700 }}>Congratulations!</span>}
+      subTitle={<span style={{ fontSize: 25 }}>Your account has been created successfully.</span>}
+      extra={[
+        <AntdButton type="primary" size="large" key="next" onClick={onNext} style={{ fontSize: 18, borderRadius: 8, backgroundColor: '#3e4396', borderColor: '#3e4396' }}>
+          Continue
+        </AntdButton>
+      ]}
+      style={{ background: "#fff", borderRadius: 16, padding: 32, }}
+    />
+  </div>
+);
+
 const CmExperienceRegistrationForm = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +56,9 @@ const CmExperienceRegistrationForm = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editValues, setEditValues] = useState({});
   const [createdTicketId, setCreatedTicketId] = useState(null);
-    const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [originalEditValues, setOriginalEditValues] = useState({});
+  const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleFileChange = (info) => {
@@ -97,8 +123,10 @@ const CmExperienceRegistrationForm = () => {
         experienceid: experienceid,
       });
       setCreatedTicketId(experienceid); // <-- store for update
-      setShowEditModal(true);
-      message.success("Experience Registered Successfully!");
+      // setShowEditModal(true);
+      // message.success("Experience Registered Successfully!");
+      setShowSuccess(true);
+
       form.resetFields();
       setSelectedFile(null);
       setExperience("");
@@ -314,7 +342,7 @@ const CmExperienceRegistrationForm = () => {
       </div>
     </Form>
   </Modal>
-
+{!showSuccess && (
       <div style={{ backgroundColor: "#fff", padding: 20 }}>
         <Form
           form={form}
@@ -427,7 +455,7 @@ const CmExperienceRegistrationForm = () => {
                 borderRadius: "3px",
                 boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                 color: "#ffffff",
-                background: '#3e4396',
+                background: colors.blueAccent[1000],
                 transition: "0.3s",
                 textTransform: "none",
                 width: '100%',
@@ -440,6 +468,11 @@ const CmExperienceRegistrationForm = () => {
           </div>
         </Form>
       </div>
+
+            )}
+      {showSuccess && (
+        <SuccessScreen onNext={() => navigate(`/ticketdetails/${createdTicketId}`)} />
+      )}
     </>
   );
 };

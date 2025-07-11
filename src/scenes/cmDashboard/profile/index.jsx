@@ -19,8 +19,12 @@ import {
 import axios from "axios";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
 
 const CmProfile = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -334,7 +338,7 @@ const handleFinish = async (values) => {
                     style={{
                       fontWeight: "bold",
                       borderRadius: 8,
-                      background: "#3e4396",
+                      background: colors.blueAccent[1000],
                     }}
                     htmlType="submit"
                   >
@@ -401,7 +405,7 @@ const handleFinish = async (values) => {
                 icon={<EditOutlined />}
                 size="large"
                 style={{
-                  background: "#3e4396",
+                  background: colors.blueAccent[1000],
                   color: "#fff",
                   fontWeight: "bold",
                   borderRadius: 8,

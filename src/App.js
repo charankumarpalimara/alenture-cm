@@ -287,7 +287,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/notes" element={<Notes />} />
                   <Route path="/profile" element={<CmProfile />} />
-                  <Route path="/ticketdetails" element={<CmTicketDetails />} />
+                  <Route path="/ticketdetails/:experienceid" element={<CmTicketDetails />} />
                   <Route path="/allExperiences" element={<AllExperiences />} />
                   <Route path="/newExperiences" element={<NewExperiences />} />
                   <Route path="/pendingExperiences" element={<PendingExperiences />} />
@@ -298,7 +298,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/" element={<Dashboard />} />
                   <Route path='/cm' element={<Cm />} />
                   <Route path="/cmform" element={<CmForm />} />
-                  <Route path="/cmdetails" element={<CmDetails />} />
+                  <Route path="/cmdetails/:createdCmId" element={<CmDetails />} />
                   <Route path="/experiences" element={<Experinces />} />
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/notes" element={<Notes />} />
@@ -318,13 +318,16 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/" element={<Dashboard />} />
                   <Route path='/cm' element={<Cm />} />
                   <Route path="/cmform" element={<CmForm />} />
-                  <Route path="/cmdetails" element={<CmDetails />} />
+                  <Route path="/cmdetails/:createdCmId" element={<CmDetails />} />
+
                   <Route path='/crm' element={<Crm />} />
-                    <Route path='/crmform' element={<CrmForm />} />
-                  <Route path="/crmdetails" element={<CrmDetails />} />
+                  <Route path='/crmform' element={<CrmForm />} />
+                  <Route path="/crmdetails/:createdCrmId" element={<CrmDetails />} />
+
                   <Route path="/hob" element={<Hob />} />
                   <Route path="/hobform" element={<HobForm />} />
-                  <Route path="/hobdetails" element={<HobDetails />} />
+                  <Route path="/hobdetails/:createdHobId" element={<HobDetails />} />
+
                   <Route path="/profile" element={<AdminProfile />} />
                   <Route path="/hobprofile" element={<HobProfile />} />
                   <Route path="/calendar" element={<Calendar />} />
@@ -350,15 +353,18 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                 <>       
 
                   <Route path="/" element={<Dashboard />} />
+
                   <Route path='/cm' element={<Cm />} />
                   <Route path="/cmform" element={<CmForm />} />
-                  <Route path="/cmdetails" element={<CmDetails />} />
+                  <Route path="/cmdetails/:createdCmId" element={<CmDetails />} />
+
                   <Route path='/crm' element={<Crm />} />
                   <Route path='/crmform' element={<CrmForm />} />
-                  <Route path="/crmdetails" element={<CrmDetails />} />
+                  <Route path="/crmdetails/:createdCrmId" element={<CrmDetails />} />
+
                   <Route path="/hob" element={<Hob />} />
                   <Route path="/hobform" element={<HobForm />} />
-                  <Route path="/hobdetails" element={<HobDetails />} />
+                  <Route path="/hobdetails/:createdHobId" element={<HobDetails />} />
 
                   <Route path="/profile" element={<HobProfile />} />
                   <Route path="/calendar" element={<Calendar />} />

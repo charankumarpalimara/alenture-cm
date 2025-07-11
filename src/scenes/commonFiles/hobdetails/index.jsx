@@ -4,9 +4,10 @@ import { CameraOutlined } from '@ant-design/icons';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { Country, State } from 'country-state-city';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getCreaterRole } from "../../../config";
-// import {  } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useTheme } from '@mui/material';
+import { tokens } from '../../../theme';
+import { getCreaterRole, getCreaterId } from "../../../config";
 
 const { Text } = Typography;
 
@@ -25,6 +26,8 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
 }
 
 const HobDetails = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
@@ -39,42 +42,65 @@ const HobDetails = () => {
   const location = useLocation();
   const Navigate = useNavigate();
   const [form] = Form.useForm();
+  const { createdHobId } = useParams();
+  const [hobDetails, sethobDetails] = useState(null);
 
-  // Use localTicket state for all ticket data
+  // Defensive: ticket may be undefined after refresh, so fallback to param
   const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
-  // const [localTicket, setLocalTicket] = useState(location.state?.ticket || {});
+  const hobid = ticket.hobid || createdHobId || "";
 
+  // Fetch Hob details from backend using hobid
   useEffect(() => {
-    if (ticket.country) {
-      const country = Country.getAllCountries().find((c) => c.name === ticket.country);
+    const fetchHobData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}//v1/hobDetailsGet/${hobid}`
+        );
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        if (data && Array.isArray(data.data) && data.data.length > 0) {
+          sethobDetails(data.data[0]);
+        } else {
+          sethobDetails({});
+        }
+      } catch (error) {
+        console.error("Error fetching Hob Details:", error);
+        sethobDetails({});
+        message.error(
+          "Failed to load Hob details. Please try again later."
+        );
+      }
+    };
+    if (hobid) fetchHobData();
+  }, [hobid]);
+
+  // Handle country/state selection (for future use)
+  useEffect(() => {
+    if (hobDetails?.extraind3) {
+      const country = Country.getAllCountries().find((c) => c.name === hobDetails.extraind3);
       setSelectedCountry(country || null);
     }
-    if (ticket.state && selectedCountry) {
-      const state = State.getStatesOfCountry(selectedCountry.isoCode).find((s) => s.name === ticket.state);
+    if (hobDetails?.extraind4 && selectedCountry) {
+      const state = State.getStatesOfCountry(selectedCountry.isoCode).find((s) => s.name === hobDetails.extraind4);
       setSelectedState(state || null);
     }
-  }, [ticket, selectedCountry, selectedState]);
+  }, [hobDetails, selectedCountry]);
 
-  const initialValues = useMemo(() => ({
-    hobid: ticket.hobid || "",
-    firstName: ticket.firstname || "",
-    lastName: ticket.lastname || '',
-    street: ticket.street || '',
-    status: ticket.status || '',
-    email: ticket.email || '',
-    PhoneNo: ticket.mobile || '',
-    phoneCode: ticket.phonecode || '',
-    organization0: ticket.organization || '',
-    customerManager0: ticket.customermanager || '',
-    gender: ticket.gender || '',
-    imageUrl: ticket.imageUrl || '',
-  }), [ticket]);
+  // Build initial values for the form
+  const buildInitialValues = (data = {}) => ({
+    hobid: data.hobid || "",
+    firstName: data.firstname || "",
+    lastName: data.lastname || '',
+    street: data.street || '',
+    status: data.extraind6 || '',
+    email: data.email || '',
+    PhoneNo: data.mobile || '',
+    phoneCode: data.phonecode || '',
+    gender: data.extraind2 || '',
+    imageUrl: data.imageUrl || '',
+  });
 
-  // const [form] = Form.useForm();
-
-
-
-const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
     formData.append('hobid', values.hobid);
@@ -86,9 +112,8 @@ const handleFormSubmit = async (values) => {
     formData.append('gender', values.gender);
     formData.append('status', values.status);
 
-    const sessionData = JSON.parse(sessionStorage.getItem("userDetails"));
-    const createrrole = sessionData?.extraind10 || "";
-    const createrid = sessionData?.adminid || sessionData?.crmid || sessionData?.hobid || "";
+    const createrrole = getCreaterRole() || "";
+    const createrid = getCreaterId() || "";
     formData.append("createrrole", createrrole);
     formData.append("createrid", createrid);
 
@@ -109,58 +134,19 @@ const handleFormSubmit = async (values) => {
         method: 'POST',
         body: formData,
       });
-      // const data = await response.json();
-  const data = await response.json();
+      const data = await response.json();
       if (response.ok) {
         setIsLoading(false);
-        // const updatedTicket = {
-        //   ...localTicket,
-        //   hobid: values.hobid,
-        //   name: `${values.firstName} ${values.lastName}`,
-        //   street: values.street,
-        //   status: values.status,
-        //   email: values.email,
-        //   mobile: values.PhoneNo,
-        //   phonecode: values.phoneCode,
-        //   gender: values.gender,
-        //   imageUrl: profileImage || localTicket.imageUrl,
-        // };
-        // setLocalTicket(updatedTicket);
-        // // Save to localStorage for persistence
-        // localStorage.setItem('hob_ticket', JSON.stringify(updatedTicket));
-        // form.setFieldsValue({
-        //   hobid: updatedTicket.hobid,
-        //   firstName: values.firstName,
-        //   lastName: values.lastName,
-        //   street: updatedTicket.street,
-        //   status: updatedTicket.status,
-        //   email: updatedTicket.email,
-        //   PhoneNo: updatedTicket.mobile,
-        //   phoneCode: updatedTicket.phonecode,
-        //   gender: updatedTicket.gender,
-        //   imageUrl: updatedTicket.imageUrl,
-        // });
         message.success('Hob details updated successfully');
         setIsEditing(false);
-        // Navigate('/admin/hob'); // Redirect to all Hobs page
       } else {
-        alert('Update failed: ' + (data?.error || response.statusText));
+        message.error('Update failed: ' + (data?.error || response.statusText));
       }
     } catch (error) {
-      alert('Error submitting form');
+      setIsLoading(false);
+      message.error('Error submitting form');
     }
   };
-
-  useEffect(() => {
-    form.setFieldsValue(initialValues);
-  }, [form, initialValues]);
-
-
-  // const handleFormSubmit = (values) => {
-  //   // const formData = { ...values, profileImage: profileImage };
-  //   setIsEditing(false);
-  //   // handle submit
-  // };
 
   const handleImageUpload = (event) => {
     if (!isEditing) return;
@@ -233,25 +219,23 @@ const handleFormSubmit = async (values) => {
   };
 
   const countries = Country.getAllCountries();
-  // const states = selectedCountry ? State.getStatesOfCountry(selectedCountry.isoCode) : [];
-  // const cities = selectedState ? City.getCitiesOfState(selectedCountry?.isoCode, selectedState.isoCode) : [];
-  // const customerManagers = ['Rambabu', 'Charan', 'Sathira', 'Jyothika'];
   const gender = ['Male', 'Female'];
   const status = ['Suspend', 'Active'];
 
-  // getPhoneCodeDisplay removed as unused
-
-  // const addOrgManagerPair = () => {
-  //   setOrgManagerPairs([...orgManagerPairs, { org: '', manager: '' }]);
-  // };
-
-  // const removeOrgManagerPair = (index) => {
-  //   if (orgManagerPairs.length > 1) {
-  //     const updatedPairs = [...orgManagerPairs];
-  //     updatedPairs.splice(index, 1);
-  //     setOrgManagerPairs(updatedPairs);
-  //   }
-  // };
+  if (hobDetails === null) {
+    return (
+      <div
+        style={{
+          minHeight: 300,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -271,9 +255,6 @@ const handleFormSubmit = async (values) => {
           fontSize: '20px',
         }}>
           <Spin size="large" fullscreen />
-          {/* <div style={{ position: 'absolute', top: '60%', width: '100%', textAlign: 'center', color: '#fff', fontSize: 18 }}>
-                        Loading... Please wait while we process your request.
-                      </div> */}
         </div>
       )}
 
@@ -281,7 +262,8 @@ const handleFormSubmit = async (values) => {
         <Form
           form={form}
           layout="vertical"
-          initialValues={initialValues}
+          enableReinitialize
+          initialValues={buildInitialValues(hobDetails)}
           onFinish={handleFormSubmit}
         >
           {/* Profile Image Section */}
@@ -289,7 +271,7 @@ const handleFormSubmit = async (values) => {
             <Col>
               <div style={{ position: 'relative', display: 'inline-block' }}>
                 <Avatar
-                  src={profileImage || initialValues.imageUrl || 'https://via.placeholder.com/150'}
+                  src={profileImage || hobDetails?.imageUrl || 'https://via.placeholder.com/150'}
                   size={120}
                   style={{ border: '2px solid #1677ff', cursor: isEditing ? 'pointer' : 'default', opacity: isEditing ? 1 : 0.8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
                   onClick={isEditing ? triggerFileInput : undefined}
@@ -348,9 +330,9 @@ const handleFormSubmit = async (values) => {
               <Form.Item
                 label={<Text strong>ID</Text>}
                 name="hobid"
-                rules={[{ required: true, message: 'hob id is required' }]}
+                rules={[{ required: true, message: 'HOB id is required' }]}
               >
-                <Input placeholder="HOB ID" disabled={!isEditing} size="large" />
+                <Input placeholder="HOB ID" disabled={true} size="large" />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
@@ -431,83 +413,6 @@ const handleFormSubmit = async (values) => {
                 </Select>
               </Form.Item>
             </Col>
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>Country</Text>}
-              name="country"
-              rules={[{ required: true, message: 'Country is required' }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select Country"
-                optionFilterProp="children"
-                onChange={(val) => {
-                  const country = countries.find((c) => c.name === val);
-                  setSelectedCountry(country);
-                  setSelectedState(null);
-                  form.setFieldsValue({ state: '', city: '' });
-                }}
-                disabled={!isEditing}
-                size="large"
-              >
-                {countries.map((c) => (
-                  <Select.Option key={c.isoCode} value={c.name}>{c.name}</Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>State</Text>}
-              name="state"
-              rules={[{ required: true, message: 'State is required' }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select State"
-                optionFilterProp="children"
-                onChange={(val) => {
-                  const state = states.find((s) => s.name === val);
-                  setSelectedState(state);
-                  form.setFieldsValue({ city: '' });
-                }}
-                disabled={!isEditing || !selectedCountry}
-                size="large"
-              >
-                {states.map((s) => (
-                  <Select.Option key={s.isoCode} value={s.name}>{s.name}</Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>City</Text>}
-              name="city"
-              rules={[{ required: true, message: 'City is required' }]}
-            >
-              <Select
-                showSearch
-                placeholder="Select City"
-                optionFilterProp="children"
-                disabled={!isEditing || !selectedState}
-                size="large"
-              >
-                {cities.map((c) => (
-                  <Select.Option key={c.name} value={c.name}>{c.name}</Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col> */}
-            {/* <Col xs={24} md={8}>
-            <Form.Item
-              label={<Text strong>Postal Code</Text>}
-              name="postalcode"
-              rules={[{ required: true, message: 'Postal code is required' }]}
-            >
-              <Input placeholder="Postal Code" disabled={!isEditing} size="large" />
-            </Form.Item>
-          </Col> */}
             <Col xs={24} md={8}>
               <Form.Item
                 label={<Text strong>Status</Text>}
@@ -522,123 +427,64 @@ const handleFormSubmit = async (values) => {
               </Form.Item>
             </Col>
           </Row>
-          {/* Organization/Manager Pairs */}
-          {/* {orgManagerPairs.map((pair, index) => (
-          <Row gutter={24} key={`pair-${index}`} align="middle">
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>{index === 0 ? 'Organization' : `Organization ${index + 1}`}</Text>}
-                name={`organization${index}`}
-                rules={[{ required: true, message: 'Organization is required' }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Organization"
-                  optionFilterProp="children"
-                  disabled={!isEditing}
-                  size="large"
-                >
-                  {organizationNames.map((org) => (
-                    <Select.Option key={org} value={org}>{org}</Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>{index === 0 ? 'Customer Manager' : `Customer Manager ${index + 1}`}</Text>}
-                name={`customerManager${index}`}
-                rules={[{ required: true, message: 'Customer Manager is required' }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Manager"
-                  optionFilterProp="children"
-                  disabled={!isEditing}
-                  size="large"
-                >
-                  {customerManagers.map((m) => (
-                    <Select.Option key={m} value={m}>{m}</Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8} style={{ display: isEditing ? 'flex' : 'none', alignItems: 'center' }}>
-              {index === orgManagerPairs.length - 1 ? (
-                <Button icon={<PlusOutlined />} onClick={addOrgManagerPair} style={{ marginRight: 8 }} disabled={!isEditing}>
-                  Add More
-                </Button>
-              ) : (
-                <Button icon={<MinusCircleOutlined />} onClick={() => removeOrgManagerPair(index)} danger disabled={!isEditing}>
-                  Remove
-                </Button>
-              )}
-            </Col>
-          </Row>
-        ))} */}
         </Form>
-        {/* Form Actions moved outside the Form to keep buttons always enabled */}
         <Row justify="end" style={{ marginTop: 32 }} gutter={16}>
           {!isEditing ? (
-           <Row style={{ width: "100%", justifyContent: "space-between" }} gutter={16}>
+            <Row style={{ width: "100%", justifyContent: "space-between" }} gutter={16}>
               <Col>
-              {getCreaterRole() === "admin" && (
-                <Button
-                  variant="contained"
-                  size="large"
-                  danger
-                  sx={{
-                    padding: "12px 24px",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    borderRadius: "8px",
-                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                    transition: "0.3s",
-                    backgroundColor: "#af3f3b",
-                    color: "#ffffff",
-                    textTransform: "none",
-                    "&:hover": {
-                      backgroundColor: "#db4f4a",
-                      boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-                    },
-                  }}
-                  onClick={() => {
-                    Modal.confirm({
-                      title: "Are you sure you want to delete this Hob?",
-                      content: "This action cannot be undone.",
-                      okText: "Yes, Delete",
-                      okType: "danger",
-                      cancelText: "Cancel",
-                      onOk: async () => {
-                        try {
-                          await fetch(
-                            `${process.env.REACT_APP_API_URL}/v1/deleteHobByAdmin`,
-                            {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json" },
-                              body: JSON.stringify({
-                                hobid: ticket.hobid,
-                              }),
-                            }
-                          );
-                          message.success("Hob deleted successfully!");
-                          Navigate("/hob");
-                        } catch (error) {
-                          message.error("Failed to delete Hob.");
-                        }
-                      },
-                    });
-                  }}
-                >
-                  Delete
-                </Button>
+                {getCreaterRole() === "admin" && (
+                  <Button
+                    variant="contained"
+                    size="large"
+                    danger
+                    style={{
+                      padding: "12px 24px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      borderRadius: "8px",
+                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+                      transition: "0.3s",
+                      backgroundColor: "#af3f3b",
+                      color: "#ffffff",
+                      textTransform: "none",
+                    }}
+                    onClick={() => {
+                      Modal.confirm({
+                        title: "Are you sure you want to delete this Hob?",
+                        content: "This action cannot be undone.",
+                        okText: "Yes, Delete",
+                        okType: "danger",
+                        cancelText: "Cancel",
+                        onOk: async () => {
+                          try {
+                            await fetch(
+                              `${process.env.REACT_APP_API_URL}/v1/deleteHobByAdmin`,
+                              {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  hobid: hobid,
+                                }),
+                              }
+                            );
+                            message.success("Hob deleted successfully!");
+                            Navigate("/hob");
+                          } catch (error) {
+                            message.error("Failed to delete Hob.");
+                          }
+                        },
+                      });
+                    }}
+                  >
+                    Delete
+                  </Button>
                 )}
               </Col>
               <Col>
                 <Button
                   type="primary"
                   style={{
-                    background: "#3e4396",
+                    background: colors.blueAccent[1000],
                     color: "#fff",
                     fontWeight: "bold",
                     borderRadius: 8,
@@ -653,7 +499,7 @@ const handleFormSubmit = async (values) => {
           ) : (
             <>
               <Col>
-                <Button type="primary" htmlType="submit" size="large" style={{ background: "#3e4396" }} onClick={() => form.submit()}>
+                <Button type="primary" htmlType="submit" size="large" style={{ background: colors.blueAccent[1000], fontWeight: "bold" }} onClick={() => form.submit()}>
                   Save
                 </Button>
               </Col>
@@ -671,8 +517,3 @@ const handleFormSubmit = async (values) => {
 };
 
 export default HobDetails;
-
-
-
-
-
