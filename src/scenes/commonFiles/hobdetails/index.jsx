@@ -54,7 +54,7 @@ const HobDetails = () => {
     const fetchHobData = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}//v1/hobDetailsGet/${hobid}`
+          `${process.env.REACT_APP_API_URL}/v1/hobDetailsGet/${hobid}`
         );
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
