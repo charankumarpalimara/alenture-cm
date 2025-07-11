@@ -25,7 +25,7 @@ const getActivePage = (pathname) => {
     return "/notes";
   } else if (pathname.includes("/calendar")) {
     return "/calendar";
-  }else if (pathname.includes("/profile")) {
+  } else if (pathname.includes("/profile")) {
     return "/";
   } else if (
     pathname.includes("/experienceRegistrationform") ||
@@ -61,7 +61,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        background: selected === to ? colors.blueAccent[1000]  : "inherit",
+        background: selected === to ? colors.blueAccent[1000] : "inherit",
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
@@ -75,8 +75,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         primary={title}
         sx={{
           "& .MuiTypography-root": { // Target the nested Typography component
-            fontWeight: "bold !important", // Ensure text is bold for selected item
-            fontSize: "13px",
+            fontWeight: "600 !important", // Ensure text is bold for selected item
+            fontSize: "12px",
           },
         }}
       />
@@ -100,7 +100,7 @@ const CmSidebar = ({ isSidebar, onLogout }) => {
 
   const logoSrc = logoLight;
 
-    const handleLogout = () => {
+  const handleLogout = () => {
     sessionStorage.removeItem('cmtoken');
     onLogout(); // Call the logout function from props
     // window.location.reload(); // Reload the page to reset the state
@@ -141,31 +141,31 @@ const CmSidebar = ({ isSidebar, onLogout }) => {
         <Item title="Experiences" to="/experiences" icon={<WorkOutlineOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Notes" to="/notes" icon={<DescriptionOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Calendar" to="/calendar" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} />
- <ListItem
-                    button
-                    onClick={handleLogout}
-                    sx={{
-                      color: colors.blueAccent[500],
-                      borderRadius: "10px",
-                      marginBottom: "8px",
+        <ListItem
+          button
+          onClick={handleLogout}
+          sx={{
+            color: colors.blueAccent[500],
+            borderRadius: "10px",
+            marginBottom: "8px",
 
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: "inherit" }}>
-                      <LogoutOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Logout"
+          }}
+        >
+          <ListItemIcon sx={{ color: "inherit" }}>
+            <LogoutOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary="Logout"
 
-                      sx={{
-                        "& .MuiTypography-root": {
-                          fontWeight: "bold !important", // Ensure text is bold for selected item
-                          fontSize: "13px",
-                
-                        },
-                      }}
-                    />
-                  </ListItem>
+            sx={{
+              "& .MuiTypography-root": {
+                fontWeight: "600 !important", // Ensure text is bold for selected item
+                fontSize: "12px",
+
+              },
+            }}
+          />
+        </ListItem>
       </List>
     </Drawer>
   );

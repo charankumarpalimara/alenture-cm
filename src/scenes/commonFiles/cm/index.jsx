@@ -23,7 +23,6 @@ const columns = [
     key: "id",
     width: 100,
     ellipsis: true,
-    render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
   },
   {
     title: "Name",
@@ -225,7 +224,7 @@ const Cm = () => {
         </Box>
         <Button
           variant="contained"
-          className="custom-button-color"
+          sx={{background: colors.blueAccent[1000], color: "#ffffff", fontWeight: "600"}}
           startIcon={<AddIcon />}
           onClick={handleNewTicket}
         >
@@ -262,7 +261,7 @@ const Cm = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "bold",
+            fontWeight: "600",
             minWidth: 120,
           }}
         >
@@ -285,7 +284,7 @@ const Cm = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "bold",
+            fontWeight: "600",
             minWidth: 120,
           }}
         >

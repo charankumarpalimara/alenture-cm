@@ -287,7 +287,7 @@ const Notes = () => {
                 height: "55px",
                 borderRadius: "8px",
                 fontSize: "14px",
-                fontWeight: "bold",
+                fontWeight: "600",
                 textTransform: "none",
               }}
               onClick={handleOpenModal}
@@ -333,7 +333,7 @@ const Notes = () => {
                 height: "45px",
                 borderRadius: "4px",
                 fontSize: "14px",
-                fontWeight: "bold",
+                fontWeight: "600",
                 textTransform: "none",
               }}
               onClick={handleOpenModal}
@@ -445,7 +445,7 @@ const Notes = () => {
                   fontSize: 14,
                   background: colors.blueAccent[1000],
                   color: "#fff",
-                  fontWeight: "bold",
+                  fontWeight: "600",
                 }}
                 loading={isLoading}
               >
@@ -516,7 +516,7 @@ const Notes = () => {
                 fontSize: 14,
                 background: colors.blueAccent[1000],
                 color: "#fff",
-                fontWeight: "bold",
+                fontWeight: "600",
               }}
             >
               Submit

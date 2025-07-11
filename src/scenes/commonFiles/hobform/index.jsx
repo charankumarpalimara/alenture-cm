@@ -43,7 +43,7 @@ const SuccessScreen = ({ onNext }) => (
   <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
     <Result
       icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
-      title={<span style={{ fontSize: 45, fontWeight: 700 }}>Congratulations!</span>}
+      title={<span style={{ fontSize: 45, fontWeight: 600 }}> Success </span>}
       subTitle={<span style={{ fontSize: 25 }}>Your account has been created successfully.</span>}
       extra={[
         <Button type="primary" size="large" key="next" onClick={onNext} style={{ fontSize: 18, borderRadius: 8, backgroundColor: '#3e4396', borderColor: '#3e4396' }}>

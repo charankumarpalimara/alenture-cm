@@ -34,7 +34,6 @@ const columns = [
     key: "id",
     width: 100,
     ellipsis: true,
-    render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
   },
   {
     title: "Organization",
@@ -211,7 +210,7 @@ const handleNewTicket = () => {
     variant="contained"
     sx={{
       background: colors.blueAccent[1000],
-      fontWeight: "bold",
+      fontWeight: "600",
       color: "#ffffff",
       whiteSpace: "nowrap",
       textTransform: "none",

@@ -254,7 +254,7 @@ const ResolvedExperiences = ({ apiUrl }) => {
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "bold",
+            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -270,7 +270,7 @@ const ResolvedExperiences = ({ apiUrl }) => {
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "bold",
+            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -326,7 +326,7 @@ const ResolvedExperiences = ({ apiUrl }) => {
           variant="contained"
           sx={{
             background: colors.blueAccent[1000],
-            fontWeight: "bold",
+            fontWeight: "600",
             color: "#ffffff",
             whiteSpace: "nowrap",
             // paddingX: "15px"

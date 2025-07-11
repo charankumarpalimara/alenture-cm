@@ -26,7 +26,6 @@ const columns = [
     dataIndex: "crmid",
     key: "crmid",
     width: 100,
-    render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
   },
   {
     title: "Name",
@@ -225,7 +224,7 @@ const Crm = () => {
           variant="contained"
           sx={{
             background: colors.blueAccent[1000],
-            fontWeight: "bold",
+            fontWeight: "600",
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
@@ -268,7 +267,7 @@ const Crm = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "bold",
+            fontWeight: "600",
             minWidth: 120,
           }}
         >
@@ -292,7 +291,7 @@ const Crm = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "bold",
+            fontWeight: "600",
             minWidth: 120,
           }}
         >

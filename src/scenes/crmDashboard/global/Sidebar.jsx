@@ -98,8 +98,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight: "bold !important", // Ensure text is bold for selected item
-            fontSize: "13px",
+            fontWeight: "600 !important", // Ensure text is bold for selected item
+            fontSize: "12px",
           },
         }}
       />
@@ -222,8 +222,8 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
             primary="Logout"
             sx={{
               "& .MuiTypography-root": {
-                fontWeight: "bold !important", // Ensure text is bold for selected item
-                fontSize: "13px",
+                  fontWeight: "600 !important", // Ensure text is bold for selected item
+                  fontSize: "12px",
               },
             }}
           />

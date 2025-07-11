@@ -273,7 +273,7 @@ const NewExperiences = ({ apiUrl }) => {
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "bold",
+            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -289,7 +289,7 @@ const NewExperiences = ({ apiUrl }) => {
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "bold",
+            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -345,7 +345,7 @@ const NewExperiences = ({ apiUrl }) => {
             variant="contained"
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "bold",
+              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               // paddingX: "15px"

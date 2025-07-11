@@ -148,7 +148,7 @@ const handleSubmit = async (values) => {
             </Box>
 
             <Typography variant="body1" mb={1} style={{ textAlign: "center", marginBottom: "20px", fontSize: "17px" }}>
-              login to your account
+              Login to your account
             </Typography>
 
             {error && (
