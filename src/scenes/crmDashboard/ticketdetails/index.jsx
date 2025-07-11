@@ -462,7 +462,7 @@ const handleDownload = async (fileUrl) => {
 
     // Save message to DB via REST API
     try {
-      await fetch(`http://127.0.0.1:8080/v1/chatInsert`, {
+      await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(msgData),
