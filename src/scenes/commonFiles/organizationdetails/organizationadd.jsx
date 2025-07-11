@@ -481,7 +481,7 @@ const handleFormSubmit = async () => {
                       onClick={() => handleRemoveBranch(index)}
                       style={{ width: "100%" }}
                     >
-                      Remove Branch
+                      Remove 
                     </Button>
                   </Col>
                 )}

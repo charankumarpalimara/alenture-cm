@@ -59,7 +59,7 @@ export const tokens = () => ({
     800: "#fffff",
     900: "#151632",
     1000: "linear-gradient( to bottom, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)",
-    1100: "linear-gradient( to bottom, #0A0A3D, #5050D4)",
+    1100: "linear-gradient(rgb(10, 10, 61), rgb(28, 28, 107), rgb(46, 46, 159), rgb(80, 80, 212), rgb(80, 80, 212))",
   },
 });
 

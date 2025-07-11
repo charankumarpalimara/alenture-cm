@@ -427,17 +427,17 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Experience ID
                   </Typography>
-                  <Typography>{values.id}</Typography>
+                  <Typography >{values.id}</Typography>
                 </Box>
 
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Organization
                   </Typography>
@@ -447,7 +447,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Branch
                   </Typography>
@@ -457,7 +457,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Customer Manager
                   </Typography>
@@ -467,9 +467,9 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
-                    Customer Relationship Manager
+                   Relationship Manager
                   </Typography>
                   <Typography>{values.crmname}</Typography>
                 </Box>
@@ -477,7 +477,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Priority
                   </Typography>
@@ -491,7 +491,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Status
                   </Typography>
@@ -505,7 +505,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Date
                   </Typography>
@@ -515,7 +515,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Time
                   </Typography>
@@ -525,7 +525,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Experience
                   </Typography>
@@ -539,7 +539,7 @@ const CmTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Impact
                   </Typography>
@@ -553,7 +553,7 @@ const CmTicketDetails = () => {
                 >
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Subject
                   </Typography>
@@ -575,7 +575,7 @@ const CmTicketDetails = () => {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: "#555", fontWeight: "bold" }}
+                      sx={{ color: "#000", fontWeight: "600" }}
                     >
                       Request Details
                     </Typography>

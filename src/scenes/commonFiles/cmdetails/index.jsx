@@ -87,7 +87,7 @@ const CmDetails = () => {
   }, [cmid]);
 
   const buildInitialValues = (data = {}) => ({
-    id: data.id || "",
+    id: data.cmid || "",
     firstName: data.firstname || "",
     lastName: data.lastname || "",
     email: data.email || "",
@@ -629,13 +629,13 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="CRM Name"
+                label={<Text strong>Relationship Manager</Text>}
                 name="crmname"
-                rules={[{ required: true, message: "CRM Name is required" }]}
+                rules={[{ required: true, message: "Relationship Manager is required" }]}
               >
                 <Select
                   showSearch
-                  placeholder="Select CRM Name"
+                  placeholder="Select Relationship Manager"
                   optionFilterProp="children"
                   disabled={!isEditing}
                   size="large"

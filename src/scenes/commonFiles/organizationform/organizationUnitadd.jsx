@@ -1474,13 +1474,13 @@ const OrganizationUnitadd = () => {
 
                   <Col xs={24} md={8}>
                     <Form.Item
-                      label={<Typography.Text strong>CRM Name</Typography.Text>}
+                      label={<Typography.Text strong>Relationship Manager</Typography.Text>}
                       name="crmname"
-                      rules={[{ required: true, message: "CRM Name is required" }]}
+                      rules={[{ required: true, message: "Relationship Manager is required" }]}
                     >
                       <Select
                         showSearch
-                        placeholder="Select CRM Name"
+                        placeholder="Select Relationship Manager"
                         optionFilterProp="children"
                         size="large"
                         onChange={(value) => {
@@ -1510,7 +1510,7 @@ const OrganizationUnitadd = () => {
                       size="large"
                       onClick={() => setCmform(false)} // <-- Add this
                       style={{
-                        background: "#3e4396",
+                        background: colors.blueAccent[1000],
                         color: "#fff",
                        fontWeight: "600",
                         borderRadius: 8,

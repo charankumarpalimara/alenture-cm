@@ -953,7 +953,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Experience ID
                   </Typography>
@@ -963,7 +963,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Organization
                   </Typography>
@@ -973,7 +973,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Branch
                   </Typography>
@@ -983,7 +983,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Customer Manager
                   </Typography>
@@ -993,9 +993,9 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
-                    Customer Relationship Manager
+                    Relationship Manager
                   </Typography>
                   <Typography>{values.crmname}</Typography>
                 </Box>
@@ -1005,8 +1005,8 @@ const handleDownload = async (fileUrl) => {
                     <Typography
                       variant="subtitle2"
                       sx={{
-                        color: "#555",
-                        fontWeight: "bold",
+                        color: "#000",
+                        fontWeight: "600",
                         marginBottom: "5px",
                       }}
                     >
@@ -1072,7 +1072,7 @@ const handleDownload = async (fileUrl) => {
                   <Box>
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                     >
                       Priority
                     </Typography>
@@ -1087,7 +1087,7 @@ const handleDownload = async (fileUrl) => {
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Status
                   </Typography>
@@ -1101,7 +1101,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Date
                   </Typography>
@@ -1111,7 +1111,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Time
                   </Typography>
@@ -1121,7 +1121,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Experience
                   </Typography>
@@ -1135,7 +1135,7 @@ const handleDownload = async (fileUrl) => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Impact
                   </Typography>
@@ -1149,7 +1149,7 @@ const handleDownload = async (fileUrl) => {
                 >
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Subject
                   </Typography>
@@ -1171,7 +1171,7 @@ const handleDownload = async (fileUrl) => {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                     >
                       Request Details
                     </Typography>

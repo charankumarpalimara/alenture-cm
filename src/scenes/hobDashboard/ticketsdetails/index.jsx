@@ -631,14 +631,14 @@ const AdminTicketDetails = () => {
       message.error("Failed to update status.");
     }
   }
-    useEffect(() => {
-      const fetchCrmNames = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
-        const data = await res.json();
-        setCrmNameList(data.data || []);
-      };
-      fetchCrmNames();
-    }, []);
+  useEffect(() => {
+    const fetchCrmNames = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
+      const data = await res.json();
+      setCrmNameList(data.data || []);
+    };
+    fetchCrmNames();
+  }, []);
 
 
 
@@ -754,7 +754,7 @@ const AdminTicketDetails = () => {
                 background: "#e57373",
                 color: "#fff",
                 borderRadius: 8,
-                fontWeight: "600",
+                fontWeight: "bold",
               }}
             >
               Cancel
@@ -968,7 +968,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Experience ID
                   </Typography>
@@ -978,7 +978,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Organization
                   </Typography>
@@ -988,7 +988,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Branch
                   </Typography>
@@ -998,7 +998,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Customer Manager
                   </Typography>
@@ -1009,9 +1009,9 @@ const AdminTicketDetails = () => {
 
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
-                    Customer Relationship Manager
+                    Relationship Manager
                   </Typography>
                   {crmNamelistExp && crmNamelistExp.length > 0 ? (
                     crmNamelistExp.map((crm, idx) => (
@@ -1020,7 +1020,7 @@ const AdminTicketDetails = () => {
                       </Typography>
                     ))
                   ) : (
-                    <Typography>No CRM assigned</Typography>
+                    <Typography>No Relationship Manager assigned</Typography>
                   )}
                 </Box>
 
@@ -1029,8 +1029,8 @@ const AdminTicketDetails = () => {
                     <Typography
                       variant="subtitle2"
                       sx={{
-                        color: "#555",
-                        fontWeight: "bold",
+                        color: "#000",
+                        fontWeight: "600",
                         marginBottom: "5px",
                       }}
                     >
@@ -1096,7 +1096,7 @@ const AdminTicketDetails = () => {
                   <Box>
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: "#555", fontWeight: "bold" }}
+                      sx={{ color: "#000", fontWeight: "600" }}
                     >
                       Priority
                     </Typography>
@@ -1111,7 +1111,7 @@ const AdminTicketDetails = () => {
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Status
                   </Typography>
@@ -1125,7 +1125,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Date
                   </Typography>
@@ -1135,7 +1135,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Time
                   </Typography>
@@ -1145,7 +1145,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Experience
                   </Typography>
@@ -1170,7 +1170,7 @@ const AdminTicketDetails = () => {
                 <Box>
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Impact
                   </Typography>
@@ -1184,7 +1184,7 @@ const AdminTicketDetails = () => {
                 >
                   <Typography
                     variant="subtitle2"
-                    sx={{ color: "#555", fontWeight: "bold" }}
+                    sx={{ color: "#000", fontWeight: "600" }}
                   >
                     Subject
                   </Typography>
@@ -1206,7 +1206,7 @@ const AdminTicketDetails = () => {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ color: "#555", fontWeight: "bold" }}
+                      sx={{ color: "#000", fontWeight: "600" }}
                     >
                       Request Details
                     </Typography>

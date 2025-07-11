@@ -959,7 +959,7 @@ const CrmDetails = () => {
                     }}
                     onClick={() => {
                       Modal.confirm({
-                        title: "Are you sure you want to delete this CRM?",
+                        title: "Are you sure you want to delete this Relationship Manager?",
                         content: "This action cannot be undone.",
                         okText: "Yes, Delete",
                         okType: "danger",
@@ -976,7 +976,7 @@ const CrmDetails = () => {
                                 }),
                               }
                             );
-                            message.success("Crm deleted successfully!");
+                            message.success("Relationship Manager deleted successfully!");
                             Navigate("/crm");
                           } catch (error) {
                             message.error("Failed to delete Crm.");
