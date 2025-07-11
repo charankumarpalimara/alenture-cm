@@ -407,7 +407,7 @@ const handleFinish = async (values) => {
                 style={{
                   background: colors.blueAccent[1000],
                   color: "#fff",
-                  fontWeight: "bold",
+                fontWeight: "600",
                   borderRadius: 8,
                 }}
                 onClick={() => setIsEditing(true)}

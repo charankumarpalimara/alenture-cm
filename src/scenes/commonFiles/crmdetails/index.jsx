@@ -931,7 +931,7 @@ const CrmDetails = () => {
               marginTop: 16,
               background: colors.blueAccent[1000],
               color: "#fff",
-              fontWeight: "bold",
+              fontWeight: "600",
             }}
           >
             Add Customer Manager
@@ -995,7 +995,7 @@ const CrmDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                     borderRadius: 8,
                   }}
                   size="large"
@@ -1012,6 +1012,7 @@ const CrmDetails = () => {
                   type="primary"
                   htmlType="submit"
                   size="large"
+                  fontWeight="600"
                   style={{
                     background: colors.blueAccent[1000],
                   }}

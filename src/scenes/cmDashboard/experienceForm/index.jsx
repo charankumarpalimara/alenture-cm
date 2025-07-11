@@ -28,19 +28,92 @@ const impactOptions = [
 
 
 
-const SuccessScreen = ({ onNext }) => (
+function extractColorsFromGradient(gradient) {
+  if (!gradient || !gradient.startsWith("linear-gradient")) return [];
+  // Get part inside parentheses
+  const inside = gradient.match(/\((.*)\)/)[1];
+  // Split by comma, skip first part if it's direction
+  const parts = inside.split(",").map(x => x.trim());
+  // If first part looks like direction, remove it
+  const colorStops = parts.filter((p, i) => i === 0
+    ? !/^to |[0-9]+deg$/.test(p) && /^#|rgb|hsl/.test(p)
+    : true
+  );
+  // Or simply skip first part always
+  return parts.slice(1).map(x => x.trim());
+}
 
-  <div style={{ display: "flex", justifyContent: "center", minHeight: "80vh", background: "#fff", borderRadius: 8, padding: 24, margin: 16, boxShadow: "0 4px 24px #0001" }}>
+const GradientCheckCircle = ({ size = 100, background }) => {
+  // If background is a CSS gradient, extract color stops
+  const colorStops = extractColorsFromGradient(background);
+  // Fallback colors
+  const stops = colorStops.length ? colorStops : ["#4facfe", "#00f2fe"];
+  return (
+    <svg width={size} height={size} viewBox="0 0 1024 1024">
+      <defs>
+        <linearGradient id="checkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          {stops.map((color, i) => (
+            <stop
+              key={i}
+              offset={`${(i / (stops.length - 1)) * 100}%`}
+              stopColor={color}
+            />
+          ))}
+        </linearGradient>
+      </defs>
+      <circle cx="512" cy="512" r="480" fill="url(#checkGradient)" />
+      <polyline
+        points="320,540 470,690 720,390"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="80"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+const SuccessScreen = ({ onNext, background }) => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      minHeight: "80vh",
+      background: "#fff",
+      borderRadius: 8,
+      padding: 24,
+      margin: 16,
+      boxShadow: "0 4px 24px #0001",
+    }}
+  >
     <Result
-      icon={<CheckCircleTwoTone twoToneColor="#3e4396" style={{ fontSize: 100, color: '#3e4396' }} />}
-      title={<span style={{ fontSize: 45, fontWeight: 600 }}> Success </span>}
-      subTitle={<span style={{ fontSize: 25 }}>Your Experience has been created successfully.</span>}
+      icon={<GradientCheckCircle size={100} background={background} />}
+      title={
+        <span style={{ fontSize: 45, fontWeight: 600 }}>Success</span>
+      }
+      subTitle={
+        <span style={{ fontSize: 25 }}>
+          Your Experinece has been created successfully.
+        </span>
+      }
       extra={[
-        <AntdButton type="primary" size="large" key="next" onClick={onNext} style={{ fontSize: 18, borderRadius: 8, backgroundColor: '#3e4396', borderColor: '#3e4396' }}>
+        <AntdButton
+          type="primary"
+          size="large"
+          key="next"
+          onClick={onNext}
+          style={{
+            fontSize: 18,
+            borderRadius: 8,
+            background: background,
+            border: "none",
+          }}
+        >
           Continue
-        </AntdButton>
+        </AntdButton>,
       ]}
-      style={{ background: "#fff", borderRadius: 16, padding: 32, }}
+      style={{ background: "#fff", borderRadius: 16, padding: 32 }}
     />
   </div>
 );
@@ -451,7 +524,7 @@ const CmExperienceRegistrationForm = () => {
               style={{
                 padding: "14px 20px",
                 fontSize: "14px",
-                fontWeight: "bold",
+                fontWeight: "600",
                 borderRadius: "3px",
                 boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                 color: "#ffffff",
@@ -471,7 +544,7 @@ const CmExperienceRegistrationForm = () => {
 
             )}
       {showSuccess && (
-        <SuccessScreen onNext={() => navigate(`/ticketdetails/${createdTicketId}`)} />
+        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate(`/ticketdetails/${createdTicketId}`)} />
       )}
     </>
   );

@@ -396,7 +396,7 @@ const TaskDetails = () => {
                                                     borderRadius: "8px",
                                                     boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                                                     transition: "0.3s",
-                                                    backgroundColor: colors.blueAccent[700],
+                                                    background: colors.blueAccent[1000],
                                                     color: "#ffffff",
                                                     textTransform: "none",
                                                     "&:hover": {
@@ -420,7 +420,7 @@ const TaskDetails = () => {
                                                     borderRadius: "8px",
                                                     boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                                                     transition: "0.3s",
-                                                    backgroundColor: colors.blueAccent[700],
+                                                    background: colors.blueAccent[1000],
                                                     color: "#ffffff",
                                                     textTransform: "none",
                                                     "&:hover": {

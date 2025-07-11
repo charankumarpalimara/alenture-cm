@@ -728,7 +728,7 @@ const CmDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                     borderRadius: 8,
                   }}
                   size="large"
@@ -748,7 +748,7 @@ const CmDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "bold",
+                   fontWeight: "600",
                     borderRadius: 8,
                   }}
                   onClick={() => form.submit()}

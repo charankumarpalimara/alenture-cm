@@ -367,7 +367,7 @@ const CrmProfile = ({apiUrl}) => {
                   icon={<SaveOutlined />}
                   loading={isLoading}
                   size="large"
-                  style={{ fontWeight: 'bold', borderRadius: 8, background: colors.blueAccent[1000] }}
+                  style={{ fontWeight: '600', borderRadius: 8, background: colors.blueAccent[1000] }}
                 >
                   Save
                 </Button>
@@ -379,7 +379,7 @@ const CrmProfile = ({apiUrl}) => {
                   icon={<CloseOutlined />}
                   size="large"
                   danger
-                  style={{ marginLeft: 8, fontWeight: 'bold', borderRadius: 8, }}
+                  style={{ marginLeft: 8, fontWeight: '600', borderRadius: 8, }}
                   onClick={() => {
                     setIsEditing(false);
                     resetForm();
@@ -400,7 +400,7 @@ const CrmProfile = ({apiUrl}) => {
               htmlType="button"
               icon={<EditOutlined />}
               size="large"
-              style={{ background: colors.blueAccent[1000], color: '#fff', fontWeight: 'bold', borderRadius: 8 }}
+              style={{ background: colors.blueAccent[1000], color: '#fff', fontWeight: '600', borderRadius: 8 }}
               onClick={() => setIsEditing(true)}
             >
               Edit

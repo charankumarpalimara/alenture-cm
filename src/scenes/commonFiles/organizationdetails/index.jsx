@@ -400,7 +400,7 @@ const OrganizationDetails = () => {
                         style={{
                           background: colors.blueAccent[1000],
                           color: "#fff",
-                          fontWeight: "bold",
+                          fontWeight: "600",
                           marginRight: 8,
                         }}
                       >
@@ -416,7 +416,7 @@ const OrganizationDetails = () => {
                         style={{
                           background: colors.blueAccent[1000],
                           color: "#fff",
-                          fontWeight: "bold",
+                          fontWeight: "600",
                           marginRight: 8,
                         }}
                       >
@@ -431,7 +431,7 @@ const OrganizationDetails = () => {
                           style={{
                             // backgroundColor: "#3e4396",
                             // color: "#fff",
-                            fontWeight: "bold",
+                            fontWeight: "600",
                             marginRight: 8,
                             // borderColor: "#f8dcdb",
 
@@ -491,7 +491,7 @@ const OrganizationDetails = () => {
               marginTop: 16,
               background: colors.blueAccent[1000],
               color: "#fff",
-              fontWeight: "bold",
+              fontWeight: "600",
             }}
           >
             Add New Unit

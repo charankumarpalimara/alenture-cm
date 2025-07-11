@@ -486,7 +486,7 @@ const HobDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                     borderRadius: 8,
                   }}
                   size="large"
@@ -499,7 +499,7 @@ const HobDetails = () => {
           ) : (
             <>
               <Col>
-                <Button type="primary" htmlType="submit" size="large" style={{ background: colors.blueAccent[1000], fontWeight: "bold" }} onClick={() => form.submit()}>
+                <Button type="primary" htmlType="submit" size="large" style={{ background: colors.blueAccent[1000], fontWeight: "600" }} onClick={() => form.submit()}>
                   Save
                 </Button>
               </Col>

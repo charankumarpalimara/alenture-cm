@@ -21,8 +21,12 @@ import axios from "axios";
 import "antd/dist/reset.css";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
 
 const HobProfile = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -347,9 +351,9 @@ const HobProfile = () => {
                     loading={isLoading}
                     size="large"
                     style={{
-                      fontWeight: "bold",
+                      fontWeight: "600",
                       borderRadius: 8,
-                      background: "#3e4396",
+                      background: colors.blueAccent[1000],
                     }}
                   >
                     Save
@@ -387,9 +391,9 @@ const HobProfile = () => {
                 icon={<EditOutlined />}
                 size="large"
                 style={{
-                  background: "#3e4396",
+                  background: colors.blueAccent[1000],
                   color: "#fff",
-                  fontWeight: "bold",
+                  fontWeight: "600",
                   borderRadius: 8,
                 }}
                 onClick={() => setIsEditing(true)}

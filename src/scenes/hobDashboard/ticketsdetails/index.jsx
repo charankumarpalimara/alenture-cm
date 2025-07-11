@@ -754,7 +754,7 @@ const AdminTicketDetails = () => {
                 background: "#e57373",
                 color: "#fff",
                 borderRadius: 8,
-                fontWeight: "bold",
+                fontWeight: "600",
               }}
             >
               Cancel
@@ -766,7 +766,7 @@ const AdminTicketDetails = () => {
               style={{
                 background: colors.blueAccent[1000],
                 borderRadius: 8,
-                fontWeight: "bold",
+                fontWeight: "600",
               }}
             >
               {loading ? "Creating..." : "Create Task"}
@@ -884,6 +884,7 @@ const AdminTicketDetails = () => {
               disabled={loading}
               style={{
                 background: colors.blueAccent[1000],
+                fontWeight: "600",
                 borderRadius: 8,
                 color: "#fff",
                 ...(loading && { opacity: 0.7 }),
@@ -1292,7 +1293,7 @@ const AdminTicketDetails = () => {
                         sx={{
                           padding: "12px 24px",
                           fontSize: "14px",
-                          fontWeight: "bold",
+                          fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1314,7 +1315,7 @@ const AdminTicketDetails = () => {
                         sx={{
                           padding: "12px 24px",
                           fontSize: "14px",
-                          fontWeight: "bold",
+                          fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1337,7 +1338,7 @@ const AdminTicketDetails = () => {
                       sx={{
                         padding: "12px 24px",
                         fontSize: "14px",
-                        fontWeight: "bold",
+                        fontWeight: "600",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
@@ -1700,7 +1701,7 @@ const AdminTicketDetails = () => {
             fullWidth
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "bold",
+              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",

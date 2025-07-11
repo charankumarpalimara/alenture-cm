@@ -424,7 +424,7 @@ const AdminProfile = () => {
                           loading={isLoading}
                           size="large"
                           style={{
-                            fontWeight: "bold",
+                            fontWeight: "600",
                             borderRadius: 8,
                             background: colors.blueAccent[1000],
                           }}
@@ -466,7 +466,7 @@ const AdminProfile = () => {
                       style={{
                         background: colors.blueAccent[1000],
                         color: "#fff",
-                        fontWeight: "bold",
+                        fontWeight: "600",
                         borderRadius: 8,
                       }}
                       onClick={() => setIsEditing(true)}

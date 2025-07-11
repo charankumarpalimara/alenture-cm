@@ -334,7 +334,7 @@ const OrganizationForm = () => {
               style={{
                 padding: "12px 24px",
                 fontSize: "14px",
-                fontWeight: "bold",
+                fontWeight: "600",
                 borderRadius: "8px",
                 background: colors.blueAccent[1000],
                 color: "#fff",

@@ -767,7 +767,7 @@ const handleDownload = async (fileUrl) => {
               style={{
                 background: colors.blueAccent[1000],
                 borderRadius: 8,
-                fontWeight: "bold",
+                fontWeight: "600",
               }}
             >
               {loading ? "Creating..." : "Create Task"}
@@ -870,6 +870,7 @@ const handleDownload = async (fileUrl) => {
               style={{
                 background: colors.blueAccent[1000],
                 borderRadius: 8,
+                fontWeight: "600",
                 color: "#fff",
                 ...(loading && { opacity: 0.7 }), // Visual feedback for loading state
               }}
@@ -1259,7 +1260,7 @@ const handleDownload = async (fileUrl) => {
                         sx={{
                           padding: "12px 24px",
                           fontSize: "14px",
-                          fontWeight: "bold",
+                          fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1281,7 +1282,7 @@ const handleDownload = async (fileUrl) => {
                         sx={{
                           padding: "12px 24px",
                           fontSize: "14px",
-                          fontWeight: "bold",
+                          fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1304,7 +1305,7 @@ const handleDownload = async (fileUrl) => {
                       sx={{
                         padding: "12px 24px",
                         fontSize: "14px",
-                        fontWeight: "bold",
+                        fontWeight: "600",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
@@ -1619,7 +1620,7 @@ const handleDownload = async (fileUrl) => {
             fullWidth
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "bold",
+              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",
@@ -1698,7 +1699,7 @@ const handleDownload = async (fileUrl) => {
             fullWidth
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "bold",
+              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",
