@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { Table } from "antd";
 import "antd/dist/reset.css"; // Ant Design resets
 // import { first } from "lodash";
+import TablePagination from '@mui/material/TablePagination';
 
 // Columns for DataGrid
 const columns = [
@@ -69,6 +70,10 @@ const Crm = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("Active");
 
+    // Pagination state
+    const [page, setPage] = useState(0); // 0-based index
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
   // Search filter
   const handleSearchChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
@@ -86,6 +91,7 @@ const Crm = () => {
       );
       setFilteredTickets(filtered);
     }
+        setPage(0); // Reset to first page on search
   };
 
   useEffect(() => {
@@ -188,8 +194,24 @@ const Crm = () => {
           : (item.status || "").toLowerCase() === "suspend"
       )
     );
+        setPage(0); // Reset to first page on filter change
   };
 
+
+    const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Paginate: Only show current page's data
+  const paginatedData = filteredTickets.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box m="10px">
@@ -311,13 +333,9 @@ const Crm = () => {
         }}
       >
         <Table
-          dataSource={filteredTickets}
+          dataSource={paginatedData}
           columns={columns}
-          pagination={{
-            pageSize: 10,          // Always show 10 rows per page
-            showSizeChanger: false, // Remove the option to change page size
-            position: ["bottomCenter"],
-          }}
+          pagination={false}
           onRow={(record) => ({
             onClick: () => handleRowClick(record),
             style: { cursor: "pointer" },
@@ -328,6 +346,24 @@ const Crm = () => {
           className="custom-ant-table-header"
           scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+          <TablePagination
+            component="div"
+            count={filteredTickets.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            labelRowsPerPage="Rows per page"
+            sx={{
+              // This will center the content inside the TablePagination root
+              ".MuiTablePagination-toolbar": {
+                justifyContent: "center",
+              }
+            }}
+          />
+        </div>
       </Box>
 
     </Box>

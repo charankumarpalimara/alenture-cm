@@ -108,7 +108,7 @@ const SuccessScreen = ({ onNext, background }) => (
       }
       subTitle={
         <span style={{ fontSize: 25 }}>
-          Your account has been created successfully.
+         New Customer Manager has been created successfully.
         </span>
       }
       extra={[

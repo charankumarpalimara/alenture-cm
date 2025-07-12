@@ -13,6 +13,7 @@ import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole } from "../../../config";
 import { Table } from "antd";
+import TablePagination from '@mui/material/TablePagination';
 // import { Country } from "country-state-city";
 
 // const initialTickets = [
@@ -74,6 +75,10 @@ const AdminANDHobOrganization = () => {
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [page, setPage] = useState(0); // 0-based index
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+
   const handleSearchChange = (event) => {
     const searchValue = event.target.value.toLowerCase();
     setSearchTerm(searchValue);
@@ -90,6 +95,7 @@ const AdminANDHobOrganization = () => {
       );
       setFilteredTickets(filtered);
     }
+    setPage(0); // Reset to first page on search
   };
 
   useEffect(() => {
@@ -171,13 +177,29 @@ const AdminANDHobOrganization = () => {
     };
   }, []);
 
-const handleNewTicket = () => {
-  Navigate("/organizationform");
-};
+  const handleNewTicket = () => {
+    Navigate("/organizationform");
+  };
 
   const handleRowClick = (record) => {
     Navigate("/organizationdetails", { state: { ticket: record } });
   };
+
+    const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Paginate: Only show current page's data
+  const paginatedData = filteredTickets.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
 
   return (
     <Box m="10px">
@@ -205,22 +227,22 @@ const handleNewTicket = () => {
             <SearchIcon />
           </IconButton>
         </Box>
-{(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
-  <Button
-    variant="contained"
-    sx={{
-      background: colors.blueAccent[1000],
-      fontWeight: "600",
-      color: "#ffffff",
-      whiteSpace: "nowrap",
-      textTransform: "none",
-    }}
-    startIcon={<AddIcon />}
-    onClick={handleNewTicket}
-  >
-    Create New
-  </Button>
-)}
+        {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
+          <Button
+            variant="contained"
+            sx={{
+              background: colors.blueAccent[1000],
+              fontWeight: "600",
+              color: "#ffffff",
+              whiteSpace: "nowrap",
+              textTransform: "none",
+            }}
+            startIcon={<AddIcon />}
+            onClick={handleNewTicket}
+          >
+            Create New
+          </Button>
+        )}
       </Box>
       <Box
         sx={{
@@ -232,14 +254,10 @@ const handleNewTicket = () => {
           overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-        <Table
-          dataSource={filteredTickets}
+    <Table
+          dataSource={paginatedData}
           columns={columns}
-          pagination={{
-            pageSize: 10,          // Always show 10 rows per page
-            showSizeChanger: false, // Remove the option to change page size
-            position: ["bottomCenter"],
-          }}
+          pagination={false}
           onRow={(record) => ({
             onClick: () => handleRowClick(record),
             style: { cursor: "pointer" },
@@ -250,6 +268,24 @@ const handleNewTicket = () => {
           className="custom-ant-table-header"
           scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+          <TablePagination
+            component="div"
+            count={filteredTickets.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            labelRowsPerPage="Rows per page"
+            sx={{
+              // This will center the content inside the TablePagination root
+              ".MuiTablePagination-toolbar": {
+                justifyContent: "center",
+              }
+            }}
+          />
+        </div>
       </Box>
 
 

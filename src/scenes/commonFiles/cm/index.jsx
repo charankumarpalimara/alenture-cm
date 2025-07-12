@@ -14,44 +14,15 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Table } from "antd";
-import "antd/dist/reset.css"; // Ant Design resets
+import "antd/dist/reset.css";
+import TablePagination from '@mui/material/TablePagination';
 
 const columns = [
-  {
-    title: "ID",
-    dataIndex: "id",
-    key: "id",
-    width: 100,
-    ellipsis: true,
-  },
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    width: 200,
-    ellipsis: true,
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Phone",
-    dataIndex: "contact",
-    key: "contact",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Created",
-    dataIndex: "date",
-    key: "date",
-    width: 150,
-    ellipsis: true,
-  },
+  { title: "ID", dataIndex: "id", key: "id", width: 100, ellipsis: true },
+  { title: "Name", dataIndex: "name", key: "name", width: 200, ellipsis: true },
+  { title: "Email", dataIndex: "email", key: "email", width: 150, ellipsis: true },
+  { title: "Phone", dataIndex: "contact", key: "contact", width: 150, ellipsis: true },
+  { title: "Created", dataIndex: "date", key: "date", width: 150, ellipsis: true },
 ];
 
 const Cm = () => {
@@ -63,6 +34,10 @@ const Cm = () => {
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [statusFilter, setStatusFilter] = useState("Active");
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Pagination state
+  const [page, setPage] = useState(0); // 0-based index
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Search filter
   const handleSearchChange = (event) => {
@@ -81,6 +56,7 @@ const Cm = () => {
       );
       setFilteredTickets(filtered);
     }
+    setPage(0); // Reset to first page on search
   };
 
   useEffect(() => {
@@ -192,7 +168,23 @@ const Cm = () => {
           : (item.status || "").toLowerCase() === "suspend"
       )
     );
+    setPage(0); // Reset to first page on filter change
   };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Paginate: Only show current page's data
+  const paginatedData = filteredTickets.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box m="10px">
@@ -224,7 +216,11 @@ const Cm = () => {
         </Box>
         <Button
           variant="contained"
-          sx={{background: colors.blueAccent[1000], color: "#ffffff", fontWeight: "600"}}
+          sx={{
+            background: colors.blueAccent[1000],
+            color: "#ffffff",
+            fontWeight: "600",
+          }}
           startIcon={<AddIcon />}
           onClick={handleNewTicket}
         >
@@ -247,10 +243,9 @@ const Cm = () => {
           variant={statusFilter === "Active" ? "contained" : "outlined"}
           onClick={() => handleStatusFilter("Active")}
           sx={{
-          background: statusFilter === "Active"
-            ? colors.blueAccent[1000] 
-            : "#e3e8ff",
-
+            background: statusFilter === "Active"
+              ? colors.blueAccent[1000]
+              : "#e3e8ff",
             color:
               statusFilter === "Active"
                 ? "#ffffff"
@@ -272,8 +267,8 @@ const Cm = () => {
           onClick={() => handleStatusFilter("Suspend")}
           sx={{
             background: statusFilter === "Suspend"
-             ? colors.blueAccent[1000] 
-             : "#e3e8ff",
+              ? colors.blueAccent[1000]
+              : "#e3e8ff",
             color:
               statusFilter === "Suspend"
                 ? "#ffffff"
@@ -304,13 +299,9 @@ const Cm = () => {
         }}
       >
         <Table
-          dataSource={filteredTickets}
+          dataSource={paginatedData}
           columns={columns}
-          pagination={{
-            pageSize: 10,          // Always show 10 rows per page
-            showSizeChanger: false, // Remove the option to change page size
-            position: ["bottomCenter"],
-          }}
+          pagination={false}
           onRow={(record) => ({
             onClick: () => handleRowClick(record),
             style: { cursor: "pointer" },
@@ -321,10 +312,27 @@ const Cm = () => {
           className="custom-ant-table-header"
           scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+          <TablePagination
+            component="div"
+            count={filteredTickets.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            labelRowsPerPage="Rows per page"
+            sx={{
+              // This will center the content inside the TablePagination root
+              ".MuiTablePagination-toolbar": {
+                justifyContent: "center",
+              }
+            }}
+          />
+        </div>
       </Box>
-
-      {/* Custom styles for removing header divider */}
     </Box>
   );
 };
+
 export default Cm;

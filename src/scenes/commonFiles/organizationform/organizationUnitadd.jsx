@@ -116,7 +116,7 @@ const SuccessScreen = ({ onNext, background }) => (
       }
       subTitle={
         <span style={{ fontSize: 25 }}>
-          Your account has been created successfully.
+          New Organization has been created successfully.
         </span>
       }
       extra={[
@@ -602,7 +602,7 @@ const OrganizationUnitadd = () => {
               height: "100%",
             }}
           >
-            <Typography.Text level={5} style={{ margin: "16px 0 8px 0", marginBottom: "16px", color:"#2E2E9F" }}>
+            <Typography.Text level={5} style={{ marginBottom: "30px", color:"#2E2E9F", fontWeight: "600", fontSize: "14px" }}>
               Oraganization Details
             </Typography.Text>
             <Collapse
@@ -896,7 +896,7 @@ const OrganizationUnitadd = () => {
                     marginTop: 16,
                     backgroundColor: "#3e4396",
                     color: "#fff",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                   }}
                 >
                   Add Organization Unit
@@ -908,7 +908,7 @@ const OrganizationUnitadd = () => {
                     marginTop: 16,
                     backgroundColor: "#3e4396",
                     color: "#fff",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                   }}
                 >
                   Add Customer Manager
@@ -1181,7 +1181,7 @@ const OrganizationUnitadd = () => {
                   style={{
                     padding: "12px 24px",
                     fontSize: "14px",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                     borderRadius: "8px",
                     background: colors.blueAccent[1000],
                     color: "#fff",
@@ -1197,7 +1197,7 @@ const OrganizationUnitadd = () => {
                   style={{
                     padding: "12px 24px",
                     fontSize: "14px",
-                    fontWeight: "bold",
+                    fontWeight: "600",
                     borderRadius: "8px",
                     background: colors.blueAccent[1000],
                     color: "#fff",

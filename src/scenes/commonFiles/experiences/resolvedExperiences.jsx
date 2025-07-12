@@ -12,7 +12,6 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../../theme";
 import {
   Search as SearchIcon,
@@ -23,51 +22,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { Table } from "antd";
+import TablePagination from '@mui/material/TablePagination';
 
-// Columns for DataGrid
 const columns = [
-  {
-    title: "ID",
-    dataIndex: "experienceid",
-    key: "experienceid",
-    width: 100,
-    ellipsis: true,
-  },
-  {
-    title: "Subject",
-    dataIndex: "subject",
-    key: "subject",
-    width: 200,
-    ellipsis: true,
-  },
-  {
-    title: "Priority",
-    dataIndex: "priority",
-    key: "priority",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Created",
-    dataIndex: "date",
-    key: "date",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Updated",
-    dataIndex: "time",
-    key: "time",
-    width: 150,
-    ellipsis: true,
-  },
+  { title: "ID", dataIndex: "experienceid", key: "experienceid", width: 100, ellipsis: true },
+  { title: "Subject", dataIndex: "subject", key: "subject", width: 200, ellipsis: true },
+  { title: "Priority", dataIndex: "priority", key: "priority", width: 150, ellipsis: true },
+  { title: "Status", dataIndex: "status", key: "status", width: 150, ellipsis: true },
+  { title: "Created", dataIndex: "date", key: "date", width: 150, ellipsis: true },
+  { title: "Updated", dataIndex: "time", key: "time", width: 150, ellipsis: true },
 ];
 
 const ResolvedExperiences = ({ apiUrl }) => {
@@ -86,77 +49,78 @@ const ResolvedExperiences = ({ apiUrl }) => {
     status: [],
   });
 
+  // Pagination state
+  const [page, setPage] = useState(0); // 0-based index
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   // Fetch from API on mount
-    const fetchTickets = async () => {
-      try {
-        const role = getCreaterRole();
-        let url = "";
-        if (role === "crm") {
-          url = `${process.env.REACT_APP_API_URL}/v1/getResolvedTicketsbyCrmid/${getCreaterId()}`;
-        } else if (role === "cm") {
-          url = `${process.env.REACT_APP_API_URL}/v1/getResolvedTicketsbyCmid/${getCreaterId()}`;
-        } else if (role === "hob" || role === "admin") {
-          url = `${process.env.REACT_APP_API_URL}/v1/getAllResolvedExperiences`;
-        } else {
-          console.error("Invalid user role");
-          return;
-        }
-        const response = await fetch(url);
-        const data = await response.json();
-        if (response.ok && Array.isArray(data.data)) {
-          // Map API output to DataGrid row format
-          const transformedData = data.data.map((item, idx) => ({
-            key: item.experienceid || item.id, // Use experienceid or index as key
-            id: item.experienceid || idx, // DataGrid requires unique id
-            experienceid: item.experienceid || "N/A",
-            experience: item.experience || "N/A",
-            experiencedetails: item.experiencedetails || "N/A",
-            impact: item.impact || "N/A",
-            subject: item.subject || "N/A",
-            priority: item.priority || "N/A",
-            status: item.status || "N/A",
-            date: item.date || "N/A",
-            updated: item.updated || "N/A",
-            organizationid: item.organizationid,
-            organizationname: item.organizationname || "N/A",
-            branch: item.branch || "N/A",
-            cmid: item.cmid || "N/A",
-            crmid: item.extraind1 || "N/A",
-            crmname: item.extraind2 || "N/A",
-            cmname: item.cmname || "N/A",
-            state: item.extraind4 || "N/A",
-            city: item.extraind5 || "N/A",
-            postalcode: item.extraind6 || "N/A",
-            time: item.time || "N/A",
-            imageUrl: `${item.imageUrl || ""}`,
-          }));
-            const uniqueData = [];
-      const seen = new Set();
-      for (const row of transformedData) {
-        if (!seen.has(row.experienceid)) {
-          uniqueData.push(row);
-          seen.add(row.experienceid);
-        }
+  const fetchTickets = async () => {
+    try {
+      const role = getCreaterRole();
+      let url = "";
+      if (role === "crm") {
+        url = `${process.env.REACT_APP_API_URL}/v1/getResolvedTicketsbyCrmid/${getCreaterId()}`;
+      } else if (role === "cm") {
+        url = `${process.env.REACT_APP_API_URL}/v1/getResolvedTicketsbyCmid/${getCreaterId()}`;
+      } else if (role === "hob" || role === "admin") {
+        url = `${process.env.REACT_APP_API_URL}/v1/getAllResolvedExperiences`;
+      } else {
+        console.error("Invalid user role");
+        return;
       }
-
-      setTickets(uniqueData);
-      setFilteredTickets(uniqueData);
+      const response = await fetch(url);
+      const data = await response.json();
+      if (response.ok && Array.isArray(data.data)) {
+        const transformedData = data.data.map((item, idx) => ({
+          key: item.experienceid || item.id,
+          id: item.experienceid || idx,
+          experienceid: item.experienceid || "N/A",
+          experience: item.experience || "N/A",
+          experiencedetails: item.experiencedetails || "N/A",
+          impact: item.impact || "N/A",
+          subject: item.subject || "N/A",
+          priority: item.priority || "N/A",
+          status: item.status || "N/A",
+          date: item.date || "N/A",
+          updated: item.updated || "N/A",
+          organizationid: item.organizationid,
+          organizationname: item.organizationname || "N/A",
+          branch: item.branch || "N/A",
+          cmid: item.cmid || "N/A",
+          crmid: item.extraind1 || "N/A",
+          crmname: item.extraind2 || "N/A",
+          cmname: item.cmname || "N/A",
+          state: item.extraind4 || "N/A",
+          city: item.extraind5 || "N/A",
+          postalcode: item.extraind6 || "N/A",
+          time: item.time || "N/A",
+          imageUrl: `${item.imageUrl || ""}`,
+        }));
+        const uniqueData = [];
+        const seen = new Set();
+        for (const row of transformedData) {
+          if (!seen.has(row.experienceid)) {
+            uniqueData.push(row);
+            seen.add(row.experienceid);
+          }
         }
-      } catch (error) {
-        console.error("Error fetching tickets:", error);
+        setTickets(uniqueData);
+        setFilteredTickets(uniqueData);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
 
-
-
-    React.useEffect(() => {
-      fetchTickets();
-    }, []);
+  React.useEffect(() => {
+    fetchTickets();
+  }, []);
 
   // Search filter
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     applyFilters(event.target.value, selectedFilters);
+    setPage(0);
   };
 
   // Open & Close Filter Menu
@@ -173,6 +137,7 @@ const ResolvedExperiences = ({ apiUrl }) => {
       applyFilters(searchTerm, updatedFilters);
       return updatedFilters;
     });
+    setPage(0);
   };
 
   // Apply Filters
@@ -198,18 +163,13 @@ const ResolvedExperiences = ({ apiUrl }) => {
     setFilteredTickets(filtered);
   };
 
-  // const handleNewTicket = () => {
-  //   Navigate('/crmform')
-  // };
-  // Get Unique Values for Filters
   const getUniqueValues = (key) => [
     ...new Set(tickets.map((ticket) => ticket[key])),
   ];
 
-
   const handleNewTicket = () => {
-     Navigate('/experienceRegistrationform')
-   };
+    Navigate('/experienceRegistrationform')
+  };
 
   const handleRowClick = (record) => {
     if (getCreaterRole() === "cm") {
@@ -217,7 +177,23 @@ const ResolvedExperiences = ({ apiUrl }) => {
     } else {
       Navigate("/ticketdetails", { state: { ticket: record } });
     }
-  }
+  };
+
+  // Pagination handlers
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Only show rows for current page
+  const paginatedData = filteredTickets.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box m="10px">
@@ -322,27 +298,24 @@ const ResolvedExperiences = ({ apiUrl }) => {
           </Box>
         </Menu>
         {getCreaterRole() === "cm" && (
-        <Button
-          variant="contained"
-          sx={{
-            background: colors.blueAccent[1000],
-            fontWeight: "600",
-            color: "#ffffff",
-            whiteSpace: "nowrap",
-            // paddingX: "15px"
-            // padding: "12px 18px ",
-            // fontSize: "14px",
-            textTransform: "none"
-          }}
-          startIcon={<AddIcon />}
-          onClick={handleNewTicket}
-        >
-          New Experience
-        </Button>
+          <Button
+            variant="contained"
+            sx={{
+              background: colors.blueAccent[1000],
+              fontWeight: "600",
+              color: "#ffffff",
+              whiteSpace: "nowrap",
+              textTransform: "none"
+            }}
+            startIcon={<AddIcon />}
+            onClick={handleNewTicket}
+          >
+            New Experience
+          </Button>
         )}
       </Box>
 
-      {/* DataGrid */}
+      {/* Table and Custom Pagination */}
       <Box
         sx={{
           margin: "13px 0 0 0",
@@ -350,17 +323,13 @@ const ResolvedExperiences = ({ apiUrl }) => {
           borderRadius: "8px",
           boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
           width: "100%",
-          overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
+          overflowX: isMobile ? "auto" : "unset",
         }}
       >
         <Table
-          dataSource={filteredTickets}
+          dataSource={paginatedData}
           columns={columns}
-          pagination={{
-            pageSize: 10,          // Always show 10 rows per page
-            showSizeChanger: false, // Remove the option to change page size
-            position: ["bottomCenter"],
-          }}
+          pagination={false}
           onRow={(record) => ({
             onClick: () => handleRowClick(record),
             style: { cursor: "pointer" },
@@ -369,8 +338,25 @@ const ResolvedExperiences = ({ apiUrl }) => {
           showHeader={true}
           rowClassName={() => "custom-row"}
           className="custom-ant-table-header"
-          scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
+          scroll={isMobile ? { x: 700 } : false}
         />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 20 }}>
+          <TablePagination
+            component="div"
+            count={filteredTickets.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            labelRowsPerPage="Rows per page"
+            sx={{
+              ".MuiTablePagination-toolbar": {
+                justifyContent: "center",
+              }
+            }}
+          />
+        </div>
       </Box>
     </Box>
   );

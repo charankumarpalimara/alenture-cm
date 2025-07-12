@@ -11,22 +11,30 @@ import {
   List,
   Card,
   message,
-  Space,
+  Switch,
 } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import listPlugin from "@fullcalendar/list";
-import localeEn from "@fullcalendar/core/locales/en-gb";
-import moment from "moment";
-import axios from "axios";
+import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
+import format from "date-fns/format";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+import getDay from "date-fns/getDay";
+import enUS from "date-fns/locale/en-US";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import "antd/dist/reset.css";
-import "@fullcalendar/common/main.css";
-import "@fullcalendar/daygrid/main.css";
-import "@fullcalendar/timegrid/main.css";
-import "@fullcalendar/list/main.css";
+import { isSameDay } from "date-fns";
+import axios from "axios";
+import { getCreaterId, getCreaterRole } from "../../../config";
+
+// Date-fns localizer for BigCalendar
+const locales = { "en-US": enUS };
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 // Helper for event colors
 const eventColors = [
@@ -36,6 +44,35 @@ const eventColors = [
   "#d32f2f", // red
   "#8e24aa", // purple
 ];
+
+// --- API functions ---
+// You MUST replace the URLs with your actual backend API endpoints.
+const api = {
+  async fetchEvents() {
+    // Replace with your backend endpoint:
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/events/${getCreaterId()}`);
+    // The backend should return an array of events.
+    // Each event: { id, title, start, end, allDay, color }
+    // Dates should be ISO strings; convert to Date objects:
+    return data.map(e => ({
+      ...e,
+      start: new Date(e.start),
+      end: e.end ? new Date(e.end) : undefined,
+    }));
+  },
+  async addEvent(event) {
+    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/events`, event);
+    return { ...data, start: new Date(data.start), end: data.end ? new Date(data.end) : undefined };
+  },
+  async updateEvent(id, event) {
+    const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/events/${id}`, event);
+    return { ...data, start: new Date(data.start), end: data.end ? new Date(data.end) : undefined };
+  },
+  async deleteEvent(id) {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/api/events/${id}`);
+    return true;
+  },
+};
 
 const Calendar = () => {
   const [currentEvents, setCurrentEvents] = useState([]);
@@ -48,12 +85,12 @@ const Calendar = () => {
 
   // Fetch events from API on mount and after any change
   const fetchEvents = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const res = await axios.get("/api/events");
-      setCurrentEvents(res.data);
+      const events = await api.fetchEvents();
+      setCurrentEvents(events);
     } catch (err) {
-      // message.error("Failed to fetch events.");
+      message.error("Failed to fetch events.");
     } finally {
       setLoading(false);
     }
@@ -64,33 +101,31 @@ const Calendar = () => {
   }, []);
 
   // Handle selecting a slot to add event
-  const handleDateSelect = (selectInfo) => {
+  const handleSlotSelect = ({ start, end }) => {
     setEditMode(false);
     form.resetFields();
     setSelectedEvent({
-      start: selectInfo.startStr,
-      end: selectInfo.endStr || selectInfo.startStr,
-      allDay: selectInfo.allDay,
+      start,
+      end,
+      allDay: false,
+    });
+    form.setFieldsValue({
+      start,
+      end,
+      allDay: false,
     });
     setModalVisible(true);
   };
 
   // Handle clicking an event (open modal for edit/delete)
-  const handleEventClick = (clickInfo) => {
+  const handleEventClick = ({ event }) => {
     setEditMode(true);
-    setSelectedEvent({
-      id: clickInfo.event.id,
-      title: clickInfo.event.title,
-      start: clickInfo.event.startStr,
-      end: clickInfo.event.endStr || clickInfo.event.startStr,
-      allDay: clickInfo.event.allDay,
-      color: clickInfo.event.backgroundColor,
-    });
+    setSelectedEvent(event);
     form.setFieldsValue({
-      title: clickInfo.event.title,
-      start: moment(clickInfo.event.start),
-      end: clickInfo.event.end ? moment(clickInfo.event.end) : undefined,
-      allDay: clickInfo.event.allDay,
+      title: event.title,
+      start: event.start,
+      end: event.end,
+      allDay: event.allDay,
     });
     setModalVisible(true);
   };
@@ -99,41 +134,41 @@ const Calendar = () => {
   const handleModalOk = async () => {
     try {
       const values = await form.validateFields();
-      const start = values.start.format("YYYY-MM-DDTHH:mm:ss");
-      const end = values.end ? values.end.format("YYYY-MM-DDTHH:mm:ss") : undefined;
+      const { title, start, end, allDay } = values;
 
       if (editMode && selectedEvent) {
         // EDIT EVENT
         const updatedEvent = {
-          ...selectedEvent,
-          title: values.title,
-          start,
-          end,
-          allDay: values.allDay,
+          title,
+          start: start.toISOString(),
+          end: end ? end.toISOString() : null,
+          allDay,
+          color: selectedEvent.color || eventColors[0],
         };
-        await axios.put(`${process.env.REACT_APP_API_URL}/v1/events/${selectedEvent.id}`, updatedEvent); // <-- Your API endpoint
-        // message.success("Event updated!");
+        const saved = await api.updateEvent(selectedEvent.id, updatedEvent);
+        setCurrentEvents((events) =>
+          events.map((e) => (e.id === selectedEvent.id ? saved : e))
+        );
+        message.success("Event updated!");
       } else {
         // ADD EVENT
         const color = eventColors[Math.floor(Math.random() * eventColors.length)];
         const newEvent = {
-          title: values.title,
-          start,
-          end,
-          allDay: values.allDay,
+          title,
+          start: start.toISOString(),
+          end: end ? end.toISOString() : null,
+          allDay,
           color,
         };
-        await axios.post(`${process.env.REACT_APP_API_URL}/v1/events`, newEvent); // <-- Your API endpoint
+        const saved = await api.addEvent(newEvent);
+        setCurrentEvents((events) => [...events, saved]);
         message.success("Event created!");
       }
       setModalVisible(false);
       form.resetFields();
-      fetchEvents();
     } catch (err) {
       // Validation error or API error
-      if (err && err.response && err.response.data && err.response.data.error) {
-        message.error(err.response.data.error);
-      }
+      message.error("Operation failed.");
     }
   };
 
@@ -141,36 +176,43 @@ const Calendar = () => {
   const handleDeleteEvent = async () => {
     if (selectedEvent && selectedEvent.id) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/v1/events/${selectedEvent.id}`); // <-- Your API endpoint
-        // message.success("Event deleted!");
+        await api.deleteEvent(selectedEvent.id);
+        setCurrentEvents((events) =>
+          events.filter((e) => e.id !== selectedEvent.id)
+        );
         setModalVisible(false);
         form.resetFields();
-        fetchEvents();
-      } catch {
-        // message.error("Failed to delete event.");
+        message.success("Event deleted!");
+      } catch (err) {
+        message.error("Failed to delete event.");
       }
     }
   };
 
   // Today's events for sidebar
-  const today = moment().format("YYYY-MM-DD");
+  const today = new Date();
   const todaysEvents = currentEvents.filter((e) =>
-    e.start ? e.start.slice(0, 10) === today : false
+    isSameDay(e.start, today)
   );
 
   return (
-    <div style={{ margin: 16, background: "#fff", borderRadius: 8, padding: 12 }}>
+    <div style={{ margin: 8, background: "#fff", borderRadius: 8, padding: 6 }}>
       <Typography.Title level={4} style={{ marginBottom: 16 }}>
         My Calendar
       </Typography.Title>
       <Row gutter={[16, 16]} wrap>
         {/* Sidebar */}
-        <Col xs={24} md={6}>
+        <Col xs={24} md={7}>
           <Card
             title="Today's Events"
             size="small"
             bordered={false}
-            style={{ minHeight: 300, background: "#f3f6f9", borderRadius: 8 }}
+            style={{
+              minHeight: 200,
+              background: "#f3f6f9",
+              borderRadius: 8,
+              marginBottom: 12,
+            }}
           >
             <List
               dataSource={todaysEvents}
@@ -191,8 +233,8 @@ const Calendar = () => {
                         ? "All Day"
                         : (
                           <>
-                            {moment(event.start).format("HH:mm")}
-                            {event.end ? ` - ${moment(event.end).format("HH:mm")}` : ""}
+                            {format(event.start, "HH:mm")}
+                            {event.end ? ` - ${format(event.end, "HH:mm")}` : ""}
                           </>
                         )
                     }
@@ -203,25 +245,30 @@ const Calendar = () => {
           </Card>
         </Col>
         {/* Calendar */}
-        <Col xs={24} md={18}>
-          <FullCalendar
-            height="70vh"
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
-            }}
-            initialView="dayGridMonth"
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
+        <Col xs={24} md={17}>
+          <BigCalendar
+            localizer={localizer}
             events={currentEvents}
-            select={handleDateSelect}
-            eventClick={handleEventClick}
-            eventColor="#1976d2"
-            locale={localeEn}
+            startAccessor="start"
+            endAccessor="end"
+            titleAccessor="title"
+            style={{ height: "70vh", minHeight: 400 }}
+            popup
+            selectable
+            onSelectSlot={handleSlotSelect}
+            onSelectEvent={handleEventClick}
+            eventPropGetter={(event) => ({
+              style: {
+                backgroundColor: event.color || "#1976d2",
+                color: "#fff",
+                borderRadius: "4px",
+                border: "none",
+                padding: "2px 6px",
+              },
+            })}
+            views={["month", "week", "day", "agenda"]}
+            dayLayoutAlgorithm="no-overlap"
+            toolbar={true}
             loading={loading}
           />
         </Col>
@@ -258,8 +305,8 @@ const Calendar = () => {
           layout="vertical"
           initialValues={{
             title: selectedEvent?.title || "",
-            start: selectedEvent?.start ? moment(selectedEvent.start) : undefined,
-            end: selectedEvent?.end ? moment(selectedEvent.end) : undefined,
+            start: selectedEvent?.start,
+            end: selectedEvent?.end,
             allDay: selectedEvent?.allDay || false,
           }}
         >
@@ -290,6 +337,13 @@ const Calendar = () => {
               style={{ width: "100%" }}
               format="YYYY-MM-DD HH:mm"
             />
+          </Form.Item>
+          <Form.Item
+            name="allDay"
+            label="All Day"
+            valuePropName="checked"
+          >
+            <Switch />
           </Form.Item>
         </Form>
       </Modal>

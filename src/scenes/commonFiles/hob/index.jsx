@@ -12,6 +12,7 @@ import { tokens } from "../../../theme";
 import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Table } from "antd";
+import TablePagination from '@mui/material/TablePagination';
 // Columns for DataGrid
 const columns = [
   {
@@ -61,7 +62,11 @@ const Hob = () => {
   const [originalTickets, setOriginalTickets] = useState([]); // State to store the original data
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-    const [statusFilter, setStatusFilter] = useState("Active");
+  const [statusFilter, setStatusFilter] = useState("Active");
+
+  // Pagination state
+  const [page, setPage] = useState(0); // 0-based index
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Search filter
   const handleSearchChange = (event) => {
@@ -80,6 +85,7 @@ const Hob = () => {
       );
       setFilteredTickets(filtered);
     }
+            setPage(0); // Reset to first page on search
   };
 
   useEffect(() => {
@@ -88,7 +94,7 @@ const Hob = () => {
         const response = await fetch(
           `${process.env.REACT_APP_API_URL}/v1/getAllHob`
           //  `http://127.0.0.1:8080/v1/getAllHob`
-         
+
         );
         const data = await response.json();
         console.log("API Response:", data); // Log the entire API response
@@ -112,11 +118,11 @@ const Hob = () => {
               imageUrl: `${item.imageUrl || ""}`,
             }));
             setOriginalTickets(transformedData); // Store the original data
-                      setFilteredTickets(
-            transformedData.filter(
-              (item) => (item.status || "").toLowerCase() === "active"
-            )
-          );
+            setFilteredTickets(
+              transformedData.filter(
+                (item) => (item.status || "").toLowerCase() === "active"
+              )
+            );
             console.log("Transformed Data:", transformedData); // Log transformed data
           } else {
             console.error("Unexpected data format:", data.data); // Log unexpected format
@@ -175,7 +181,7 @@ const Hob = () => {
   };
 
 
-    const handleStatusFilter = (status) => {
+  const handleStatusFilter = (status) => {
     setStatusFilter(status);
     setFilteredTickets(
       originalTickets.filter((item) =>
@@ -184,8 +190,24 @@ const Hob = () => {
           : (item.status || "").toLowerCase() === "suspend"
       )
     );
+    setPage(0); // Reset to first page on filter change
   };
 
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Paginate: Only show current page's data
+  const paginatedData = filteredTickets.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box m="10px">
@@ -232,69 +254,69 @@ const Hob = () => {
         </Button>
       </Box>
 
-            <Box
-              sx={{
-                display: "flex",
-                gap: "10px",
-                mb: "10px",
-                justifyContent: "center",
-                alignItems: "center",
-                // boxShadow: "0 2px 8px rgba(62,67,150,0.10)",
-                borderRadius: "12px",
-                // p: "10px",
-                // background: "#f6f8ff",
-                // border: "1px solid #e3e8ff",
-              }}
-            >
-              <Button
-                variant={statusFilter === "Active" ? "contained" : "outlined"}
-                onClick={() => handleStatusFilter("Active")}
-                sx={{
-                  background:
-                    statusFilter === "Active"
-                      ? colors.blueAccent[1000]
-                      : "#e3e8ff",
-                  color:
-                    statusFilter === "Active"
-                      ? "#ffffff"
-                      : colors.blueAccent[500],
-                  borderRadius: "8px",
-                  boxShadow:
-                    statusFilter === "Active"
-                      ? "0 2px 8px rgba(62,67,150,0.10)"
-                      : "none",
-                  border: "1px solid #b3c6ff",
-                  fontWeight: "600",
-                  minWidth: 120,
-                }}
-              >
-                Active
-              </Button>
-              <Button
-                variant={statusFilter === "Suspend" ? "contained" : "outlined"}
-                onClick={() => handleStatusFilter("Suspend")}
-                sx={{
-                  background:
-                    statusFilter === "Suspend"
-                      ? colors.blueAccent[1000]
-                      : "#e3e8ff",
-                  color:
-                    statusFilter === "Suspend"
-                      ? "#ffffff"
-                      : colors.blueAccent[500],
-                  borderRadius: "8px",
-                  boxShadow:
-                    statusFilter === "Suspend"
-                      ? "0 2px 8px rgba(62,67,150,0.10)"
-                      : "none",
-                  border: "1px solid #b3c6ff",
-                  fontWeight: "600",
-                  minWidth: 120,
-                }}
-              >
-                Suspend
-              </Button>
-            </Box>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "10px",
+          mb: "10px",
+          justifyContent: "center",
+          alignItems: "center",
+          // boxShadow: "0 2px 8px rgba(62,67,150,0.10)",
+          borderRadius: "12px",
+          // p: "10px",
+          // background: "#f6f8ff",
+          // border: "1px solid #e3e8ff",
+        }}
+      >
+        <Button
+          variant={statusFilter === "Active" ? "contained" : "outlined"}
+          onClick={() => handleStatusFilter("Active")}
+          sx={{
+            background:
+              statusFilter === "Active"
+                ? colors.blueAccent[1000]
+                : "#e3e8ff",
+            color:
+              statusFilter === "Active"
+                ? "#ffffff"
+                : colors.blueAccent[500],
+            borderRadius: "8px",
+            boxShadow:
+              statusFilter === "Active"
+                ? "0 2px 8px rgba(62,67,150,0.10)"
+                : "none",
+            border: "1px solid #b3c6ff",
+            fontWeight: "600",
+            minWidth: 120,
+          }}
+        >
+          Active
+        </Button>
+        <Button
+          variant={statusFilter === "Suspend" ? "contained" : "outlined"}
+          onClick={() => handleStatusFilter("Suspend")}
+          sx={{
+            background:
+              statusFilter === "Suspend"
+                ? colors.blueAccent[1000]
+                : "#e3e8ff",
+            color:
+              statusFilter === "Suspend"
+                ? "#ffffff"
+                : colors.blueAccent[500],
+            borderRadius: "8px",
+            boxShadow:
+              statusFilter === "Suspend"
+                ? "0 2px 8px rgba(62,67,150,0.10)"
+                : "none",
+            border: "1px solid #b3c6ff",
+            fontWeight: "600",
+            minWidth: 120,
+          }}
+        >
+          Suspend
+        </Button>
+      </Box>
 
       {/* DataGrid */}
       <Box
@@ -307,14 +329,10 @@ const Hob = () => {
           overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-        <Table
-          dataSource={filteredTickets}
+     <Table
+          dataSource={paginatedData}
           columns={columns}
-          pagination={{
-            pageSize: 10,          // Always show 10 rows per page
-            showSizeChanger: false, // Remove the option to change page size
-            position: ["bottomCenter"],
-          }}
+          pagination={false}
           onRow={(record) => ({
             onClick: () => handleRowClick(record),
             style: { cursor: "pointer" },
@@ -325,6 +343,24 @@ const Hob = () => {
           className="custom-ant-table-header"
           scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
+          <TablePagination
+            component="div"
+            count={filteredTickets.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            labelRowsPerPage="Rows per page"
+            sx={{
+              // This will center the content inside the TablePagination root
+              ".MuiTablePagination-toolbar": {
+                justifyContent: "center",
+              }
+            }}
+          />
+        </div>
       </Box>
 
     </Box>

@@ -12,7 +12,6 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../../theme";
 import {
   Search as SearchIcon,
@@ -23,51 +22,16 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { Table } from "antd";
+import TablePagination from '@mui/material/TablePagination';
 
 // Columns for DataGrid
 const columns = [
-  {
-    title: "ID",
-    dataIndex: "experienceid",
-    key: "experienceid",
-    width: 100,
-    ellipsis: true,
-  },
-  {
-    title: "Subject",
-    dataIndex: "subject",
-    key: "subject",
-    width: 200,
-    ellipsis: true,
-  },
-  {
-    title: "Priority",
-    dataIndex: "priority",
-    key: "priority",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Created",
-    dataIndex: "date",
-    key: "date",
-    width: 150,
-    ellipsis: true,
-  },
-  {
-    title: "Updated",
-    dataIndex: "time",
-    key: "time",
-    width: 150,
-    ellipsis: true,
-  },
+  { title: "ID", dataIndex: "experienceid", key: "experienceid", width: 100, ellipsis: true },
+  { title: "Subject", dataIndex: "subject", key: "subject", width: 200, ellipsis: true },
+  { title: "Priority", dataIndex: "priority", key: "priority", width: 150, ellipsis: true },
+  { title: "Status", dataIndex: "status", key: "status", width: 150, ellipsis: true },
+  { title: "Created", dataIndex: "date", key: "date", width: 150, ellipsis: true },
+  { title: "Updated", dataIndex: "time", key: "time", width: 150, ellipsis: true },
 ];
 
 const NewExperiences = ({ apiUrl }) => {
@@ -85,6 +49,10 @@ const NewExperiences = ({ apiUrl }) => {
     priority: [],
     status: [],
   });
+
+  // Pagination state
+  const [page, setPage] = useState(0); // 0-based index
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Fetch from API on mount
   const fetchTickets = async () => {
@@ -109,10 +77,9 @@ const NewExperiences = ({ apiUrl }) => {
       const response = await fetch(url);
       const data = await response.json();
       if (response.ok && Array.isArray(data.data)) {
-        // Map API output to DataGrid row format
         const transformedData = data.data.map((item, idx) => ({
-          key: item.experienceid || item.id, // Use experienceid or index as key
-          id: item.experienceid || idx, // DataGrid requires unique id
+          key: item.experienceid || item.id,
+          id: item.experienceid || idx,
           experienceid: item.experienceid || "N/A",
           experience: item.experience || "N/A",
           experiencedetails: item.experiencedetails || "N/A",
@@ -143,7 +110,6 @@ const NewExperiences = ({ apiUrl }) => {
             seen.add(row.experienceid);
           }
         }
-
         setTickets(uniqueData);
         setFilteredTickets(uniqueData);
       }
@@ -164,7 +130,6 @@ const NewExperiences = ({ apiUrl }) => {
         if (getCreaterRole() === "crm") {
           const data = JSON.parse(event.data);
           if (data.type === "notification" && data.crmid === getCreaterId()) {
-            // Refetch tickets for this CRM
             fetchTickets();
           }
         }
@@ -177,6 +142,7 @@ const NewExperiences = ({ apiUrl }) => {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     applyFilters(event.target.value, selectedFilters);
+    setPage(0); // Reset to first page on search
   };
 
   // Open & Close Filter Menu
@@ -193,6 +159,7 @@ const NewExperiences = ({ apiUrl }) => {
       applyFilters(searchTerm, updatedFilters);
       return updatedFilters;
     });
+    setPage(0); // Reset to first page on filter change
   };
 
   // Apply Filters
@@ -218,10 +185,6 @@ const NewExperiences = ({ apiUrl }) => {
     setFilteredTickets(filtered);
   };
 
-  // const handleNewTicket = () => {
-  //   Navigate('/crmform')
-  // };
-  // Get Unique Values for Filters
   const getUniqueValues = (key) => [
     ...new Set(tickets.map((ticket) => ticket[key])),
   ];
@@ -236,7 +199,23 @@ const NewExperiences = ({ apiUrl }) => {
     } else {
       Navigate("/ticketdetails", { state: { ticket: record } });
     }
-  }
+  };
+
+  // Pagination handlers
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Only show rows for current page
+  const paginatedData = filteredTickets.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box m="10px">
@@ -348,9 +327,6 @@ const NewExperiences = ({ apiUrl }) => {
               fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
-              // paddingX: "15px"
-              // padding: "12px 18px ",
-              // fontSize: "14px",
               textTransform: "none"
             }}
             startIcon={<AddIcon />}
@@ -361,7 +337,7 @@ const NewExperiences = ({ apiUrl }) => {
         )}
       </Box>
 
-      {/* DataGrid */}
+      {/* Table and Pagination */}
       <Box
         sx={{
           margin: "13px 0 0 0",
@@ -369,17 +345,13 @@ const NewExperiences = ({ apiUrl }) => {
           borderRadius: "8px",
           boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
           width: "100%",
-          overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
+          overflowX: isMobile ? "auto" : "unset",
         }}
       >
         <Table
-          dataSource={filteredTickets}
+          dataSource={paginatedData}
           columns={columns}
-          pagination={{
-            pageSize: 10,          // Always show 10 rows per page
-            showSizeChanger: false, // Remove the option to change page size
-            position: ["bottomCenter"],
-          }}
+          pagination={false}
           onRow={(record) => ({
             onClick: () => handleRowClick(record),
             style: { cursor: "pointer" },
@@ -388,8 +360,27 @@ const NewExperiences = ({ apiUrl }) => {
           showHeader={true}
           rowClassName={() => "custom-row"}
           className="custom-ant-table-header"
-          scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
+          scroll={isMobile ? { x: 700 } : false}
         />
+
+        {/* Custom Pagination */}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 20 }}>
+          <TablePagination
+            component="div"
+            count={filteredTickets.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 20, 50, 100]}
+            labelRowsPerPage="Rows per page"
+            sx={{
+              ".MuiTablePagination-toolbar": {
+                justifyContent: "center",
+              }
+            }}
+          />
+        </div>
       </Box>
     </Box>
   );
