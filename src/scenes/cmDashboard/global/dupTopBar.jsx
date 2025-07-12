@@ -295,22 +295,21 @@ const Topbar = ({ isSidebar, onLogout }) => {
     // setUnreadCount(0);
     setDrawerOpen(true);
   };
-
-
-const notifClick = (data) => {
-  setDrawerOpen(false);
-  const experienceid = data.finalExperienceid;
-  console.log("Clicked notification, experienceid:", experienceid);
-
-  if (window.location.pathname === `/ticketdetails/${experienceid}`) {
-    navigate("/");
-  }
-  if (data.type === "experience_resolved") {
-    navigate(`/ticketdetails/${experienceid}`);
-    // You can fetch details in the destination component using useParams
-  }
-  markNotificationReadMutate({ id: data.id });
-};
+  const notifClick = (data) => {
+    setDrawerOpen(false);
+    console.log(window.location.pathname);
+    if (window.location.pathname === "/ticketdetails") {
+      navigate("/");
+    }
+    if (data.type === "experience_resolved") {
+      mutate({
+        id: data.finalExperienceid,
+      });
+    }
+    markNotificationReadMutate({
+      id: data.id,
+    });
+  };
 
   // const { primaryTitle, secondaryTitle } = getPageTitle1();
 
