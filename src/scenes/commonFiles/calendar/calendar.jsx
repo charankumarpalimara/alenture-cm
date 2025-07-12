@@ -24,7 +24,16 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "antd/dist/reset.css";
 import { isSameDay } from "date-fns";
 import axios from "axios";
+import dayjs from "dayjs";
 import { getCreaterId, getCreaterRole } from "../../../config";
+
+// Helpers for date and time
+function formatDate(dt) {
+  return dt ? dayjs(dt).format("YYYY-MM-DD") : null;
+}
+function formatTime(dt) {
+  return dt ? dayjs(dt).format("HH:mm:ss") : null;
+}
 
 // Date-fns localizer for BigCalendar
 const locales = { "en-US": enUS };
@@ -36,40 +45,124 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-// Helper for event colors
 const eventColors = [
-  "#1976d2", // blue
-  "#43a047", // green
-  "#fbc02d", // yellow
-  "#d32f2f", // red
-  "#8e24aa", // purple
+  "#1976d2", "#43a047", "#fbc02d", "#d32f2f", "#8e24aa",
 ];
 
 // --- API functions ---
-// You MUST replace the URLs with your actual backend API endpoints.
 const api = {
   async fetchEvents() {
-    // Replace with your backend endpoint:
-    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/events/${getCreaterId()}`);
-    // The backend should return an array of events.
-    // Each event: { id, title, start, end, allDay, color }
-    // Dates should be ISO strings; convert to Date objects:
-    return data.map(e => ({
-      ...e,
-      start: new Date(e.start),
-      end: e.end ? new Date(e.end) : undefined,
+    const { data } = await axios.get(
+      `http://127.0.0.1:8080/v1/events/${getCreaterId()}`
+    );
+    // Convert DB fields to react-big-calendar format
+    return data.map((e) => ({
+      id: e.id,
+      title: e.event,
+      start:
+        e.eventstartdate && e.eventstarttime
+          ? new Date(`${e.eventstartdate}T${e.eventstarttime}`)
+          : e.eventstartdate
+          ? new Date(`${e.eventstartdate}T00:00:00`)
+          : null,
+      end:
+        e.eventenddate && e.eventendtime
+          ? new Date(`${e.eventenddate}T${e.eventendtime}`)
+          : e.eventenddate
+          ? new Date(`${e.eventenddate}T23:59:59`)
+          : null,
+      color: e.color || eventColors[0],
+      allDay: !!e.allDay,
+      eventstartdate: e.eventstartdate,
+      eventenddate: e.eventenddate,
+      eventstarttime: e.eventstarttime,
+      eventendtime: e.eventendtime,
+      raw: e,
     }));
   },
   async addEvent(event) {
-    const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/events`, event);
-    return { ...data, start: new Date(data.start), end: data.end ? new Date(data.end) : undefined };
+    const now = new Date();
+    const payload = {
+      userid: getCreaterId(),
+      userrole: getCreaterRole(),
+      event: event.title,
+      eventstartdate: formatDate(event.start),
+      eventenddate: formatDate(event.end),
+      eventstarttime: formatTime(event.start),
+      eventendtime: formatTime(event.end),
+      time: now.toLocaleTimeString(),
+      date: now.toLocaleDateString(),
+      color: event.color,
+      allDay: event.allDay,
+    };
+    const { data } = await axios.post(
+      `http://127.0.0.1:8080/v1/addEvent`,
+      payload
+    );
+    return {
+      id: data.id,
+      title: data.event,
+      start:
+        data.eventstartdate && data.eventstarttime
+          ? new Date(`${data.eventstartdate}T${data.eventstarttime}`)
+          : data.eventstartdate
+          ? new Date(`${data.eventstartdate}T00:00:00`)
+          : null,
+      end:
+        data.eventenddate && data.eventendtime
+          ? new Date(`${data.eventenddate}T${data.eventendtime}`)
+          : data.eventenddate
+          ? new Date(`${data.eventenddate}T23:59:59`)
+          : null,
+      color: data.color || eventColors[0],
+      allDay: !!data.allDay,
+      eventstartdate: data.eventstartdate,
+      eventenddate: data.eventenddate,
+      eventstarttime: data.eventstarttime,
+      eventendtime: data.eventendtime,
+      raw: data,
+    };
   },
   async updateEvent(id, event) {
-    const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/events/${id}`, event);
-    return { ...data, start: new Date(data.start), end: data.end ? new Date(data.end) : undefined };
+    const payload = {
+      event: event.title,
+      eventstartdate: formatDate(event.start),
+      eventenddate: formatDate(event.end),
+      eventstarttime: formatTime(event.start),
+      eventendtime: formatTime(event.end),
+      color: event.color,
+      allDay: event.allDay,
+    };
+    const { data } = await axios.put(
+      `http://127.0.0.1:8080/v1/EditEvent/${id}`,
+      payload
+    );
+    return {
+      id: data.id,
+      title: data.event,
+      start:
+        data.eventstartdate && data.eventstarttime
+          ? new Date(`${data.eventstartdate}T${data.eventstarttime}`)
+          : data.eventstartdate
+          ? new Date(`${data.eventstartdate}T00:00:00`)
+          : null,
+      end:
+        data.eventenddate && data.eventendtime
+          ? new Date(`${data.eventenddate}T${data.eventendtime}`)
+          : data.eventenddate
+          ? new Date(`${data.eventenddate}T23:59:59`)
+          : null,
+      color: data.color || eventColors[0],
+      allDay: !!data.allDay,
+      eventstartdate: data.eventstartdate,
+      eventenddate: data.eventenddate,
+      eventstarttime: data.eventstarttime,
+      eventendtime: data.eventendtime,
+      raw: data,
+    };
   },
   async deleteEvent(id) {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/api/events/${id}`);
+    await axios.delete(`http://127.0.0.1:8080/v1/DeleteEvent/${id}`);
     return true;
   },
 };
@@ -83,7 +176,6 @@ const Calendar = () => {
 
   const [form] = Form.useForm();
 
-  // Fetch events from API on mount and after any change
   const fetchEvents = async () => {
     setLoading(true);
     try {
@@ -100,79 +192,77 @@ const Calendar = () => {
     fetchEvents();
   }, []);
 
-  // Handle selecting a slot to add event
   const handleSlotSelect = ({ start, end }) => {
     setEditMode(false);
     form.resetFields();
-    setSelectedEvent({
-      start,
-      end,
-      allDay: false,
-    });
+    setSelectedEvent(null);
     form.setFieldsValue({
-      start,
-      end,
+      title: "",
+      start: dayjs(start),
+      end: dayjs(end),
       allDay: false,
     });
     setModalVisible(true);
   };
 
-  // Handle clicking an event (open modal for edit/delete)
-  const handleEventClick = ({ event }) => {
+  const handleEventClick = (event) => {
+    if (!event) {
+      message.error("Event data missing.");
+      return;
+    }
     setEditMode(true);
     setSelectedEvent(event);
     form.setFieldsValue({
       title: event.title,
-      start: event.start,
-      end: event.end,
-      allDay: event.allDay,
+      start: event.start ? dayjs(event.start) : null,
+      end: event.end ? dayjs(event.end) : null,
+      allDay: !!event.allDay,
     });
     setModalVisible(true);
   };
 
-  // Save (add/edit) event
   const handleModalOk = async () => {
     try {
       const values = await form.validateFields();
-      const { title, start, end, allDay } = values;
+      if (!values.start || !values.start.isValid()) {
+        message.error("Please select a valid start date and time.");
+        return;
+      }
+      const start = values.start.toDate();
+      const end = values.end && values.end.isValid() ? values.end.toDate() : null;
 
-      if (editMode && selectedEvent) {
-        // EDIT EVENT
-        const updatedEvent = {
-          title,
-          start: start.toISOString(),
-          end: end ? end.toISOString() : null,
-          allDay,
-          color: selectedEvent.color || eventColors[0],
-        };
-        const saved = await api.updateEvent(selectedEvent.id, updatedEvent);
+      const eventPayload = {
+        title: values.title,
+        start,
+        end,
+        color: selectedEvent?.color || eventColors[0],
+        allDay: values.allDay,
+      };
+
+      if (editMode && selectedEvent && selectedEvent.id) {
+        const saved = await api.updateEvent(selectedEvent.id, eventPayload);
         setCurrentEvents((events) =>
           events.map((e) => (e.id === selectedEvent.id ? saved : e))
         );
         message.success("Event updated!");
+      } else if (editMode && (!selectedEvent || !selectedEvent.id)) {
+        message.error("Event ID missing. Cannot update.");
+        return;
       } else {
-        // ADD EVENT
         const color = eventColors[Math.floor(Math.random() * eventColors.length)];
-        const newEvent = {
-          title,
-          start: start.toISOString(),
-          end: end ? end.toISOString() : null,
-          allDay,
-          color,
-        };
+        const newEvent = { ...eventPayload, color };
         const saved = await api.addEvent(newEvent);
         setCurrentEvents((events) => [...events, saved]);
         message.success("Event created!");
       }
       setModalVisible(false);
       form.resetFields();
+      setSelectedEvent(null);
     } catch (err) {
-      // Validation error or API error
       message.error("Operation failed.");
     }
   };
 
-  // Delete event
   const handleDeleteEvent = async () => {
     if (selectedEvent && selectedEvent.id) {
       try {
@@ -182,18 +272,18 @@ const Calendar = () => {
         );
         setModalVisible(false);
         form.resetFields();
+        setSelectedEvent(null);
         message.success("Event deleted!");
       } catch (err) {
         message.error("Failed to delete event.");
       }
+    } else {
+      message.error("Event ID missing. Cannot delete.");
     }
   };
 
-  // Today's events for sidebar
   const today = new Date();
-  const todaysEvents = currentEvents.filter((e) =>
-    isSameDay(e.start, today)
-  );
+  const todaysEvents = currentEvents.filter((e) => isSameDay(e.start, today));
 
   return (
     <div style={{ margin: 8, background: "#fff", borderRadius: 8, padding: 6 }}>
@@ -201,7 +291,6 @@ const Calendar = () => {
         My Calendar
       </Typography.Title>
       <Row gutter={[16, 16]} wrap>
-        {/* Sidebar */}
         <Col xs={24} md={7}>
           <Card
             title="Today's Events"
@@ -233,8 +322,12 @@ const Calendar = () => {
                         ? "All Day"
                         : (
                           <>
-                            {format(event.start, "HH:mm")}
-                            {event.end ? ` - ${format(event.end, "HH:mm")}` : ""}
+                            {event.eventstartdate && event.eventstarttime
+                              ? `${event.eventstartdate} ${event.eventstarttime}`
+                              : ""}
+                            {event.eventenddate && event.eventendtime
+                              ? ` - ${event.eventenddate} ${event.eventendtime}`
+                              : ""}
                           </>
                         )
                     }
@@ -244,7 +337,6 @@ const Calendar = () => {
             />
           </Card>
         </Col>
-        {/* Calendar */}
         <Col xs={24} md={17}>
           <BigCalendar
             localizer={localizer}
@@ -273,28 +365,41 @@ const Calendar = () => {
           />
         </Col>
       </Row>
-
-      {/* Modal for Add/Edit */}
       <Modal
         open={modalVisible}
         title={editMode ? "Edit Event" : "Add Event"}
         onCancel={() => {
           setModalVisible(false);
           form.resetFields();
+          setSelectedEvent(null);
         }}
         footer={[
           editMode && (
-            <Button key="delete" icon={<DeleteOutlined />} danger onClick={handleDeleteEvent}>
+            <Button
+              key="delete"
+              icon={<DeleteOutlined />}
+              danger
+              onClick={handleDeleteEvent}
+            >
               Delete
             </Button>
           ),
-          <Button key="cancel" onClick={() => {
-            setModalVisible(false);
-            form.resetFields();
-          }}>
+          <Button
+            key="cancel"
+            onClick={() => {
+              setModalVisible(false);
+              form.resetFields();
+              setSelectedEvent(null);
+            }}
+          >
             Cancel
           </Button>,
-          <Button key="ok" type="primary" icon={editMode ? <EditOutlined /> : <PlusOutlined />} onClick={handleModalOk}>
+          <Button
+            key="ok"
+            type="primary"
+            icon={editMode ? <EditOutlined /> : <PlusOutlined />}
+            onClick={handleModalOk}
+          >
             {editMode ? "Save" : "Add"}
           </Button>,
         ]}
@@ -305,8 +410,8 @@ const Calendar = () => {
           layout="vertical"
           initialValues={{
             title: selectedEvent?.title || "",
-            start: selectedEvent?.start,
-            end: selectedEvent?.end,
+            start: selectedEvent?.start ? dayjs(selectedEvent.start) : null,
+            end: selectedEvent?.end ? dayjs(selectedEvent.end) : null,
             allDay: selectedEvent?.allDay || false,
           }}
         >
@@ -319,7 +424,7 @@ const Calendar = () => {
           </Form.Item>
           <Form.Item
             name="start"
-            label="Start"
+            label="Start (pick date and time)"
             rules={[{ required: true, message: "Please select a start time" }]}
           >
             <DatePicker
@@ -328,21 +433,14 @@ const Calendar = () => {
               format="YYYY-MM-DD HH:mm"
             />
           </Form.Item>
-          <Form.Item
-            name="end"
-            label="End"
-          >
+          <Form.Item name="end" label="End (pick date and time)">
             <DatePicker
               showTime
               style={{ width: "100%" }}
               format="YYYY-MM-DD HH:mm"
             />
           </Form.Item>
-          <Form.Item
-            name="allDay"
-            label="All Day"
-            valuePropName="checked"
-          >
+          <Form.Item name="allDay" label="All Day" valuePropName="checked">
             <Switch />
           </Form.Item>
         </Form>
