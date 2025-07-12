@@ -53,7 +53,7 @@ const eventColors = [
 const api = {
   async fetchEvents() {
     const { data } = await axios.get(
-      `http://127.0.0.1:8080/v1/events/${getCreaterId()}`
+      `${process.env.REACT_APP_API_URL}/v1/events/${getCreaterId()}`
     );
     // Convert DB fields to react-big-calendar format
     return data.map((e) => ({
@@ -96,7 +96,7 @@ const api = {
       allDay: event.allDay,
     };
     const { data } = await axios.post(
-      `http://127.0.0.1:8080/v1/addEvent`,
+      `${process.env.REACT_APP_API_URL}/v1/addEvent`,
       payload
     );
     return {
@@ -134,7 +134,7 @@ const api = {
       allDay: event.allDay,
     };
     const { data } = await axios.put(
-      `http://127.0.0.1:8080/v1/EditEvent/${id}`,
+      `${process.env.REACT_APP_API_URL}/v1/EditEvent/${id}`,
       payload
     );
     return {
@@ -162,7 +162,7 @@ const api = {
     };
   },
   async deleteEvent(id) {
-    await axios.delete(`http://127.0.0.1:8080/v1/DeleteEvent/${id}`);
+    await axios.delete(`${process.env.REACT_APP_API_URL}/v1/DeleteEvent/${id}`);
     return true;
   },
 };
