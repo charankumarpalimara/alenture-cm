@@ -990,7 +990,7 @@ const AdminTicketDetails = () => {
                     variant="subtitle2"
                     sx={{ color: "#000", fontWeight: "600" }}
                   >
-                    Branch
+                    Unit
                   </Typography>
                   <Typography>{values.branch}</Typography>
                 </Box>
