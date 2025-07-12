@@ -190,38 +190,36 @@ const OrganizationDetails = () => {
           height: "100%",
         }}
       >
-        <Typography.Title level={5} style={{ margin: "16px 0 8px 0" }}>
-          Oragnization Details
+        <Typography.Title level={5} style={{ margin: "16px 0 8px 0", color:"#2E2E9F" }}>
+          Oraganization Details
         </Typography.Title>
-        <Collapse
-          accordion
-          expandIconPosition="end"
-            expandIcon={({ isActive }) =>
-    isActive ?  <UpOutlined />  :<DownOutlined />
-  }
-          defaultActiveKey={
-            sortedBranches.length > 0
-              ? String(
-                sortedBranches.findIndex((b) => b.branchtype === "Parent")
-              )
-              : undefined
-          }
-        >
-          {sortedBranches.map((branch, idx) => {
-            const isEditing = editingBranchIndex === idx;
-            const editData = isEditing ? branchEdits : branch;
-            return (
-             <Collapse.Panel
-              header={
-                <span>
-                  <Typography.Text strong style={{ fontSize: "16px" }}>
-                    {branch.organizationname}
-                  </Typography.Text>{" "}
-                  ({branch.branchtype})
-                </span>
+           <Collapse
+              accordion
+              expandIconPosition="end"
+              expandIcon={({ isActive }) =>
+                isActive ? <UpOutlined />  : <DownOutlined />
               }
-              key={branch.id || idx}
+              defaultActiveKey={
+                sortedBranches.length > 0
+                  ? String(
+                    sortedBranches.findIndex((b) => b.branchtype === "Parent")
+                  )
+                  : undefined
+              }
             >
+              {sortedBranches.map((branch, idx) => {
+                const isEditing = editingBranchIndex === idx;
+                const editData = isEditing ? branchEdits : branch;
+
+                const panelLabel =
+                  branch.branchtype === "Parent"
+                    ? <span>  <Typography.Text  strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
+                    : <span> <Typography.Text strong>{branch.organizationname}</Typography.Text> (Unit) </span>;
+                return (
+                  <Collapse.Panel
+                    header={panelLabel}
+                    key={branch.id || idx}
+                  >
                 <Row gutter={16}>
                   <Col xs={24} md={8} style={{ display: "none" }}>
                     <Typography.Text strong>Organization Name</Typography.Text>

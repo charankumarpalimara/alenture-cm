@@ -602,8 +602,8 @@ const OrganizationUnitadd = () => {
               height: "100%",
             }}
           >
-            <Typography.Text level={5} style={{ margin: "16px 0 8px 0", marginBottom: "16px", }}>
-              Oragnization Details
+            <Typography.Text level={5} style={{ margin: "16px 0 8px 0", marginBottom: "16px", color:"#2E2E9F" }}>
+              Oraganization Details
             </Typography.Text>
             <Collapse
               accordion
@@ -925,7 +925,7 @@ const OrganizationUnitadd = () => {
           {/* organization unit add */}
           {unitAddForm && (
             <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
-              <Typography style={{  fontWeight: "600", fontSize: 14, color:"rgb(9 17 152)"}} >Add Organization Unit</Typography>
+              <Typography style={{  fontWeight: "600", fontSize: 14, color:"#2E2E9F"}} >Add Organization Unit</Typography>
             </div>
           )}
 
@@ -1001,51 +1001,63 @@ const OrganizationUnitadd = () => {
                   </Form.Item>
                 </Col>
 
-                <Col xs={24} md={8}>
-                  <Form.Item
-                    label={<Typography.Text strong >Phone Code</Typography.Text>}
-                    name="phoneCode"
-                    initialValue={firstBranch.phonecode || ""}
-                    rules={[{ required: true, message: "Code is required" }]}
-                  >
-                    <Select
-                      showSearch
-                      placeholder="Select Phone Code"
-                      size="large"
-                      style={{
-                        borderRadius: 8,
-                        background: "#fff",
-                        fontSize: 16,
-                      }}
-                    >
-                      {countries.map((c) => (
-                        <Select.Option
-                          key={c.isoCode}
-                          value={`+${c.phonecode}`}
-                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </Col>
 
-                <Col xs={24} md={8}>
-                  <Form.Item
-                    label={<Typography.Text strong >Mobile</Typography.Text>}
-                    name="phoneno">
-                    <Input
-                      value={firstBranch.mobile || ""}
-                      // disabled
-                      size="large"
-                      style={{
-                        borderRadius: 8,
-                        // background: "#f5f5f5",
-                        fontSize: 16,
-                        // color: "#888",
-                        // cursor: "not-allowed",
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item label={<Typography.Text strong>Phone Number</Typography.Text>} required>
+                      <Input.Group compact>
+                        <Form.Item
+                          name="phoneCode"
+                          noStyle
+                          rules={[{ required: true, message: "Code is required" }]}
+                        >
+                          <Select
+                            showSearch
+                            style={{ width: 160 }}
+                            placeholder="Code"
+                            optionFilterProp="children"
+                            size="large"
+                          >
+                            {countries.map((c) => (
+                              <Select.Option
+                                key={c.isoCode}
+                                value={`+${c.phonecode}`}
+                              >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                        <Form.Item
+                          name="PhoneNo"
+                          noStyle
+                          rules={[
+                            { required: true, message: "Phone number is required" },
+                            { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                            { min: 10, message: "At least 10 digits" },
+                          ]}
+                        >
+                          <Input
+                            style={{ width: "calc(100% - 160px)" }}
+                            placeholder="Phone Number"
+                            size="large"
+                          />
+                        </Form.Item>
+                      </Input.Group>
+                    </Form.Item>
+                  </Col>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <Col xs={24} md={8}>
                   <Form.Item
                     label={<Typography.Text strong >Country</Typography.Text>}
@@ -1201,7 +1213,7 @@ const OrganizationUnitadd = () => {
 
           {cmform && (
             <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
-              <Typography style={{ fontWeight: "600", fontSize: 14, color:"rgb(9 17 152)" }} >ADD Customer Manager</Typography>
+              <Typography style={{ fontWeight: "600", fontSize: 14, color:"#2E2E9F" }} >ADD Customer Manager</Typography>
             </div>
           )}
           {cmform && (
@@ -1435,7 +1447,7 @@ const OrganizationUnitadd = () => {
                     </Form.Item>
                   </Col> */}
 
-                  <Col xs={24} md={8} >
+                  <Col xs={24} md={8} style={{ display: "none" }}>
                     <Form.Item
                       label={<Typography.Text strong>Organization</Typography.Text>}
                       name="organization"
