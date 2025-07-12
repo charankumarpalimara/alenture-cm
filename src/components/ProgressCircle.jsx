@@ -23,7 +23,7 @@ const ProgressCircle = ({ progress = 0.75, size = 90, borderWidth = 14 }) => {
   const angle = progress * 360;
 
   // Use blueAccent[1100] which is a linear-gradient string
-  const colorStops = extractColorStops(colors.blueAccent[1000]);
+const colorStops = ["#2E2E9F"];
 
   function buildConicGradient(stops, angle, fallbackColor, bgColor) {
     if (!stops.length) {
