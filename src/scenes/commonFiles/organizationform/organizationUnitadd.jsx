@@ -429,7 +429,7 @@ const OrganizationUnitadd = () => {
         branch: values.branch,
         branchtype: "Branch",
         phonecode: values.phoneCode,
-        mobile: values.phoneno,
+        mobile: values.PhoneNo,
         email: values.email,
         username: (location.state?.organizationname || "").toLowerCase(),
         passwords: values.passwords || "defaultPassword123",
