@@ -22,7 +22,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { Table } from "antd";
-import TablePagination from '@mui/material/TablePagination';
+import CustomTablePagination from '../../../components/CustomPagination';
 
 const columns = [
   { title: "ID", dataIndex: "experienceid", key: "experienceid", width: 100, ellipsis: true },
@@ -352,21 +352,17 @@ const PendingExperiences = ({ apiUrl }) => {
           className="custom-ant-table-header"
           scroll={isMobile ? { x: 700 } : false}
         />
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: 20 }}>
-          <TablePagination
-            component="div"
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginTop: "10px" }}>
+          <CustomTablePagination
             count={filteredTickets.length}
             page={page}
-            onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[10, 20, 50, 100]}
-            labelRowsPerPage="Rows per page"
-            sx={{
-              ".MuiTablePagination-toolbar": {
-                justifyContent: "center",
-              }
+            onPageChange={newPage => setPage(newPage)}
+            onRowsPerPageChange={newRpp => {
+              setRowsPerPage(newRpp);
+              setPage(0);
             }}
+            rowsPerPageOptions={[10, 20, 50, 100]}
           />
         </div>
       </Box>

@@ -21,7 +21,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+import { CheckCircleTwoTone, CloseOutlined } from "@ant-design/icons";
+// import { ArrowLeftOutlined } from "@ant-design/icons";
 import { getCreaterRole, getCreaterId } from "../../../config"; // Adjust the path as necessary
 
 const { Option } = Select;
@@ -108,7 +109,7 @@ const SuccessScreen = ({ onNext, background }) => (
       }
       subTitle={
         <span style={{ fontSize: 25 }}>
-         New Customer Manager has been created successfully.
+          New Customer Manager has been created successfully.
         </span>
       }
       extra={[
@@ -158,7 +159,7 @@ const CmForm = () => {
   const [createdCmId, setCreatedCmId] = useState(null);
   const [modalOrganizationNames, setModalOrganizationNames] = useState([]);
   const [modalBranchNames, setModalBranchNames] = useState([]);
-    const [showSuccess, setShowSuccess] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   //  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
   useEffect(() => {
@@ -450,6 +451,7 @@ const CmForm = () => {
 
   return (
     <>
+
       {isLoading && (
         <div
           style={{
@@ -679,297 +681,314 @@ const CmForm = () => {
 
 
 
-{!showSuccess && (
-      <div
-        style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values) => {    // <-- open the modal
-            handleFormSubmit(values);
-          }}
-          initialValues={{
-            firstName: "",
-            lastName: "",
-            email: "",
-            phoneCode: "",
-            PhoneNo: "",
-            gender: "",
-            designation: "",
-            organization: "",
-            branch: "",
-            crmid: "",
-            crmname: "",
-          }}
-          validateTrigger={["onChange", "onBlur"]}
-          scrollToFirstError
-          autoComplete="off"
+      {!showSuccess && (
+        <div
+          style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
+
         >
-          <Row justify="center" style={{ marginBottom: 24 }}>
-            <Col>
-              <div style={{ position: "relative", display: "inline-block" }}>
-                <Avatar
-                  src={profileImage || "https://via.placeholder.com/150"}
-                  size={120}
-                  style={{
-                    border: "2px solid #1677ff",
-                    cursor: "pointer",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                  }}
-                  onClick={triggerFileInput}
-                />
-                <Button
-                  icon={<CameraOutlined />}
-                  shape="circle"
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    background: "#1677ff",
-                    color: "#fff",
-                    border: "none",
-                  }}
-                  onClick={triggerFileInput}
-                />
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleImageUpload}
-                  accept="image/*"
-                  style={{ display: "none" }}
-                />
-              </div>
-            </Col>
-          </Row>
-          <Modal
-            open={cropModalOpen}
-            title="Crop Profile Picture"
-            onCancel={() => setCropModalOpen(false)}
-            onOk={handleSaveCroppedImage}
-            okText="Save Photo"
-            cancelText="Cancel"
-            width={400}
-            styles={{ body: { height: 350 } }} // <-- updated from bodyStyle
+         <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+            <Button
+              type="text"
+              icon={<CloseOutlined style={{ fontSize: 20 }} />}
+              onClick={() => navigate(-1)}
+              style={{
+                // margin: "16px 0 0 8px",
+                color: "#3e4396",
+                fontWeight: 600,
+                fontSize: 16,
+                alignSelf: "flex-end"
+              }}
+            >
+              {/* Back */}
+            </Button>
+          </div>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={(values) => {    // <-- open the modal
+              handleFormSubmit(values);
+            }}
+            initialValues={{
+              firstName: "",
+              lastName: "",
+              email: "",
+              phoneCode: "",
+              PhoneNo: "",
+              gender: "",
+              designation: "",
+              organization: "",
+              branch: "",
+              crmid: "",
+              crmname: "",
+            }}
+            validateTrigger={["onChange", "onBlur"]}
+            scrollToFirstError
+            autoComplete="off"
           >
-            {originalImage && (
-              <ReactCrop
-                crop={crop}
-                onChange={(c) => setCrop(c)}
-                onComplete={handleCropComplete}
-                aspect={1}
-                circularCrop
-              >
-                <img
-                  ref={imgRef}
-                  src={originalImage}
-                  onLoad={onImageLoad}
-                  style={{ maxHeight: "70vh", maxWidth: "100%" }}
-                  alt="Crop preview"
-                />
-              </ReactCrop>
-            )}
-          </Modal>
-          <Row gutter={24}>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>First Name</Text>}
-                name="firstName"
-                rules={[{ required: true, message: "First Name is required" }]}
-              >
-                <Input
-                  placeholder="First Name"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>Last Name</Text>}
-                name="lastName"
-                rules={[{ required: true, message: "Last Name is required" }]}
-              >
-                <Input
-                  placeholder="Last Name"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>Email Id</Text>}
-                name="email"
-                rules={[{ required: true, message: "Email is required" }]}
-              >
-                <Input
-                  placeholder="Email"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item label={<Text strong>Phone Number</Text>} required>
-                <Input.Group compact>
-                  <Form.Item
-                    name="phoneCode"
-                    noStyle
-                    rules={[{ required: true, message: "Code is required" }]}
-                  >
-                    <Select
-                      showSearch
-                      style={{ width: 160 }}
-                      placeholder="Code"
-                      optionFilterProp="children"
-                      size="large"
+            <Row justify="center" style={{ marginBottom: 24 }}>
+              <Col>
+                <div style={{ position: "relative", display: "inline-block" }}>
+                  <Avatar
+                    src={profileImage || "https://via.placeholder.com/150"}
+                    size={120}
+                    style={{
+                      border: "2px solid #1677ff",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                    }}
+                    onClick={triggerFileInput}
+                  />
+                  <Button
+                    icon={<CameraOutlined />}
+                    shape="circle"
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      background: "#1677ff",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                    onClick={triggerFileInput}
+                  />
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Modal
+              open={cropModalOpen}
+              title="Crop Profile Picture"
+              onCancel={() => setCropModalOpen(false)}
+              onOk={handleSaveCroppedImage}
+              okText="Save Photo"
+              cancelText="Cancel"
+              width={400}
+              styles={{ body: { height: 350 } }} // <-- updated from bodyStyle
+            >
+              {originalImage && (
+                <ReactCrop
+                  crop={crop}
+                  onChange={(c) => setCrop(c)}
+                  onComplete={handleCropComplete}
+                  aspect={1}
+                  circularCrop
+                >
+                  <img
+                    ref={imgRef}
+                    src={originalImage}
+                    onLoad={onImageLoad}
+                    style={{ maxHeight: "70vh", maxWidth: "100%" }}
+                    alt="Crop preview"
+                  />
+                </ReactCrop>
+              )}
+            </Modal>
+            <Row gutter={24}>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text strong>First Name</Text>}
+                  name="firstName"
+                  rules={[{ required: true, message: "First Name is required" }]}
+                >
+                  <Input
+                    placeholder="First Name"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text strong>Last Name</Text>}
+                  name="lastName"
+                  rules={[{ required: true, message: "Last Name is required" }]}
+                >
+                  <Input
+                    placeholder="Last Name"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text strong>Email Id</Text>}
+                  name="email"
+                  rules={[{ required: true, message: "Email is required" }]}
+                >
+                  <Input
+                    placeholder="Email"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item label={<Text strong>Phone Number</Text>} required>
+                  <Input.Group compact>
+                    <Form.Item
+                      name="phoneCode"
+                      noStyle
+                      rules={[{ required: true, message: "Code is required" }]}
                     >
-                      {countries.map((c) => (
-                        <Select.Option
-                          key={c.isoCode}
-                          value={`+${c.phonecode}`}
-                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    name="PhoneNo"
-                    noStyle
-                    rules={[
-                      { required: true, message: "Phone number is required" },
-                      { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
-                      { min: 10, message: "At least 10 digits" },
-                    ]}
+                      <Select
+                        showSearch
+                        style={{ width: 160 }}
+                        placeholder="Code"
+                        optionFilterProp="children"
+                        size="large"
+                      >
+                        {countries.map((c) => (
+                          <Select.Option
+                            key={c.isoCode}
+                            value={`+${c.phonecode}`}
+                          >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="PhoneNo"
+                      noStyle
+                      rules={[
+                        { required: true, message: "Phone number is required" },
+                        { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                        { min: 10, message: "At least 10 digits" },
+                      ]}
+                    >
+                      <Input
+                        style={{ width: "calc(100% - 160px)" }}
+                        placeholder="Phone Number"
+                        size="large"
+                      />
+                    </Form.Item>
+                  </Input.Group>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text strong>Gender</Text>}
+                  name="gender"
+                  rules={[{ required: true, message: "Gender is required" }]}
+                >
+                  <Select
+                    placeholder="Select Gender"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
                   >
-                    <Input
-                      style={{ width: "calc(100% - 160px)" }}
-                      placeholder="Phone Number"
-                      size="large"
-                    />
-                  </Form.Item>
-                </Input.Group>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>Gender</Text>}
-                name="gender"
-                rules={[{ required: true, message: "Gender is required" }]}
-              >
-                <Select
-                  placeholder="Select Gender"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    {gender.map((g) => (
+                      <Option key={g} value={g}>
+                        {g}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text strong>Organization</Text>}
+                  name="organization"
+                  rules={[
+                    { required: true, message: "Organization is required" },
+                  ]}
                 >
-                  {gender.map((g) => (
-                    <Option key={g} value={g}>
-                      {g}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>Organization</Text>}
-                name="organization"
-                rules={[
-                  { required: true, message: "Organization is required" },
-                ]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Organization"
+                  <Select
+                    showSearch
+                    placeholder="Select Organization"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    onChange={async (value) => {
+                      form.setFieldsValue({ organization: value, branch: "" });
+                      await fetchBranch(value);
+                    }}
+                  >
+                    {organizationNames.map((org) => (
+                      <Option key={org} value={org}>
+                        {org}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text strong>Organization Unit</Text>}
+                  name="branch"
+                  rules={[{ required: true, message: "Organization Unit is required" }]}
+                >
+                  <Select
+                    showSearch
+                    placeholder="Select Organization Unit"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  >
+                    {branchNames.map((item, idx) => (
+                      <Select.Option key={idx} value={item.branch}>
+                        {item.branch}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text strong>Relationship Manager</Text>}
+                  name="crmname"
+                  rules={[{ required: true, message: "Relationship Manager is required" }]}
+                >
+                  <Select
+                    showSearch
+                    placeholder="Select Relationship Manager"
+                    optionFilterProp="children"
+                    size="large"
+                    onChange={(value) => {
+                      const selected = crmNameList.find(crm => crm.crmid === value);
+                      form.setFieldsValue({
+                        crmname: selected ? selected.name : "",
+                        crmid: value
+                      });
+                    }}
+                  >
+                    {crmNameList.map((crm) => (
+                      <Select.Option key={crm.crmid} value={crm.crmid}>
+                        {crm.name} ({crm.crmid})
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+                  {/* <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}> */}
+                  <Input disabled />
+                  {/* </Form.Item> */}
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row justify="end" style={{ marginTop: 32 }} gutter={16}>
+              <Col>
+                <Button
+                  type="primary"
+                  htmlType="submit"
                   size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  onChange={async (value) => {
-                    form.setFieldsValue({ organization: value, branch: "" });
-                    await fetchBranch(value);
+                  style={{
+                    background: colors.blueAccent[1000],
+                    color: "#fff",
+                    fontWeight: "600",
+                    borderRadius: 8,
                   }}
                 >
-                  {organizationNames.map((org) => (
-                    <Option key={org} value={org}>
-                      {org}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>Organization Unit</Text>}
-                name="branch"
-                rules={[{ required: true, message: "Organization Unit is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Organization Unit"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                >
-                  {branchNames.map((item, idx) => (
-                    <Select.Option key={idx} value={item.branch}>
-                      {item.branch}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text strong>Relationship Manager</Text>}
-                name="crmname"
-                rules={[{ required: true, message: "Relationship Manager is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Relationship Manager"
-                  optionFilterProp="children"
-                  size="large"
-                  onChange={(value) => {
-                    const selected = crmNameList.find(crm => crm.crmid === value);
-                    form.setFieldsValue({
-                      crmname: selected ? selected.name : "",
-                      crmid: value
-                    });
-                  }}
-                >
-                  {crmNameList.map((crm) => (
-                    <Select.Option key={crm.crmid} value={crm.crmid}>
-                      {crm.name} ({crm.crmid})
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
-                {/* <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}> */}
-                <Input disabled />
-                {/* </Form.Item> */}
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row justify="end" style={{ marginTop: 32 }} gutter={16}>
-            <Col>
-              <Button
-                type="primary"
-                htmlType="submit"
-                size="large"
-                style={{
-                  background: colors.blueAccent[1000],
-                  color: "#fff",
-                  fontWeight: "600",
-                  borderRadius: 8,
-                }}
-              >
-                Create
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-)}
-            {showSuccess && (
+                  Create
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      )}
+      {showSuccess && (
         <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate(`/cmdetails/${createdCmId}`)} />
       )}
     </>

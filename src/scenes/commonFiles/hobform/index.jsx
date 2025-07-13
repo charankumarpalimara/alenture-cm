@@ -12,7 +12,7 @@ import {
   Spin,
   Result
 } from "antd";
-import { CameraOutlined, CheckCircleTwoTone } from "@ant-design/icons";
+import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 import { Country, State, City } from "country-state-city";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -104,7 +104,7 @@ const SuccessScreen = ({ onNext, background }) => (
       }
       subTitle={
         <span style={{ fontSize: 25 }}>
-         New HOB has been created successfully.
+          New HOB has been created successfully.
         </span>
       }
       extra={[
@@ -602,287 +602,303 @@ const HobForm = () => {
       </Modal>
 
       {!showSuccess && (
-      <div
-        style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values) => {    // <-- open the modal
-            handleFormSubmit(values);
-          }}
-          initialValues={{
-            firstName: "",
-            lastName: "",
-            designation: "",
-            street: "",
-            gender: "",
-            country: "",
-            state: "",
-            city: "",
-            email: "",
-            phoneCode: "",
-            PhoneNo: "",
-          }}
-          validateTrigger={["onChange", "onBlur"]}
-          scrollToFirstError
-          autoComplete="off"
+        <div
+          style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
         >
-          <Row justify="center" style={{ marginBottom: 24 }}>
-            <Col>
-              <div style={{ position: "relative", display: "inline-block" }}>
-                <Avatar
-                  src={profileImage || "https://via.placeholder.com/150"}
-                  size={120}
-                  style={{
-                    border: "2px solid #1677ff",
-                    cursor: "pointer",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                  }}
-                  onClick={triggerFileInput}
-                />
-                <Button
-                  icon={<CameraOutlined />}
-                  shape="circle"
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    background: "#1677ff",
-                    color: "#fff",
-                    border: "none",
-                  }}
-                  onClick={triggerFileInput}
-                />
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleImageUpload}
-                  accept="image/*"
-                  style={{ display: "none" }}
-                />
-              </div>
-            </Col>
-          </Row>
-          <Modal
-            open={cropModalOpen}
-            title="Crop Profile Picture"
-            onCancel={() => setCropModalOpen(false)}
-            onOk={handleSaveCroppedImage}
-            okText="Save Photo"
-            cancelText="Cancel"
-            width={400}
-            styles={{ body: { height: 350 } }}
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+            <Button
+              type="text"
+              icon={<CloseOutlined style={{ fontSize: 20 }} />}
+              onClick={() => navigate(-1)}
+              style={{
+                // margin: "16px 0 0 8px",
+                color: "#3e4396",
+                fontWeight: 600,
+                fontSize: 16,
+                alignSelf: "flex-end"
+              }}
+            >
+              {/* Back */}
+            </Button>
+          </div>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={(values) => {    // <-- open the modal
+              handleFormSubmit(values);
+            }}
+            initialValues={{
+              firstName: "",
+              lastName: "",
+              designation: "",
+              street: "",
+              gender: "",
+              country: "",
+              state: "",
+              city: "",
+              email: "",
+              phoneCode: "",
+              PhoneNo: "",
+            }}
+            validateTrigger={["onChange", "onBlur"]}
+            scrollToFirstError
+            autoComplete="off"
           >
-            {originalImage && (
-              <ReactCrop
-                crop={crop}
-                onChange={(c) => setCrop(c)}
-                onComplete={handleCropComplete}
-                aspect={1}
-                circularCrop
-              >
-                <img
-                  ref={imgRef}
-                  src={originalImage}
-                  onLoad={onImageLoad}
-                  style={{ maxHeight: "70vh", maxWidth: "100%" }}
-                  alt="Crop preview"
-                />
-              </ReactCrop>
-            )}
-          </Modal>
-          <Row gutter={24}>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>First Name</b>}
-                name="firstName"
-                rules={[{ required: true, message: "First Name is required" }]}
-              >
-                <Input
-                  placeholder="First Name"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>Last Name</b>}
-                name="lastName"
-                rules={[{ required: true, message: "Last Name is required" }]}
-              >
-                <Input
-                  placeholder="Last Name"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>Email Id</b>}
-                name="email"
-                rules={[{ required: true, message: "Email is required" }]}
-              >
-                <Input
-                  placeholder="Email"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item label={<b>Phone Number</b>} required>
-                <Input.Group compact>
-                  <Form.Item
-                    name="phoneCode"
-                    noStyle
-                    rules={[{ required: true, message: "Code is required" }]}
-                  >
-                    <Select
-                      showSearch
-                      style={{ width: 160 }}
-                      placeholder="Code"
-                      optionFilterProp="children"
-                      size="large"
+            <Row justify="center" style={{ marginBottom: 24 }}>
+              <Col>
+                <div style={{ position: "relative", display: "inline-block" }}>
+                  <Avatar
+                    src={profileImage || "https://via.placeholder.com/150"}
+                    size={120}
+                    style={{
+                      border: "2px solid #1677ff",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                    }}
+                    onClick={triggerFileInput}
+                  />
+                  <Button
+                    icon={<CameraOutlined />}
+                    shape="circle"
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      background: "#1677ff",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                    onClick={triggerFileInput}
+                  />
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Modal
+              open={cropModalOpen}
+              title="Crop Profile Picture"
+              onCancel={() => setCropModalOpen(false)}
+              onOk={handleSaveCroppedImage}
+              okText="Save Photo"
+              cancelText="Cancel"
+              width={400}
+              styles={{ body: { height: 350 } }}
+            >
+              {originalImage && (
+                <ReactCrop
+                  crop={crop}
+                  onChange={(c) => setCrop(c)}
+                  onComplete={handleCropComplete}
+                  aspect={1}
+                  circularCrop
+                >
+                  <img
+                    ref={imgRef}
+                    src={originalImage}
+                    onLoad={onImageLoad}
+                    style={{ maxHeight: "70vh", maxWidth: "100%" }}
+                    alt="Crop preview"
+                  />
+                </ReactCrop>
+              )}
+            </Modal>
+            <Row gutter={24}>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<b>First Name</b>}
+                  name="firstName"
+                  rules={[{ required: true, message: "First Name is required" }]}
+                >
+                  <Input
+                    placeholder="First Name"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<b>Last Name</b>}
+                  name="lastName"
+                  rules={[{ required: true, message: "Last Name is required" }]}
+                >
+                  <Input
+                    placeholder="Last Name"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<b>Email Id</b>}
+                  name="email"
+                  rules={[{ required: true, message: "Email is required" }]}
+                >
+                  <Input
+                    placeholder="Email"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item label={<b>Phone Number</b>} required>
+                  <Input.Group compact>
+                    <Form.Item
+                      name="phoneCode"
+                      noStyle
+                      rules={[{ required: true, message: "Code is required" }]}
                     >
-                      {countries.map((c) => (
-                        <Select.Option
-                          key={c.isoCode}
-                          value={`+${c.phonecode}`}
-                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    name="PhoneNo"
-                    noStyle
-                    rules={[
-                      { required: true, message: "Phone number is required" },
-                      { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
-                      { min: 10, message: "At least 10 digits" },
-                    ]}
+                      <Select
+                        showSearch
+                        style={{ width: 160 }}
+                        placeholder="Code"
+                        optionFilterProp="children"
+                        size="large"
+                      >
+                        {countries.map((c) => (
+                          <Select.Option
+                            key={c.isoCode}
+                            value={`+${c.phonecode}`}
+                          >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="PhoneNo"
+                      noStyle
+                      rules={[
+                        { required: true, message: "Phone number is required" },
+                        { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                        { min: 10, message: "At least 10 digits" },
+                      ]}
+                    >
+                      <Input
+                        style={{ width: "calc(100% - 160px)" }}
+                        placeholder="Phone Number"
+                        size="large"
+                      />
+                    </Form.Item>
+                  </Input.Group>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<b>Gender</b>}
+                  name="gender"
+                  rules={[{ required: true, message: "Gender is required" }]}
+                >
+                  <Select
+                    placeholder="Select Gender"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
                   >
-                    <Input
-                      style={{ width: "calc(100% - 160px)" }}
-                      placeholder="Phone Number"
-                      size="large"
-                    />
-                  </Form.Item>
-                </Input.Group>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>Gender</b>}
-                name="gender"
-                rules={[{ required: true, message: "Gender is required" }]}
-              >
-                <Select
-                  placeholder="Select Gender"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    {gender.map((g) => (
+                      <Option key={g} value={g}>
+                        {g}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<b>Country</b>}
+                  name="country"
+                  rules={[{ required: true, message: "Country is required" }]}
                 >
-                  {gender.map((g) => (
-                    <Option key={g} value={g}>
-                      {g}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>Country</b>}
-                name="country"
-                rules={[{ required: true, message: "Country is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Country"
+                  <Select
+                    showSearch
+                    placeholder="Select Country"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    onChange={(value) => {
+                      setSelectedCountry(value);
+                      form.setFieldsValue({ state: "", city: "" });
+                    }}
+                  >
+                    {countries.map((c) => (
+                      <Option key={c.isoCode} value={c.name}>
+                        {c.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<b>State</b>}
+                  name="state"
+                  rules={[{ required: true, message: "State is required" }]}
+                >
+                  <Select
+                    showSearch
+                    placeholder="Select State"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    onChange={(value) => {
+                      setSelectedState(value);
+                      form.setFieldsValue({ city: "" });
+                    }}
+                    disabled={!selectedCountry}
+                  >
+                    {states.map((s) => (
+                      <Option key={s.isoCode} value={s.name}>
+                        {s.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<b>City</b>}
+                  name="city"
+                  rules={[{ required: true, message: "City is required" }]}
+                >
+                  <Select
+                    showSearch
+                    placeholder="Select City"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    disabled={!selectedState}
+                  >
+                    {cities.map((city) => (
+                      <Option key={city.name} value={city.name}>
+                        {city.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row justify="end" style={{ marginTop: 32 }} gutter={16}>
+              <Col>
+                <Button
+                  type="primary"
+                  htmlType="submit"
                   size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  onChange={(value) => {
-                    setSelectedCountry(value);
-                    form.setFieldsValue({ state: "", city: "" });
+                  style={{
+                    background: colors.blueAccent[1000],
+                    color: "#fff",
+                    fontWeight: "600",
+                    borderRadius: 8,
                   }}
+                  loading={isLoading}
                 >
-                  {countries.map((c) => (
-                    <Option key={c.isoCode} value={c.name}>
-                      {c.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>State</b>}
-                name="state"
-                rules={[{ required: true, message: "State is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select State"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  onChange={(value) => {
-                    setSelectedState(value);
-                    form.setFieldsValue({ city: "" });
-                  }}
-                  disabled={!selectedCountry}
-                >
-                  {states.map((s) => (
-                    <Option key={s.isoCode} value={s.name}>
-                      {s.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<b>City</b>}
-                name="city"
-                rules={[{ required: true, message: "City is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select City"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  disabled={!selectedState}
-                >
-                  {cities.map((city) => (
-                    <Option key={city.name} value={city.name}>
-                      {city.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row justify="end" style={{ marginTop: 32 }} gutter={16}>
-            <Col>
-              <Button
-                type="primary"
-                htmlType="submit"
-                size="large"
-                style={{
-                  background: colors.blueAccent[1000],
-                  color: "#fff",
-                  fontWeight: "600",
-                  borderRadius: 8,
-                }}
-                loading={isLoading}
-              >
-                Create
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </div>
+                  Create
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       )}
 
       {showSuccess && (

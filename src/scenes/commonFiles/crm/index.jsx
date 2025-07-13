@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { Table } from "antd";
 import "antd/dist/reset.css"; // Ant Design resets
 // import { first } from "lodash";
-import TablePagination from '@mui/material/TablePagination';
+import CustomTablePagination from '../../../components/CustomPagination';
 
 // Columns for DataGrid
 const columns = [
@@ -346,22 +346,17 @@ const Crm = () => {
           className="custom-ant-table-header"
           scroll={isMobile ? { x: 700 } : false} // Force scroll in mobile
         />
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
-          <TablePagination
-            component="div"
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginTop: "20px" }}>
+          <CustomTablePagination
             count={filteredTickets.length}
             page={page}
-            onPageChange={handleChangePage}
             rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[10, 20, 50, 100]}
-            labelRowsPerPage="Rows per page"
-            sx={{
-              // This will center the content inside the TablePagination root
-              ".MuiTablePagination-toolbar": {
-                justifyContent: "center",
-              }
+            onPageChange={newPage => setPage(newPage)}
+            onRowsPerPageChange={newRpp => {
+              setRowsPerPage(newRpp);
+              setPage(0);
             }}
+            rowsPerPageOptions={[10, 20, 50, 100]}
           />
         </div>
       </Box>

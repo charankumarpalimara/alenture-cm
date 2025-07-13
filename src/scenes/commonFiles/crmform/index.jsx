@@ -12,7 +12,7 @@ import {
   Spin,
     Result
 } from "antd";
-import { CameraOutlined, CheckCircleTwoTone } from "@ant-design/icons";
+import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 import { Country, State, City } from "country-state-city";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -713,6 +713,22 @@ const CrmForm = () => {
       <div
         style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
       >
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                  <Button
+                    type="text"
+                    icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                    onClick={() => navigate(-1)}
+                    style={{
+                      // margin: "16px 0 0 8px",
+                      color: "#3e4396",
+                      fontWeight: 600,
+                      fontSize: 16,
+                      alignSelf:"flex-end"
+                    }}
+                  >
+                    {/* Back */}
+                  </Button>
+                  </div>
         <Form
           form={form}
           layout="vertical"

@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import { getCreaterRole, getCreaterId } from "../../../config";
+import {  CloseOutlined } from "@ant-design/icons";
+
 
 const OrganizationForm = () => {
   const theme = useTheme();
@@ -124,7 +126,24 @@ const OrganizationForm = () => {
         </div>
       )}
 
+
       <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}>
+                  <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                    <Button
+                      type="text"
+                      icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                      onClick={() => navigate(-1)}
+                      style={{
+                        // margin: "16px 0 0 8px",
+                        color: "#3e4396",
+                        fontWeight: 600,
+                        fontSize: 16,
+                        alignSelf: "flex-end"
+                      }}
+                    >
+                      {/* Back */}
+                    </Button>
+                  </div>
         <Form
           form={form}
           layout="vertical"

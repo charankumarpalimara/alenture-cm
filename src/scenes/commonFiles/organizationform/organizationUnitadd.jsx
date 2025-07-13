@@ -14,17 +14,18 @@ import {
   Form,
   Result
 } from "antd";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+// import { CheckCircleTwoTone } from "@ant-design/icons";
 import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
 import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UpOutlined, DownOutlined } from "@ant-design/icons";
+import { UpOutlined, DownOutlined, CloseOutlined, CheckCircleTwoTone } from "@ant-design/icons";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import { getCreaterRole, getCreaterId } from "../../../config";
+// import {  CloseOutlined } from "@ant-design/icons";
 
 // import ReactCrop from "react-image-crop";
 // import { heIL } from "@mui/x-data-grid";
@@ -887,6 +888,7 @@ const OrganizationUnitadd = () => {
               })}
             </Collapse>
             {/* {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && ( */}
+
             {(!unitAddForm && !cmform) && (
               <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", marginTop: 16 }}>
                 <Button
@@ -930,6 +932,7 @@ const OrganizationUnitadd = () => {
           )}
 
           <Box sx={{ backgroundColor: "#ffffff", borderRadius: "8px", padding: "24px", margin: "10px", display: unitAddForm ? "block" : "none" }}>
+            
 
             <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
               <Row gutter={16}>

@@ -1,0 +1,102 @@
+.ctp-root {
+  background: #fff;
+  border-radius: 0 0 12px 12px;
+  padding: 16px 24px;
+  font-size: 14px;
+}
+
+.ctp-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.ctp-left, .ctp-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctp-label {
+  color: #505050;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.ctp-select {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.ctp-range {
+  color: #505050;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.ctp-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ctp-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #333;
+  font-size: 20px;
+  transition: background 0.2s;
+}
+.ctp-btn:disabled {
+  color: #aaa;
+  cursor: default;
+}
+.ctp-btn:not(:disabled):hover {
+  background: #f2f4ff;
+}
+
+/* Mobile responsive */
+@media only screen and (max-width: 600px) {
+  .ctp-inner {
+    display: flex;
+    flex-direction: row;
+    /* gap: 12px; */
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .ctp-left,
+  .ctp-right {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .ctp-root {
+    padding: 10px 6px;
+  }
+  .ctp-label,
+  .ctp-range {
+    font-size: 13px;
+    margin-right: 0;
+  }
+  .ctp-select {
+    margin-right: 0;
+    width: 100%;
+    font-size: 13px;
+  }
+  .ctp-buttons {
+    gap: 4px;
+  }
+  .ctp-btn {
+    width: 32px;
+    font-size: 18px;
+    align-self: flex-start;
+  }
+}
