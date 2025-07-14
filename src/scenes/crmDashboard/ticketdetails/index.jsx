@@ -554,8 +554,8 @@ const CrmTicketDetails = () => {
     const utcDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
     const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
       await fetch(
-        `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
-        //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
+        // `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
+         `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
