@@ -60,6 +60,7 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getCreaterId } from "../../../config";
 import ActivityTimeline from "./ActivityTimeline";
+import dayjs from "dayjs"; // Use dayjs for formatting UTC
 
 const { Option } = Select;
 
@@ -514,9 +515,16 @@ const CrmTicketDetails = () => {
 
   useEffect(() => {
     const sendProcessingStatus = async () => {
+
+          // Always store UTC date and time
+    const now = new Date();
+    const utcDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
       const msgData = {
         experienceid: ticket.experienceid,
         status: "Processing",
+        date: utcDate,
+        time: utcTime
       };
 
       try {
@@ -538,6 +546,33 @@ const CrmTicketDetails = () => {
       sendProcessingStatus();
     }
   }, [ticket.experienceid]);
+
+    const handleCloseExperience = async () => {
+    try {
+                // Always store UTC date and time
+    const now = new Date();
+    const utcDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
+      await fetch(
+        `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
+        //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            experienceid: ticket.experienceid,
+            status: "Resolved",
+            date: utcDate,
+            time: utcTime
+          }),
+        }
+      );
+      message.success("Experience status updated to Resolved!");
+      Navigate("/experiences"); // Navigate to tickets page after closing
+    } catch (error) {
+      message.error("Failed to update status.");
+    }
+  }
 
 
   useEffect(() => {
@@ -637,26 +672,7 @@ const CrmTicketDetails = () => {
   };
 
 
-  const handleCloseExperience = async () => {
-    try {
-      await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
-        //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            experienceid: ticket.experienceid,
-            status: "Resolved",
-          }),
-        }
-      );
-      message.success("Experience status updated to Resolved!");
-      Navigate("/experiences"); // Navigate to tickets page after closing
-    } catch (error) {
-      message.error("Failed to update status.");
-    }
-  }
+
 
   const TaskForm = ({ handleClose, fetchTasks }) => {
     const [taskForm] = Form.useForm();
@@ -1107,7 +1123,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                 </Box>
 
-                <Box>
+                {/* <Box>
                   <Typography
                     variant="subtitle2"
                     sx={{ color: "#000", fontWeight: "600" }}
@@ -1125,7 +1141,7 @@ const CrmTicketDetails = () => {
                     Time
                   </Typography>
                   <Typography>{values.time}</Typography>
-                </Box>
+                </Box> */}
 
                 <Box>
                   <Typography

@@ -14,15 +14,14 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
-// Helper to convert UTC date and time to local string
+// Helper to convert UTC date and time to local string, fallback to N/A if missing or invalid
 const getLocalDateTimeString = (date, time) => {
-  if (!date && !time) return "-";
-  if (!date) return time;
-  if (!time) return date;
+  // Check for empty, null, undefined, or whitespace
+  if (!date || !time || !date.trim() || !time.trim()) return "N/A";
   // Combine as UTC
-  const utcIso = `${date}T${time}Z`; // e.g. "2025-07-14T13:45:12Z"
+  const utcIso = `${date}T${time}Z`;
   const d = new Date(utcIso);
-  // Show local string (date and time in user's locale)
+  if (isNaN(d.getTime())) return "N/A"; // Invalid date
   return d.toLocaleString();
 };
 
@@ -58,7 +57,7 @@ const ActivityTimeline = ({
       time: resolvedtime,
       icon: <CheckCircleIcon color="success" />,
     },
-  ].filter((item) => item.date || item.time);
+  ];
 
   return (
     <Box sx={{ width: "100%", my: 2 }}>

@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
+import dayjs from "dayjs"; // Use dayjs for formatting UTC
 const { Option } = AntdSelect;
 const { TextArea } = Input;
 // Adjust the import path as
@@ -173,13 +174,10 @@ const CmExperienceRegistrationForm = () => {
     const organizationname = userDetails.organizationname;
     const branch = userDetails.branch;
 
+    // Always store UTC date and time
     const now = new Date();
-
-// UTC Date (YYYY-MM-DD)
-const utcDate = now.toISOString().slice(0, 10);
-
-// UTC Time (HH:MM:SS)
-const utcTime = now.toISOString().slice(11, 19);
+    const utcDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
 
     formData.append("cmid", cmid);
     formData.append("cmname", cmname);
@@ -194,8 +192,7 @@ const utcTime = now.toISOString().slice(11, 19);
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/v1/createTicket`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      // Assume response.data contains the created ticket, including its id
-      // Get experienceid from response
+      // ...existing modal logic...
       const ticketData = response.data.data || {};
       const experienceid = response.data.experienceid || ticketData.experienceid;
 
@@ -203,12 +200,10 @@ const utcTime = now.toISOString().slice(11, 19);
         ...values,
         fileupload: selectedFile,
         filename: selectedFile ? selectedFile.name : null,
-        fileurl: response.data.filename || null, // if your backend returns fileurl
+        fileurl: response.data.filename || null,
         experienceid: experienceid,
       });
-      setCreatedTicketId(experienceid); // <-- store for update
-      // setShowEditModal(true);
-      // message.success("Experience Registered Successfully!");
+      setCreatedTicketId(experienceid);
       setShowSuccess(true);
 
       form.resetFields();
@@ -221,6 +216,7 @@ const utcTime = now.toISOString().slice(11, 19);
       setIsLoading(false);
     }
   };
+
 
   // Update ticket from modal
   const handleEditSubmit = async () => {
