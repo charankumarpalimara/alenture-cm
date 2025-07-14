@@ -14,6 +14,18 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
+// Helper to convert UTC date and time to local string
+const getLocalDateTimeString = (date, time) => {
+  if (!date && !time) return "-";
+  if (!date) return time;
+  if (!time) return date;
+  // Combine as UTC
+  const utcIso = `${date}T${time}Z`; // e.g. "2025-07-14T13:45:12Z"
+  const d = new Date(utcIso);
+  // Show local string (date and time in user's locale)
+  return d.toLocaleString();
+};
+
 const ActivityTimeline = ({
   date,
   time,
@@ -63,7 +75,7 @@ const ActivityTimeline = ({
           width: "fit-content",
           color: "#1976d2",
           fontWeight: 600,
-          '&:hover': { textDecoration: "underline", color: "#1565c0" },
+          "&:hover": { textDecoration: "underline", color: "#1565c0" },
           outline: "none",
         }}
       >
@@ -86,17 +98,12 @@ const ActivityTimeline = ({
       <Collapse in={open}>
         <Box
           sx={{
-            // bgcolor: "#fafafa",
-            // border: "1px solid #e0e0e0",
             borderRadius: 2,
             mt: 2,
-            // px: 3,
             py: 2,
             maxWidth: 430,
             minWidth: 260,
-            width: "100%",      // <-- Ensures it aligns left and fills parent
-            // boxShadow: 1,
-            // REMOVE mx: { xs: 0, sm: "auto" }
+            width: "100%",
           }}
         >
           <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: "600" }}>
@@ -109,12 +116,12 @@ const ActivityTimeline = ({
                 <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
                 <ListItemText
                   primary={
-                    <span>
-                      <Typography  variant="subtitle2" sx={{ fontWeight: "600" }}>{item.label}:</Typography>{" "}
-                      {item.date ? item.date : ""}
-                      {item.date && item.time ? ", " : ""}
-                      {item.time ? item.time : ""}
-                    </span>
+                    <>
+                      <Typography variant="subtitle2" sx={{ fontWeight: "600" }}>
+                        {item.label}:
+                      </Typography>{" "}
+                      {getLocalDateTimeString(item.date, item.time)}
+                    </>
                   }
                 />
               </ListItem>

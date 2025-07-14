@@ -168,16 +168,27 @@ const CmExperienceRegistrationForm = () => {
     }
     const userDetails = JSON.parse(sessionStorage.getItem('CmDetails')) || {};
     const cmid = getCreaterId();
-    const cmname = getCreaterName();;
+    const cmname = getCreaterName();
     const organizationid = userDetails.organizationid;
     const organizationname = userDetails.organizationname;
     const branch = userDetails.branch;
+
+    const now = new Date();
+
+// UTC Date (YYYY-MM-DD)
+const utcDate = now.toISOString().slice(0, 10);
+
+// UTC Time (HH:MM:SS)
+const utcTime = now.toISOString().slice(11, 19);
+
     formData.append("cmid", cmid);
     formData.append("cmname", cmname);
     formData.append("organizationname", organizationname);
     formData.append("organizationid", organizationid);
     formData.append("branch", branch);
     formData.append("priority", "Medium");
+    formData.append("date", utcDate);
+    formData.append("time", utcTime);
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/v1/createTicket`, formData, {
