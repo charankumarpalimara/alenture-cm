@@ -74,6 +74,7 @@ const Experiences = () => {
       if (response.ok && Array.isArray(data.data)) {
         const transformedData = data.data.map((item, idx) => ({
           key: item.experienceid || item.id,
+          id: item.experienceid || idx,
           experienceid: item.experienceid || "N/A",
           experience: item.experience || "N/A",
           experiencedetails: item.experiencedetails || "N/A",
@@ -81,7 +82,6 @@ const Experiences = () => {
           subject: item.subject || "N/A",
           priority: item.priority || "N/A",
           status: item.status || "N/A",
-          date: item.date || "N/A",
           updated: item.updated || "N/A",
           organizationid: item.organizationid,
           organizationname: item.organizationname || "N/A",
@@ -94,6 +94,12 @@ const Experiences = () => {
           city: item.extraind5 || "N/A",
           postalcode: item.extraind6 || "N/A",
           time: item.time || "N/A",
+          date: item.date || "N/A",
+          processtime: item.extraind3 || "N/A",
+          processdate: item.extrain4 || "N/A",
+          resolvedtime: item.extrain5 || "N/A",
+          resolveddate: item.extrain6 || "N/A",
+          filename: item.filename || "N/A",
           imageUrl: `${item.imageUrl || ""}`,
         }));
         // Remove duplicates
@@ -186,8 +192,8 @@ const Experiences = () => {
   ];
 
   const handleNewTicket = () => {
-     Navigate('/experienceRegistrationform')
-   };
+    Navigate('/experienceRegistrationform')
+  };
 
   const handleRowClick = (record) => {
     if (getCreaterRole() === "cm") {

@@ -32,6 +32,7 @@ import TableCell from "@tiptap/extension-table-cell";
 import Youtube from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
 import { io } from "socket.io-client";
+import ActivityTimeline from "./ActivityTimeline";
 
 const CmTicketDetails = () => {
   const { experienceid } = useParams();
@@ -251,9 +252,17 @@ const CmTicketDetails = () => {
     PhoneNo: data.Phoneno || "",
     notes: data.notes || "",
     impact: data.impact || "",
+    processtime: data.extraind3 || "N/A",
+    processdate: data.extraind4 || "N/A",
+    resolvedtime: data.extraind5 || "N/A",
+    resolveddate: data.extraind6 || "N/A",
     id: data.experienceid || "",
     imageUrl: data.imageUrl || "",
   });
+
+
+  // const filenamevalue = experienceData.filename;
+
 
   const checkoutSchema = yup.object().shape({
     organization: yup.string().required("Required"),
@@ -469,7 +478,7 @@ const CmTicketDetails = () => {
                     variant="subtitle2"
                     sx={{ color: "#000", fontWeight: "600" }}
                   >
-                   Relationship Manager
+                    Relationship Manager
                   </Typography>
                   <Typography>{values.crmname}</Typography>
                 </Box>
@@ -583,22 +592,34 @@ const CmTicketDetails = () => {
                   <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
                     {values.requestdetails}
                   </Typography>
+
+
+                  <Box sx={{ display: "flex", mt: 2, alignItems: "flex-start", justifyContent: "flex-start" }}>
+                    <ActivityTimeline
+                      date={values.date}
+                      time={values.time}
+                      processtime={values.processtime}
+                      processdate={values.processdate}
+                      resolvedtime={values.resolvedtime}
+                      resolveddate={values.resolveddate}
+                    />
+                  </Box>
                 </Box>
 
                 {/* Download Button */}
                 {experienceData.filename && (
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  {fileUrl && (
-                    <Button
-                      variant="contained"
-                      disabled={isDownloading}
-                      onClick={handleDownload}
-                      sx={{ minWidth: 180 }}
-                    >
-                      {isDownloading ? "Downloading..." : "Download Attachment"}
-                    </Button>
-                  )}
-                </Box>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    {fileUrl && (
+                      <Button
+                        variant="contained"
+                        disabled={isDownloading}
+                        onClick={handleDownload}
+                        sx={{ minWidth: 180 }}
+                      >
+                        {isDownloading ? "Downloading..." : "Download Attachment"}
+                      </Button>
+                    )}
+                  </Box>
                 )}
 
                 {/* Action Buttons */}

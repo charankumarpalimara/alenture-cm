@@ -44,6 +44,7 @@ import {
   Check as CheckIcon,
   Delete as DeleteIcon,
   Add as AddIcon,
+  DownloadOutlined
 } from "@mui/icons-material";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -58,6 +59,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getCreaterId } from "../../../config";
+import ActivityTimeline from "./ActivityTimeline";
 
 const { Option } = Select;
 
@@ -83,7 +85,7 @@ const CrmTicketDetails = () => {
   const [deletingTaskId, setDeletingTaskId] = useState(null);
   const [completeModalVisible, setCompleteModalVisible] = useState(false);
   const [completeTaskId, setCompleteTaskId] = useState(null);
-    const [openConfirm, setOpenConfirm] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const getExperienceColor = (experience) => {
     switch (experience) {
@@ -186,17 +188,24 @@ const CrmTicketDetails = () => {
     crmname: ticket.crmname || "",
     status: ticket.status || "",
     department: ticket.department || "",
-    date: ticket.date || "",
-    time: ticket.time || "",
+
     subject: ticket.subject || "",
     requestdetails: ticket.experiencedetails || "",
     phoneCode: ticket.phoneCode || "",
     PhoneNo: ticket.PhoneNo || "",
     notes: ticket.notes || "",
     impact: ticket.impact || "",
+    date: ticket.date || "",
+    time: ticket.time || "",
+    processtime: ticket.processtime || "",
+    processdate: ticket.processdate || "",
+    resolvedtime: ticket.resolvedtime || "",
+    resolveddate: ticket.resolveddate || "",
     id: ticket.experienceid || "",
     imageUrl: ticket.imageUrl || "",
   };
+
+  const filenamevalue = ticket.filename;
 
   console.log("Ticket Details:", ticket);
 
@@ -212,7 +221,7 @@ const CrmTicketDetails = () => {
             setCrmIdList(data.crmid.map((item) => item.crmid));
           }
         }
-      } catch (error) {}
+      } catch (error) { }
     };
     fetchCrmIds();
   }, []);
@@ -322,36 +331,36 @@ const CrmTicketDetails = () => {
     notes: yup.string(),
   });
 
-const fileUrl = ticket.imageUrl || ""; // your file URL
-const filename = fileUrl.split("/").pop() || "attachment";
+  const fileUrl = ticket.imageUrl || ""; // your file URL
+  const filename = fileUrl.split("/").pop() || "attachment";
 
-const handleDownload = async (fileUrl) => {
-  if (!fileUrl) {
-    message.error("No attachment available.");
-    return;
-  }
-  setIsDownloading(true);
-  try {
-    const response = await fetch(fileUrl);
-    if (!response.ok) {
-      throw new Error("File not found or server error");
+  const handleDownload = async (fileUrl) => {
+    if (!fileUrl) {
+      message.error("No attachment available.");
+      return;
     }
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Download failed:", error);
-    message.error("Download failed. Please try again or contact support.");
-  } finally {
-    setIsDownloading(false);
-  }
-};
+    setIsDownloading(true);
+    try {
+      const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error("File not found or server error");
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+      message.error("Download failed. Please try again or contact support.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
 
   // const handleFileChange = (event) => {
@@ -531,17 +540,17 @@ const handleDownload = async (fileUrl) => {
   }, [ticket.experienceid]);
 
 
-        useEffect(() => {
-        const fetchCrmNames = async () => {
-          const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
-          const data = await res.json();
-          setCrmNameList(data.data || []);
-        };
-        fetchCrmNames();
-      }, []);
+  useEffect(() => {
+    const fetchCrmNames = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
+      const data = await res.json();
+      setCrmNameList(data.data || []);
+    };
+    fetchCrmNames();
+  }, []);
 
 
-  
+
 
   const createtaskmodel = {
     position: "absolute",
@@ -628,26 +637,26 @@ const handleDownload = async (fileUrl) => {
   };
 
 
-    const handleCloseExperience = async () => {
-  try {
-    await fetch(
-      `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
-      //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          experienceid: ticket.experienceid,
-          status: "Resolved",
-        }),
-      }
-    );
-    message.success("Experience status updated to Resolved!");
-    Navigate("/experiences"); // Navigate to tickets page after closing
-  } catch (error) {
-    message.error("Failed to update status.");
+  const handleCloseExperience = async () => {
+    try {
+      await fetch(
+        `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
+        //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            experienceid: ticket.experienceid,
+            status: "Resolved",
+          }),
+        }
+      );
+      message.success("Experience status updated to Resolved!");
+      Navigate("/experiences"); // Navigate to tickets page after closing
+    } catch (error) {
+      message.error("Failed to update status.");
+    }
   }
-}
 
   const TaskForm = ({ handleClose, fetchTasks }) => {
     const [taskForm] = Form.useForm();
@@ -819,40 +828,40 @@ const handleDownload = async (fileUrl) => {
         onFinish={handleFinish}
         initialValues={{ crmid: "", crmname: "" }}
       >
-          <Col xs={24} md={24} style={{ width: "100%" }}>
-            <Form.Item
-              label="CRM Name"
-              name="crmname"
-              rules={[{ required: true, message: "CRM Name is required" }]}
+        <Col xs={24} md={24} style={{ width: "100%" }}>
+          <Form.Item
+            label="CRM Name"
+            name="crmname"
+            rules={[{ required: true, message: "CRM Name is required" }]}
+            style={{ width: "100%" }}
+          >
+            <Select
+              showSearch
+              placeholder="Select CRM Name"
+              optionFilterProp="children"
+              size="large"
               style={{ width: "100%" }}
+              getPopupContainer={trigger => trigger.parentNode}
+              onChange={(value) => {
+                const selected = crmNameList.find(crm => crm.crmid === value);
+                // Set both crmname and crmid in the form
+                assignForm.setFieldsValue({
+                  crmname: selected ? selected.name : "",
+                  crmid: value
+                });
+              }}
             >
-              <Select
-                showSearch
-                placeholder="Select CRM Name"
-                optionFilterProp="children"
-                size="large"
-                style={{ width: "100%" }}
-                getPopupContainer={trigger => trigger.parentNode}
-                onChange={(value) => {
-                  const selected = crmNameList.find(crm => crm.crmid === value);
-                  // Set both crmname and crmid in the form
-                  assignForm.setFieldsValue({
-                    crmname: selected ? selected.name : "",
-                    crmid: value
-                  });
-                }}
-              >
-                {crmNameList.map((crm) => (
-                  <Select.Option key={crm.crmid} value={crm.crmid}>
-                    {crm.name} ({crm.crmid})
-                  </Select.Option>
-                ))}
-              </Select>
-            </Form.Item>
-            <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
-              <Input disabled />
-            </Form.Item>
-          </Col>
+              {crmNameList.map((crm) => (
+                <Select.Option key={crm.crmid} value={crm.crmid}>
+                  {crm.name} ({crm.crmid})
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+            <Input disabled />
+          </Form.Item>
+        </Col>
         <Row justify="end" gutter={8}>
           <Col>
             <Button
@@ -906,7 +915,7 @@ const handleDownload = async (fileUrl) => {
         gridTemplateColumns: {
           xs: "1fr",
           sm: "1fr",
-               md: "60% 40%",
+          md: "60% 40%",
         },
         gap: { xs: 2, sm: 3 },
         p: { xs: 1, sm: 2 },
@@ -1072,7 +1081,7 @@ const handleDownload = async (fileUrl) => {
                   <Box>
                     <Typography
                       variant="subtitle2"
-                    sx={{ color: "#000", fontWeight: "600" }}
+                      sx={{ color: "#000", fontWeight: "600" }}
                     >
                       Priority
                     </Typography>
@@ -1171,7 +1180,7 @@ const handleDownload = async (fileUrl) => {
                   >
                     <Typography
                       variant="subtitle2"
-                    sx={{ color: "#000", fontWeight: "600" }}
+                      sx={{ color: "#000", fontWeight: "600" }}
                     >
                       Request Details
                     </Typography>
@@ -1182,20 +1191,34 @@ const handleDownload = async (fileUrl) => {
                 </Box>
 
 
-                {/* Download Button */}
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  {ticket.imageUrl && (
+                <Box sx={{ display: "flex", mt: 2, alignItems: "flex-start", justifyContent: "flex-start" }}>
+                  <ActivityTimeline
+                    date={values.date}
+                    time={values.time}
+                    processtime={values.processtime}
+                    processdate={values.processdate}
+                    resolvedtime={values.resolvedtime}
+                    resolveddate={values.resolveddate}
+                  />
+                </Box>
+
+
+                {filenamevalue !== 'N/A' && (
+                  <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
                       variant="contained"
-                        // icon={<DownloadOutlined />}
+                      icon={<DownloadOutlined />}
                       disabled={isDownloading}
                       onClick={handleDownload}
                       sx={{ minWidth: 180 }}
                     >
                       {isDownloading ? "Downloading..." : "Download Attachment"}
                     </Button>
+                    {/* <Typography variant="body2" sx={{ color: colors.grey[600] }}>
+                {filenamevalue}
+              </Typography> */}
+                  </Box>
                 )}
-                </Box>
 
                 {/* Action Buttons */}
                 <Box
@@ -1206,50 +1229,50 @@ const handleDownload = async (fileUrl) => {
                     mt: 1,
                   }}
                 >
-             <Button
-                variant="contained"
-                sx={{
-                  padding: "12px 24px",
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  borderRadius: "8px",
-                  boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                  transition: "0.3s",
-                  backgroundColor: colors.redAccent[400],
-                  color: "#ffffff",
-                  textTransform: "none",
-                  "&:hover": {
-                    backgroundColor: colors.redAccent[500],
-                    boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-                  },
-                }}
-                onClick={() => setOpenConfirm(true)}
-              >
-                Close
-              </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      padding: "12px 24px",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      borderRadius: "8px",
+                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+                      transition: "0.3s",
+                      backgroundColor: colors.redAccent[400],
+                      color: "#ffffff",
+                      textTransform: "none",
+                      "&:hover": {
+                        backgroundColor: colors.redAccent[500],
+                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
+                      },
+                    }}
+                    onClick={() => setOpenConfirm(true)}
+                  >
+                    Close
+                  </Button>
 
 
-            <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
-              <DialogTitle>Are you sure?</DialogTitle>
-              <DialogContent>
-                <Typography>Are you sure you want to close this experience?</Typography>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => setOpenConfirm(false)} color="primary">
-                  Cancel
-                </Button>
-                <Button
-                  onClick={async () => {
-                    setOpenConfirm(false);
-                    await handleCloseExperience();
-                  }}
-                  color="error"
-                  variant="contained"
-                >
-                  Yes, Close
-                </Button>
-              </DialogActions>
-            </Dialog>
+                  <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
+                    <DialogTitle>Are you sure?</DialogTitle>
+                    <DialogContent>
+                      <Typography>Are you sure you want to close this experience?</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={() => setOpenConfirm(false)} color="primary">
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={async () => {
+                          setOpenConfirm(false);
+                          await handleCloseExperience();
+                        }}
+                        color="error"
+                        variant="contained"
+                      >
+                        Yes, Close
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
 
 
                   {isEditing ? (
@@ -1757,7 +1780,7 @@ const handleDownload = async (fileUrl) => {
             </Typography>
             <AssignCrm
               handleClose={() => setshareEntireExperience(false)}
-      crmNameList={crmNameList}
+              crmNameList={crmNameList}
             />
           </Box>
         </Modal>

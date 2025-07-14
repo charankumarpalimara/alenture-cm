@@ -6,7 +6,7 @@ import {
   Autocomplete,
   IconButton,
   Modal,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography,
 } from "@mui/material";
 import {
   Form,
@@ -32,32 +32,16 @@ import React, {
 import { useLocation } from "react-router-dom";
 // import download from "downloadjs";
 import {
-  // FormatBold,
-  // FormatItalic,
-  // FormatUnderlined,
-  // FormatListNumbered,
-  // FormatListBulleted,
-  // InsertPhoto,
-  // TableChart,
-  // YouTube,
   Check as CheckIcon,
   Delete as DeleteIcon,
   // Add as AddIcon,
 } from "@mui/icons-material";
 import { DownloadOutlined } from "@ant-design/icons";
-// import { useEditor } from "@tiptap/react";
-// import StarterKit from "@tiptap/starter-kit";
-// import Image from "@tiptap/extension-image";
-// import TableTiptap from "@tiptap/extension-table";
-// import TableRow from "@tiptap/extension-table-row";
-// import TableHeader from "@tiptap/extension-table-header";
-// import TableCell from "@tiptap/extension-table-cell";
-// import Youtube from "@tiptap/extension-youtube";
-// import { Underline } from "@tiptap/extension-underline";
+
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-// import { use } from "react";
+import ActivityTimeline from "./ActivityTimeline";
 
 const { Option } = Select;
 
@@ -194,9 +178,16 @@ const AdminTicketDetails = () => {
     phoneCode: ticket.phoneCode || "",
     PhoneNo: ticket.PhoneNo || "",
     notes: ticket.notes || "",
+    processtime: ticket.processtime || "",
+    processdate: ticket.processdate || "",
+    resolvedtime: ticket.resolvedtime || "",
+    resolveddate: ticket.resolveddate || "",
+    // filename: ticket.filename || "",
     id: ticket.experienceid || "",
     imageURl: ticket.imageUrl || "",
   };
+
+  const filenamevalue = ticket.filename ;
 
   console.log("Ticket Details:", ticket);
 
@@ -1122,25 +1113,6 @@ const AdminTicketDetails = () => {
                   </Typography>
                 </Box>
 
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#000", fontWeight: "600" }}
-                  >
-                    Date
-                  </Typography>
-                  <Typography>{values.date}</Typography>
-                </Box>
-
-                <Box>
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ color: "#000", fontWeight: "600" }}
-                  >
-                    Time
-                  </Typography>
-                  <Typography>{values.time}</Typography>
-                </Box>
 
                 <Box>
                   <Typography
@@ -1190,6 +1162,12 @@ const AdminTicketDetails = () => {
                   </Typography>
                   <Typography>{values.subject}</Typography>
                 </Box>
+
+                {/* ----- ACTIVITY TIMELINE - Full Width Row ----- */}
+
+                {/* ----- END ACTIVITY TIMELINE ----- */}
+
+
               </Box>
 
               <Box
@@ -1214,22 +1192,37 @@ const AdminTicketDetails = () => {
                   <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
                     {values.requestdetails}
                   </Typography>
+
+                  <Box sx={{ display: "flex", mt: 2 , alignItems: "flex-start", justifyContent: "flex-start" }}>
+                    <ActivityTimeline
+                      date={values.date}
+                      time={values.time}
+                      processtime={values.processtime}
+                      processdate={values.processdate}
+                      resolvedtime={values.resolvedtime}
+                      resolveddate={values.resolveddate}
+                    />
+                  </Box>
                 </Box>
 
 
 
-                {/* Download Button */}
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Button
-                    variant="contained"
-                    icon={<DownloadOutlined />}
-                    disabled={isDownloading}
-                    onClick={handleDownload}
-                    sx={{ minWidth: 180 }}
-                  >
-                    {isDownloading ? "Downloading..." : "Download Attachment"}
-                  </Button>
-                </Box>
+          {filenamevalue !== 'N/A' && (
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Button
+                variant="contained"
+                icon={<DownloadOutlined />}
+                disabled={isDownloading}
+                onClick={handleDownload}
+                sx={{ minWidth: 180 }}
+              >
+                {isDownloading ? "Downloading..." : "Download Attachment"}
+              </Button>
+              {/* <Typography variant="body2" sx={{ color: colors.grey[600] }}>
+                {filenamevalue}
+              </Typography> */}
+            </Box>
+          )}
 
                 {/* Action Buttons */}
                 <Box
@@ -1261,6 +1254,8 @@ const AdminTicketDetails = () => {
                   >
                     Close
                   </Button>
+
+
 
 
                   <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>

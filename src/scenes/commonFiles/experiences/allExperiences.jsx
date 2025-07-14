@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { Table } from "antd";
 import CustomTablePagination from '../../../components/CustomPagination';
+import { date } from "yup";
 
 // Columns for DataGrid
 const columns = [
@@ -85,7 +86,6 @@ const AllExperiences = () => {
           subject: item.subject || "N/A",
           priority: item.priority || "N/A",
           status: item.status || "N/A",
-          date: item.date || "N/A",
           updated: item.updated || "N/A",
           organizationid: item.organizationid,
           organizationname: item.organizationname || "N/A",
@@ -98,6 +98,12 @@ const AllExperiences = () => {
           city: item.extraind5 || "N/A",
           postalcode: item.extraind6 || "N/A",
           time: item.time || "N/A",
+          date: item.date || "N/A",
+          processtime: item.extraind3 || "N/A",
+          processdate: item.extraind4 || "N/A",
+          resolvedtime: item.extraind5 || "N/A",
+          resolveddate: item.extraind6 || "N/A",
+          filename : item.filename || "N/A",
           imageUrl: `${item.imageUrl || ""}`,
         }));
         const uniqueData = [];
