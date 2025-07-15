@@ -20,7 +20,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
-
+import { CloseOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
@@ -346,6 +346,8 @@ const CmDetails = () => {
           <Spin size="large" fullscreen />
         </div>
       )}
+
+
       <div
         style={{
           background: "#fff",
@@ -355,6 +357,23 @@ const CmDetails = () => {
           boxShadow: "2px 2px 8px rgba(0,0,0,0.08)",
         }}
       >
+
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => Navigate(-1)}
+            style={{
+              // margin: "16px 0 0 8px",
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end"
+            }}
+          >
+            {/* Back */}
+          </Button>
+        </div>
         <Form
           form={form}
           layout="vertical"
@@ -748,7 +767,7 @@ const CmDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                   fontWeight: "600",
+                    fontWeight: "600",
                     borderRadius: 8,
                   }}
                   onClick={() => form.submit()}

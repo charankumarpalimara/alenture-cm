@@ -45,7 +45,7 @@ const OrganizationForm = () => {
     try {
       const formData = new FormData();
       formData.append("organizationname", values.organization);
-      formData.append("branch", values.branch);
+      formData.append("branch", values.organization);
       formData.append("phonecode", values.phoneCode);
       formData.append("mobile", values.phoneno);
       formData.append("email", values.email);
@@ -191,7 +191,7 @@ const OrganizationForm = () => {
                 />
               </Form.Item>
             </Col>
-            <Col xs={24} md={8}>
+            {/* <Col xs={24} md={8}>
               <Form.Item
                 label={<b>Organization Unit</b>}
                 name="branch"
@@ -203,7 +203,7 @@ const OrganizationForm = () => {
                   style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
                 />
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col xs={24} md={8}>
               <Form.Item label={<b>Phone Number</b>} required>
                 <Input.Group compact>

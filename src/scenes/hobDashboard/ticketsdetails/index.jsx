@@ -1107,7 +1107,6 @@ const AdminTicketDetails = () => {
                     Status
                   </Typography>
                   <Typography
-                    sx={{ color: getExperienceColor(values.priority) }}
                   >
                     {values.status}
                   </Typography>
@@ -1252,7 +1251,7 @@ const AdminTicketDetails = () => {
                     }}
                     onClick={() => setOpenConfirm(true)}
                   >
-                    Close
+                    Resolved
                   </Button>
 
 

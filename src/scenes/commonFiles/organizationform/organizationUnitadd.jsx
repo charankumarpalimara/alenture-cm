@@ -627,7 +627,7 @@ const OrganizationUnitadd = () => {
                 const panelLabel =
                   branch.branchtype === "Parent"
                     ? <span>  <Typography.Text  strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
-                    : <span> <Typography.Text strong>{branch.organizationname}</Typography.Text> (Unit) </span>;
+                    : <span> <Typography.Text strong>{branch.branch}</Typography.Text> (Unit) </span>;
                 return (
                   <Collapse.Panel
                     header={panelLabel}
@@ -665,7 +665,7 @@ const OrganizationUnitadd = () => {
                           <Select.Option value="Branch">Branch</Select.Option>
                         </Select>
                       </Col>
-                      <Col xs={24} md={8}>
+                      <Col xs={24} md={8} style={{ display : editData.branchtype === "Parent" ? "none" : "block"}}>
                         <Typography.Text strong>Organization Unit</Typography.Text>
                         <Input
                           value={editData.branch}

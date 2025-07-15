@@ -310,6 +310,7 @@ const CrmTicketDetails = () => {
 
   const handleCancelDelete = () => {
     setDeleteModalVisible(false);
+    setCompleteModalVisible(false)
     setDeletingTaskId(null);
   };
 
@@ -1264,7 +1265,7 @@ const CrmTicketDetails = () => {
                     }}
                     onClick={() => setOpenConfirm(true)}
                   >
-                    Close
+                    Resolved
                   </Button>
 
 
@@ -1697,7 +1698,7 @@ const CrmTicketDetails = () => {
         </Box>
 
         <AntdModal
-          title="Confirm Delete"
+          title="Confirm Complete"
           open={deleteModalVisible}
           onOk={handleConfirmDelete}
           onCancel={handleCancelDelete}
@@ -1705,11 +1706,11 @@ const CrmTicketDetails = () => {
           cancelText="Cancel"
           centered
         >
-          <p>Are you sure you want to delete this task?</p>
+          <p>Are you sure you want to Complete this task?</p>
         </AntdModal>
 
         <AntdModal
-          title="Confirm Delete"
+          title="Confirm Complete"
           open={completeModalVisible}
           onOk={handleConfirmComplete}
           onCancel={handleCancelDelete}

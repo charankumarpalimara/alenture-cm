@@ -20,6 +20,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
 
+import { CloseOutlined } from "@ant-design/icons";
 
 
 
@@ -72,7 +73,7 @@ const OrganizationDetails = () => {
       }
     };
     fetchGetAllData();
-  }, [ticket.id]);
+  }, [oragnizationid]);
 
   // Sync form fields with branch state
   // useEffect(() => {
@@ -190,36 +191,53 @@ const OrganizationDetails = () => {
           height: "100%",
         }}
       >
-        <Typography.Title level={5} style={{ margin: "16px 0 8px 0", color:"#2E2E9F" }}>
+
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => Navigate(-1)}
+            style={{
+              // margin: "16px 0 0 8px",
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end"
+            }}
+          >
+            {/* Back */}
+          </Button>
+        </div>
+        <Typography.Title level={5} style={{ margin: "16px 0 8px 0", color: "#2E2E9F" }}>
           Oraganization Details
         </Typography.Title>
-           <Collapse
-              accordion
-              expandIconPosition="end"
-              expandIcon={({ isActive }) =>
-                isActive ? <UpOutlined />  : <DownOutlined />
-              }
-              defaultActiveKey={
-                sortedBranches.length > 0
-                  ? String(
-                    sortedBranches.findIndex((b) => b.branchtype === "Parent")
-                  )
-                  : undefined
-              }
-            >
-              {sortedBranches.map((branch, idx) => {
-                const isEditing = editingBranchIndex === idx;
-                const editData = isEditing ? branchEdits : branch;
+        <Collapse
+          accordion
+          expandIconPosition="end"
+          expandIcon={({ isActive }) =>
+            isActive ? <UpOutlined /> : <DownOutlined />
+          }
+          defaultActiveKey={
+            sortedBranches.length > 0
+              ? String(
+                sortedBranches.findIndex((b) => b.branchtype === "Parent")
+              )
+              : undefined
+          }
+        >
+          {sortedBranches.map((branch, idx) => {
+            const isEditing = editingBranchIndex === idx;
+            const editData = isEditing ? branchEdits : branch;
 
-                const panelLabel =
-                  branch.branchtype === "Parent"
-                    ? <span>  <Typography.Text  strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
-                    : <span> <Typography.Text strong>{branch.organizationname}</Typography.Text> (Unit) </span>;
-                return (
-                  <Collapse.Panel
-                    header={panelLabel}
-                    key={branch.id || idx}
-                  >
+            const panelLabel =
+              branch.branchtype === "Parent"
+                ? <span>  <Typography.Text strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
+                : <span> <Typography.Text strong>{branch.branch}</Typography.Text> (Unit) </span>;
+            return (
+              <Collapse.Panel
+                header={panelLabel}
+                key={branch.id || idx}
+              >
                 <Row gutter={16}>
                   <Col xs={24} md={8} style={{ display: "none" }}>
                     <Typography.Text strong>Organization Name</Typography.Text>
@@ -252,7 +270,7 @@ const OrganizationDetails = () => {
                       <Select.Option value="Branch">Branch</Select.Option>
                     </Select>
                   </Col>
-                  <Col xs={24} md={8}>
+                  <Col xs={24} md={8} style={{ display :editData.branchtype === "Parent" ? "none" : "block" }}>
                     <Typography.Text strong>Organization Unit</Typography.Text>
                     <Input
                       value={editData.branch}
