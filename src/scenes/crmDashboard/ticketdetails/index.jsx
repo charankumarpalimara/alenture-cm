@@ -103,6 +103,7 @@ const CrmTicketDetails = () => {
         const data = await response.json();
         if (data && Array.isArray(data.data) && data.data.length > 0) {
           setExperienceData(data.data[0]);
+          console.log(data.data[0]);
         } else {
           setExperienceData({});
         }
@@ -119,7 +120,7 @@ const CrmTicketDetails = () => {
 
 
     const safeExperienceData = experienceData || {};
-
+console.log("experience data :", safeExperienceData);
 
     const ExperienceId =  safeExperienceData.experienceid;
     const crmId =safeExperienceData.extraind1;
@@ -1164,7 +1165,7 @@ const CrmTicketDetails = () => {
                     resolveddate={values.resolveddate}
                   />
                 </Box>
-                {filenamevalue !== 'N/A' && (
+                {safeExperienceData.filename  && (
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
                       variant="contained"
