@@ -174,22 +174,13 @@ const ResolvedExperiences = ({ apiUrl }) => {
   };
 
   const handleRowClick = (record) => {
-    if (getCreaterRole() === "cm") {
+    if (getCreaterRole() === "cm" || getCreaterRole() === "crm" ) {
       Navigate(`/ticketdetails/${record.experienceid}`);
     } else {
       Navigate("/ticketdetails", { state: { ticket: record } });
     }
-  };
+  }
 
-  // Pagination handlers
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   // Only show rows for current page
   const paginatedData = filteredTickets.slice(

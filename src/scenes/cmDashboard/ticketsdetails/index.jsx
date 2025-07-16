@@ -920,6 +920,8 @@ const CmTicketDetails = () => {
             onClick={handleSendMessage}
             disabled={!newMessage.trim()}
             fullWidth
+  // const [experienceData, setExperienceData] = useState(null);
+            style={{display: experienceData.status === "Resolved" ? "none" : "block" }}
             sx={{
               background: colors.blueAccent[1000],
               color: "#ffffff",

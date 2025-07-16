@@ -167,7 +167,9 @@ const Topbar = ({ onLogout }) => {
   const { mutate, isPending: loading } = useMutation({
     mutationFn: getCrmNotificationsDetails,
     onSuccess: (data) => {
-      navigate("/crm/ticketdetails", { state: { ticket: data.data } });
+        const experienceid = data.finalExperienceid;
+  console.log("Clicked notification, experienceid:", experienceid);
+      navigate(`/ticketdetails/${data.finalExperienceid}`);
 
       queryClient.invalidateQueries("crm-notifications");
     },
@@ -209,21 +211,45 @@ const Topbar = ({ onLogout }) => {
     // setUnreadCount(0);
     setDrawerOpen(true);
   };
-  const notifClick = (data) => {
-    setDrawerOpen(false);
-    console.log(window.location.pathname);
-    if (window.location.pathname === "/ticketdetails") {
-      navigate("/");
-    }
-    if (data.type === "experience_registration") {
-      mutate({
-        id: data.finalExperienceid,
-      });
-    }
-    markNotificationReadMutate({
-      id: data.id,
-    });
-  };
+
+
+const notifClick = (data) => {
+  setDrawerOpen(false);
+  const experienceid = data.finalExperienceid;
+  console.log("Clicked notification, experienceid:", experienceid);
+
+  if (window.location.pathname === `/ticketdetails/${experienceid}`) {
+    navigate("/");
+  }
+  if (data.type === "experience_registration") {
+    navigate(`/ticketdetails/${experienceid}`);
+    // You can fetch details in the destination component using useParams
+  }
+  markNotificationReadMutate({ id: data.id });
+};
+
+
+
+
+
+
+  // const notifClick = (data) => {
+  //   setDrawerOpen(false);
+  //     const experienceid = data.finalExperienceid;
+  // console.log("Clicked notification, experienceid:", experienceid);
+  //   console.log(window.location.pathname);
+  //   if (window.location.pathname === `/ticketdetails/${experienceid}`) {
+  //     navigate("/");
+  //   }
+  //   if (data.type === "experience_registration") {
+  //     mutate({
+  //       id: data.finalExperienceid,
+  //     });
+  //   }
+  //   markNotificationReadMutate({
+  //     id: data.id,
+  //   });
+  // };
 
   // Notification dropdown/modal (simple version)
   // const NotificationDropdown = () => (

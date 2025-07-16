@@ -302,7 +302,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path="/experiences" element={<Experinces />} />
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/notes" element={<Notes />} />
-                  <Route path="/ticketdetails" element={<CrmTicketDetails />} />
+                  <Route path="/ticketdetails/:experienceid" element={<CrmTicketDetails />} />
                   <Route path="/allExperiences" element={<AllExperiences />} />
                   <Route path="/newExperiences" element={<NewExperiences />} />
                   <Route path="/pendingExperiences" element={<PendingExperiences />} />

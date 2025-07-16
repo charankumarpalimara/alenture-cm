@@ -198,15 +198,6 @@ const AllExperiences = () => {
     Navigate('/experienceRegistrationform')
   };
 
-  // Pagination handlers
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   // Only display rows for the current page
   const paginatedData = filteredTickets.slice(
@@ -215,7 +206,7 @@ const AllExperiences = () => {
   );
 
   const handleRowClick = (record) => {
-    if (getCreaterRole() === "cm") {
+    if (getCreaterRole() === "cm" || getCreaterRole() === "crm" ) {
       Navigate(`/ticketdetails/${record.experienceid}`);
     } else {
       Navigate("/ticketdetails", { state: { ticket: record } });

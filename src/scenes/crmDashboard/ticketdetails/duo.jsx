@@ -8,6 +8,8 @@ import {
   Autocomplete,
   IconButton,
   Modal,
+  MenuItem,
+  Paper,
   Dialog, DialogTitle, DialogContent, DialogActions
 } from "@mui/material";
 import {
@@ -31,7 +33,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   FormatBold,
   FormatItalic,
@@ -61,12 +63,19 @@ import { io } from "socket.io-client";
 import { getCreaterId } from "../../../config";
 import ActivityTimeline from "./ActivityTimeline";
 import dayjs from "dayjs"; // Use dayjs for formatting UTC
+import KanbanTasks from "../../../components/KanbanTasks";
 
 const { Option } = Select;
 
+
+
+
+
+
+
+
+
 const CrmTicketDetails = () => {
-  const { experienceid } = useParams();
-  const [experienceData, setExperienceData] = useState(null);
   const [form] = Form.useForm();
   const socketRef = useRef(null);
   const theme = useTheme();
@@ -75,6 +84,7 @@ const CrmTicketDetails = () => {
   const colors = tokens(theme.palette.mode);
   const location = useLocation();
   const [isDownloading, setIsDownloading] = useState(false);
+  // const [selectedFile, setSelectedFile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [crmIdList, setCrmIdList] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
@@ -82,79 +92,12 @@ const CrmTicketDetails = () => {
   const Navigate = useNavigate();
   const [openTaskModal, setOpenTaskModal] = useState(false);
   const [shareEntireExperience, setshareEntireExperience] = useState(false);
-  // const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
+  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deletingTaskId, setDeletingTaskId] = useState(null);
   const [completeModalVisible, setCompleteModalVisible] = useState(false);
   const [completeTaskId, setCompleteTaskId] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
-
-
-
-
-
-  useEffect(() => {
-    const fetchExperienceData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/experienceDetailsGet/${experienceid}`
-        );
-        if (!response.ok) throw new Error("Network response was not ok");
-        const data = await response.json();
-        if (data && Array.isArray(data.data) && data.data.length > 0) {
-          setExperienceData(data.data[0]);
-        } else {
-          setExperienceData({});
-        }
-      } catch (error) {
-        console.error("Error fetching experience data:", error);
-        setExperienceData({});
-        message.error("Failed to load experience data. Please try again later.");
-      }
-    };
-    if (experienceid) fetchExperienceData();
-  }, [experienceid]);
-
-
-
-
-    const safeExperienceData = experienceData || {};
-
-
-    const ExperienceId =  safeExperienceData.experienceid;
-    const crmId =safeExperienceData.extraind1;
-    const crmName = safeExperienceData.extraind2;
-
-  // Fix: Prevent null access in buildInitialValues
-  const buildInitialValues = (data = {}) => {
-    if (!data) data = {};
-    return {
-      organizationid: data.organizationid || "",
-      organization: data.organizationname || "",
-      crmid: data.extraind1 || "",
-      cmname: data.cmname || "",
-      crmname: data.extraind2 || "",
-      experience: data.experience || "",
-      branch: data.branch || "",
-      priority: data.priority || "",
-      status: data.status || "",
-      department: data.department || "",
-      date: data.date || "",
-      time: data.time || "",
-      subject: data.subject || "",
-      requestdetails: data.experiencedetails || "",
-      phoneCode: data.phonecode || "",
-      PhoneNo: data.Phoneno || "",
-      notes: data.notes || "",
-      impact: data.impact || "",
-      processtime: data.extraind3 || "N/A",
-      processdate: data.extraind4 || "N/A",
-      resolvedtime: data.extraind5 || "N/A",
-      resolveddate: data.extraind6 || "N/A",
-      id: data.experienceid || "",
-      imageUrl: data.imageUrl || "",
-    };
-  };
 
   const getExperienceColor = (experience) => {
     switch (experience) {
@@ -173,7 +116,6 @@ const CrmTicketDetails = () => {
 
   const handleFormSubmit = (values) => {
     const fullPhoneNumber = `${values.phoneCode}${values.PhoneNo}`;
-    // Do something with form data if needed
     console.log("Form Data:", { ...values, fullPhoneNumber });
   };
 
@@ -183,7 +125,7 @@ const CrmTicketDetails = () => {
       dataIndex: "id",
       key: "id",
       width: 100,
-      render: (_text, _record, index) => <span>{index + 1}</span>,
+      render: (_text, _record, index) => <span>{index + 1}</span>, // Serial number
     },
     {
       title: "Task name",
@@ -247,8 +189,38 @@ const CrmTicketDetails = () => {
   ];
 
 
+  const initialValues = {
+    organizationid: ticket.organizationid || "",
+    organization: ticket.organizationname || "",
+    crmid: ticket.crmid || "",
+    cmname: ticket.cmname || "",
+    experience: ticket.experience || "",
+    branch: ticket.branch || "",
+    priority: ticket.priority || "",
+    crmname: ticket.crmname || "",
+    status: ticket.status || "",
+    department: ticket.department || "",
 
-  // CRM ID List
+    subject: ticket.subject || "",
+    requestdetails: ticket.experiencedetails || "",
+    phoneCode: ticket.phoneCode || "",
+    PhoneNo: ticket.PhoneNo || "",
+    notes: ticket.notes || "",
+    impact: ticket.impact || "",
+    date: ticket.date || "",
+    time: ticket.time || "",
+    processtime: ticket.processtime || "",
+    processdate: ticket.processdate || "",
+    resolvedtime: ticket.resolvedtime || "",
+    resolveddate: ticket.resolveddate || "",
+    id: ticket.experienceid || "",
+    imageUrl: ticket.imageUrl || "",
+  };
+
+  const filenamevalue = ticket.filename;
+
+  console.log("Ticket Details:", ticket);
+
   useEffect(() => {
     const fetchCrmIds = async () => {
       try {
@@ -266,7 +238,6 @@ const CrmTicketDetails = () => {
     fetchCrmIds();
   }, []);
 
-  // CRM Name based on selected CRM ID
   const crmidValue = form.getFieldValue("crmid");
 
   useEffect(() => {
@@ -281,7 +252,6 @@ const CrmTicketDetails = () => {
     }
   }, [form, crmidValue]);
 
-  // Fetch tasks
   const fetchTasks = useCallback(async () => {
     try {
       const response = await fetch(
@@ -290,8 +260,8 @@ const CrmTicketDetails = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            experienceId: ExperienceId,
-            crmid: crmId,
+            experienceId: ticket.experienceid,
+            crmid: ticket.crmid,
           }),
         }
       );
@@ -302,12 +272,41 @@ const CrmTicketDetails = () => {
     } catch (error) {
       setTasks([]);
     }
-  }, [ExperienceId, crmId]);
+  }, [ticket.experienceid, ticket.crmid]);
 
   useEffect(() => {
-    if (!ExperienceId || !crmId) return;
-    fetchTasks();
-  }, [ExperienceId, crmId, fetchTasks]);
+    if (ticket.experienceid && ticket.crmid) {
+      fetchTasks();
+    }
+  }, [ticket.experienceid, ticket.crmid, fetchTasks]);
+
+  // For fetchTasks
+  // useEffect(() => {
+  //   if (!ticket.experienceid || !ticket.crmid) return;
+  //   fetchTasks();
+  //   // Add fetchTasks as dependency
+  // }, [ticket.experienceid, ticket.crmid, fetchTasks]);
+
+  // useEffect(() => {
+  //   const fetchMessages = async () => {
+  //     if (!ticket.experienceid || !ticket.crmid) return;
+  //     try {
+  //       const res = await fetch(
+  //         `http://localhost:8080/api/v1/getChatMessages?experienceid=${ticket.experienceid}&crmid=${ticket.crmid}`
+  //       );
+  //       const data = await res.json();
+  //       if (Array.isArray(data.messages)) {
+  //         setMessages(data.messages.map(msg => ({
+  //           text: msg.message,
+  //           sender: msg.sender
+  //         })));
+  //       }
+  //     } catch (error) {
+  //       setMessages([{ text: "Failed to load messages.", sender: "support" }]);
+  //     }
+  //   };
+  //   fetchMessages();
+  // }, [ticket.experienceid, ticket.crmid]);
 
   const handleDeleteTask = (id) => (event) => {
     event.stopPropagation();
@@ -346,11 +345,10 @@ const CrmTicketDetails = () => {
     notes: yup.string(),
   });
 
-  const fileUrl = safeExperienceData.imageUrl || "";
+  const fileUrl = ticket.imageUrl || ""; // your file URL
   const filename = fileUrl.split("/").pop() || "attachment";
-  const filenamevalue = safeExperienceData.filename;
 
-  const handleDownload = async () => {
+  const handleDownload = async (fileUrl) => {
     if (!fileUrl) {
       message.error("No attachment available.");
       return;
@@ -377,6 +375,15 @@ const CrmTicketDetails = () => {
       setIsDownloading(false);
     }
   };
+
+
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     setSelectedFile(file);
+  //     console.log("Selected file:", file.name);
+  //   }
+  // };
 
   const [messages, setMessages] = useState([
     { text: "Hello! How can I help you today?", sender: "support" },
@@ -435,13 +442,12 @@ const CrmTicketDetails = () => {
       .run();
   };
 
-  // Socket.IO for chat messages
   useEffect(() => {
     socketRef.current = io(process.env.REACT_APP_SOCKET_URL);
-    if (ExperienceId && crmId) {
+    if (ticket.experienceid && ticket.crmid) {
       socketRef.current.emit("joinRoom", {
-        experienceid: ExperienceId,
-        crmid: crmId,
+        experienceid: ticket.experienceid,
+        crmid: ticket.crmid,
       });
     }
     socketRef.current.on("receiveMessage", (msg) => {
@@ -458,19 +464,21 @@ const CrmTicketDetails = () => {
     return () => {
       if (socketRef.current) socketRef.current.disconnect();
     };
-  }, [ExperienceId, crmId]);
+  }, [ticket.experienceid, ticket.crmid]);
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
-    const cmid = experienceData.cmid || "";
+    const cmid = ticket.cmid || "";
     const msgData = {
-      experienceid: ExperienceId,
-      crmid: crmId,
+      experienceid: ticket.experienceid,
+      crmid: ticket.crmid,
       cmid,
-      crmname: crmName,
+      crmname: ticket.crmname,
       message: newMessage,
       sender: "manager",
     };
+
+    console.log("Sending message:", msgData);
 
     // Emit real-time message
     socketRef.current.emit("sendMessage", msgData);
@@ -483,6 +491,7 @@ const CrmTicketDetails = () => {
         body: JSON.stringify(msgData),
       });
     } catch (error) {
+      console.error("Error sending message:", error);
       message.error("Failed to send message.");
     }
 
@@ -492,19 +501,19 @@ const CrmTicketDetails = () => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      if (!ExperienceId || !crmId) return;
+      if (!ticket.experienceid || !ticket.crmid) return;
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getChatMessages?experienceid=${ExperienceId}&crmid=${crmId}`
+          `${process.env.REACT_APP_API_URL}/v1/getChatMessages?experienceid=${ticket.experienceid}&crmid=${ticket.crmid}`
         );
         const data = await res.json();
         if (Array.isArray(data.messages)) {
           setMessages(
             data.messages.map((msg) => ({
-              text: msg.messege,
+              text: msg.messege, // <-- use 'messege'
               sender: msg.sender,
               time: msg.time,
-              crmname: msg.extraind1,
+              crmname: msg.extraind1, // <-- include crmname if available
             }))
           );
         }
@@ -515,16 +524,17 @@ const CrmTicketDetails = () => {
       }
     };
     fetchMessages();
-  }, [ExperienceId, crmId]);
+  }, [ticket.experienceid, ticket.crmid]);
 
-  // Status update to "Processing" on mount
   useEffect(() => {
     const sendProcessingStatus = async () => {
+
+      // Always store UTC date and time
       const now = new Date();
-      const utcDate = now.toISOString().slice(0, 10);
-      const utcTime = now.toISOString().slice(11, 19);
+      const utcDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
       const msgData = {
-        experienceid: ExperienceId,
+        experienceid: ticket.experienceid,
         status: "Processing",
         date: utcDate,
         time: utcTime
@@ -540,28 +550,30 @@ const CrmTicketDetails = () => {
           }
         );
       } catch (error) {
+        console.error("Error sending message:", error);
         message.error("Failed to send message.");
       }
     };
 
-    if (ExperienceId) {
+    if (ticket.experienceid) {
       sendProcessingStatus();
     }
-  }, [ExperienceId]);
+  }, [ticket.experienceid]);
 
-  // Close Experience Handler
   const handleCloseExperience = async () => {
     try {
+      // Always store UTC date and time
       const now = new Date();
-      const utcDate = now.toISOString().slice(0, 10);
-      const utcTime = now.toISOString().slice(11, 19);
+      const utcDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
       await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
+        //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            experienceid: ExperienceId,
+            experienceid: ticket.experienceid,
             status: "Resolved",
             date: utcDate,
             time: utcTime
@@ -569,13 +581,13 @@ const CrmTicketDetails = () => {
         }
       );
       message.success("Experience status updated to Resolved!");
-      Navigate("/experiences");
+      Navigate("/experiences"); // Navigate to tickets page after closing
     } catch (error) {
       message.error("Failed to update status.");
     }
-  };
+  }
 
-  // CRM Names list for Assign To
+
   useEffect(() => {
     const fetchCrmNames = async () => {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
@@ -585,7 +597,9 @@ const CrmTicketDetails = () => {
     fetchCrmNames();
   }, []);
 
-  // Modal styles
+
+
+
   const createtaskmodel = {
     position: "absolute",
     top: "50%",
@@ -618,7 +632,11 @@ const CrmTicketDetails = () => {
     Navigate("/taskdetails", { state: { ticket: params.row } });
   };
 
-  // Confirm Delete Task
+  // const handleCompleteTask = (id) => (event) => {
+  //   event.stopPropagation();
+  //   console.log("Task completed:", id);
+  // };
+
   const handleConfirmDelete = async () => {
     if (!deletingTaskId) return;
     try {
@@ -642,7 +660,6 @@ const CrmTicketDetails = () => {
     setDeletingTaskId(null);
   };
 
-  // Confirm Complete Task
   const handleConfirmComplete = async () => {
     if (!completeTaskId) return;
     try {
@@ -653,7 +670,8 @@ const CrmTicketDetails = () => {
         }
       );
       if (response.ok) {
-        message.success("Task Updated successfully!");
+        // setTasks(prev => prev.filter(task => task.id !== completeTaskId));
+        message.success("Task deleted successfully!");
         fetchTasks();
       } else {
         const data = await response.json();
@@ -666,7 +684,9 @@ const CrmTicketDetails = () => {
     setCompleteTaskId(null);
   };
 
-  // Task Form Modal
+
+
+
   const TaskForm = ({ handleClose, fetchTasks }) => {
     const [taskForm] = Form.useForm();
     const [loading, setLoading] = useState(false);
@@ -674,11 +694,12 @@ const CrmTicketDetails = () => {
 
     const handleFormSubmit = async (values) => {
       const formData = new FormData();
-      formData.append("experienceid", ExperienceId || "");
+      formData.append("experienceid", ticket.experienceid || "");
       formData.append("taskname", values.taskname || "");
       formData.append("taskowner", values.taskowner || "");
       formData.append("priority", values.priority || "");
       formData.append("discription", values.description || "");
+
 
       const crmid = getCreaterId() || "";
       formData.append("crmid", crmid);
@@ -696,7 +717,7 @@ const CrmTicketDetails = () => {
           message.success("Task created successfully!");
           taskForm.resetFields();
           handleClose();
-          if (fetchTasks) fetchTasks();
+          if (fetchTasks) fetchTasks(); // update table instantly
         } else {
           message.error("Failed to create task.");
         }
@@ -795,7 +816,6 @@ const CrmTicketDetails = () => {
     );
   };
 
-  // Assign CRM Modal
   const AssignCrm = ({ handleClose, crmNameList = [] }) => {
     const [assignForm] = Form.useForm();
     const [loading, setLoading] = useState(false);
@@ -803,8 +823,8 @@ const CrmTicketDetails = () => {
     const handleFinish = async (values) => {
       setLoading(true);
       try {
-        const experienceid = ExperienceId;
-        const existcrmid = crmId;
+        const experienceid = ticket.experienceid;
+        const existcrmid = ticket.crmid;
         const crmid = values.crmid;
         const crmname = values.crmname;
 
@@ -853,6 +873,7 @@ const CrmTicketDetails = () => {
               getPopupContainer={trigger => trigger.parentNode}
               onChange={(value) => {
                 const selected = crmNameList.find(crm => crm.crmid === value);
+                // Set both crmname and crmid in the form
                 assignForm.setFieldsValue({
                   crmname: selected ? selected.name : "",
                   crmid: value
@@ -889,7 +910,7 @@ const CrmTicketDetails = () => {
                 borderRadius: 8,
                 fontWeight: "600",
                 color: "#fff",
-                ...(loading && { opacity: 0.7 }),
+                ...(loading && { opacity: 0.7 }), // Visual feedback for loading state
               }}
             >
               {loading ? "Assigning..." : "Assign"}
@@ -900,7 +921,21 @@ const CrmTicketDetails = () => {
     );
   };
 
+  // const customerManagers = [
+  //   "Rambabu",
+  //   "Charan",
+  //   "Lakshman",
+  //   "Satya dev",
+  //   "Ram",
+  // ];
+
   const priority = ["Urgent", "High", "Medium", "Low"];
+
+  // const status = [
+  //   "Pending",
+  //   "Processing",
+  //   "Closed",
+  // ];
 
   return (
     <Box
@@ -930,8 +965,7 @@ const CrmTicketDetails = () => {
         }}
       >
         <Formik
-          enableReinitialize
-          initialValues={buildInitialValues(experienceData)}
+          initialValues={initialValues}
           validationSchema={checkoutSchema}
           onSubmit={handleFormSubmit}
         >
@@ -963,6 +997,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography>{values.id}</Typography>
                 </Box>
+
                 <Box>
                   <Typography
                     variant="subtitle2"
@@ -972,6 +1007,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography>{values.organization}</Typography>
                 </Box>
+
                 <Box>
                   <Typography
                     variant="subtitle2"
@@ -981,6 +1017,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography>{values.branch}</Typography>
                 </Box>
+
                 <Box>
                   <Typography
                     variant="subtitle2"
@@ -990,6 +1027,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography>{values.cmname}</Typography>
                 </Box>
+
                 <Box>
                   <Typography
                     variant="subtitle2"
@@ -999,6 +1037,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography>{values.crmname}</Typography>
                 </Box>
+
                 {isEditing ? (
                   <Box sx={{ display: "flex", flexDirection: "column" }}>
                     <Typography
@@ -1017,6 +1056,8 @@ const CrmTicketDetails = () => {
                       value={values.priority || null}
                       onChange={async (event, newValue) => {
                         setFieldValue("priority", newValue || "");
+
+                        // Call backend API to update priority
                         try {
                           await fetch(
                             `${process.env.REACT_APP_API_URL}/v1/updateExperiencePriority`,
@@ -1024,7 +1065,7 @@ const CrmTicketDetails = () => {
                               method: "POST",
                               headers: { "Content-Type": "application/json" },
                               body: JSON.stringify({
-                                experienceid: ExperienceId,
+                                experienceid: ticket.experienceid, // or ticket.experienceid
                                 priority: newValue,
                               }),
                             }
@@ -1080,6 +1121,7 @@ const CrmTicketDetails = () => {
                     </Typography>
                   </Box>
                 )}
+
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Typography
                     variant="subtitle2"
@@ -1093,6 +1135,27 @@ const CrmTicketDetails = () => {
                     {values.status}
                   </Typography>
                 </Box>
+
+                {/* <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#000", fontWeight: "600" }}
+                  >
+                    Date
+                  </Typography>
+                  <Typography>{values.date}</Typography>
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "#000", fontWeight: "600" }}
+                  >
+                    Time
+                  </Typography>
+                  <Typography>{values.time}</Typography>
+                </Box> */}
+
                 <Box>
                   <Typography
                     variant="subtitle2"
@@ -1106,6 +1169,7 @@ const CrmTicketDetails = () => {
                     {values.experience}
                   </Typography>
                 </Box>
+
                 <Box>
                   <Typography
                     variant="subtitle2"
@@ -1115,6 +1179,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography>{values.impact}</Typography>
                 </Box>
+
                 <Box
                   sx={{
                     gridColumn: { xs: "auto", sm: "span 2", md: "span 3" },
@@ -1153,7 +1218,8 @@ const CrmTicketDetails = () => {
                     {values.requestdetails}
                   </Typography>
                 </Box>
-                {/* Activity Timeline */}
+
+
                 <Box sx={{ display: "flex", mt: 2, alignItems: "flex-start", justifyContent: "flex-start" }}>
                   <ActivityTimeline
                     date={values.date}
@@ -1164,6 +1230,8 @@ const CrmTicketDetails = () => {
                     resolveddate={values.resolveddate}
                   />
                 </Box>
+
+
                 {filenamevalue !== 'N/A' && (
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
@@ -1175,8 +1243,12 @@ const CrmTicketDetails = () => {
                     >
                       {isDownloading ? "Downloading..." : "Download Attachment"}
                     </Button>
+                    {/* <Typography variant="body2" sx={{ color: colors.grey[600] }}>
+                {filenamevalue}
+              </Typography> */}
                   </Box>
                 )}
+
                 {/* Action Buttons */}
                 <Box
                   sx={{
@@ -1188,6 +1260,7 @@ const CrmTicketDetails = () => {
                 >
                   <Button
                     variant="contained"
+                                style={{display: ticket.status === "Resolved" ? "none" : "block" }}
                     sx={{
                       padding: "12px 24px",
                       fontSize: "14px",
@@ -1207,6 +1280,8 @@ const CrmTicketDetails = () => {
                   >
                     Resolved
                   </Button>
+
+
                   <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
                     <DialogTitle>Are you sure?</DialogTitle>
                     <DialogContent>
@@ -1228,11 +1303,14 @@ const CrmTicketDetails = () => {
                       </Button>
                     </DialogActions>
                   </Dialog>
+
+
                   {isEditing ? (
                     <Box sx={{ display: "flex", gap: 2 }}>
                       <Button
                         variant="contained"
                         onClick={() => setIsEditing(false)}
+                           style={{display: ticket.status === "Resolved" ? "none" : "block" }}
                         sx={{
                           padding: "12px 24px",
                           fontSize: "14px",
@@ -1251,6 +1329,7 @@ const CrmTicketDetails = () => {
                       >
                         Cancel
                       </Button>
+
                       <Button
                         variant="contained"
                         onClick={() => setIsEditing(false)}
@@ -1277,6 +1356,7 @@ const CrmTicketDetails = () => {
                     <Button
                       variant="contained"
                       onClick={() => setIsEditing(true)}
+                             style={{display: ticket.status === "Resolved" ? "none" : "block" }}
                       sx={{
                         padding: "12px 24px",
                         fontSize: "14px",
@@ -1329,11 +1409,13 @@ const CrmTicketDetails = () => {
           }}
         >
           <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+            {" "}
             Discussions
           </Typography>
           <Typography sx={{ mb: 2, color: colors.grey[600] }}>
             Discuss with Customer Support
           </Typography>
+
           {/* Messages Display */}
           <Box
             sx={{
@@ -1359,6 +1441,7 @@ const CrmTicketDetails = () => {
                 }}
               >
                 <Box>
+                  {/* Show extraind1 above the message if sender is manager */}
                   {message.sender === "manager" ? (
                     <Typography
                       variant="caption"
@@ -1386,6 +1469,7 @@ const CrmTicketDetails = () => {
                       User
                     </Typography>
                   )}
+                  {/* Message bubble */}
                   <Box
                     sx={{
                       p: 1.5,
@@ -1401,6 +1485,7 @@ const CrmTicketDetails = () => {
                     }}
                     dangerouslySetInnerHTML={{ __html: message.text }}
                   />
+                  {/* Time below the message */}
                   {message.time && (
                     <Typography
                       variant="caption"
@@ -1419,11 +1504,13 @@ const CrmTicketDetails = () => {
               </Box>
             ))}
           </Box>
+
           {/* Tiptap Editor */}
           <Box
             sx={{
               backgroundColor: "white",
               borderRadius: "4px",
+              // flexGrow: 1,
               width: "100%",
               display: "flex",
               flexDirection: "column",
@@ -1447,6 +1534,7 @@ const CrmTicketDetails = () => {
                 >
                   <FormatBold fontSize="small" />
                 </IconButton>
+
                 <IconButton
                   onClick={() => editor.chain().focus().toggleItalic().run()}
                   color={editor.isActive("italic") ? "primary" : "default"}
@@ -1454,6 +1542,7 @@ const CrmTicketDetails = () => {
                 >
                   <FormatItalic fontSize="small" />
                 </IconButton>
+
                 <IconButton
                   onClick={() => editor.chain().focus().toggleUnderline().run()}
                   color={editor.isActive("underline") ? "primary" : "default"}
@@ -1461,6 +1550,7 @@ const CrmTicketDetails = () => {
                 >
                   <FormatUnderlined fontSize="small" />
                 </IconButton>
+
                 <IconButton
                   onClick={() =>
                     editor.chain().focus().toggleBulletList().run()
@@ -1470,6 +1560,7 @@ const CrmTicketDetails = () => {
                 >
                   <FormatListBulleted fontSize="small" />
                 </IconButton>
+
                 <IconButton
                   onClick={() =>
                     editor.chain().focus().toggleOrderedList().run()
@@ -1479,17 +1570,21 @@ const CrmTicketDetails = () => {
                 >
                   <FormatListNumbered fontSize="small" />
                 </IconButton>
+
                 <IconButton onClick={addImage} size="small">
                   <InsertPhoto fontSize="small" />
                 </IconButton>
+
                 <IconButton onClick={addTable} size="small">
                   <TableChart fontSize="small" />
                 </IconButton>
+
                 <IconButton onClick={addYoutubeVideo} size="small">
                   <YouTube fontSize="small" />
                 </IconButton>
               </Box>
             )}
+
             {/* Editor Content */}
             <Box
               sx={{
@@ -1520,6 +1615,7 @@ const CrmTicketDetails = () => {
             </Box>
           </Box>
         </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -1534,6 +1630,7 @@ const CrmTicketDetails = () => {
             onClick={handleSendMessage}
             disabled={!newMessage.trim()}
             fullWidth
+            style={{display:ticket.status === "Resolved" ? "none" : "block"}}
             sx={{
               background: colors.blueAccent[1000],
               color: "#fff",
@@ -1548,6 +1645,7 @@ const CrmTicketDetails = () => {
           </Button>
         </Box>
       </Box>
+
       {/* Third Column - Task Management */}
       <Box
         sx={{
@@ -1561,7 +1659,7 @@ const CrmTicketDetails = () => {
         }}
       >
         {/* Ant Design Table */}
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
@@ -1584,6 +1682,7 @@ const CrmTicketDetails = () => {
               textTransform: "none",
               "&:hover": { backgroundColor: colors.blueAccent[600] },
               width: isMobile ? "45%" : "20%",
+
               fontSize: { xs: "12px", sm: "14px" },
             }}
             startIcon={<AddIcon />}
@@ -1591,29 +1690,29 @@ const CrmTicketDetails = () => {
           >
             Create New Task
           </Button>
-        </Box>
-        {/* Responsive Table Wrapper */}
-        <Box sx={{ width: "100%", overflowX: "auto", minWidth: 0 }}>
-          <Table
-            className="custom-ant-table-header"
-            columns={columns}
-            dataSource={tasks}
-            rowKey="id"
-            pagination={false}
-            style={{
-              marginBottom: 24,
-              minWidth: 600,
-            }}
-            onRow={(record) => ({
-              onClick: () => handleRowClick({ row: record }),
-              style: { cursor: "pointer" },
-            })}
-            scroll={{ x: true }}
-            bordered
+        </Box> */}
+        <Box
+          sx={{
+            backgroundColor: "#ffffff",
+            p: { xs: 1, sm: 3 },
+            borderRadius: "8px",
+            gridColumn: { xs: "1 / -1", md: "1 / -1" },
+            mt: { xs: 2, md: 0 },
+            width: "100%",
+            minWidth: 0,
+          }}
+        >
+          <KanbanTasks
+            tasks={tasks}
+            fetchTasks={fetchTasks}
+            experienceid={ticket.experienceid}
+            crmid={ticket.crmid}
+            experienceStatus={ticket.status}
           />
         </Box>
+
         <AntdModal
-          title="Confirm Delete"
+          title="Confirm Complete"
           open={deleteModalVisible}
           onOk={handleConfirmDelete}
           onCancel={handleCancelDelete}
@@ -1621,8 +1720,9 @@ const CrmTicketDetails = () => {
           cancelText="Cancel"
           centered
         >
-          <p>Are you sure you want to Delete this task?</p>
+          <p>Are you sure you want to Complete this task?</p>
         </AntdModal>
+
         <AntdModal
           title="Confirm Complete"
           open={completeModalVisible}
@@ -1657,6 +1757,7 @@ const CrmTicketDetails = () => {
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",
+              // padding: "14px 20px",
               "&:hover": {
                 background: colors.blueAccent[1000],
               },
@@ -1668,14 +1769,16 @@ const CrmTicketDetails = () => {
             Assign To
           </Button>
         </Box>
+
         {/* Modals */}
         <Modal
           open={openTaskModal}
           onClose={() => setOpenTaskModal(false)}
           aria-labelledby="task-modal-title"
           aria-describedby="task-modal-description"
+          style={{display: ticket.status === "Resolved" ? "none" : "blo"}}
         >
-          <Box sx={createtaskmodel}>
+          <Box sx={createtaskmodel} >
             <Typography
               id="task-modal-title"
               variant="h5"
@@ -1684,12 +1787,14 @@ const CrmTicketDetails = () => {
             >
               Create New Task
             </Typography>
+            {/* Pass fetchTasks to TaskForm */}
             <TaskForm
               handleClose={() => setOpenTaskModal(false)}
               fetchTasks={fetchTasks}
             />
           </Box>
         </Modal>
+
         <Modal
           open={shareEntireExperience}
           onClose={() => setshareEntireExperience(false)}
@@ -1703,7 +1808,7 @@ const CrmTicketDetails = () => {
               component="h2"
               sx={{ mb: 3 }}
             >
-              Assign To Customer Relationship Manager
+              Assign To Relationship Manager
             </Typography>
             <AssignCrm
               handleClose={() => setshareEntireExperience(false)}
