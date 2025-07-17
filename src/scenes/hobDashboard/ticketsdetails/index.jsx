@@ -1646,7 +1646,7 @@ const AdminTicketDetails = () => {
         {/* Responsive Assign To Button */}
         <Box
           sx={{
-            display: "flex",
+            display: ticket.status === "Resolved" ? "none" : "flex",
             flexDirection: { xs: "column", sm: "row" },
             justifyContent: "center",
             alignItems: "stretch",

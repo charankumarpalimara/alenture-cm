@@ -1615,7 +1615,7 @@ console.log("experience data :", safeExperienceData);
         {/* Responsive Assign To Button */}
         <Box
           sx={{
-            display: "flex",
+            display: safeExperienceData.status === "Resolved" ? "none" : "flex",
             flexDirection: { xs: "column", sm: "row" },
             justifyContent: "center",
             alignItems: "stretch",
@@ -1681,7 +1681,7 @@ console.log("experience data :", safeExperienceData);
               component="h2"
               sx={{ mb: 3 }}
             >
-              Assign To Customer Relationship Manager
+              Assign To Relationship Manager
             </Typography>
             <AssignCrm
               handleClose={() => setshareEntireExperience(false)}
