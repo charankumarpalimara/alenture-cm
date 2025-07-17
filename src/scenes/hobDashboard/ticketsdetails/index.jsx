@@ -189,7 +189,7 @@ const AdminTicketDetails = () => {
     imageURl: ticket.imageUrl || "",
   };
 
-  const filenamevalue = ticket.filename ;
+  const filenamevalue = ticket.filename;
 
   const ExperienceId = ticket.experienceid || "";
   const crmId = ticket.crmid || "";
@@ -868,7 +868,7 @@ const AdminTicketDetails = () => {
           <Col>
             <Button
               onClick={handleClose}
-              style={{ background:colors.redAccent[500], color: "#fff", borderRadius: 8, }}
+              style={{ background: colors.redAccent[500], color: "#fff", borderRadius: 8, }}
             >
               Cancel
             </Button>
@@ -1197,7 +1197,7 @@ const AdminTicketDetails = () => {
                     {values.requestdetails}
                   </Typography>
 
-                  <Box sx={{ display: "flex", mt: 2 , alignItems: "flex-start", justifyContent: "flex-start" }}>
+                  <Box sx={{ display: "flex", mt: 2, alignItems: "flex-start", justifyContent: "flex-start" }}>
                     <ActivityTimeline
                       date={values.date}
                       time={values.time}
@@ -1211,22 +1211,22 @@ const AdminTicketDetails = () => {
 
 
 
-          {filenamevalue !== 'N/A' && (
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Button
-                variant="contained"
-                icon={<DownloadOutlined />}
-                disabled={isDownloading}
-                onClick={handleDownload}
-                sx={{ minWidth: 180 }}
-              >
-                {isDownloading ? "Downloading..." : "Download Attachment"}
-              </Button>
-              {/* <Typography variant="body2" sx={{ color: colors.grey[600] }}>
+                {filenamevalue !== 'N/A' && (
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <Button
+                      variant="contained"
+                      icon={<DownloadOutlined />}
+                      disabled={isDownloading}
+                      onClick={handleDownload}
+                      sx={{ minWidth: 180 }}
+                    >
+                      {isDownloading ? "Downloading..." : "Download Attachment"}
+                    </Button>
+                    {/* <Typography variant="body2" sx={{ color: colors.grey[600] }}>
                 {filenamevalue}
               </Typography> */}
-            </Box>
-          )}
+                  </Box>
+                )}
 
                 {/* Action Buttons */}
                 <Box
@@ -1235,6 +1235,7 @@ const AdminTicketDetails = () => {
                     justifyContent: "space-between",
                     gap: 2,
                     mt: 1,
+
                   }}
                 >
                   <Button
@@ -1249,6 +1250,7 @@ const AdminTicketDetails = () => {
                       backgroundColor: colors.redAccent[400],
                       color: "#ffffff",
                       textTransform: "none",
+                      display: ticket.status === "Resolved" ? "none" : "block",
                       "&:hover": {
                         backgroundColor: colors.redAccent[500],
                         boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
@@ -1256,7 +1258,7 @@ const AdminTicketDetails = () => {
                     }}
                     onClick={() => setOpenConfirm(true)}
                   >
-                    Resolved
+                    Resolve
                   </Button>
 
 
@@ -1342,6 +1344,7 @@ const AdminTicketDetails = () => {
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
                         background: colors.blueAccent[1000],
+                        display: ticket.status === "Resolved" ? "none" : "block",
                         color: "#ffffff",
                         textTransform: "none",
                         "&:hover": {
@@ -1552,45 +1555,7 @@ const AdminTicketDetails = () => {
         </Box> */}
       </Box>
 
-      {/* Task Management Table */}
-      <Box
-        sx={{
-          backgroundColor: "#ffffff",
-          p: isDesktop ? 3 : 2,
-          borderRadius: "8px",
-          gridColumn: "1 / -1",
-          mt: { xs: 3, md: 0 },
-        }}
-      >
-        {/* <Box
-          sx={{
-            display: "flex",
-            flexDirection: isMobile ? "column" : "row",
-            justifyContent: "flex-end",
-            mb: 2,
-            gap: 2,
-          }}
-        >
-          <Button
-            variant="contained"
-            sx={{
-              background: colors.blueAccent[500],
-              fontWeight: "bold",
-              color: "#ffffff",
-              whiteSpace: "nowrap",
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: colors.blueAccent[600],
-              },
-            }}
-            startIcon={<AddIcon />}
-            onClick={() => setOpenTaskModal(true)}
-          >
-            Create New Task
-          </Button>
-        </Box> */}
-
-      </Box>
+   
 
       <Box
         sx={{
@@ -1649,9 +1614,9 @@ const AdminTicketDetails = () => {
             minWidth: 0,
           }}
         >
-      <TasksProvider experienceId={ExperienceId} crmId={crmId}>
-        <KanbanBoard />
-      </TasksProvider>
+          <TasksProvider experienceId={ExperienceId} crmId={crmId}>
+            <KanbanBoard />
+          </TasksProvider>
 
         </Box>
 

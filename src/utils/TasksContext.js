@@ -4,7 +4,7 @@ const TasksContext = createContext();
 
 export const useTasks = () => useContext(TasksContext);
 
-export const TasksProvider = ({ experienceId, crmId, children }) => {
+export const TasksProvider = ({ experienceId, crmId, experienceStatus, children }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -67,7 +67,7 @@ export const TasksProvider = ({ experienceId, crmId, children }) => {
   };
 
   return (
-    <TasksContext.Provider value={{ tasks, loading, addTask, editTask, deleteTask }}>
+    <TasksContext.Provider value={{ tasks, loading, addTask, editTask, deleteTask, experienceStatus }}>
       {children}
     </TasksContext.Provider>
   );

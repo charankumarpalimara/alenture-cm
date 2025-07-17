@@ -64,7 +64,7 @@ function KanbanBoard() {
     taskStatus: "To Do",
   });
 
-  const { tasks, loading, addTask, editTask, deleteTask } = useTasks();
+  const { tasks, loading, addTask, editTask, deleteTask, experienceStatus } = useTasks();
 
   const kanbanData = tasks.map(task => {
     const ownerName = task.taskownername || task.taskowner || task.owner || "User";
@@ -187,9 +187,10 @@ function KanbanBoard() {
             "&:hover": { backgroundColor: colors.blueAccent[600] },
             width: isMobile ? "45%" : "20%",
             fontSize: { xs: "12px", sm: "14px" },
-            display:  getCreaterRole() === "crm" ? "block" : "none",
+            display:  getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
+
           }}
-          startIcon={<AddIcon />}
+          // startIcon={<AddIcon />}
         >
           Add Task
         </Button>
@@ -269,7 +270,7 @@ function KanbanBoard() {
                         right: 40,
                         color: "#e53935",
                         "&:hover": { background: "rgba(229,57,53,0.1)" },
-                                    display:  getCreaterRole() === "crm" ? "block" : "none",
+                        display:  getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
                       }}
                       onClick={() => handleDeleteClick(card.Id)}
                     >
@@ -284,7 +285,7 @@ function KanbanBoard() {
                         right: 8,
                         color: "#64748b",
                         "&:hover": { background: "rgba(100,116,139,0.1)" },
-                        display:  getCreaterRole() === "crm" ? "block" : "none",
+                        display:  getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
                       }}
                       onClick={() => handleEditCard(card)}
                     >
@@ -361,6 +362,7 @@ function KanbanBoard() {
             fontSize: "22px",
             pb: 1,
             textAlign: "center",
+
           }}
         >
           Add New Task

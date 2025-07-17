@@ -505,7 +505,7 @@ const CmTicketDetails = () => {
                     Status
                   </Typography>
                   <Typography
-                    sx={{ color: getExperienceColor(values.priority) }}
+                    // sx={{ color: getExperienceColor(values.priority) }}
                   >
                     {values.status}
                   </Typography>
@@ -737,73 +737,85 @@ const CmTicketDetails = () => {
             }}
           >
             {messages.map((message, index) => (
-              <Box
-                key={index}
-                sx={{
-                  mb: 2,
-                  display: "flex",
-                  justifyContent:
-                    message.sender === "user" ? "flex-start" : "flex-end",
-                }}
-              >
-                <Box>
-                  {message.sender === "manager" ? (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: colors.grey[700],
-                        fontWeight: "bold",
-                        mb: 0.5,
-                        display: "block",
-                        textAlign: "left",
-                      }}
-                    >
-                      {message.crmname}
-                    </Typography>
-                  ) : (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: colors.grey[700],
-                        fontWeight: "bold",
-                        mb: 0.5,
-                        display: "block",
-                        textAlign: "left",
-                      }}
-                    >
-                      You
-                    </Typography>
-                  )}
-                  <Box
-                    sx={{
-                      p: 1.5,
-                      borderRadius: 1,
-                      bgcolor:
-                        message.sender === "user"
-                          ? colors.blueAccent[100]
-                          : "#f0f0f0",
-                      display: "inline-block",
-                      minWidth: 80,
-                      maxWidth: 350,
-                      textAlign: "left",
-                    }}
-                    dangerouslySetInnerHTML={{ __html: message.text }}
-                  />
-                  {message.time && (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: "#aaa",
-                        display: "block",
-                        mt: 0.5,
-                        textAlign: message.sender === "user" ? "left" : "right",
-                      }}
-                    >
-                      {message.time}
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
+<Box
+  key={index}
+  sx={{
+    mb: 2,
+    display: "flex",
+    justifyContent:
+      message.sender === "user" ? "flex-start" : "flex-end",
+  }}
+>
+  <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: message.sender === "user" ? "flex-start" : "flex-end",
+      maxWidth: 350,
+    }}
+  >
+    {message.sender === "manager" ? (
+      <Typography
+        variant="caption"
+        sx={{
+          color: colors.grey[700],
+          fontWeight: "bold",
+          mb: 0.5,
+          display: "block",
+          textAlign: "right", // right align name
+          width: "100%",
+          wordBreak: "break-word",
+        }}
+      >
+        {message.crmname}
+      </Typography>
+    ) : (
+      <Typography
+        variant="caption"
+        sx={{
+          color: colors.grey[700],
+          fontWeight: "bold",
+          mb: 0.5,
+          display: "block",
+          textAlign: "left",
+          width: "100%",
+        }}
+      >
+        You
+      </Typography>
+    )}
+    <Box
+      sx={{
+        p: 1.5,
+        borderRadius: 1,
+        bgcolor:
+          message.sender === "user"
+            ? colors.blueAccent[100]
+            : "#f0f0f0",
+        display: "inline-block",
+        minWidth: 80,
+        maxWidth: 350,
+        textAlign: message.sender === "user" ? "left" : "right",
+        wordBreak: "break-word",
+      }}
+      dangerouslySetInnerHTML={{ __html: message.text }}
+    />
+    {message.time && (
+      <Typography
+        variant="caption"
+        sx={{
+          color: "#aaa",
+          display: "block",
+          mt: 0.5,
+          textAlign: message.sender === "user" ? "left" : "right",
+          width: "100%",
+        }}
+      >
+        {message.time}
+      </Typography>
+    )}
+  </Box>
+</Box>
             ))}
           </Box>
 

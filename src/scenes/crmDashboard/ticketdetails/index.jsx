@@ -1098,7 +1098,7 @@ console.log("experience data :", safeExperienceData);
                     Status
                   </Typography>
                   <Typography
-                    sx={{ color: getExperienceColor(values.priority) }}
+                
                   >
                     {values.status}
                   </Typography>
@@ -1190,10 +1190,11 @@ console.log("experience data :", safeExperienceData);
                 {/* Action Buttons */}
                 <Box
                   sx={{
-                    display: "flex",
+                    // display: "flex",
                     justifyContent: "space-between",
                     gap: 2,
                     mt: 1,
+                  display: safeExperienceData.status === "Resolved" ? "none" : "flex",
                   }}
                 >
                   <Button
@@ -1215,7 +1216,7 @@ console.log("experience data :", safeExperienceData);
                     }}
                     onClick={() => setOpenConfirm(true)}
                   >
-                    Resolved
+                    Resolve
                   </Button>
                   <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
                     <DialogTitle>Are you sure?</DialogTitle>
@@ -1552,6 +1553,7 @@ console.log("experience data :", safeExperienceData);
               minWidth: 0,
               width: "100%",
               fontSize: { xs: "14px", sm: "16px" },
+              display: safeExperienceData.status === "Resolved" ? "none" : "block",
             }}
           >
             Send
@@ -1583,7 +1585,7 @@ console.log("experience data :", safeExperienceData);
             minWidth: 0,
           }}
         >
-      <TasksProvider experienceId={ExperienceId} crmId={crmId}>
+      <TasksProvider experienceId={ExperienceId} crmId={crmId} experienceStatus={safeExperienceData.status}>
         <KanbanBoard />
       </TasksProvider>
 
