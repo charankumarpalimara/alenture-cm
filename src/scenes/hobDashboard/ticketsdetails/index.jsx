@@ -42,6 +42,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import ActivityTimeline from "./ActivityTimeline";
+import { TasksProvider } from "../../../utils/TasksContext";
+import KanbanBoard from "../../../components/KanbanTasks";
 
 const { Option } = Select;
 
@@ -188,6 +190,9 @@ const AdminTicketDetails = () => {
   };
 
   const filenamevalue = ticket.filename ;
+
+  const ExperienceId = ticket.experienceid || "";
+  const crmId = ticket.crmid || "";
 
   console.log("Ticket Details:", ticket);
 
@@ -742,7 +747,7 @@ const AdminTicketDetails = () => {
             <AntdButton
               onClick={handleClose}
               style={{
-                background: "#e57373",
+                background: colors.redAccent[500],
                 color: "#fff",
                 borderRadius: 8,
                 fontWeight: "bold",
@@ -826,7 +831,7 @@ const AdminTicketDetails = () => {
         <Row gutter={16} style={{ flexDirection: "column" }}>
           <Col xs={24} md={24} style={{ width: "100%" }}>
             <Form.Item
-              label="CRM Name"
+              label="Relationship Manager Name"
               name="crmname"
               rules={[{ required: true, message: "CRM Name is required" }]}
               style={{ width: "100%" }}
@@ -863,7 +868,7 @@ const AdminTicketDetails = () => {
           <Col>
             <Button
               onClick={handleClose}
-              style={{ background: "#e57373", color: "#fff", borderRadius: 8, }}
+              style={{ background:colors.redAccent[500], color: "#fff", borderRadius: 8, }}
             >
               Cancel
             </Button>
@@ -1633,24 +1638,21 @@ const AdminTicketDetails = () => {
         </Box>
 
         {/* Responsive Table Wrapper */}
-        <Box sx={{ width: "100%", overflowX: "auto", minWidth: 0 }}>
-          <Table
-            className="custom-ant-table-header"
-            columns={columns}
-            dataSource={tasks}
-            rowKey="id"
-            pagination={false}
-            style={{
-              marginBottom: 24,
-              minWidth: 600, // Always a number, not an object!
-            }}
-            onRow={(record) => ({
-              onClick: () => handleRowClick({ row: record }),
-              style: { cursor: "pointer" },
-            })}
-            scroll={{ x: true }}
-            bordered
-          />
+        <Box
+          sx={{
+            backgroundColor: "#ffffff",
+            p: { xs: 1, sm: 3 },
+            borderRadius: "8px",
+            gridColumn: { xs: "1 / -1", md: "1 / -1" },
+            mt: { xs: 2, md: 0 },
+            width: "100%",
+            minWidth: 0,
+          }}
+        >
+      <TasksProvider experienceId={ExperienceId} crmId={crmId}>
+        <KanbanBoard />
+      </TasksProvider>
+
         </Box>
 
         <AntdModal
@@ -1749,7 +1751,7 @@ const AdminTicketDetails = () => {
               component="h2"
               sx={{ mb: 3 }}
             >
-              Assign To Customer Relationship Manager
+              Assign To Relationship Manager
             </Typography>
             <AssignCrm
               handleClose={() => setshareEntireExperience(false)}

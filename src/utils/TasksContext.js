@@ -11,6 +11,7 @@ export const TasksProvider = ({ experienceId, crmId, children }) => {
   // Fetch tasks from backend
   const fetchTasks = useCallback(async () => {
     if (!experienceId || !crmId) return;
+    console.log("Fetching tasks for experienceId:", experienceId, "crmId:", crmId);
     setLoading(true);
     try {
       const response = await fetch(
