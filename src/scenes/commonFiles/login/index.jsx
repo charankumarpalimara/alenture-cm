@@ -23,6 +23,7 @@ const Login = ({ onLogin }) => {
 const handleSubmit = async (values) => {
   setLoading(true);
   // let success = false;
+    setError(""); // Clear previous error
 
   try {
     const response = await fetch(

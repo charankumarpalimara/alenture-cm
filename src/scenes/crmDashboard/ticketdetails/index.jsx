@@ -61,6 +61,9 @@ import { io } from "socket.io-client";
 import { getCreaterId } from "../../../config";
 import ActivityTimeline from "./ActivityTimeline";
 import dayjs from "dayjs"; // Use dayjs for formatting UTC
+import { TasksProvider } from "../../../utils/TasksContext";
+import KanbanBoard from "../../../components/KanbanTasks";
+
 
 const { Option } = Select;
 
@@ -283,6 +286,9 @@ console.log("experience data :", safeExperienceData);
   }, [form, crmidValue]);
 
   // Fetch tasks
+
+
+  
   const fetchTasks = useCallback(async () => {
     try {
       const response = await fetch(
@@ -305,12 +311,15 @@ console.log("experience data :", safeExperienceData);
     }
   }, [ExperienceId, crmId]);
 
+
+
   useEffect(() => {
     if (!ExperienceId || !crmId) return;
     fetchTasks();
   }, [ExperienceId, crmId, fetchTasks]);
 
   const handleDeleteTask = (id) => (event) => {
+    fetchTasks();
     event.stopPropagation();
     setDeletingTaskId(id);
     setDeleteModalVisible(true);
@@ -704,7 +713,7 @@ console.log("experience data :", safeExperienceData);
       } catch (error) {
         message.error("Error creating task.");
       }
-      setLoading(false);
+      setLoading(false); 
     };
 
     return (
@@ -1561,57 +1570,23 @@ console.log("experience data :", safeExperienceData);
           minWidth: 0,
         }}
       >
-        {/* Ant Design Table */}
+  
+        {/* Responsive Table Wrapper */}
         <Box
           sx={{
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            justifyContent: "flex-end",
-            alignItems: "stretch",
-            mb: 2,
-            gap: 2,
+            backgroundColor: "#ffffff",
+            p: { xs: 1, sm: 3 },
+            borderRadius: "8px",
+            gridColumn: { xs: "1 / -1", md: "1 / -1" },
+            mt: { xs: 2, md: 0 },
             width: "100%",
             minWidth: 0,
           }}
         >
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{
-              background: colors.blueAccent[1000],
-              fontWeight: "600",
-              color: "#ffffff",
-              whiteSpace: "nowrap",
-              textTransform: "none",
-              "&:hover": { backgroundColor: colors.blueAccent[600] },
-              width: isMobile ? "45%" : "20%",
-              fontSize: { xs: "12px", sm: "14px" },
-            }}
-            startIcon={<AddIcon />}
-            onClick={() => setOpenTaskModal(true)}
-          >
-            Create New Task
-          </Button>
-        </Box>
-        {/* Responsive Table Wrapper */}
-        <Box sx={{ width: "100%", overflowX: "auto", minWidth: 0 }}>
-          <Table
-            className="custom-ant-table-header"
-            columns={columns}
-            dataSource={tasks}
-            rowKey="id"
-            pagination={false}
-            style={{
-              marginBottom: 24,
-              minWidth: 600,
-            }}
-            onRow={(record) => ({
-              onClick: () => handleRowClick({ row: record }),
-              style: { cursor: "pointer" },
-            })}
-            scroll={{ x: true }}
-            bordered
-          />
+      <TasksProvider experienceId={ExperienceId} crmId={crmId}>
+        <KanbanBoard />
+      </TasksProvider>
+
         </Box>
         <AntdModal
           title="Confirm Delete"
