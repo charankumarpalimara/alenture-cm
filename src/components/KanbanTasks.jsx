@@ -24,6 +24,7 @@ import { useTasks } from "../utils/TasksContext";
 import {
   Add as AddIcon,
 } from "@mui/icons-material";
+import { getCreaterId, getCreaterRole } from "../config";
 
 const columnDefinitions = [
   { key: "To Do", title: "To Do", color: "#ef4444", icon: "📋" },
@@ -51,10 +52,10 @@ function KanbanBoard() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingTaskId, setDeletingTaskId] = useState(null);
   const isMobile = useMediaQuery("(max-width:484px)");
-    const [addLoading, setAddLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  
+
   const [addValues, setAddValues] = useState({
     taskName: "",
     taskDescription: "",
@@ -86,7 +87,7 @@ function KanbanBoard() {
       message.error("Task Name and Owner required");
       return;
     }
-        setAddLoading(true);
+    setAddLoading(true);
     const formData = new FormData();
     formData.append("taskname", addValues.taskName);
     formData.append("taskowner", addValues.taskOwner);
@@ -108,7 +109,7 @@ function KanbanBoard() {
     } catch (err) {
       message.error("Failed to create task!");
     }
-        setAddLoading(false);
+    setAddLoading(false);
   };
 
   // Edit Task
@@ -126,7 +127,7 @@ function KanbanBoard() {
 
   const handleEditSave = async () => {
     if (!editingCard) return;
-        setEditLoading(true);
+    setEditLoading(true);
     try {
       await editTask(editingCard.Id, {
         taskname: addValues.taskName,
@@ -141,7 +142,7 @@ function KanbanBoard() {
     } catch (err) {
       message.error("Failed to update task!");
     }
-        setEditLoading(false);
+    setEditLoading(false);
   };
 
   // Delete Task
@@ -152,7 +153,7 @@ function KanbanBoard() {
 
   const handleConfirmDelete = async () => {
     if (!deletingTaskId) return;
-        setDeleteLoading(true);
+    setDeleteLoading(true);
     try {
       await deleteTask(deletingTaskId);
       setDeleteDialogOpen(false);
@@ -161,7 +162,7 @@ function KanbanBoard() {
     } catch (err) {
       message.error("Failed to delete task!");
     }
-        setDeleteLoading(false);
+    setDeleteLoading(false);
   };
 
   return (
@@ -178,19 +179,20 @@ function KanbanBoard() {
           variant="contained"
           onClick={() => setAddOpen(true)}
           sx={{
-                  background: colors.blueAccent[1000],
-                      fontWeight: "600",
-                      color: "#ffffff",
-                      whiteSpace: "nowrap",
-                      textTransform: "none",
-                      "&:hover": { backgroundColor: colors.blueAccent[600] },
-                      width: isMobile ? "45%" : "20%",
-                      fontSize: { xs: "12px", sm: "14px" },
-                    }}
-                    startIcon={<AddIcon />}
-                  >
-                    Add Task
-                  </Button>
+            background: colors.blueAccent[1000],
+            fontWeight: "600",
+            color: "#ffffff",
+            whiteSpace: "nowrap",
+            textTransform: "none",
+            "&:hover": { backgroundColor: colors.blueAccent[600] },
+            width: isMobile ? "45%" : "20%",
+            fontSize: { xs: "12px", sm: "14px" },
+            display:  getCreaterRole() === "crm" ? "block" : "none",
+          }}
+          startIcon={<AddIcon />}
+        >
+          Add Task
+        </Button>
       </Box>
       <Grid
         container
@@ -266,12 +268,14 @@ function KanbanBoard() {
                         top: 8,
                         right: 40,
                         color: "#e53935",
-                        "&:hover": { background: "rgba(229,57,53,0.1)" }
+                        "&:hover": { background: "rgba(229,57,53,0.1)" },
+                                    display:  getCreaterRole() === "crm" ? "block" : "none",
                       }}
                       onClick={() => handleDeleteClick(card.Id)}
                     >
                       <DeleteIcon fontSize="small" />
                     </IconButton>
+
                     <IconButton
                       size="small"
                       sx={{
@@ -279,12 +283,14 @@ function KanbanBoard() {
                         top: 8,
                         right: 8,
                         color: "#64748b",
-                        "&:hover": { background: "rgba(100,116,139,0.1)" }
+                        "&:hover": { background: "rgba(100,116,139,0.1)" },
+                        display:  getCreaterRole() === "crm" ? "block" : "none",
                       }}
                       onClick={() => handleEditCard(card)}
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
+
                     <Typography sx={{ fontWeight: 700, fontSize: { xs: 15, md: 16 }, color: "#1e293b", mb: 1 }}>
                       {card.Title}
                     </Typography>
@@ -421,7 +427,7 @@ function KanbanBoard() {
               textTransform: "none",
               color: "#fff",
               background: colors.redAccent[500],
-             
+
             }}
           >
             Cancel
@@ -443,7 +449,7 @@ function KanbanBoard() {
           >
             {addLoading ? "Adding..." : "Add Task"}
           </Button>
-          
+
         </DialogActions>
       </Dialog>
 
