@@ -345,6 +345,15 @@ const CrmDetails = () => {
     }
   };
 
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const countries = Country.getAllCountries();
+  const gender = ["Male", "Female"];
+  const status = ["Suspend", "Active"];
+
+  // Restore original image upload/crop handlers
   const handleImageUpload = (event) => {
     if (!isEditing) return;
     const file = event.target.files[0];
@@ -414,14 +423,6 @@ const CrmDetails = () => {
     await handleCropImage();
     setCropModalVisible(false);
   };
-
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
-
-  const countries = Country.getAllCountries();
-  const gender = ["Male", "Female"];
-  const status = ["Suspend", "Active"];
 
   if (crmDetails === null) {
     return (
@@ -494,11 +495,7 @@ const CrmDetails = () => {
             <Col>
               <div style={{ position: "relative", display: "inline-block" }}>
                 <Avatar
-                  src={
-                    profileImage ||
-                    crmDetails?.imageUrl ||
-                    "https://via.placeholder.com/150"
-                  }
+                  src={profileImage || crmDetails?.imageUrl || "https://via.placeholder.com/150"}
                   size={120}
                   style={{
                     border: "2px solid #1677ff",
@@ -534,36 +531,36 @@ const CrmDetails = () => {
                   tabIndex={isEditing ? 0 : -1}
                 />
               </div>
+              <Modal
+                open={cropModalVisible}
+                title="Crop Profile Picture"
+                onCancel={() => setCropModalVisible(false)}
+                onOk={handleSaveCroppedImage}
+                okText="Save Photo"
+                cancelText="Cancel"
+                width={400}
+                bodyStyle={{ height: 350 }}
+              >
+                {originalImage && (
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(c) => setCrop(c)}
+                    onComplete={handleCropComplete}
+                    aspect={1}
+                    circularCrop
+                  >
+                    <img
+                      ref={imgRef}
+                      src={originalImage}
+                      onLoad={onImageLoad}
+                      style={{ maxHeight: "70vh", maxWidth: "100%" }}
+                      alt="Crop preview"
+                    />
+                  </ReactCrop>
+                )}
+              </Modal>
             </Col>
           </Row>
-          <Modal
-            open={cropModalVisible}
-            title="Crop Profile Picture"
-            onCancel={() => setCropModalVisible(false)}
-            onOk={handleSaveCroppedImage}
-            okText="Save Photo"
-            cancelText="Cancel"
-            width={400}
-            bodyStyle={{ height: 350 }}
-          >
-            {originalImage && (
-              <ReactCrop
-                crop={crop}
-                onChange={(c) => setCrop(c)}
-                onComplete={handleCropComplete}
-                aspect={1}
-                circularCrop
-              >
-                <img
-                  ref={imgRef}
-                  src={originalImage}
-                  onLoad={onImageLoad}
-                  style={{ maxHeight: "70vh", maxWidth: "100%" }}
-                  alt="Crop preview"
-                />
-              </ReactCrop>
-            )}
-          </Modal>
           {/* Main Form Fields */}
           <Row gutter={24}>
             <Col xs={24} md={8}>

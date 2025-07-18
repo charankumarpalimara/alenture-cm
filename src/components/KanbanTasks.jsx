@@ -199,13 +199,13 @@ function KanbanBoard() {
           onClick={() => setAddOpen(true)}
           sx={{
             background: colors.blueAccent[1000],
-            fontWeight: "600",
+            fontWeight: 600,
+            fontSize: "12px",
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
             "&:hover": { backgroundColor: colors.blueAccent[600] },
-            width: isMobile ? "45%" : "20%",
-            fontSize: { xs: "12px", sm: "14px" },
+            width: isMobile ? "45%" : "15%",
             display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
 
           }}
@@ -259,9 +259,9 @@ function KanbanBoard() {
                 borderRadius: "8px",
                 // border: `2px solid ${col.color}`,
                 fontWeight: 600,
-                fontSize:"14px"
+                fontSize: "12px",
               }}>
-                <span style={{ fontSize: 14, marginTop: 3 }}>{col.icon}</span>
+                <span style={{ fontSize: 10, marginTop: 3 }}>{col.icon}</span>
                 <span style={{ color: "#fff" }}>{col.title}</span>
               </Box>
               {/* Cards */}
@@ -376,7 +376,8 @@ function KanbanBoard() {
       >
         <DialogTitle
           sx={{
-            fontWeight: 700,
+            fontWeight: 600,
+            fontSize: "12px",
             color: "#1e293b",
             fontSize: "22px",
             pb: 1,

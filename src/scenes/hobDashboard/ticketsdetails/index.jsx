@@ -1232,7 +1232,7 @@ const AdminTicketDetails = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     gap: 2,
                     mt: 1,
 
@@ -1242,8 +1242,8 @@ const AdminTicketDetails = () => {
                     variant="contained"
                     sx={{
                       padding: "12px 24px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      fontSize: "12px",
+                      // fontWeight: "bold",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
@@ -1293,8 +1293,8 @@ const AdminTicketDetails = () => {
                         onClick={() => setIsEditing(false)}
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "14px",
-                          fontWeight: "600",
+                          fontSize: "12px",
+                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1315,8 +1315,8 @@ const AdminTicketDetails = () => {
                         onClick={() => setIsEditing(false)}
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "14px",
-                          fontWeight: "600",
+                          fontSize: "12px",
+                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1338,8 +1338,8 @@ const AdminTicketDetails = () => {
                       onClick={() => setIsEditing(true)}
                       sx={{
                         padding: "12px 24px",
-                        fontSize: "14px",
-                        fontWeight: "600",
+                        fontSize: "12px",
+                        // fontWeight: "600",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
@@ -1640,7 +1640,7 @@ const AdminTicketDetails = () => {
             fullWidth
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "600",
+              // fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",
@@ -1649,7 +1649,7 @@ const AdminTicketDetails = () => {
                 backgroundColor: colors.blueAccent[900],
               },
               width: isMobile ? "25%" : "20%",
-              fontSize: { xs: "12px", sm: "14px" },
+              fontSize: "12px"
             }}
             onClick={() => setshareEntireExperience(true)}
           >

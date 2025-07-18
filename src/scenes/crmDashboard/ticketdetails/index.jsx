@@ -6,17 +6,17 @@ import {
   useTheme,
   TextField,
   Autocomplete,
-  IconButton,
-  Modal,
-  Dialog, DialogContent, DialogActions
+  // IconButton,
+  // Modal,
+  // Dialog, DialogContent, DialogActions
 } from "@mui/material";
 import {
   Form,
-  Input,
-  Select,
-  // Button as AntdButton,
-  Col,
-  Row,
+  // Input,
+  // Select,
+  // // Button as AntdButton,
+  // Col,
+  // Row,
   message,
   // Modal as AntdModal,
   // Table,
@@ -25,28 +25,28 @@ import { Formik } from "formik";
 import { tokens } from "../../../theme";
 import * as yup from "yup";
 import React, {
-  // useMemo,
   useState,
   useEffect,
   useRef,
-  // useCallback,
+  useMemo,
+  useCallback,
 } from "react";
 import { useParams } from "react-router-dom";
 import {
-  FormatBold,
-  FormatItalic,
-  FormatUnderlined,
-  FormatListNumbered,
-  FormatListBulleted,
-  InsertPhoto,
-  TableChart,
-  YouTube,
+  // FormatBold,
+  // FormatItalic,
+  // FormatUnderlined,
+  // FormatListNumbered,
+  // FormatListBulleted,
+  // InsertPhoto,
+  // TableChart,
+  // YouTube,
   // Check as CheckIcon,
   // Delete as DeleteIcon,
   // Add as AddIcon,
   DownloadOutlined
 } from "@mui/icons-material";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import TableTiptap from "@tiptap/extension-table";
@@ -56,13 +56,16 @@ import TableCell from "@tiptap/extension-table-cell";
 import Youtube from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 // import { getCreaterId } from "../../../config";
 import ActivityTimeline from "./ActivityTimeline";
 // import dayjs from "dayjs"; // Use dayjs for formatting UTC
 import { TasksProvider } from "../../../utils/TasksContext";
 import KanbanBoard from "../../../components/KanbanTasks";
+import AssignCrmModal from "./AssignCrmModal";
+import ResolveDialog from "./ResolveDialog";
+import ChatSection from "./ChatSection";
 
 
 // const { Option } = Select;
@@ -82,7 +85,7 @@ const CrmTicketDetails = () => {
   const [crmIdList, setCrmIdList] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
   // const [tasks, setTasks] = useState([]);
-  const Navigate = useNavigate();
+  // const Navigate = useNavigate();
   // const [openTaskModal, setOpenTaskModal] = useState(false);
   const [shareEntireExperience, setshareEntireExperience] = useState(false);
   // const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
@@ -96,38 +99,39 @@ const CrmTicketDetails = () => {
 
 
 
-  useEffect(() => {
-    const fetchExperienceData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/experienceDetailsGet/${experienceid}`
-        );
-        if (!response.ok) throw new Error("Network response was not ok");
-        const data = await response.json();
-        if (data && Array.isArray(data.data) && data.data.length > 0) {
-          setExperienceData(data.data[0]);
-          console.log(data.data[0]);
-        } else {
-          setExperienceData({});
-        }
-      } catch (error) {
-        console.error("Error fetching experience data:", error);
+  // Move fetchExperienceData to top-level so it can be called after resolve
+  const fetchExperienceData = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/v1/experienceDetailsGet/${experienceid}`
+      );
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+      if (data && Array.isArray(data.data) && data.data.length > 0) {
+        setExperienceData(data.data[0]);
+        console.log(data.data[0]);
+      } else {
         setExperienceData({});
-        message.error("Failed to load experience data. Please try again later.");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching experience data:", error);
+      setExperienceData({});
+      message.error("Failed to load experience data. Please try again later.");
+    }
+  };
+
+  useEffect(() => {
     if (experienceid) fetchExperienceData();
   }, [experienceid]);
 
 
 
 
-    const safeExperienceData = experienceData || {};
-console.log("experience data :", safeExperienceData);
-
-    const ExperienceId =  safeExperienceData.experienceid;
-    const crmId =safeExperienceData.extraind1;
-    const crmName = safeExperienceData.extraind2;
+  // Memoize derived values
+  const safeExperienceData = useMemo(() => experienceData || {}, [experienceData]);
+  const ExperienceId = useMemo(() => safeExperienceData.experienceid, [safeExperienceData]);
+  const crmId = useMemo(() => safeExperienceData.extraind1, [safeExperienceData]);
+  const crmName = useMemo(() => safeExperienceData.extraind2, [safeExperienceData]);
 
   // Fix: Prevent null access in buildInitialValues
   const buildInitialValues = (data = {}) => {
@@ -288,7 +292,7 @@ console.log("experience data :", safeExperienceData);
   // Fetch tasks
 
 
-  
+
   // const fetchTasks = useCallback(async () => {
   //   try {
   //     const response = await fetch(
@@ -415,14 +419,40 @@ console.log("experience data :", safeExperienceData);
     },
   });
 
-  const addImage = () => {
+  // Memoize handlers
+  const handleSendMessage = useCallback(async () => {
+    if (!newMessage.trim()) return;
+    const cmid = experienceData.cmid || "";
+    const msgData = {
+      experienceid: ExperienceId,
+      crmid: crmId,
+      cmid,
+      crmname: crmName,
+      message: newMessage,
+      sender: "manager",
+    };
+    socketRef.current.emit("sendMessage", msgData);
+    try {
+      await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(msgData),
+      });
+    } catch (error) {
+      message.error("Failed to send message.");
+    }
+    setNewMessage("");
+    editor.commands.clearContent();
+  }, [newMessage, experienceData, ExperienceId, crmId, crmName, editor]);
+
+  const addImage = useCallback(() => {
     const url = window.prompt("Enter the URL of the image:");
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
     }
-  };
+  }, [editor]);
 
-  const addYoutubeVideo = () => {
+  const addYoutubeVideo = useCallback(() => {
     const url = window.prompt("Enter YouTube URL:");
     if (url) {
       editor.commands.setYoutubeVideo({
@@ -431,9 +461,9 @@ console.log("experience data :", safeExperienceData);
         height: 480,
       });
     }
-  };
+  }, [editor]);
 
-  const addTable = () => {
+  const addTable = useCallback(() => {
     editor
       .chain()
       .focus()
@@ -443,7 +473,7 @@ console.log("experience data :", safeExperienceData);
         withHeaderRow: true,
       })
       .run();
-  };
+  }, [editor]);
 
   // Socket.IO for chat messages
   useEffect(() => {
@@ -470,35 +500,35 @@ console.log("experience data :", safeExperienceData);
     };
   }, [ExperienceId, crmId]);
 
-  const handleSendMessage = async () => {
-    if (!newMessage.trim()) return;
-    const cmid = experienceData.cmid || "";
-    const msgData = {
-      experienceid: ExperienceId,
-      crmid: crmId,
-      cmid,
-      crmname: crmName,
-      message: newMessage,
-      sender: "manager",
-    };
+  // const handleSendMessage = async () => {
+  //   if (!newMessage.trim()) return;
+  //   const cmid = experienceData.cmid || "";
+  //   const msgData = {
+  //     experienceid: ExperienceId,
+  //     crmid: crmId,
+  //     cmid,
+  //     crmname: crmName,
+  //     message: newMessage,
+  //     sender: "manager",
+  //   };
 
-    // Emit real-time message
-    socketRef.current.emit("sendMessage", msgData);
+  //   // Emit real-time message
+  //   socketRef.current.emit("sendMessage", msgData);
 
-    // Save message to DB via REST API
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(msgData),
-      });
-    } catch (error) {
-      message.error("Failed to send message.");
-    }
+  //   // Save message to DB via REST API
+  //   try {
+  //     await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(msgData),
+  //     });
+  //   } catch (error) {
+  //     message.error("Failed to send message.");
+  //   }
 
-    setNewMessage("");
-    editor.commands.clearContent();
-  };
+  //   setNewMessage("");
+  //   editor.commands.clearContent();
+  // };
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -579,7 +609,7 @@ console.log("experience data :", safeExperienceData);
         }
       );
       message.success("Experience status updated to Resolved!");
-      Navigate("/experiences");
+      fetchExperienceData(); // Refresh data only
     } catch (error) {
       message.error("Failed to update status.");
     }
@@ -610,19 +640,19 @@ console.log("experience data :", safeExperienceData);
   //   overflowY: "auto",
   // };
 
-  const assignmodel = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: isDesktop ? "40%" : "90%",
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "8px",
-    maxHeight: "90vh",
-    overflowY: "auto",
-  };
+  // const assignmodel = {
+  //   position: "absolute",
+  //   top: "50%",
+  //   left: "50%",
+  //   transform: "translate(-50%, -50%)",
+  //   width: isDesktop ? "40%" : "90%",
+  //   bgcolor: "background.paper",
+  //   boxShadow: 24,
+  //   p: 4,
+  //   borderRadius: "8px",
+  //   maxHeight: "90vh",
+  //   overflowY: "auto",
+  // };
 
   // const handleRowClick = (params) => {
   //   Navigate("/taskdetails", { state: { ticket: params.row } });
@@ -806,109 +836,109 @@ console.log("experience data :", safeExperienceData);
   // };
 
   // Assign CRM Modal
-  const AssignCrm = ({ handleClose, crmNameList = [] }) => {
-    const [assignForm] = Form.useForm();
-    const [loading, setLoading] = useState(false);
+  // const AssignCrm = ({ handleClose, crmNameList = [] }) => {
+  //   const [assignForm] = Form.useForm();
+  //   const [loading, setLoading] = useState(false);
 
-    const handleFinish = async (values) => {
-      setLoading(true);
-      try {
-        const experienceid = ExperienceId;
-        const existcrmid = crmId;
-        const crmid = values.crmid;
-        const crmname = values.crmname;
+  //   const handleFinish = async (values) => {
+  //     setLoading(true);
+  //     try {
+  //       const experienceid = ExperienceId;
+  //       const existcrmid = crmId;
+  //       const crmid = values.crmid;
+  //       const crmname = values.crmname;
 
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/AssignTask`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ experienceid, crmid, existcrmid, crmname }),
-          }
-        );
+  //       const response = await fetch(
+  //         `${process.env.REACT_APP_API_URL}/v1/AssignTask`,
+  //         {
+  //           method: "POST",
+  //           headers: { "Content-Type": "application/json" },
+  //           body: JSON.stringify({ experienceid, crmid, existcrmid, crmname }),
+  //         }
+  //       );
 
-        if (response.ok) {
-          message.success("Task assigned successfully!");
-          handleClose();
-        } else {
-          const data = await response.json();
-          message.error(data.error || "Failed to assign task.");
-        }
-      } catch (error) {
-        message.error("Error assigning task.");
-      }
-      setLoading(false);
-    };
+  //       if (response.ok) {
+  //         message.success("Task assigned successfully!");
+  //         handleClose();
+  //       } else {
+  //         const data = await response.json();
+  //         message.error(data.error || "Failed to assign task.");
+  //       }
+  //     } catch (error) {
+  //       message.error("Error assigning task.");
+  //     }
+  //     setLoading(false);
+  //   };
 
-    return (
-      <Form
-        form={assignForm}
-        layout="vertical"
-        onFinish={handleFinish}
-        initialValues={{ crmid: "", crmname: "" }}
-      >
-        <Col xs={24} md={24} style={{ width: "100%" }}>
-          <Form.Item
-            label="CRM Name"
-            name="crmname"
-            rules={[{ required: true, message: "CRM Name is required" }]}
-            style={{ width: "100%" }}
-          >
-            <Select
-              showSearch
-              placeholder="Select CRM Name"
-              optionFilterProp="children"
-              size="large"
-              style={{ width: "100%" }}
-              getPopupContainer={trigger => trigger.parentNode}
-              onChange={(value) => {
-                const selected = crmNameList.find(crm => crm.crmid === value);
-                assignForm.setFieldsValue({
-                  crmname: selected ? selected.name : "",
-                  crmid: value
-                });
-              }}
-            >
-              {crmNameList.map((crm) => (
-                <Select.Option key={crm.crmid} value={crm.crmid}>
-                  {crm.name} ({crm.crmid})
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
-            <Input disabled />
-          </Form.Item>
-        </Col>
-        <Row justify="end" gutter={8}>
-          <Col>
-            <Button
-              onClick={handleClose}
-              style={{ background: "#e57373", color: "#fff", borderRadius: 8 }}
-            >
-              Cancel
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              type="primary"
-              onClick={() => assignForm.submit()}
-              disabled={loading}
-              style={{
-                background: colors.blueAccent[1000],
-                borderRadius: 8,
-                fontWeight: "600",
-                color: "#fff",
-                ...(loading && { opacity: 0.7 }),
-              }}
-            >
-              {loading ? "Assigning..." : "Assign"}
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-    );
-  };
+  //   return (
+  //     <Form
+  //       form={assignForm}
+  //       layout="vertical"
+  //       onFinish={handleFinish}
+  //       initialValues={{ crmid: "", crmname: "" }}
+  //     >
+  //       <Col xs={24} md={24} style={{ width: "100%" }}>
+  //         <Form.Item
+  //           label="CRM Name"
+  //           name="crmname"
+  //           rules={[{ required: true, message: "CRM Name is required" }]}
+  //           style={{ width: "100%" }}
+  //         >
+  //           <Select
+  //             showSearch
+  //             placeholder="Select CRM Name"
+  //             optionFilterProp="children"
+  //             size="large"
+  //             style={{ width: "100%" }}
+  //             getPopupContainer={trigger => trigger.parentNode}
+  //             onChange={(value) => {
+  //               const selected = crmNameList.find(crm => crm.crmid === value);
+  //               assignForm.setFieldsValue({
+  //                 crmname: selected ? selected.name : "",
+  //                 crmid: value
+  //               });
+  //             }}
+  //           >
+  //             {crmNameList.map((crm) => (
+  //               <Select.Option key={crm.crmid} value={crm.crmid}>
+  //                 {crm.name} ({crm.crmid})
+  //               </Select.Option>
+  //             ))}
+  //           </Select>
+  //         </Form.Item>
+  //         <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+  //           <Input disabled />
+  //         </Form.Item>
+  //       </Col>
+  //       <Row justify="end" gutter={8}>
+  //         <Col>
+  //           <Button
+  //             onClick={handleClose}
+  //             style={{ background: "#e57373", color: "#fff", borderRadius: 8 }}
+  //           >
+  //             Cancel
+  //           </Button>
+  //         </Col>
+  //         <Col>
+  //           <Button
+  //             type="primary"
+  //             onClick={() => assignForm.submit()}
+  //             disabled={loading}
+  //             style={{
+  //               background: colors.blueAccent[1000],
+  //               borderRadius: 8,
+  //               fontWeight: "600",
+  //               color: "#fff",
+  //               ...(loading && { opacity: 0.7 }),
+  //             }}
+  //           >
+  //             {loading ? "Assigning..." : "Assign"}
+  //           </Button>
+  //         </Col>
+  //       </Row>
+  //     </Form>
+  //   );
+  // };
 
   const priority = ["Urgent", "High", "Medium", "Low"];
 
@@ -1098,7 +1128,7 @@ console.log("experience data :", safeExperienceData);
                     Status
                   </Typography>
                   <Typography
-                
+
                   >
                     {values.status}
                   </Typography>
@@ -1174,7 +1204,7 @@ console.log("experience data :", safeExperienceData);
                     resolveddate={values.resolveddate}
                   />
                 </Box>
-                {safeExperienceData.filename  && (
+                {safeExperienceData.filename && (
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
                       variant="contained"
@@ -1191,18 +1221,19 @@ console.log("experience data :", safeExperienceData);
                 <Box
                   sx={{
                     // display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-start",
                     gap: 2,
                     mt: 1,
-                  display: safeExperienceData.status === "Resolved" ? "none" : "flex",
+                    display: safeExperienceData.status === "Resolved" ? "none" : "flex",
                   }}
                 >
                   <Button
                     variant="contained"
                     sx={{
                       padding: "12px 24px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      fontSize: "12px",
+                      // fontWeight: "600",
+
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
@@ -1218,27 +1249,14 @@ console.log("experience data :", safeExperienceData);
                   >
                     Resolve
                   </Button>
-                  <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
-                    {/* <DialogTitle>Are you sure?</DialogTitle> */}
-                    <DialogContent>
-                      <Typography>Are you sure you want to Resolve this experience?</Typography>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={() => setOpenConfirm(false)} color="primary">
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={async () => {
-                          setOpenConfirm(false);
-                          await handleCloseExperience();
-                        }}
-                        color="error"
-                        variant="contained"
-                      >
-                        Yes, Close
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
+                  <ResolveDialog
+                    open={openConfirm}
+                    onClose={() => setOpenConfirm(false)}
+                    onConfirm={async () => {
+                      setOpenConfirm(false);
+                      await handleCloseExperience();
+                    }}
+                  />
                   {isEditing ? (
                     <Box sx={{ display: "flex", gap: 2 }}>
                       <Button
@@ -1246,8 +1264,8 @@ console.log("experience data :", safeExperienceData);
                         onClick={() => setIsEditing(false)}
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "14px",
-                          fontWeight: "600",
+                          fontSize: "12px",
+                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1264,11 +1282,14 @@ console.log("experience data :", safeExperienceData);
                       </Button>
                       <Button
                         variant="contained"
-                        onClick={() => setIsEditing(false)}
+                        onClick={() => {
+                          setIsEditing(false);
+                          message.success("Changes saved!");
+                        }}
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "14px",
-                          fontWeight: "600",
+                          fontSize: "12px",
+                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1290,8 +1311,8 @@ console.log("experience data :", safeExperienceData);
                       onClick={() => setIsEditing(true)}
                       sx={{
                         padding: "12px 24px",
-                        fontSize: "14px",
-                        fontWeight: "600",
+                        fontSize: "12px",
+                        // fontWeight: "600",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
@@ -1327,238 +1348,18 @@ console.log("experience data :", safeExperienceData);
           minWidth: 0,
         }}
       >
-        {/* Chat Section */}
-        <Box
-          sx={{
-            p: 2,
-            backgroundColor: "#f5f5f5",
-            borderRadius: "8px",
-            display: "flex",
-            flexDirection: "column",
-            minHeight: isMobile ? "550px" : "",
-            maxHeight: isMobile ? "600px" : "620px",
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-            Discussions
-          </Typography>
-          <Typography sx={{ mb: 2, color: colors.grey[600] }}>
-            Discuss with Customer Support
-          </Typography>
-          {/* Messages Display */}
-          <Box
-            sx={{
-              flex: 1,
-              backgroundColor: "white",
-              borderRadius: "4px",
-              p: 2,
-              mb: 2,
-              border: "1px solid #ddd",
-              overflowY: "auto",
-              minHeight: "200px",
-              maxHeight: "800px",
-            }}
-          >
-            {messages.map((message, index) => (
-              <Box
-                key={index}
-                sx={{
-                  mb: 2,
-                  display: "flex",
-                  justifyContent:
-                    message.sender === "manager" ? "flex-start" : "flex-end",
-                }}
-              >
-                <Box>
-                  {message.sender === "manager" ? (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: colors.grey[700],
-                        fontWeight: "bold",
-                        mb: 0.5,
-                        display: "block",
-                        textAlign: "left",
-                      }}
-                    >
-                      {message.crmname}
-                    </Typography>
-                  ) : (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: colors.grey[700],
-                        fontWeight: "bold",
-                        mb: 0.5,
-                        display: "block",
-                        textAlign: "left",
-                      }}
-                    >
-                      User
-                    </Typography>
-                  )}
-                  <Box
-                    sx={{
-                      p: 1.5,
-                      borderRadius: 1,
-                      bgcolor:
-                        message.sender === "manager"
-                          ? colors.blueAccent[100]
-                          : "#f0f0f0",
-                      display: "inline-block",
-                      minWidth: 80,
-                      maxWidth: 350,
-                      textAlign: "left",
-                    }}
-                    dangerouslySetInnerHTML={{ __html: message.text }}
-                  />
-                  {message.time && (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        color: "#aaa",
-                        display: "block",
-                        mt: 0.5,
-                        textAlign:
-                          message.sender === "manager" ? "left" : "right",
-                      }}
-                    >
-                      {message.time}
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-            ))}
-          </Box>
-          {/* Tiptap Editor */}
-          <Box
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "4px",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {/* Toolbar */}
-            {editor && (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  p: 1,
-                  borderBottom: `1px solid ${colors.grey[300]}`,
-                  flexWrap: "wrap",
-                }}
-              >
-                <IconButton
-                  onClick={() => editor.chain().focus().toggleBold().run()}
-                  color={editor.isActive("bold") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatBold fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() => editor.chain().focus().toggleItalic().run()}
-                  color={editor.isActive("italic") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatItalic fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() => editor.chain().focus().toggleUnderline().run()}
-                  color={editor.isActive("underline") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatUnderlined fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() =>
-                    editor.chain().focus().toggleBulletList().run()
-                  }
-                  color={editor.isActive("bulletList") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatListBulleted fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() =>
-                    editor.chain().focus().toggleOrderedList().run()
-                  }
-                  color={editor.isActive("orderedList") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatListNumbered fontSize="small" />
-                </IconButton>
-                <IconButton onClick={addImage} size="small">
-                  <InsertPhoto fontSize="small" />
-                </IconButton>
-                <IconButton onClick={addTable} size="small">
-                  <TableChart fontSize="small" />
-                </IconButton>
-                <IconButton onClick={addYoutubeVideo} size="small">
-                  <YouTube fontSize="small" />
-                </IconButton>
-              </Box>
-            )}
-            {/* Editor Content */}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                overflow: "scroll",
-                height: "250px",
-              }}
-            >
-              <Box
-                sx={{
-                  flex: 1,
-                  p: 2,
-                  minHeight: "100px",
-                  maxHeight: "100px",
-                  "& .tiptap": {
-                    minHeight: "200px",
-                    outline: "none",
-                    "& p": {
-                      margin: 0,
-                      marginBottom: "0.5em",
-                    },
-                  },
-                }}
-              >
-                <EditorContent editor={editor} />
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            maxHeight: "100px",
-            width: "100%",
-            mt: 1,
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={handleSendMessage}
-            disabled={!newMessage.trim()}
-            fullWidth
-            sx={{
-              background: colors.blueAccent[1000],
-              color: "#fff",
-              "&:hover": { backgroundColor: colors.blueAccent[600] },
-              textTransform: "none",
-              minWidth: 0,
-              width: "100%",
-              fontSize: { xs: "14px", sm: "16px" },
-              display: safeExperienceData.status === "Resolved" ? "none" : "block",
-            }}
-          >
-            Send
-          </Button>
-        </Box>
+        <ChatSection
+          messages={messages}
+          newMessage={newMessage}
+          editor={editor}
+          colors={colors}
+          isMobile={isMobile}
+          safeExperienceData={safeExperienceData}
+          handleSendMessage={handleSendMessage}
+          addImage={addImage}
+          addTable={addTable}
+          addYoutubeVideo={addYoutubeVideo}
+        />
       </Box>
       {/* Third Column - Task Management */}
       <Box
@@ -1572,7 +1373,7 @@ console.log("experience data :", safeExperienceData);
           minWidth: 0,
         }}
       >
-  
+
         {/* Responsive Table Wrapper */}
         <Box
           sx={{
@@ -1585,10 +1386,9 @@ console.log("experience data :", safeExperienceData);
             minWidth: 0,
           }}
         >
-      <TasksProvider experienceId={ExperienceId} crmId={crmId} experienceStatus={safeExperienceData.status}>
-        <KanbanBoard />
-      </TasksProvider>
-
+          <TasksProvider experienceId={ExperienceId} crmId={crmId} experienceStatus={safeExperienceData.status}>
+            <KanbanBoard />
+          </TasksProvider>
         </Box>
         {/* <AntdModal
           title="Confirm Delete"
@@ -1647,48 +1447,13 @@ console.log("experience data :", safeExperienceData);
           </Button>
         </Box>
         {/* Modals */}
-        {/* <Modal
-          open={openTaskModal}
-          onClose={() => setOpenTaskModal(false)}
-          aria-labelledby="task-modal-title"
-          aria-describedby="task-modal-description"
-        >
-          <Box sx={createtaskmodel}>
-            <Typography
-              id="task-modal-title"
-              variant="h5"
-              component="h2"
-              sx={{ mb: 3 }}
-            >
-              Create New Task
-            </Typography>
-            <TaskForm
-              handleClose={() => setOpenTaskModal(false)}
-              fetchTasks={fetchTasks}
-            />
-          </Box>
-        </Modal> */}
-        <Modal
+        <AssignCrmModal
           open={shareEntireExperience}
           onClose={() => setshareEntireExperience(false)}
-          aria-labelledby="task-modal-title"
-          aria-describedby="task-modal-description"
-        >
-          <Box sx={assignmodel}>
-            <Typography
-              id="task-modal-title"
-              variant="h5"
-              component="h2"
-              sx={{ mb: 3 }}
-            >
-              Assign To Relationship Manager
-            </Typography>
-            <AssignCrm
-              handleClose={() => setshareEntireExperience(false)}
-              crmNameList={crmNameList}
-            />
-          </Box>
-        </Modal>
+          crmNameList={crmNameList}
+          experienceid={ExperienceId}
+          existcrmid={crmId}
+        />
       </Box>
     </Box>
   );

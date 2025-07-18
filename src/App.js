@@ -26,9 +26,9 @@ import { getCreaterRole } from "./config";
 //cm dashboard unique files
 import CmTopbar from "./scenes/cmDashboard/global/Topbar.jsx";
 import CmSidebar from "./scenes/cmDashboard/global/Sidebar.jsx";
-import CmTicketDetails from "./scenes/cmDashboard/ticketsdetails";
-import CmExperienceRegistrationForm from "./scenes/cmDashboard/experienceForm";
-import CmProfile from "./scenes/cmDashboard/profile";
+// import CmTicketDetails from "./scenes/cmDashboard/ticketsdetails";
+// import CmExperienceRegistrationForm from "./scenes/cmDashboard/experienceForm";
+// import CmProfile from "./scenes/cmDashboard/profile";
 
 
 
@@ -37,8 +37,8 @@ import CmProfile from "./scenes/cmDashboard/profile";
 //crm dashboard unique files
 import CrmTopbar from "./scenes/crmDashboard/global/Topbar.jsx";
 import CrmSidebar from "./scenes/crmDashboard/global/Sidebar";
-import CrmProfile from "./scenes/crmDashboard/profile";
-import CrmTicketDetails from "./scenes/crmDashboard/ticketdetails";
+// import CrmProfile from "./scenes/crmDashboard/profile";
+// import CrmTicketDetails from "./scenes/crmDashboard/ticketdetails";
 
 
 
@@ -47,40 +47,40 @@ import CrmTicketDetails from "./scenes/crmDashboard/ticketdetails";
 //hob And admin dashboard uniwue files
 import AdminSidebar from "./scenes/hobDashboard/global/Sidebar";
 import AdminTopbar from "./scenes/hobDashboard/global/Topbar";
-import AdminProfile from "./scenes/hobDashboard/profile";
-import AdminTicketDetails from "./scenes/hobDashboard/ticketsdetails";
-import HobProfile from "./scenes/hobDashboard/profile/hobProfile";
-import OrganizationUnitadd from "./scenes/commonFiles/organizationform/organizationUnitadd.jsx";
+// import AdminProfile from "./scenes/hobDashboard/profile";
+// import AdminTicketDetails from "./scenes/hobDashboard/ticketsdetails";
+// import HobProfile from "./scenes/hobDashboard/profile/hobProfile";
+// import OrganizationUnitadd from "./scenes/commonFiles/organizationform/organizationUnitadd.jsx";
 
 
 
 //common files  in four dashboards
-import Calendar from "./scenes/commonFiles/calendar/calendar";
-import Dashboard from "./scenes/commonFiles/dashboard";
-import Experinces from "./scenes/commonFiles/experiences";
-import AllExperiences from "./scenes/commonFiles/experiences/allExperiences";
-import NewExperiences from "./scenes/commonFiles/experiences/newExperiences";
-import PendingExperiences from "./scenes/commonFiles/experiences/pendingExperiences";
-import ResolvedExperiences from "./scenes/commonFiles/experiences/resolvedExperiences";
-import Notes from "./scenes/commonFiles/notes"
+// import Calendar from "./scenes/commonFiles/calendar/calendar";
+// import Dashboard from "./scenes/commonFiles/dashboard";
+// import Experinces from "./scenes/commonFiles/experiences";
+// import AllExperiences from "./scenes/commonFiles/experiences/allExperiences";
+// import NewExperiences from "./scenes/commonFiles/experiences/newExperiences";
+// import PendingExperiences from "./scenes/commonFiles/experiences/pendingExperiences";
+// import ResolvedExperiences from "./scenes/commonFiles/experiences/resolvedExperiences";
+// import Notes from "./scenes/commonFiles/notes"
 import Login from "./scenes/commonFiles/login";
 import PasswordReset from "./scenes/commonFiles/login/passwordReset";
 import ForgotPassword from "./scenes/commonFiles/login/forgotPassword";
-import Cm from "./scenes/commonFiles/cm"
-import CmForm from "./scenes/commonFiles/cmform";
-import CmDetails from "./scenes/commonFiles/cmdetails";
-import Crm from "./scenes/commonFiles/crm";
-import CrmForm from "./scenes/commonFiles/crmform"
-import CrmDetails from "./scenes/commonFiles/crmdetails";
-import Hob from "./scenes/commonFiles/hob";
-import HobForm from "./scenes/commonFiles/hobform";
-import HobDetails from "./scenes/commonFiles/hobdetails";
-import Organization from "./scenes/commonFiles/organization";
-import OrganizationForm from "./scenes/commonFiles/organizationform/index.jsx";
-import OrganizationDetails from "./scenes/commonFiles/organizationdetails";
-import Organizationadd from "./scenes/commonFiles/organizationdetails/organizationadd";
-// import OrganizationUnit from "./scenes/commonFiles/organizationdetails/organizationUnit";
-import TaskDetails from "./scenes/commonFiles/taskdetails";
+// import Cm from "./scenes/commonFiles/cm"
+// import CmForm from "./scenes/commonFiles/cmform";
+// import CmDetails from "./scenes/commonFiles/cmdetails";
+// import Crm from "./scenes/commonFiles/crm";
+// import CrmForm from "./scenes/commonFiles/crmform"
+// import CrmDetails from "./scenes/commonFiles/crmdetails";
+// import Hob from "./scenes/commonFiles/hob";
+// import HobForm from "./scenes/commonFiles/hobform";
+// import HobDetails from "./scenes/commonFiles/hobdetails";
+// import Organization from "./scenes/commonFiles/organization";
+// import OrganizationForm from "./scenes/commonFiles/organizationform/index.jsx";
+// import OrganizationDetails from "./scenes/commonFiles/organizationdetails";
+// import Organizationadd from "./scenes/commonFiles/organizationdetails/organizationadd";
+// // import OrganizationUnit from "./scenes/commonFiles/organizationdetails/organizationUnit";
+// import TaskDetails from "./scenes/commonFiles/taskdetails";
 // import CrmTaskDetails from "./scenes/taskdetails";
 
 // import CrmTicketDetails from "./scenes/commonFiles/ticketsdetails";
@@ -88,6 +88,11 @@ import TaskDetails from "./scenes/commonFiles/taskdetails";
 // import Organization from "./scenes/organization";
 // import OrganizationDetails from "./scenes/organizationdetails";
 
+// Add import for new route components
+import cmRoutes from "./routes/CmRoutes";
+import crmRoutes from "./routes/CrmRoutes";
+import adminRoutes from "./routes/AdminRoutes";
+import hobRoutes from "./routes/HobRoutes";
 
 
 function App() {
@@ -280,109 +285,13 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                   <Route path='/forgot-password' element={<ForgotPassword />} />
                 </>
               ) : getCreaterRole() === "cm" ? (
-                <>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/experiences" element={<Experinces />} />
-                  <Route path="/experienceRegistrationform" element={<CmExperienceRegistrationForm />} />
-                  <Route path="/calendar" element={<Calendar />} />
-                  <Route path="/notes" element={<Notes />} />
-                  <Route path="/profile" element={<CmProfile />} />
-                  <Route path="/ticketdetails/:experienceid" element={<CmTicketDetails />} />
-                  <Route path="/allExperiences" element={<AllExperiences />} />
-                  <Route path="/newExperiences" element={<NewExperiences />} />
-                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
-                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
-                </>
+                <>{cmRoutes}</>
               ) : getCreaterRole() === "crm" ? (
-                <>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path='/cm' element={<Cm />} />
-                  <Route path="/cmform" element={<CmForm />} />
-                  <Route path="/cmdetails/:createdCmId" element={<CmDetails />} />
-                  <Route path="/experiences" element={<Experinces />} />
-                  <Route path="/calendar" element={<Calendar />} />
-                  <Route path="/notes" element={<Notes />} />
-                  <Route path="/ticketdetails/:experienceid" element={<CrmTicketDetails />} />
-                  <Route path="/allExperiences" element={<AllExperiences />} />
-                  <Route path="/newExperiences" element={<NewExperiences />} />
-                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
-                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
-                  <Route path="/organization" element={<Organization />} />
-                  <Route path="/organizationdetails" element={<OrganizationDetails />} />
-                  <Route path="/taskdetails" element={<TaskDetails />} />
-                  <Route path="/profile" element={<CrmProfile />} />
-
-                </>
+                <>{crmRoutes}</>
               ) : getCreaterRole() === "admin" ? (
-                <>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path='/cm' element={<Cm />} />
-                  <Route path="/cmform" element={<CmForm />} />
-                  <Route path="/cmdetails/:createdCmId" element={<CmDetails />} />
-
-                  <Route path='/crm' element={<Crm />} />
-                  <Route path='/crmform' element={<CrmForm />} />
-                  <Route path="/crmdetails/:createdCrmId" element={<CrmDetails />} />
-
-                  <Route path="/hob" element={<Hob />} />
-                  <Route path="/hobform" element={<HobForm />} />
-                  <Route path="/hobdetails/:createdHobId" element={<HobDetails />} />
-
-                  <Route path="/profile" element={<AdminProfile />} />
-                  <Route path="/hobprofile" element={<HobProfile />} />
-                  <Route path="/calendar" element={<Calendar />} />
-                  <Route path="/notes" element={<Notes />} />
-                  <Route path="/ticketdetails" element={<AdminTicketDetails />} />
-                  <Route path="/experiences" element={<Experinces />} />
-                  <Route path="/allExperiences" element={<AllExperiences />} />
-                  <Route path="/newExperiences" element={<NewExperiences />} />
-                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
-                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
-                  <Route path="/organization" element={<Organization />} />
-                  <Route path="/organizationform" element={<OrganizationForm />} />
-                  <Route path="/organizationdetails" element={<OrganizationDetails />} />
-                  <Route path="/organizationadd" element={<Organizationadd />} />
-                  <Route path='/organizationunitadd' element={<OrganizationUnitadd />} />
-                  <Route path="/taskdetails" element={<TaskDetails />} />
-
-                </>
-
-
+                <>{adminRoutes}</>
               ) : getCreaterRole() === "hob" ? (
-
-                <>       
-
-                  <Route path="/" element={<Dashboard />} />
-
-                  <Route path='/cm' element={<Cm />} />
-                  <Route path="/cmform" element={<CmForm />} />
-                  <Route path="/cmdetails/:createdCmId" element={<CmDetails />} />
-
-                  <Route path='/crm' element={<Crm />} />
-                  <Route path='/crmform' element={<CrmForm />} />
-                  <Route path="/crmdetails/:createdCrmId" element={<CrmDetails />} />
-
-                  <Route path="/hob" element={<Hob />} />
-                  <Route path="/hobform" element={<HobForm />} />
-                  <Route path="/hobdetails/:createdHobId" element={<HobDetails />} />
-
-                  <Route path="/profile" element={<HobProfile />} />
-                  <Route path="/calendar" element={<Calendar />} />
-                  <Route path="/notes" element={<Notes />} />
-                  <Route path="/ticketdetails" element={<AdminTicketDetails />} />
-                  <Route path="/experiences" element={<Experinces />} />
-                  <Route path="/allExperiences" element={<AllExperiences />} />
-                  <Route path="/newExperiences" element={<NewExperiences />} />
-                  <Route path="/pendingExperiences" element={<PendingExperiences />} />
-                  <Route path="/resolvedExperiences" element={<ResolvedExperiences />} />
-                  <Route path="/organization" element={<Organization />} />
-                  <Route path="/organizationform" element={<OrganizationForm />} />
-                  <Route path="/organizationdetails" element={<OrganizationDetails />} />
-                  <Route path="/organizationadd" element={<Organizationadd />} />
-                  <Route path='/organizationunitadd' element={<OrganizationUnitadd />} />
-                  <Route path="/taskdetails" element={<TaskDetails />} />
-
-                </>
+                <>{hobRoutes}</>
               ) : null}
             </Routes>
           </Box>

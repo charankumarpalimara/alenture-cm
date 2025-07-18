@@ -137,7 +137,7 @@ const handleFormSubmit = async () => {
         passwords: "",
       },
     ]);
-    Navigate("/organization");
+   Navigate("/organizationdetails", { state: { ticket: organizationid } });
   } catch (error) {
     console.error("Error submitting form data:", error);
     message.error("Error submitting form data");

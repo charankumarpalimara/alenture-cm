@@ -4,7 +4,7 @@ import {
   Typography,
   Button,
   useTheme,
-  IconButton,
+  // IconButton,
 } from "@mui/material";
 import { message, Modal } from "antd";
 import { Formik } from "formik";
@@ -12,17 +12,17 @@ import { tokens } from "../../../theme";
 import * as yup from "yup";
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  FormatBold,
-  FormatItalic,
-  FormatUnderlined,
-  FormatListNumbered,
-  FormatListBulleted,
-  InsertPhoto,
-  TableChart,
-  YouTube,
-} from "@mui/icons-material";
-import { useEditor, EditorContent } from "@tiptap/react";
+// import {
+//   FormatBold,
+//   FormatItalic,
+//   FormatUnderlined,
+//   FormatListNumbered,
+//   FormatListBulleted,
+//   InsertPhoto,
+//   TableChart,
+//   YouTube,
+// } from "@mui/icons-material";
+import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import TableTiptap from "@tiptap/extension-table";
@@ -33,6 +33,7 @@ import Youtube from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
 import { io } from "socket.io-client";
 import ActivityTimeline from "./ActivityTimeline";
+import ChatSection from './ChatSection';
 
 const CmTicketDetails = () => {
   const { experienceid } = useParams();
@@ -703,250 +704,18 @@ const CmTicketDetails = () => {
           minWidth: 0,
         }}
       >
-        {/* Chat Section */}
-        <Box
-          sx={{
-            p: 2,
-            backgroundColor: "#f5f5f5",
-            borderRadius: "8px",
-            display: "flex",
-            flexDirection: "column",
-            minHeight: isMobile ? "550px" : "",
-            maxHeight: isMobile ? "600px" : "620px",
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-            Discussions
-          </Typography>
-          <Typography sx={{ mb: 2, color: colors.grey[600] }}>
-            Discuss with Customer Support
-          </Typography>
-
-          {/* Messages Display */}
-          <Box
-            sx={{
-              flex: 1,
-              backgroundColor: "white",
-              borderRadius: "4px",
-              p: 2,
-              mb: 2,
-              border: "1px solid #ddd",
-              overflowY: "auto",
-              minHeight: "200px",
-              maxHeight: "800px",
-            }}
-          >
-            {messages.map((message, index) => (
-<Box
-  key={index}
-  sx={{
-    mb: 2,
-    display: "flex",
-    justifyContent:
-      message.sender === "user" ? "flex-start" : "flex-end",
-  }}
->
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: message.sender === "user" ? "flex-start" : "flex-end",
-      maxWidth: 350,
-    }}
-  >
-    {message.sender === "manager" ? (
-      <Typography
-        variant="caption"
-        sx={{
-          color: colors.grey[700],
-          fontWeight: "bold",
-          mb: 0.5,
-          display: "block",
-          textAlign: "right", // right align name
-          width: "100%",
-          wordBreak: "break-word",
-        }}
-      >
-        {message.crmname}
-      </Typography>
-    ) : (
-      <Typography
-        variant="caption"
-        sx={{
-          color: colors.grey[700],
-          fontWeight: "bold",
-          mb: 0.5,
-          display: "block",
-          textAlign: "left",
-          width: "100%",
-        }}
-      >
-        You
-      </Typography>
-    )}
-    <Box
-      sx={{
-        p: 1.5,
-        borderRadius: 1,
-        bgcolor:
-          message.sender === "user"
-            ? colors.blueAccent[100]
-            : "#f0f0f0",
-        display: "inline-block",
-        minWidth: 80,
-        maxWidth: 350,
-        textAlign: message.sender === "user" ? "left" : "right",
-        wordBreak: "break-word",
-      }}
-      dangerouslySetInnerHTML={{ __html: message.text }}
-    />
-    {message.time && (
-      <Typography
-        variant="caption"
-        sx={{
-          color: "#aaa",
-          display: "block",
-          mt: 0.5,
-          textAlign: message.sender === "user" ? "left" : "right",
-          width: "100%",
-        }}
-      >
-        {message.time}
-      </Typography>
-    )}
-  </Box>
-</Box>
-            ))}
-          </Box>
-
-          {/* Tiptap Editor */}
-          <Box
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "4px",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {editor && (
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  p: 1,
-                  borderBottom: `1px solid ${colors.grey[300]}`,
-                  flexWrap: "wrap",
-                }}
-              >
-                <IconButton
-                  onClick={() => editor.chain().focus().toggleBold().run()}
-                  color={editor.isActive("bold") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatBold fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() => editor.chain().focus().toggleItalic().run()}
-                  color={editor.isActive("italic") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatItalic fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() => editor.chain().focus().toggleUnderline().run()}
-                  color={editor.isActive("underline") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatUnderlined fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() =>
-                    editor.chain().focus().toggleBulletList().run()
-                  }
-                  color={editor.isActive("bulletList") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatListBulleted fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() =>
-                    editor.chain().focus().toggleOrderedList().run()
-                  }
-                  color={editor.isActive("orderedList") ? "primary" : "default"}
-                  size="small"
-                >
-                  <FormatListNumbered fontSize="small" />
-                </IconButton>
-                <IconButton onClick={addImage} size="small">
-                  <InsertPhoto fontSize="small" />
-                </IconButton>
-                <IconButton onClick={addTable} size="small">
-                  <TableChart fontSize="small" />
-                </IconButton>
-                <IconButton onClick={addYoutubeVideo} size="small">
-                  <YouTube fontSize="small" />
-                </IconButton>
-              </Box>
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                overflow: "scroll",
-                height: "250px",
-              }}
-            >
-              <Box
-                sx={{
-                  flex: 1,
-                  p: 2,
-                  minHeight: "100px",
-                  maxHeight: "100px",
-                  "& .tiptap": {
-                    minHeight: "200px",
-                    outline: "none",
-                    "& p": {
-                      margin: 0,
-                      marginBottom: "0.5em",
-                    },
-                  },
-                }}
-              >
-                <EditorContent editor={editor} />
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            maxHeight: "100px",
-            width: "100%",
-            mt: 1,
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={handleSendMessage}
-            disabled={!newMessage.trim()}
-            fullWidth
-  // const [experienceData, setExperienceData] = useState(null);
-            style={{display: experienceData.status === "Resolved" ? "none" : "block" }}
-            sx={{
-              background: colors.blueAccent[1000],
-              color: "#ffffff",
-              "&:hover": { backgroundColor: colors.blueAccent[600] },
-              textTransform: "none",
-              minWidth: 0,
-              width: "100%",
-              fontSize: { xs: "14px", sm: "16px" },
-            }}
-          >
-            Send
-          </Button>
-        </Box>
+        <ChatSection
+          messages={messages}
+          newMessage={newMessage}
+          editor={editor}
+          colors={colors}
+          isMobile={isMobile}
+          experienceData={experienceData}
+          handleSendMessage={handleSendMessage}
+          addImage={addImage}
+          addTable={addTable}
+          addYoutubeVideo={addYoutubeVideo}
+        />
       </Box>
     </Box>
   );
