@@ -4,20 +4,20 @@ import {
   useTheme,
   TextField,
   Autocomplete,
-  IconButton,
+  // IconButton,
   Modal,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography,
+  Button, Dialog,  DialogContent, DialogActions, Typography,
 } from "@mui/material";
 import {
   Form,
   Input,
   Select,
-  Button as AntdButton,
+  // Button as AntdButton,
   Col,
   Row,
   message,
-  Modal as AntdModal,
-  Table,
+  // Modal as AntdModal,
+  // Table,
 } from "antd";
 import { Formik } from "formik";
 import { tokens } from "../../../theme";
@@ -27,13 +27,13 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback,
+  // useCallback,
 } from "react";
 import { useLocation } from "react-router-dom";
 // import download from "downloadjs";
 import {
-  Check as CheckIcon,
-  Delete as DeleteIcon,
+  // Check as CheckIcon,
+  // Delete as DeleteIcon,
   // Add as AddIcon,
 } from "@mui/icons-material";
 import { DownloadOutlined } from "@ant-design/icons";
@@ -45,7 +45,7 @@ import ActivityTimeline from "./ActivityTimeline";
 import { TasksProvider } from "../../../utils/TasksContext";
 import KanbanBoard from "../../../components/KanbanTasks";
 
-const { Option } = Select;
+// const { Option } = Select;
 
 const AdminTicketDetails = () => {
   const [form] = Form.useForm();
@@ -61,15 +61,15 @@ const AdminTicketDetails = () => {
   // const [crmIdList, setCrmIdList] = useState([]); 
   const [crmNameList, setCrmNameList] = useState([]);
   const [crmNamelistExp, setCrmNameListExp] = useState([]);
-  const [tasks, setTasks] = useState([]);
+  // const [tasks, setTasks] = useState([]);
   const Navigate = useNavigate();
-  const [openTaskModal, setOpenTaskModal] = useState(false);
+  // const [openTaskModal, setOpenTaskModal] = useState(false);
   const [shareEntireExperience, setshareEntireExperience] = useState(false);
   const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [deletingTaskId, setDeletingTaskId] = useState(null);
-  const [completeModalVisible, setCompleteModalVisible] = useState(false);
-  const [completeTaskId, setCompleteTaskId] = useState(null);
+  // const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  // const [deletingTaskId, setDeletingTaskId] = useState(null);
+  // const [completeModalVisible, setCompleteModalVisible] = useState(false);
+  // const [completeTaskId, setCompleteTaskId] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const getExperienceColor = (experience) => {
@@ -92,74 +92,74 @@ const AdminTicketDetails = () => {
   //   console.log("Form Data:", { ...values, fullPhoneNumber });
   // };
 
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      width: 100,
-      render: (_text, _record, index) => <span>{index + 1}</span>, // Serial number
-    },
-    {
-      title: "Task name",
-      dataIndex: "taskname",
-      key: "taskname",
-      width: 200,
-    },
-    {
-      title: "Task owner",
-      dataIndex: "taskownername",
-      key: "taskownername",
-      width: 150,
-    },
-    {
-      title: "Priority",
-      dataIndex: "priority",
-      key: "priority",
-      width: 150,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      width: 150,
-    },
-    {
-      title: "Action",
-      key: "actions",
-      width: 150,
-      render: (_text, record) => (
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <IconButton
-            onClick={handleCompleteTask(record.id)}
-            sx={{
-              color: "#ffffff",
-              backgroundColor: "#0BDA51",
-              width: "30px",
-              height: "30px",
-            }}
-            aria-label="complete"
-            disableRipple
-          >
-            <CheckIcon />
-          </IconButton>
-          <IconButton
-            onClick={handleDeleteTask(record.id)}
-            sx={{
-              color: "#ffffff",
-              backgroundColor: "#FF2C2C",
-              width: "30px",
-              height: "30px",
-            }}
-            disableRipple
-            aria-label="delete"
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      ),
-    },
-  ];
+  // const columns = [
+  //   {
+  //     title: "ID",
+  //     dataIndex: "id",
+  //     key: "id",
+  //     width: 100,
+  //     render: (_text, _record, index) => <span>{index + 1}</span>, // Serial number
+  //   },
+  //   {
+  //     title: "Task name",
+  //     dataIndex: "taskname",
+  //     key: "taskname",
+  //     width: 200,
+  //   },
+  //   {
+  //     title: "Task owner",
+  //     dataIndex: "taskownername",
+  //     key: "taskownername",
+  //     width: 150,
+  //   },
+  //   {
+  //     title: "Priority",
+  //     dataIndex: "priority",
+  //     key: "priority",
+  //     width: 150,
+  //   },
+  //   {
+  //     title: "Status",
+  //     dataIndex: "status",
+  //     key: "status",
+  //     width: 150,
+  //   },
+  //   {
+  //     title: "Action",
+  //     key: "actions",
+  //     width: 150,
+  //     render: (_text, record) => (
+  //       <Box sx={{ display: "flex", gap: 1 }}>
+  //         <IconButton
+  //           onClick={handleCompleteTask(record.id)}
+  //           sx={{
+  //             color: "#ffffff",
+  //             backgroundColor: "#0BDA51",
+  //             width: "30px",
+  //             height: "30px",
+  //           }}
+  //           aria-label="complete"
+  //           disableRipple
+  //         >
+  //           <CheckIcon />
+  //         </IconButton>
+  //         <IconButton
+  //           onClick={handleDeleteTask(record.id)}
+  //           sx={{
+  //             color: "#ffffff",
+  //             backgroundColor: "#FF2C2C",
+  //             width: "30px",
+  //             height: "30px",
+  //           }}
+  //           disableRipple
+  //           aria-label="delete"
+  //         >
+  //           <DeleteIcon />
+  //         </IconButton>
+  //       </Box>
+  //     ),
+  //   },
+  // ];
 
   const initialValues = {
     organizationid: ticket.organizationid || "",
@@ -228,42 +228,42 @@ const AdminTicketDetails = () => {
   }, [form, crmidValue]);
 
 
-  const fetchTasks = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/getTaskDataByExpId`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            experienceId: ticket.experienceid,
-            crmid: ticket.crmid,
-          }),
-        }
-      );
-      const data = await response.json();
-      if (data && data.data) {
-        setTasks(data.data);
-      }
-    } catch (error) {
-      setTasks([]);
-    }
-  }, [ticket.experienceid, ticket.crmid]);
+  // const fetchTasks = useCallback(async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_API_URL}/v1/getTaskDataByExpId`,
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           experienceId: ticket.experienceid,
+  //           crmid: ticket.crmid,
+  //         }),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     if (data && data.data) {
+  //       setTasks(data.data);
+  //     }
+  //   } catch (error) {
+  //     setTasks([]);
+  //   }
+  // }, [ticket.experienceid, ticket.crmid]);
 
 
 
 
-  useEffect(() => {
-    if (!ticket.experienceid || !ticket.crmid) return;
-    fetchTasks();
-  }, [ticket.experienceid, ticket.crmid, fetchTasks]);
+  // useEffect(() => {
+  //   if (!ticket.experienceid || !ticket.crmid) return;
+  //   fetchTasks();
+  // }, [ticket.experienceid, ticket.crmid, fetchTasks]);
 
-  // For fetchTasks
-  useEffect(() => {
-    if (!ticket.experienceid || !ticket.crmid) return;
-    fetchTasks();
-    // Add fetchTasks as dependency
-  }, [ticket.experienceid, ticket.crmid, fetchTasks]);
+  // // For fetchTasks
+  // useEffect(() => {
+  //   if (!ticket.experienceid || !ticket.crmid) return;
+  //   fetchTasks();
+  //   // Add fetchTasks as dependency
+  // }, [ticket.experienceid, ticket.crmid, fetchTasks]);
 
   // useEffect(() => {
   //   const fetchMessages = async () => {
@@ -286,22 +286,22 @@ const AdminTicketDetails = () => {
   //   fetchMessages();
   // }, [ticket.experienceid, ticket.crmid]);
 
-  const handleDeleteTask = (id) => (event) => {
-    event.stopPropagation();
-    setDeletingTaskId(id);
-    setDeleteModalVisible(true);
-  };
+  // const handleDeleteTask = (id) => (event) => {
+  //   event.stopPropagation();
+  //   setDeletingTaskId(id);
+  //   setDeleteModalVisible(true);
+  // };
 
-  const handleCompleteTask = (id) => async (event) => {
-    event.stopPropagation();
-    setCompleteTaskId(id);
-    setCompleteModalVisible(true);
-  };
+  // const handleCompleteTask = (id) => async (event) => {
+  //   event.stopPropagation();
+  //   setCompleteTaskId(id);
+  //   setCompleteModalVisible(true);
+  // };
 
-  const handleCancelDelete = () => {
-    setDeleteModalVisible(false);
-    setDeletingTaskId(null);
-  };
+  // const handleCancelDelete = () => {
+  //   setDeleteModalVisible(false);
+  //   setDeletingTaskId(null);
+  // };
 
   const checkoutSchema = yup.object().shape({
     organization: yup.string().required("Required"),
@@ -522,19 +522,19 @@ const AdminTicketDetails = () => {
     fetchCrmNamesByExperienceid();
   }, [ticket.experienceid]);
 
-  const createtaskmodel = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: isDesktop ? "60%" : "90%",
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-    borderRadius: "8px",
-    maxHeight: "90vh",
-    overflowY: "auto",
-  };
+  // const createtaskmodel = {
+  //   position: "absolute",
+  //   top: "50%",
+  //   left: "50%",
+  //   transform: "translate(-50%, -50%)",
+  //   width: isDesktop ? "60%" : "90%",
+  //   bgcolor: "background.paper",
+  //   boxShadow: 24,
+  //   p: 4,
+  //   borderRadius: "8px",
+  //   maxHeight: "90vh",
+  //   overflowY: "auto",
+  // };
 
   const assignmodel = {
     position: "absolute",
@@ -550,61 +550,61 @@ const AdminTicketDetails = () => {
     overflowY: "auto",
   };
 
-  const handleRowClick = (params) => {
-    Navigate("/taskdetails", { state: { ticket: params.row } });
-  };
+  // const handleRowClick = (params) => {
+  //   Navigate("/taskdetails", { state: { ticket: params.row } });
+  // };
 
   // const handleCompleteTask = (id) => (event) => {
   //   event.stopPropagation();
   //   console.log("Task completed:", id);
   // };
 
-  const handleConfirmDelete = async () => {
-    if (!deletingTaskId) return;
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/TaskDelete/${deletingTaskId}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (response.ok) {
-        setTasks((prev) => prev.filter((task) => task.id !== deletingTaskId));
-        message.success("Task deleted successfully!");
-      } else {
-        const data = await response.json();
-        message.error(data.error || "Failed to delete task.");
-      }
-    } catch (error) {
-      message.error("Error deleting task.");
-    }
-    setDeleteModalVisible(false);
-    setDeletingTaskId(null);
-  };
+  // const handleConfirmDelete = async () => {
+  //   if (!deletingTaskId) return;
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_API_URL}/v1/TaskDelete/${deletingTaskId}`,
+  //       {
+  //         method: "DELETE",
+  //       }
+  //     );
+  //     if (response.ok) {
+  //       setTasks((prev) => prev.filter((task) => task.id !== deletingTaskId));
+  //       message.success("Task deleted successfully!");
+  //     } else {
+  //       const data = await response.json();
+  //       message.error(data.error || "Failed to delete task.");
+  //     }
+  //   } catch (error) {
+  //     message.error("Error deleting task.");
+  //   }
+  //   setDeleteModalVisible(false);
+  //   setDeletingTaskId(null);
+  // };
 
-  const handleConfirmComplete = async () => {
-    if (!completeTaskId) return;
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/updateTaskStatus/${completeTaskId}`,
-        {
-          method: "POST",
-        }
-      );
-      if (response.ok) {
-        // setTasks(prev => prev.filter(task => task.id !== completeTaskId));
-        message.success("Task deleted successfully!");
-        fetchTasks();
-      } else {
-        const data = await response.json();
-        message.error(data.error || "Failed to Update task Status.");
-      }
-    } catch (error) {
-      message.error("Error deleting task.");
-    }
-    setCompleteModalVisible(false);
-    setCompleteTaskId(null);
-  };
+  // const handleConfirmComplete = async () => {
+  //   if (!completeTaskId) return;
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_API_URL}/v1/updateTaskStatus/${completeTaskId}`,
+  //       {
+  //         method: "POST",
+  //       }
+  //     );
+  //     if (response.ok) {
+  //       // setTasks(prev => prev.filter(task => task.id !== completeTaskId));
+  //       message.success("Task deleted successfully!");
+  //       fetchTasks();
+  //     } else {
+  //       const data = await response.json();
+  //       message.error(data.error || "Failed to Update task Status.");
+  //     }
+  //   } catch (error) {
+  //     message.error("Error deleting task.");
+  //   }
+  //   setCompleteModalVisible(false);
+  //   setCompleteTaskId(null);
+  // };
 
 
   const handleCloseExperience = async () => {
@@ -639,139 +639,139 @@ const AdminTicketDetails = () => {
 
 
 
-  const TaskForm = ({ handleClose, fetchTasks }) => {
-    const [taskForm] = Form.useForm();
-    const [loading, setLoading] = useState(false);
-    const priorityOptions = ["Urgent", "High", "Low"];
+  // const TaskForm = ({ handleClose, fetchTasks }) => {
+  //   const [taskForm] = Form.useForm();
+  //   const [loading, setLoading] = useState(false);
+  //   const priorityOptions = ["Urgent", "High", "Low"];
 
-    const handleFormSubmit = async (values) => {
-      const formData = new FormData();
-      formData.append("experienceid", ticket.experienceid || "");
-      formData.append("taskname", values.taskname || "");
-      formData.append("taskowner", values.taskowner || "");
-      formData.append("priority", values.priority || "");
-      formData.append("discription", values.description || "");
+  //   const handleFormSubmit = async (values) => {
+  //     const formData = new FormData();
+  //     formData.append("experienceid", ticket.experienceid || "");
+  //     formData.append("taskname", values.taskname || "");
+  //     formData.append("taskowner", values.taskowner || "");
+  //     formData.append("priority", values.priority || "");
+  //     formData.append("discription", values.description || "");
 
-      // const sessionData = JSON.parse(
-      //   sessionStorage.getItem("userDetails") || "{}"
-      // );
-      const crmid = ticket.crmid || "";
-      formData.append("crmid", crmid);
+  //     // const sessionData = JSON.parse(
+  //     //   sessionStorage.getItem("userDetails") || "{}"
+  //     // );
+  //     const crmid = ticket.crmid || "";
+  //     formData.append("crmid", crmid);
 
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/createTask`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        if (response.ok) {
-          message.success("Task created successfully!");
-          taskForm.resetFields();
-          handleClose();
-          if (fetchTasks) fetchTasks(); // update table instantly
-        } else {
-          message.error("Failed to create task.");
-        }
-      } catch (error) {
-        message.error("Error creating task.");
-      }
-      setLoading(false);
-    };
-
-
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch(
+  //         `${process.env.REACT_APP_API_URL}/v1/createTask`,
+  //         {
+  //           method: "POST",
+  //           body: formData,
+  //         }
+  //       );
+  //       if (response.ok) {
+  //         message.success("Task created successfully!");
+  //         taskForm.resetFields();
+  //         handleClose();
+  //         if (fetchTasks) fetchTasks(); // update table instantly
+  //       } else {
+  //         message.error("Failed to create task.");
+  //       }
+  //     } catch (error) {
+  //       message.error("Error creating task.");
+  //     }
+  //     setLoading(false);
+  //   };
 
 
-    return (
-      <Form
-        form={taskForm}
-        layout="vertical"
-        onFinish={handleFormSubmit}
-        initialValues={{
-          taskname: "",
-          taskowner: "",
-          description: "",
-          priority: "",
-        }}
-      >
-        <Form.Item
-          label="Task Name"
-          name="taskname"
-          rules={[{ required: true, message: "Task Name is required" }]}
-        >
-          <Input placeholder="Enter task name" size="large" />
-        </Form.Item>
 
-        <Form.Item
-          label="Task Owner"
-          name="taskowner"
-          rules={[{ required: true, message: "Task Owner is required" }]}
-        >
-          <Input placeholder="Enter task owner" size="large" />
-        </Form.Item>
 
-        <Form.Item
-          label="Priority"
-          name="priority"
-          rules={[{ required: true, message: "Priority is required" }]}
-        >
-          <Select
-            placeholder="Select priority"
-            size="large"
-            getPopupContainer={(trigger) => trigger.parentNode}
-          >
-            {priorityOptions.map((option) => (
-              <Option key={option} value={option}>
-                {option}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item>
+  //   return (
+  //     <Form
+  //       form={taskForm}
+  //       layout="vertical"
+  //       onFinish={handleFormSubmit}
+  //       initialValues={{
+  //         taskname: "",
+  //         taskowner: "",
+  //         description: "",
+  //         priority: "",
+  //       }}
+  //     >
+  //       <Form.Item
+  //         label="Task Name"
+  //         name="taskname"
+  //         rules={[{ required: true, message: "Task Name is required" }]}
+  //       >
+  //         <Input placeholder="Enter task name" size="large" />
+  //       </Form.Item>
 
-        <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: true, message: "Description is required" }]}
-        >
-          <Input.TextArea
-            rows={4}
-            placeholder="Enter description"
-            size="large"
-          />
-        </Form.Item>
+  //       <Form.Item
+  //         label="Task Owner"
+  //         name="taskowner"
+  //         rules={[{ required: true, message: "Task Owner is required" }]}
+  //       >
+  //         <Input placeholder="Enter task owner" size="large" />
+  //       </Form.Item>
 
-        <Form.Item>
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
-            <AntdButton
-              onClick={handleClose}
-              style={{
-                background: colors.redAccent[500],
-                color: "#fff",
-                borderRadius: 8,
-                fontWeight: "bold",
-              }}
-            >
-              Cancel
-            </AntdButton>
-            <AntdButton
-              type="primary"
-              onClick={() => taskForm.submit()}
-              disabled={loading}
-              style={{
-                background: colors.blueAccent[1000],
-                borderRadius: 8,
-                fontWeight: "600",
-              }}
-            >
-              {loading ? "Creating..." : "Create Task"}
-            </AntdButton>
-          </div>
-        </Form.Item>
-      </Form>
-    );
-  };
+  //       <Form.Item
+  //         label="Priority"
+  //         name="priority"
+  //         rules={[{ required: true, message: "Priority is required" }]}
+  //       >
+  //         <Select
+  //           placeholder="Select priority"
+  //           size="large"
+  //           getPopupContainer={(trigger) => trigger.parentNode}
+  //         >
+  //           {priorityOptions.map((option) => (
+  //             <Option key={option} value={option}>
+  //               {option}
+  //             </Option>
+  //           ))}
+  //         </Select>
+  //       </Form.Item>
+
+  //       <Form.Item
+  //         label="Description"
+  //         name="description"
+  //         rules={[{ required: true, message: "Description is required" }]}
+  //       >
+  //         <Input.TextArea
+  //           rows={4}
+  //           placeholder="Enter description"
+  //           size="large"
+  //         />
+  //       </Form.Item>
+
+  //       <Form.Item>
+  //         <div style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
+  //           <AntdButton
+  //             onClick={handleClose}
+  //             style={{
+  //               background: colors.redAccent[500],
+  //               color: "#fff",
+  //               borderRadius: 8,
+  //               fontWeight: "bold",
+  //             }}
+  //           >
+  //             Cancel
+  //           </AntdButton>
+  //           <AntdButton
+  //             type="primary"
+  //             onClick={() => taskForm.submit()}
+  //             disabled={loading}
+  //             style={{
+  //               background: colors.blueAccent[1000],
+  //               borderRadius: 8,
+  //               fontWeight: "600",
+  //             }}
+  //           >
+  //             {loading ? "Creating..." : "Create Task"}
+  //           </AntdButton>
+  //         </div>
+  //       </Form.Item>
+  //     </Form>
+  //   );
+  // };
 
   const AssignCrm = ({ handleClose, crmNameList = [] }) => {
     const [assignForm] = Form.useForm();
@@ -1620,29 +1620,7 @@ const AdminTicketDetails = () => {
 
         </Box>
 
-        <AntdModal
-          title="Confirm Delete"
-          open={deleteModalVisible}
-          onOk={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-          okText="Confirm"
-          cancelText="Cancel"
-          centered
-        >
-          <p>Are you sure you want to delete this task?</p>
-        </AntdModal>
 
-        <AntdModal
-          title="Confirm Delete"
-          open={completeModalVisible}
-          onOk={handleConfirmComplete}
-          onCancel={handleCancelDelete}
-          okText="Confirm"
-          cancelText="Cancel"
-          centered
-        >
-          <p>Are you sure you want to Complete this task?</p>
-        </AntdModal>
         {/* Responsive Assign To Button */}
         <Box
           sx={{
@@ -1679,29 +1657,7 @@ const AdminTicketDetails = () => {
           </Button>
         </Box>
 
-        {/* Modals */}
-        <Modal
-          open={openTaskModal}
-          onClose={() => setOpenTaskModal(false)}
-          aria-labelledby="task-modal-title"
-          aria-describedby="task-modal-description"
-        >
-          <Box sx={createtaskmodel}>
-            <Typography
-              id="task-modal-title"
-              variant="h5"
-              component="h2"
-              sx={{ mb: 3 }}
-            >
-              Create New Task
-            </Typography>
-            {/* Pass fetchTasks to TaskForm */}
-            <TaskForm
-              handleClose={() => setOpenTaskModal(false)}
-              fetchTasks={fetchTasks}
-            />
-          </Box>
-        </Modal>
+
 
         <Modal
           open={shareEntireExperience}

@@ -23,7 +23,7 @@ import { getCreaterRole } from "../../../config";
 
 import { useNavigate } from "react-router-dom";
 import logoAvifFormate from "./alentur-logo.avif";
-import logoWebpFormate from "./logo.5311861d2018c5f4ae2d.webp";
+// import logoWebpFormate from "./logo.5311861d2018c5f4ae2d.webp";
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {

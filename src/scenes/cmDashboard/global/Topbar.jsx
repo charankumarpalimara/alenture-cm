@@ -25,8 +25,8 @@ import Badge from "@mui/material/Badge";
 // import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 // import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 // import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import logoLight from "./alentur-logo.avif";
@@ -289,7 +289,7 @@ const Topbar = ({ isSidebar, onLogout }) => {
       } catch (e) {}
     };
     return () => ws.close();
-  }, []);
+  }, [queryClient]);
 
   const handleNotificationsClick = () => {
     // setUnreadCount(0);
@@ -342,18 +342,18 @@ const notifClick = (data) => {
     return () => clearInterval(interval);
   }, []);
 
-  const CustomDivider = () => (
-    <Box
-      sx={{
-        width: "20px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <FontAwesomeIcon icon={faAngleRight} /> {/* Custom divider icon */}
-    </Box>
-  );
+  // const CustomDivider = () => (
+  //   <Box
+  //     sx={{
+  //       width: "20px",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //     }}
+  //   >
+  //     <FontAwesomeIcon icon={faAngleRight} /> {/* Custom divider icon */}
+  //   </Box>
+  // );
 
   const handleLogout = () => {
     sessionStorage.removeItem("cmtoken");

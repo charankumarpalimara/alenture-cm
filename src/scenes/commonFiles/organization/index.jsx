@@ -7,7 +7,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+// import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../../theme";
 import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -185,14 +185,14 @@ const AdminANDHobOrganization = () => {
     Navigate("/organizationdetails", { state: { ticket: record } });
   };
 
-    const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  //   const handleChangePage = (event, newPage) => {
+  //   setPage(newPage);
+  // };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
 
   // Paginate: Only show current page's data
   const paginatedData = filteredTickets.slice(

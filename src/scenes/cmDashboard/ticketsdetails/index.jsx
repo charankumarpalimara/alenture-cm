@@ -42,7 +42,7 @@ const CmTicketDetails = () => {
   ]);
   const [newMessage, setNewMessage] = useState("");
   const [isDownloading, setIsDownloading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [selectedFile, setSelectedFile] = useState(null);
 
   const theme = useTheme();
   const isDesktop = useMediaQuery("(min-width:600px)");
@@ -314,13 +314,13 @@ const CmTicketDetails = () => {
     }
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      console.log("Selected file:", file.name);
-    }
-  };
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     setSelectedFile(file);
+  //     console.log("Selected file:", file.name);
+  //   }
+  // };
 
   const addImage = () => {
     const url = window.prompt("Enter the URL of the image:");

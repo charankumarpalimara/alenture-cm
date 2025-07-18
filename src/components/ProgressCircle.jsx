@@ -3,19 +3,19 @@ import { tokens } from "../theme";
 
 
 // Robust utility to extract color stops (handles gradients with or without direction)
-function extractColorStops(gradient) {
-  if (!gradient || !gradient.startsWith("linear-gradient")) return [];
-  const inside = gradient.match(/\((.*)\)/)[1];
-  const parts = inside.split(",").map(x => x.trim());
-  if (
-    /^to /.test(parts[0]) ||
-    /^[0-9.]+deg$/.test(parts[0]) ||
-    /^[0-9.]+rad$/.test(parts[0])
-  ) {
-    return parts.slice(1);
-  }
-  return parts;
-}
+// function extractColorStops(gradient) {
+//   if (!gradient || !gradient.startsWith("linear-gradient")) return [];
+//   const inside = gradient.match(/\((.*)\)/)[1];
+//   const parts = inside.split(",").map(x => x.trim());
+//   if (
+//     /^to /.test(parts[0]) ||
+//     /^[0-9.]+deg$/.test(parts[0]) ||
+//     /^[0-9.]+rad$/.test(parts[0])
+//   ) {
+//     return parts.slice(1);
+//   }
+//   return parts;
+// }
 
 const ProgressCircle = ({ progress = 0.75, size = 90, borderWidth = 14 }) => {
   const theme = useTheme();

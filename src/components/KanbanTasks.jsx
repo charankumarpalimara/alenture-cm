@@ -24,7 +24,7 @@ import { useTasks } from "../utils/TasksContext";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import DoneIcon from "@mui/icons-material/Done";
-import { getCreaterId, getCreaterRole } from "../config";
+import { getCreaterRole } from "../config";
 
 const columnDefinitions = [
   { key: "To Do", title: "To Do", color: "#ef4444", icon: <AssignmentIcon sx={{ color: "#fff" }} /> },
@@ -63,7 +63,7 @@ function KanbanBoard() {
     taskStatus: "To Do",
   });
 
-  const { tasks, loading, addTask, editTask, deleteTask, experienceStatus } = useTasks();
+  const { tasks, addTask, editTask, deleteTask, experienceStatus } = useTasks();
 
   const kanbanData = tasks.map(task => {
     const ownerName = task.taskownername || task.taskowner || task.owner || "User";
@@ -173,6 +173,26 @@ function KanbanBoard() {
       flexDirection: "column",
       alignItems: "center"
     }}>
+      {/* Heading */}
+      <Box sx={{
+        width: "100%",
+        alignItems: "left",
+        py: 2,
+      }}>
+
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 700,
+            color: colors.blueAccent[500],
+            mb: 3,
+            textAlign: "left",
+            fontSize: { xs: "1.2rem", sm: "1.5rem", md: "1.5rem" }
+          }}
+        >
+          Task Management Board
+        </Typography>
+      </Box>
       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", mb: 2 }}>
         <Button
           variant="contained"
@@ -186,10 +206,10 @@ function KanbanBoard() {
             "&:hover": { backgroundColor: colors.blueAccent[600] },
             width: isMobile ? "45%" : "20%",
             fontSize: { xs: "12px", sm: "14px" },
-            display:  getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
+            display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
 
           }}
-          // startIcon={<AddIcon />}
+        // startIcon={<AddIcon />}
         >
           Add Task
         </Button>
@@ -238,10 +258,10 @@ function KanbanBoard() {
                 background: colors.blueAccent[1000],
                 borderRadius: "8px",
                 // border: `2px solid ${col.color}`,
-                fontWeight: 700,
-                fontSize: { xs: "16px", md: "18px" }
+                fontWeight: 600,
+                fontSize:"14px"
               }}>
-                <span style={{ fontSize: 20, marginTop:3 }}>{col.icon}</span>
+                <span style={{ fontSize: 14, marginTop: 3 }}>{col.icon}</span>
                 <span style={{ color: "#fff" }}>{col.title}</span>
               </Box>
               {/* Cards */}
@@ -269,7 +289,7 @@ function KanbanBoard() {
                         right: 40,
                         color: "#e53935",
                         "&:hover": { background: "rgba(229,57,53,0.1)" },
-                        display:  getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
+                        display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
                       }}
                       onClick={() => handleDeleteClick(card.Id)}
                     >
@@ -284,7 +304,7 @@ function KanbanBoard() {
                         right: 8,
                         color: "#64748b",
                         "&:hover": { background: "rgba(100,116,139,0.1)" },
-                        display:  getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
+                        display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
                       }}
                       onClick={() => handleEditCard(card)}
                     >

@@ -172,14 +172,7 @@ const Cm = () => {
     setPage(0); // Reset to first page on filter change
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   // Paginate: Only show current page's data
   const paginatedData = filteredTickets.slice(

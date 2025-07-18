@@ -25,8 +25,8 @@ import { useNavigate } from "react-router-dom";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
@@ -205,7 +205,7 @@ const Topbar = ({ onLogout }) => {
       } catch (e) {}
     };
     return () => ws.close();
-  }, []);
+  }, [queryClient]);
 
   const handleNotificationsClick = () => {
     // setUnreadCount(0);
@@ -271,157 +271,157 @@ const notifClick = (data) => {
   //   </Modal>
   // );
 
-  const getPageTitle = () => {
-    switch (location.pathname) {
-      case "/":
-        return "Dashboard";
-      case "":
-        return "Dashboard";
-      case "/experiences":
-        return "Experiences";
-      case "/cm":
-        return "Customer Manager";
-      case "/crm":
-        return "Customer Relationship Manager";
-      case "/cmform":
-        return "Create a New Customer Manager";
-      case "/crmform":
-        return " Create a New Customer Relationship Manager";
-      case "/hob":
-        return "Head of the Business";
-      case "/tasks":
-        return "Tasks List";
-      case "/taskdetails":
-        return "Task Details";
-      case "/taskform":
-        return "Create New Task";
-      case "/crmdetails":
-        return "Customer Relationship Manager Details";
-      case "/cmdetails":
-        return "Customer Manager Details";
-      case "/organizationdetails":
-        return " Organization Details";
-      case "/organizationform":
-        return "Create a New Organization";
-      case "/ticketdetails":
-        return " Experience Details";
-      case "/hobform":
-        return "Create a New Hob";
-      case "/hobdetails":
-        return "Head of The Department Details";
-      case "/allExperiences":
-        return "All Experiences";
-      case "/organization":
-        return "Organizations";
-      case "/newExperiences":
-        return "New Experiences";
-      case "/pendingExperiences":
-        return "Pending Experiences";
-      case "/resolvedExperiences":
-        return "Resolved Experiences";
-      case "/profile":
-        return "Profile";
-      case "/notes":
-        return "Notes";
-      case "/calendar":
-        return "Calendar";
-      default:
-        return "Page Not Found";
-    }
-  };
-  const getPageTitle1 = () => {
-    switch (location.pathname) {
-      case "/":
-        return { primaryTitle: "Dashboard", secondaryTitle: null };
-      case "/admin/":
-        return { primaryTitle: "Dashboard", secondaryTitle: null };
-      case "/cm":
-        return { primaryTitle: "Customer Manager", secondaryTitle: null };
-      case "/crm":
-        return {
-          primaryTitle: "Customer Relationship Manager",
-          secondaryTitle: null,
-        };
-      case "/cmdetails":
-        return {
-          primaryTitle: "Customer Manager Details ",
-          secondaryTitle: null,
-        };
-      case "/organization":
-        return { primaryTitle: "Organization", secondaryTitle: null };
-      case "/ticketdetails":
-        return { primaryTitle: "Experience Details", secondaryTitle: null };
-      case "/organizationdetails":
-        return { primaryTitle: "Organizations Details", secondaryTitle: null };
-      case "/organizationadd":
-        return { primaryTitle: "Organizations Add", secondaryTitle: null };
-      case "/organizationform":
-        return {
-          primaryTitle: "Organization",
-          secondaryTitle: "Create a New Organization",
-        };
-      case "/cmform":
-        return {
-          primaryTitle: "Customer Manager",
-          secondaryTitle: "Create a New Customer Manager",
-        };
-      case "/crmdetails":
-        return {
-          primaryTitle: "Customer Relationship Manager Details ",
-          secondaryTitle: null,
-        };
-      case "/experiences":
-        return {
-          primaryTitle: "Experiences",
-          secondaryTitle: null,
-        };
-      case "/crmform":
-        return {
-          primaryTitle: "Customer Relationship Manager",
-          secondaryTitle: "Create a New Customer Relationship Manager",
-        };
-      case "/hob":
-        return { primaryTitle: "Head of the Business", secondaryTitle: null };
-      case "/tasks":
-        return { primaryTitle: "Tasks List", secondaryTitle: null };
-      case "/taskform":
-        return {
-          primaryTitle: "Tasks List",
-          secondaryTitle: "Create a New Task",
-        };
-      case "/taskdetails":
-        return { primaryTitle: "Task Details", secondaryTitle: null };
-      case "/hobform":
-        return {
-          primaryTitle: "Head of the Business",
-          secondaryTitle: "Create a New Head of the Business Unit",
-        };
-      case "/hobdetails":
-        return {
-          primaryTitle: "Head of The Business Details",
-          secondaryTitle: null,
-        };
-      case "/allExperiences":
-        return { primaryTitle: "All Experiences", secondaryTitle: null };
-      case "/newExperiences":
-        return { primaryTitle: "New Experiences", secondaryTitle: null };
-      case "/pendingExperiences":
-        return { primaryTitle: "Pending Experiences", secondaryTitle: null };
-      case "/resolvedExperiences":
-        return { primaryTitle: "Resolved Experiences", secondaryTitle: null };
-      case "/profile":
-        return { primaryTitle: "Profile", secondaryTitle: null };
-      case "/notes":
-        return { primaryTitle: "Notes", secondaryTitle: null };
-      case "/calendar":
-        return { primaryTitle: "Calendar", secondaryTitle: null };
-      default:
-        return { primaryTitle: "Page Not Found", secondaryTitle: null };
-    }
-  };
+  // const getPageTitle = () => {
+  //   switch (location.pathname) {
+  //     case "/":
+  //       return "Dashboard";
+  //     case "":
+  //       return "Dashboard";
+  //     case "/experiences":
+  //       return "Experiences";
+  //     case "/cm":
+  //       return "Customer Manager";
+  //     case "/crm":
+  //       return "Customer Relationship Manager";
+  //     case "/cmform":
+  //       return "Create a New Customer Manager";
+  //     case "/crmform":
+  //       return " Create a New Customer Relationship Manager";
+  //     case "/hob":
+  //       return "Head of the Business";
+  //     case "/tasks":
+  //       return "Tasks List";
+  //     case "/taskdetails":
+  //       return "Task Details";
+  //     case "/taskform":
+  //       return "Create New Task";
+  //     case "/crmdetails":
+  //       return "Customer Relationship Manager Details";
+  //     case "/cmdetails":
+  //       return "Customer Manager Details";
+  //     case "/organizationdetails":
+  //       return " Organization Details";
+  //     case "/organizationform":
+  //       return "Create a New Organization";
+  //     case "/ticketdetails":
+  //       return " Experience Details";
+  //     case "/hobform":
+  //       return "Create a New Hob";
+  //     case "/hobdetails":
+  //       return "Head of The Department Details";
+  //     case "/allExperiences":
+  //       return "All Experiences";
+  //     case "/organization":
+  //       return "Organizations";
+  //     case "/newExperiences":
+  //       return "New Experiences";
+  //     case "/pendingExperiences":
+  //       return "Pending Experiences";
+  //     case "/resolvedExperiences":
+  //       return "Resolved Experiences";
+  //     case "/profile":
+  //       return "Profile";
+  //     case "/notes":
+  //       return "Notes";
+  //     case "/calendar":
+  //       return "Calendar";
+  //     default:
+  //       return "Page Not Found";
+  //   }
+  // };
+  // const getPageTitle1 = () => {
+  //   switch (location.pathname) {
+  //     case "/":
+  //       return { primaryTitle: "Dashboard", secondaryTitle: null };
+  //     case "/admin/":
+  //       return { primaryTitle: "Dashboard", secondaryTitle: null };
+  //     case "/cm":
+  //       return { primaryTitle: "Customer Manager", secondaryTitle: null };
+  //     case "/crm":
+  //       return {
+  //         primaryTitle: "Customer Relationship Manager",
+  //         secondaryTitle: null,
+  //       };
+  //     case "/cmdetails":
+  //       return {
+  //         primaryTitle: "Customer Manager Details ",
+  //         secondaryTitle: null,
+  //       };
+  //     case "/organization":
+  //       return { primaryTitle: "Organization", secondaryTitle: null };
+  //     case "/ticketdetails":
+  //       return { primaryTitle: "Experience Details", secondaryTitle: null };
+  //     case "/organizationdetails":
+  //       return { primaryTitle: "Organizations Details", secondaryTitle: null };
+  //     case "/organizationadd":
+  //       return { primaryTitle: "Organizations Add", secondaryTitle: null };
+  //     case "/organizationform":
+  //       return {
+  //         primaryTitle: "Organization",
+  //         secondaryTitle: "Create a New Organization",
+  //       };
+  //     case "/cmform":
+  //       return {
+  //         primaryTitle: "Customer Manager",
+  //         secondaryTitle: "Create a New Customer Manager",
+  //       };
+  //     case "/crmdetails":
+  //       return {
+  //         primaryTitle: "Customer Relationship Manager Details ",
+  //         secondaryTitle: null,
+  //       };
+  //     case "/experiences":
+  //       return {
+  //         primaryTitle: "Experiences",
+  //         secondaryTitle: null,
+  //       };
+  //     case "/crmform":
+  //       return {
+  //         primaryTitle: "Customer Relationship Manager",
+  //         secondaryTitle: "Create a New Customer Relationship Manager",
+  //       };
+  //     case "/hob":
+  //       return { primaryTitle: "Head of the Business", secondaryTitle: null };
+  //     case "/tasks":
+  //       return { primaryTitle: "Tasks List", secondaryTitle: null };
+  //     case "/taskform":
+  //       return {
+  //         primaryTitle: "Tasks List",
+  //         secondaryTitle: "Create a New Task",
+  //       };
+  //     case "/taskdetails":
+  //       return { primaryTitle: "Task Details", secondaryTitle: null };
+  //     case "/hobform":
+  //       return {
+  //         primaryTitle: "Head of the Business",
+  //         secondaryTitle: "Create a New Head of the Business Unit",
+  //       };
+  //     case "/hobdetails":
+  //       return {
+  //         primaryTitle: "Head of The Business Details",
+  //         secondaryTitle: null,
+  //       };
+  //     case "/allExperiences":
+  //       return { primaryTitle: "All Experiences", secondaryTitle: null };
+  //     case "/newExperiences":
+  //       return { primaryTitle: "New Experiences", secondaryTitle: null };
+  //     case "/pendingExperiences":
+  //       return { primaryTitle: "Pending Experiences", secondaryTitle: null };
+  //     case "/resolvedExperiences":
+  //       return { primaryTitle: "Resolved Experiences", secondaryTitle: null };
+  //     case "/profile":
+  //       return { primaryTitle: "Profile", secondaryTitle: null };
+  //     case "/notes":
+  //       return { primaryTitle: "Notes", secondaryTitle: null };
+  //     case "/calendar":
+  //       return { primaryTitle: "Calendar", secondaryTitle: null };
+  //     default:
+  //       return { primaryTitle: "Page Not Found", secondaryTitle: null };
+  //   }
+  // };
 
 
-  const { primaryTitle, secondaryTitle } = getPageTitle1();
+  // const { primaryTitle, secondaryTitle } = getPageTitle1();
 
   // const pageTitle = getPageTitle();
   // const [primaryTitle, secondaryTitle] = pageTitle.includes(" / ") ? pageTitle.split(" / ") : [pageTitle, ""];
@@ -457,18 +457,18 @@ const notifClick = (data) => {
     return () => clearInterval(interval);
   }, []);
 
-  const CustomDivider = () => (
-    <Box
-      sx={{
-        width: "20px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <FontAwesomeIcon icon={faAngleRight} /> {/* Custom divider icon */}
-    </Box>
-  );
+  // const CustomDivider = () => (
+  //   <Box
+  //     sx={{
+  //       width: "20px",
+  //       display: "flex",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //     }}
+  //   >
+  //     <FontAwesomeIcon icon={faAngleRight} /> {/* Custom divider icon */}
+  //   </Box>
+  // );
 
   const handleLogout = () => {
     sessionStorage.removeItem("crmtoken");
