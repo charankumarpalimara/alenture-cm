@@ -1219,9 +1219,9 @@ console.log("experience data :", safeExperienceData);
                     Resolve
                   </Button>
                   <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
-                    <DialogTitle>Are you sure?</DialogTitle>
+                    {/* <DialogTitle>Are you sure?</DialogTitle> */}
                     <DialogContent>
-                      <Typography>Are you sure you want to close this experience?</Typography>
+                      <Typography>Are you sure you want to Resolve this experience?</Typography>
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={() => setOpenConfirm(false)} color="primary">

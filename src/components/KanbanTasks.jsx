@@ -21,17 +21,16 @@ import { message } from "antd";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 import { useTasks } from "../utils/TasksContext";
-import {
-  Add as AddIcon,
-} from "@mui/icons-material";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import DoneIcon from "@mui/icons-material/Done";
 import { getCreaterId, getCreaterRole } from "../config";
 
 const columnDefinitions = [
-  { key: "To Do", title: "To Do", color: "#ef4444", icon: "📋" },
-  { key: "In Progress", title: "In Progress", color: "#f97316", icon: "🔄" },
-  { key: "Done", title: "Done", color: "#22c55e", icon: "✅" },
+  { key: "To Do", title: "To Do", color: "#ef4444", icon: <AssignmentIcon sx={{ color: "#fff" }} /> },
+  { key: "In Progress", title: "In Progress", color: "#f97316", icon: <AutorenewIcon sx={{ color: "#fff" }} /> },
+  { key: "Done", title: "Done", color: "#22c55e", icon: <DoneIcon sx={{ color: "#fff" }} /> },
 ];
-
 const priorityOptions = ["High", "Medium", "Low"];
 
 function STATUS_TO_COLUMN_KEY(status) {
@@ -236,14 +235,14 @@ function KanbanBoard() {
                 mb: 2,
                 px: 1,
                 py: 1,
-                background: "#f1f5f9",
+                background: colors.blueAccent[1000],
                 borderRadius: "8px",
-                border: `2px solid ${col.color}`,
+                // border: `2px solid ${col.color}`,
                 fontWeight: 700,
                 fontSize: { xs: "16px", md: "18px" }
               }}>
-                <span style={{ fontSize: 20 }}>{col.icon}</span>
-                <span style={{ color: col.color }}>{col.title}</span>
+                <span style={{ fontSize: 20, marginTop:3 }}>{col.icon}</span>
+                <span style={{ color: "#fff" }}>{col.title}</span>
               </Box>
               {/* Cards */}
               {kanbanData.filter(card => card.Status === col.key).map(card => (
