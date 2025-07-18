@@ -180,7 +180,7 @@ function KanbanBoard() {
         py: 2,
       }}>
 
-        <Typography
+        {/* <Typography
           variant="h4"
           sx={{
             fontWeight: 700,
@@ -191,7 +191,7 @@ function KanbanBoard() {
           }}
         >
           Task Management Board
-        </Typography>
+        </Typography> */}
       </Box>
       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", mb: 2 }}>
         <Button
@@ -206,7 +206,7 @@ function KanbanBoard() {
             textTransform: "none",
             "&:hover": { backgroundColor: colors.blueAccent[600] },
             width: isMobile ? "45%" : "15%",
-            display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
+            display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "none" : "block",
 
           }}
         // startIcon={<AddIcon />}
@@ -311,7 +311,7 @@ function KanbanBoard() {
                       <EditIcon fontSize="small" />
                     </IconButton>
 
-                    <Typography sx={{ fontWeight: 700, fontSize: { xs: 15, md: 16 }, color: "#1e293b", mb: 1 }}>
+                    <Typography sx={{ fontWeight: 400, fontSize: { xs: 15, md: 16 }, color: "#1e293b", mb: 1 }}>
                       {card.Title}
                     </Typography>
                     <Typography sx={{ color: "#64748b", fontSize: { xs: 13, md: 14 }, mb: 1 }}>

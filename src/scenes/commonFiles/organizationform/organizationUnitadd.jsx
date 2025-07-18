@@ -431,7 +431,7 @@ const OrganizationUnitadd = () => {
         branchtype: "Branch",
         phonecode: values.phoneCode,
         mobile: values.PhoneNo,
-        email: values.email,
+        email: values.email || "",
         username: (location.state?.organizationname || "").toLowerCase(),
         passwords: values.passwords || "defaultPassword123",
         country: values.country,
@@ -1046,19 +1046,6 @@ const OrganizationUnitadd = () => {
                       </Input.Group>
                     </Form.Item>
                   </Col>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 <Col xs={24} md={8}>
