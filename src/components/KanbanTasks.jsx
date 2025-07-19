@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { message } from "antd";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
@@ -47,7 +48,9 @@ function KanbanBoard() {
   const colors = tokens(theme.palette.mode);
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
   const [editingCard, setEditingCard] = useState(null);
+  const [viewingCard, setViewingCard] = useState(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingTaskId, setDeletingTaskId] = useState(null);
   const isMobile = useMediaQuery("(max-width:484px)");
@@ -150,6 +153,12 @@ function KanbanBoard() {
     setDeleteDialogOpen(true);
   };
 
+  // View Task
+  const handleViewClick = (card) => {
+    setViewingCard(card);
+    setViewOpen(true);
+  };
+
   const handleConfirmDelete = async () => {
     if (!deletingTaskId) return;
     setDeleteLoading(true);
@@ -206,7 +215,7 @@ function KanbanBoard() {
             textTransform: "none",
             "&:hover": { backgroundColor: colors.blueAccent[600] },
             width: isMobile ? "45%" : "15%",
-            display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "none" : "block",
+            display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
 
           }}
         // startIcon={<AddIcon />}
@@ -280,6 +289,21 @@ function KanbanBoard() {
                   }}
                 >
                   <CardContent sx={{ pb: "16px !important", px: 0 }}>
+                    {/* View Button */}
+                    <IconButton
+                      size="small"
+                      sx={{
+                        position: "absolute",
+                        top: 8,
+                        right: 72,
+                        color: "#2563eb",
+                        "&:hover": { background: "rgba(37,99,235,0.1)" },
+                      }}
+                      onClick={() => handleViewClick(card)}
+                    >
+                      <VisibilityIcon fontSize="small" />
+                    </IconButton>
+
                     {/* Delete Button */}
                     <IconButton
                       size="small"
@@ -377,12 +401,10 @@ function KanbanBoard() {
         <DialogTitle
           sx={{
             fontWeight: 600,
-            fontSize: "12px",
             color: "#1e293b",
             fontSize: "22px",
             pb: 1,
             textAlign: "center",
-
           }}
         >
           Add New Task
@@ -490,6 +512,126 @@ function KanbanBoard() {
           <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
           <Button color="error" variant="contained" onClick={handleConfirmDelete}>
             {deleteLoading ? "Deleting..." : "Delete"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* View Task Dialog */}
+      <Dialog
+        open={viewOpen}
+        onClose={() => setViewOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: "14px",
+            p: 2,
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            fontWeight: 700,
+            color: "#1e293b",
+            fontSize: "22px",
+            pb: 1,
+            textAlign: "center",
+          }}
+        >
+          View Task
+        </DialogTitle>
+        <DialogContent sx={{ pt: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Title"
+                fullWidth
+                value={viewingCard?.Title || ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="outlined"
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Description"
+                fullWidth
+                multiline
+                rows={3}
+                value={viewingCard?.Description || ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="outlined"
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Status"
+                fullWidth
+                value={viewingCard?.Status || ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="outlined"
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Priority"
+                fullWidth
+                value={viewingCard?.Priority || ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="outlined"
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            {/* <Grid item xs={6}>
+              <TextField
+                label="Tags"
+                fullWidth
+                value={viewingCard?.Tags || ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="outlined"
+              />
+            </Grid> */}
+            {/* <Grid item xs={6}>
+              <TextField
+                label="Due Date"
+                fullWidth
+                value={viewingCard?.DueDate || ""}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="outlined"
+              />
+            </Grid> */}
+          </Grid>
+        </DialogContent>
+        <DialogActions sx={{ p: 2, justifyContent: "center" }}>
+          <Button
+            onClick={() => setViewOpen(false)}
+            variant="contained"
+            sx={{
+              background: colors.blueAccent[1000],
+              color: "#fff",
+              fontSize: "12px",
+              // fontWeight: "bold",
+              padding: "10px 20px",
+              "&:hover": {
+                backgroundColor: colors.blueAccent[600],
+              },
+            }}
+          >
+            Close
           </Button>
         </DialogActions>
       </Dialog>
