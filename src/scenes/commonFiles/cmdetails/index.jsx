@@ -695,12 +695,11 @@ const CmDetails = () => {
                 {getCreaterRole() === "admin" && (
                   <Button
                     variant="contained"
+                    className="form-button"
                     size="large"
                     danger
                     style={{
                       padding: "12px 24px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
@@ -744,10 +743,10 @@ const CmDetails = () => {
               <Col>
                 <Button
                   type="primary"
+                 className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "600",
                     borderRadius: 8,
                   }}
                   size="large"
@@ -764,10 +763,10 @@ const CmDetails = () => {
                   type="primary"
                   htmlType="submit"
                   size="large"
+                  className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "600",
                     borderRadius: 8,
                   }}
                   onClick={() => form.submit()}
@@ -776,7 +775,7 @@ const CmDetails = () => {
                 </Button>
               </Col>
               <Col>
-                <Button size="large" danger onClick={handleCancel}>
+                <Button size="large" className="form-button" danger onClick={handleCancel}>
                   Cancel
                 </Button>
               </Col>

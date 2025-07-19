@@ -370,7 +370,7 @@ const HobProfile = () => {
                     className="form-button"
                     style={{
                       marginLeft: 8,
-                      fontWeight: "bold",
+                      // fontWeight: "bold",
                       borderRadius: 8,
                     }}
                     onClick={() => {

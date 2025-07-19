@@ -1245,15 +1245,16 @@ const AdminTicketDetails = () => {
                     onClick={() => setOpenConfirm(true)}
                     className="form-button"
                     sx={{
-                      background: colors.blueAccent[1000],
+                      background: colors.redAccent[400],
                       color: "#fff",
-                      "&:hover": { backgroundColor: colors.blueAccent[600] },
+                      "&:hover": { background: colors.redAccent[500] },
                       textTransform: "none",
+                           borderRadius: "8px",
                     }}
                   >
-                    Resolve Experience
+                    Resolve
                   </Button>
-                  <Button
+                  {/* <Button
                     variant="outlined"
                     onClick={() => setshareEntireExperience(true)}
                     className="form-button"
@@ -1265,7 +1266,7 @@ const AdminTicketDetails = () => {
                     }}
                   >
                     Assign CRM
-                  </Button>
+                  </Button> */}
 
                   <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
                     {/* <DialogTitle>Are you sure?</DialogTitle> */}
@@ -1301,11 +1302,11 @@ const AdminTicketDetails = () => {
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
-                          backgroundColor: colors.redAccent[400],
+                          background: colors.redAccent[400],
                           color: "#ffffff",
                           textTransform: "none",
                           "&:hover": {
-                            backgroundColor: colors.redAccent[500],
+                            background: colors.redAccent[500],
                             boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
                           },
                         }}

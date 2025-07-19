@@ -210,6 +210,7 @@ const Cm = () => {
         </Box>
         <Button
           type="primary"
+          startIcon={<AddIcon />}
           onClick={() => Navigate("/cmform")}
           className="form-button"
           style={{
@@ -219,9 +220,9 @@ const Cm = () => {
             minWidth: 120,
           }}
         >
-          Add CM
+          Create CM
         </Button>
-        <Button
+        {/* <Button
           type="primary"
           onClick={() => Navigate("/cmdetails")}
           className="form-button"
@@ -233,7 +234,7 @@ const Cm = () => {
           }}
         >
           View Details
-        </Button>
+        </Button> */}
       </Box>
 
       {/* Status Filter Buttons */}

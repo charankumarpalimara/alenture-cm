@@ -111,7 +111,7 @@ const AdminProfile = () => {
       );
 
       message.success("Profile updated successfully!");
-      let updatedUserDetails = { ...sessionData, password : password, firstname: values.firstName, lastname: values.lastName, email: values.email, mobile: values.PhoneNo, extraind2: values.gender };
+      let updatedUserDetails = { ...sessionData, password: password, firstname: values.firstName, lastname: values.lastName, email: values.email, mobile: values.PhoneNo, extraind2: values.gender };
       if (response.data && response.data.imageUrl) {
         updatedUserDetails.imageUrl = response.data.imageUrl;
       }
@@ -424,11 +424,11 @@ const AdminProfile = () => {
                           loading={isLoading}
                           size="large"
                           className="form-button"
-                          sx={{
+                          style={{
                             background: colors.blueAccent[1000],
                             color: "#fff",
-                            "&:hover": { backgroundColor: colors.blueAccent[600] },
                             textTransform: "none",
+                            borderRadius: 8,
                           }}
                         >
                           Save
@@ -439,6 +439,7 @@ const AdminProfile = () => {
                           htmlType="button"
                           type="default"
                           icon={<CloseOutlined />}
+                          danger
                           size="large"
                           className="form-button"
                           sx={{
@@ -469,10 +470,10 @@ const AdminProfile = () => {
                       icon={<EditOutlined />}
                       size="large"
                       className="form-button"
-                      sx={{
+                      style={{
                         background: colors.blueAccent[1000],
                         color: "#fff",
-                        "&:hover": { backgroundColor: colors.blueAccent[600] },
+                        "&:hover": { background: colors.blueAccent[600] },
                         textTransform: "none",
                       }}
                       onClick={() => setIsEditing(true)}

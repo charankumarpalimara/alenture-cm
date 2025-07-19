@@ -440,6 +440,7 @@ const OrganizationDetails = () => {
                           background: colors.blueAccent[1000],
                           color: "#fff",
                           minWidth: 120,
+                          marginRight: 8,
                         }}
                       >
                         Edit
@@ -456,6 +457,7 @@ const OrganizationDetails = () => {
                             // color: "#fff",
                             minWidth: 120,
                             // borderColor: "#f8dcdb",
+                              // marginLeft: 8,
 
                           }}
 

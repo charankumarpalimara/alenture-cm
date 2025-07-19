@@ -453,12 +453,11 @@ const HobDetails = () => {
                 {getCreaterRole() === "admin" && (
                   <Button
                     variant="contained"
+                      className='form-button'
                     size="large"
                     danger
                     style={{
                       padding: "12px 24px",
-                      fontWeight: "600",
-                      fontSize: "12px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
@@ -501,10 +500,11 @@ const HobDetails = () => {
               <Col>
                 <Button
                   type="primary"
+                  className='form-button'
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    minWidth: 120,
+                    // minWidth: 120,
                   }}
                   size="large"
                   onClick={() => setIsEditing(true)}
@@ -524,7 +524,7 @@ const HobDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    minWidth: 120,
+                    // minWidth: 120,
                   }}
                   onClick={() => form.submit()}
                 >
@@ -537,7 +537,7 @@ const HobDetails = () => {
                   className="form-button"
                   style={{
                     marginLeft: 8,
-                    minWidth: 120,
+                    // minWidth: 120,
                   }}
                   onClick={handleCancel}
                 >
