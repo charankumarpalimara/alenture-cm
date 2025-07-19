@@ -294,8 +294,8 @@ function KanbanBoard() {
                       size="small"
                       sx={{
                         position: "absolute",
-                        top: 8,
-                        right: 72,
+                        top: experienceStatus !== "Resolved" ?  8 : 8,
+                        right: experienceStatus !== "Resolved" ?  72 : 8,
                         color: "#2563eb",
                         "&:hover": { background: "rgba(37,99,235,0.1)" },
                       }}
