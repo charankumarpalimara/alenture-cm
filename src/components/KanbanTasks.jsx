@@ -280,7 +280,7 @@ function KanbanBoard() {
                 background: colors.blueAccent[1000],
                 borderRadius: "8px",
                 fontWeight: 600,
-                fontSize: "14px",
+                fontSize: "12px",
               }}>
                 <span style={{ fontSize: 10, marginTop: 3 }}>{col.icon}</span>
                 <span style={{ color: "#fff" }}>{col.title}</span>
@@ -344,10 +344,10 @@ function KanbanBoard() {
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
-                    <Typography sx={{ fontWeight: 400, fontSize:"15px", color: "#1e293b", mb: 1 }}>
+                    <Typography sx={{ fontWeight: "bold", fontSize:"11px", color: "#1e293b", mb: 1 }}>
                       {card.Title}
                     </Typography>
-                    <Typography sx={{ color: "#64748b", fontSize: { xs: 13, md: 14 }, mb: 1 }}>
+                    <Typography sx={{ color: "#64748b", fontSize:"11px", mb: 1 }}>
                       {card.Description}
                     </Typography>
                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2 }}>
@@ -359,7 +359,7 @@ function KanbanBoard() {
                               background: "#f1f5f9",
                               borderRadius: "4px",
                               px: 1,
-                              fontSize: "12px",
+                              fontSize: "11px",
                               color: "#475569",
                               border: "1px solid #e2e8f0"
                             }}
@@ -415,7 +415,7 @@ function KanbanBoard() {
           sx={{
             fontWeight: 600,
             color: "#1e293b",
-            fontSize: "22px",
+            fontSize: "18px",
             pb: 1,
             textAlign: "center",
           }}
@@ -647,7 +647,7 @@ function KanbanBoard() {
           sx={{
             fontWeight: 700,
             color: "#1e293b",
-            fontSize: "22px",
+            fontSize: "18px",
             pb: 1,
             textAlign: "center",
           }}
