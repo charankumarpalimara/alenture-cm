@@ -21,6 +21,7 @@ const ChatSection = ({
   addImage,
   addTable,
   addYoutubeVideo,
+  cmname
 }) => (
   <Box
     sx={{
@@ -88,7 +89,7 @@ const ChatSection = ({
                   textAlign: "left",
                 }}
               >
-                User
+                {cmname}
               </Typography>
             )}
             <Box

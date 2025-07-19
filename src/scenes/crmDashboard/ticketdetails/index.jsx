@@ -1359,6 +1359,7 @@ const CrmTicketDetails = () => {
           addImage={addImage}
           addTable={addTable}
           addYoutubeVideo={addYoutubeVideo}
+          cmname={safeExperienceData.cmname}
         />
       </Box>
       {/* Third Column - Task Management */}

@@ -117,13 +117,14 @@ function KanbanBoard() {
 
     setAddLoading(true);
     try {
-      await addTask({
-        taskname: addValues.taskName.trim(),
-        description: addValues.taskDescription.trim(),
-        taskowner: addValues.taskOwner?.trim() || "",
-        priority: addValues.taskPriority,
-        status: addValues.taskStatus,
-      });
+      const formData = new FormData();
+      formData.append("taskname", addValues.taskName.trim());
+      formData.append("description", addValues.taskDescription.trim());
+      formData.append("taskowner", addValues.taskOwner?.trim() || "");
+      formData.append("priority", addValues.taskPriority);
+      formData.append("status", addValues.taskStatus);
+
+      await addTask(formData);
       
       setAddValues({
         taskName: "",
@@ -496,7 +497,7 @@ function KanbanBoard() {
               fontWeight: 600,
             }}
           >
-            {addLoading ? "Adding..." : "Add Task"}
+            {addLoading ? "Saving..." : "Save"}
           </Button>
         </DialogActions>
       </Dialog>
