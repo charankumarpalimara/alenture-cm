@@ -28,7 +28,7 @@ const { useNavigate } = require("react-router-dom");
 const HobProfile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-    const Navigate = useNavigate();
+  const Navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -94,7 +94,7 @@ const HobProfile = () => {
       );
 
       message.success("Profile updated successfully!");
-      let updatedUserDetails = { ...sessionData, passwords : password, firstname: values.firstName, lastname: values.lastName, email: values.email, mobile: values.PhoneNo, extraind2: values.gender};
+      let updatedUserDetails = { ...sessionData, passwords: password, firstname: values.firstName, lastname: values.lastName, email: values.email, mobile: values.PhoneNo, extraind2: values.gender };
       if (response.data && response.data.imageUrl) {
         updatedUserDetails.imageUrl = response.data.imageUrl;
       }
@@ -226,22 +226,22 @@ const HobProfile = () => {
           Profile Details
         </Typography.Title> */}
 
-                        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-                          <Button
-                            type="text"
-                            icon={<CloseOutlined style={{ fontSize: 20 }} />}
-                            onClick={() => Navigate(-1)}
-                            style={{
-                              // margin: "16px 0 0 8px",
-                              color: "#3e4396",
-                              fontWeight: 600,
-                              fontSize: 16,
-                              alignSelf: "flex-end"
-                            }}
-                          >
-                            {/* Back */}
-                          </Button>
-                        </div>
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => Navigate(-1)}
+            style={{
+              // margin: "16px 0 0 8px",
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end"
+            }}
+          >
+            {/* Back */}
+          </Button>
+        </div>
         <Form
           form={form}
           layout="vertical"
@@ -304,7 +304,7 @@ const HobProfile = () => {
               <Form.Item
                 label="Last Name"
                 name="lastName"
-                          disabled={true}
+                disabled={true}
                 rules={[{ required: true, message: "Required" }]}
               >
                 <Input disabled={true} size="large" />
@@ -314,7 +314,7 @@ const HobProfile = () => {
               <Form.Item
                 label="Email"
                 name="email"
-                          disabled={true}
+                disabled={true}
                 rules={[
                   { required: true, message: "Required" },
                   { type: "email", message: "Invalid email" },
@@ -329,7 +329,7 @@ const HobProfile = () => {
               <Form.Item
                 label="Phone Number"
                 name="PhoneNo"
-                          disabled={true}
+                disabled={true}
                 rules={[
                   { required: true, message: "Required" },
                   { pattern: /^[0-9]+$/, message: "Only numbers are allowed" },

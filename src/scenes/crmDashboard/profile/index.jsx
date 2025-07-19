@@ -382,6 +382,7 @@ const CrmProfile = ({ apiUrl }) => {
                       <Button
                         type="primary"
                         htmlType="submit"
+                        
                         icon={<SaveOutlined />}
                         loading={isLoading}
                         size="large"
@@ -419,6 +420,7 @@ const CrmProfile = ({ apiUrl }) => {
                   <Button
                     htmlType="button"
                     icon={<EditOutlined />}
+                       className="form-button"
                     size="large"
                     style={{ background: colors.blueAccent[1000], color: '#fff', borderRadius: 8 }}
                     onClick={() => setIsEditing(true)}
