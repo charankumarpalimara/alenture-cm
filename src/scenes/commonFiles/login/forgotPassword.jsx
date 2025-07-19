@@ -11,11 +11,13 @@ import {
 import { Form, Input, message } from "antd";
 import Logo from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
+import { tokens } from "../../../theme";
 
 const ForgotPassword = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [loading, setLoading] = useState(false);
 
@@ -120,24 +122,20 @@ const ForgotPassword = () => {
               </Form.Item>
               <Box textAlign="center" pt={1} mb={2} pb={1}>
                 <Button
+                  type="submit"
                   fullWidth
                   variant="contained"
-                  size="large"
-                  type="submit"
-                  disabled={loading}
+                  className="form-button"
                   sx={{
-                    mb: 3,
-                    fontWeight: "bold",
-                    background:
-                      "linear-gradient(to right, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)",
-                    color: "white",
-                    "&:hover": {
-                      background:
-                        "linear-gradient(to right, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)",
-                    },
+                    mt: 3,
+                    mb: 2,
+                    background: colors.blueAccent[1000],
+                    color: "#fff",
+                    "&:hover": { backgroundColor: colors.blueAccent[1000] },
+                    textTransform: "none",
                   }}
                 >
-                  {loading ? "Sending..." : "Send Reset Link"}
+                  Reset Password
                 </Button>
               </Box>
             </Form>

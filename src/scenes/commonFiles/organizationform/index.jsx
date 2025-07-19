@@ -133,11 +133,9 @@ const OrganizationForm = () => {
                       type="text"
                       icon={<CloseOutlined style={{ fontSize: 20 }} />}
                       onClick={() => navigate(-1)}
+                      className="form-button"
                       style={{
-                        // margin: "16px 0 0 8px",
                         color: "#3e4396",
-                        fontWeight: 600,
-                        fontSize: 16,
                         alignSelf: "flex-end"
                       }}
                     >

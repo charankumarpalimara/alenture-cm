@@ -924,11 +924,17 @@ const CrmDetails = () => {
                       type="primary"
                       htmlType="submit"
                       size="large"
-                      style={{ background: colors.blueAccent[1000] }}
+                      className="form-button"
+                      style={{
+                        background: colors.blueAccent[1000],
+                        borderColor: colors.blueAccent[1000],
+                        color: "#fff",
+                        minWidth: 120,
+                      }}
                     >
                       Assign
                     </Button>
-                    <Button size="large" danger onClick={() => setAssingForm(false)}>
+                    <Button size="large" className="form-button" danger onClick={() => setAssingForm(false)}>
                       Cancel
                     </Button>
                   </Space>
@@ -943,11 +949,12 @@ const CrmDetails = () => {
             onClick={() => {
               setAssingForm(true);
             }}
+            className="form-button"
             style={{
-              marginTop: 16,
               background: colors.blueAccent[1000],
+              borderColor: colors.blueAccent[1000],
               color: "#fff",
-              fontWeight: "600",
+              minWidth: 120,
             }}
           >
             Add Customer Manager
@@ -964,8 +971,8 @@ const CrmDetails = () => {
                     danger
                     style={{
                       padding: "12px 24px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      fontWeight:"600",
+                      fontSize:"12px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
@@ -1011,7 +1018,8 @@ const CrmDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "600",
+                    fontWeight:"600",
+                    fontSize:"12px",
                     borderRadius: 8,
                   }}
                   size="large"
@@ -1029,6 +1037,7 @@ const CrmDetails = () => {
                   htmlType="submit"
                   size="large"
                   fontWeight="600"
+                  fontSize="12px"
                   style={{
                     background: colors.blueAccent[1000],
                   }}
@@ -1038,7 +1047,7 @@ const CrmDetails = () => {
                 </Button>
               </Col>
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
-                <Button size="large" danger onClick={handleCancel}>
+                <Button size="large" style={{fontSize: "12px", fontWeight: "600"}} danger onClick={handleCancel}>
                   Cancel
                 </Button>
               </Col>

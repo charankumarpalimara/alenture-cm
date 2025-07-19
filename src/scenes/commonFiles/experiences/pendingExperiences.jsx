@@ -73,31 +73,31 @@ const PendingExperiences = ({ apiUrl }) => {
         const data = await response.json();
         if (response.ok && Array.isArray(data.data)) {
           const transformedData = data.data.map((item, idx) => ({
-          key: item.experienceid || item.id,
-          id: item.experienceid || idx,
-          experienceid: item.experienceid || "N/A",
-          experience: item.experience || "N/A",
-          experiencedetails: item.experiencedetails || "N/A",
-          impact: item.impact || "N/A",
-          subject: item.subject || "N/A",
-          priority: item.priority || "N/A",
-          status: item.status || "N/A",
-          updated: item.updated || "N/A",
-          organizationid: item.organizationid,
-          organizationname: item.organizationname || "N/A",
-          branch: item.branch || "N/A",
-          cmid: item.cmid || "N/A",
-          crmid: item.extraind1 || "N/A",
-          crmname: item.extraind2 || "N/A",
-          cmname: item.cmname || "N/A",
-          time: item.time || "N/A",
-          date: item.date || "N/A",
-          processtime: item.extraind3 || "N/A",
-          processdate: item.extraind4 || "N/A",
-          resolvedtime: item.extraind5 || "N/A",
-          resolveddate: item.extraind6 || "N/A",
-          filename : item.filename || "N/A",
-          imageUrl: `${item.imageUrl || ""}`,
+            key: item.experienceid || item.id,
+            id: item.experienceid || idx,
+            experienceid: item.experienceid || "N/A",
+            experience: item.experience || "N/A",
+            experiencedetails: item.experiencedetails || "N/A",
+            impact: item.impact || "N/A",
+            subject: item.subject || "N/A",
+            priority: item.priority || "N/A",
+            status: item.status || "N/A",
+            updated: item.updated || "N/A",
+            organizationid: item.organizationid,
+            organizationname: item.organizationname || "N/A",
+            branch: item.branch || "N/A",
+            cmid: item.cmid || "N/A",
+            crmid: item.extraind1 || "N/A",
+            crmname: item.extraind2 || "N/A",
+            cmname: item.cmname || "N/A",
+            time: item.time || "N/A",
+            date: item.date || "N/A",
+            processtime: item.extraind3 || "N/A",
+            processdate: item.extraind4 || "N/A",
+            resolvedtime: item.extraind5 || "N/A",
+            resolveddate: item.extraind6 || "N/A",
+            filename: item.filename || "N/A",
+            imageUrl: `${item.imageUrl || ""}`,
           }));
           const uniqueData = [];
           const seen = new Set();
@@ -186,7 +186,7 @@ const PendingExperiences = ({ apiUrl }) => {
   };
 
   const handleRowClick = (record) => {
-    if (getCreaterRole() === "cm" || getCreaterRole() === "crm" ) {
+    if (getCreaterRole() === "cm" || getCreaterRole() === "crm") {
       Navigate(`/ticketdetails/${record.experienceid}`);
     } else {
       Navigate("/ticketdetails", { state: { ticket: record } });
@@ -232,11 +232,11 @@ const PendingExperiences = ({ apiUrl }) => {
 
         {/* Export Button */}
         <Button
+          className="form-button"
           sx={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -248,11 +248,11 @@ const PendingExperiences = ({ apiUrl }) => {
 
         {/* Filter Button */}
         <Button
+          className="form-button"
           sx={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -305,10 +305,10 @@ const PendingExperiences = ({ apiUrl }) => {
         </Menu>
         {getCreaterRole() === "cm" && (
           <Button
+            className="form-button"
             variant="contained"
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none"

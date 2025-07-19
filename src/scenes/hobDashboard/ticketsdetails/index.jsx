@@ -867,6 +867,7 @@ const AdminTicketDetails = () => {
         <Row justify="end" gutter={8}>
           <Col>
             <Button
+            className="form-button"
               onClick={handleClose}
               style={{ background: colors.redAccent[500], color: "#fff", borderRadius: 8, }}
             >
@@ -876,11 +877,11 @@ const AdminTicketDetails = () => {
           <Col>
             <Button
               type="primary"
+               className="form-button"
               onClick={() => assignForm.submit()}
               disabled={loading}
               style={{
                 background: colors.blueAccent[1000],
-                fontWeight: "600",
                 borderRadius: 8,
                 color: "#fff",
                 ...(loading && { opacity: 0.7 }),
@@ -1215,6 +1216,7 @@ const AdminTicketDetails = () => {
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
                       variant="contained"
+                      className="form-button"
                       icon={<DownloadOutlined />}
                       disabled={isDownloading}
                       onClick={handleDownload}
@@ -1240,29 +1242,30 @@ const AdminTicketDetails = () => {
                 >
                   <Button
                     variant="contained"
-                    sx={{
-                      padding: "12px 24px",
-                      fontSize: "12px",
-                      // fontWeight: "bold",
-                      borderRadius: "8px",
-                      boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                      transition: "0.3s",
-                      backgroundColor: colors.redAccent[400],
-                      color: "#ffffff",
-                      textTransform: "none",
-                      display: ticket.status === "Resolved" ? "none" : "block",
-                      "&:hover": {
-                        backgroundColor: colors.redAccent[500],
-                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
-                      },
-                    }}
                     onClick={() => setOpenConfirm(true)}
+                    className="form-button"
+                    sx={{
+                      background: colors.blueAccent[1000],
+                      color: "#fff",
+                      "&:hover": { backgroundColor: colors.blueAccent[600] },
+                      textTransform: "none",
+                    }}
                   >
-                    Resolve
+                    Resolve Experience
                   </Button>
-
-
-
+                  <Button
+                    variant="outlined"
+                    onClick={() => setshareEntireExperience(true)}
+                    className="form-button"
+                    sx={{
+                      borderColor: colors.blueAccent[500],
+                      color: colors.blueAccent[500],
+                      "&:hover": { borderColor: colors.blueAccent[600] },
+                      textTransform: "none",
+                    }}
+                  >
+                    Assign CRM
+                  </Button>
 
                   <Dialog open={openConfirm} onClose={() => setOpenConfirm(false)}>
                     {/* <DialogTitle>Are you sure?</DialogTitle> */}
@@ -1270,10 +1273,11 @@ const AdminTicketDetails = () => {
                       <Typography>Are you sure you want to Resolve this experience?</Typography>
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={() => setOpenConfirm(false)} color="primary">
+                      <Button className="form-button" onClick={() => setOpenConfirm(false)} color="primary">
                         Cancel
                       </Button>
                       <Button
+                      className="form-button"
                         onClick={async () => {
                           setOpenConfirm(false);
                           await handleCloseExperience();
@@ -1290,11 +1294,10 @@ const AdminTicketDetails = () => {
                     <Box sx={{ display: "flex", gap: 2 }}>
                       <Button
                         variant="contained"
+                               className="form-button"
                         onClick={() => setIsEditing(false)}
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "12px",
-                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1312,11 +1315,10 @@ const AdminTicketDetails = () => {
 
                       <Button
                         variant="contained"
+                        className="form-button"
                         onClick={() => setIsEditing(false)}
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "12px",
-                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1336,10 +1338,9 @@ const AdminTicketDetails = () => {
                     <Button
                       variant="contained"
                       onClick={() => setIsEditing(true)}
+                      className="form-button"
                       sx={{
                         padding: "12px 24px",
-                        fontSize: "12px",
-                        // fontWeight: "600",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
@@ -1445,7 +1446,7 @@ const AdminTicketDetails = () => {
                         textAlign: "left",
                       }}
                     >
-                      User
+                      {ticket.cmname}
                     </Typography>
                   )}
                   {/* Message bubble */}
@@ -1637,6 +1638,7 @@ const AdminTicketDetails = () => {
         >
           <Button
             variant="contained"
+            className="form-button"
             fullWidth
             sx={{
               background: colors.blueAccent[1000],
@@ -1649,7 +1651,6 @@ const AdminTicketDetails = () => {
                 backgroundColor: colors.blueAccent[900],
               },
               width: isMobile ? "25%" : "20%",
-              fontSize: "12px"
             }}
             onClick={() => setshareEntireExperience(true)}
           >

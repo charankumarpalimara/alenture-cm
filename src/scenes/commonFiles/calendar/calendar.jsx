@@ -26,6 +26,8 @@ import { isSameDay } from "date-fns";
 import axios from "axios";
 import dayjs from "dayjs";
 import { getCreaterId, getCreaterRole } from "../../../config";
+import { tokens } from "../../../theme";
+import { useTheme } from "@mui/material";
 
 // Helpers for date and time
 function formatDate(dt) {
@@ -168,11 +170,13 @@ const api = {
 };
 
 const Calendar = () => {
+  const theme = useTheme();
   const [currentEvents, setCurrentEvents] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [loading, setLoading] = useState(false);
+  const colors = tokens(theme.palette.mode);
 
   const [form] = Form.useForm();
 
@@ -377,8 +381,10 @@ const Calendar = () => {
           editMode && (
             <Button
               key="delete"
+              
               icon={<DeleteOutlined />}
               danger
+              className="form-button"
               onClick={handleDeleteEvent}
             >
               Delete
@@ -386,6 +392,7 @@ const Calendar = () => {
           ),
           <Button
             key="cancel"
+            className="form-button"
             onClick={() => {
               setModalVisible(false);
               form.resetFields();
@@ -398,6 +405,8 @@ const Calendar = () => {
             key="ok"
             type="primary"
             icon={editMode ? <EditOutlined /> : <PlusOutlined />}
+            className="form-button"
+            style={{ background: colors.blueAccent[1000], color: "#fff" }}
             onClick={handleModalOk}
           >
             {editMode ? "Save" : "Add"}

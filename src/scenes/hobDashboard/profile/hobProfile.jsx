@@ -350,10 +350,12 @@ const HobProfile = () => {
                     icon={<SaveOutlined />}
                     loading={isLoading}
                     size="large"
+                    className="form-button"
                     style={{
-                      fontWeight: "600",
-                      borderRadius: 8,
                       background: colors.blueAccent[1000],
+                      borderColor: colors.blueAccent[1000],
+                      color: "#fff",
+                      minWidth: 120,
                     }}
                   >
                     Save
@@ -365,6 +367,7 @@ const HobProfile = () => {
                     type="default"
                     icon={<CloseOutlined />}
                     size="large"
+                    className="form-button"
                     style={{
                       marginLeft: 8,
                       fontWeight: "bold",
@@ -390,11 +393,12 @@ const HobProfile = () => {
                 htmlType="button"
                 icon={<EditOutlined />}
                 size="large"
+                className="form-button"
                 style={{
                   background: colors.blueAccent[1000],
+                  borderColor: colors.blueAccent[1000],
                   color: "#fff",
-                  fontWeight: "600",
-                  borderRadius: 8,
+                  minWidth: 120,
                 }}
                 onClick={() => setIsEditing(true)}
               >

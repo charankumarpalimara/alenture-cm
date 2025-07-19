@@ -238,12 +238,12 @@ const Experiences = () => {
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
           startIcon={<ImportExportIcon />}
           onClick={() => alert("Export Data!")}
+          className="form-button"
         >
           Export
         </Button>
@@ -254,12 +254,13 @@ const Experiences = () => {
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
+    
             textTransform: "none",
           }}
           variant="contained"
           startIcon={<FilterIcon />}
           onClick={handleFilterClick}
+          className="form-button"
         >
           Filter
         </Button>
@@ -309,13 +310,13 @@ const Experiences = () => {
             variant="contained"
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none"
             }}
             startIcon={<AddIcon />}
             onClick={handleNewTicket}
+            className="form-button"
           >
             New Experience
           </Button>

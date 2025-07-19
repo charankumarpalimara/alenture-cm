@@ -83,6 +83,10 @@ body,
   width: 0 !important;
   content: none !important;
 }
+.form-button{
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
 
 /* Remove default AntD table header bottom border for all tables */
 .ant-table-thead > tr > th {

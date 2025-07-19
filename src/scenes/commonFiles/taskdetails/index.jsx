@@ -322,10 +322,9 @@ const TaskDetails = () => {
                                 <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mt: 1 }}>
                                     <Button
                                         variant="contained"
+                                        className="form-button"
                                         sx={{
                                             padding: "12px 24px",
-                                            fontSize: "14px",
-                                            fontWeight: "bold",
                                             borderRadius: "8px",
                                             boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                                             transition: "0.3s",
@@ -368,10 +367,9 @@ const TaskDetails = () => {
                                             <Button
                                                 variant="contained"
                                                 onClick={() => setIsEditing(false)}
+                                                className="form-button"
                                                 sx={{
                                                     padding: "12px 24px",
-                                                    fontSize: "14px",
-                                                    fontWeight: "bold",
                                                     borderRadius: "8px",
                                                     boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                                                     transition: "0.3s",
@@ -389,10 +387,9 @@ const TaskDetails = () => {
 
                                             <Button
                                                 variant="contained"
+                                                className="form-button"
                                                 sx={{
                                                     padding: "12px 24px",
-                                                    fontSize: "14px",
-                                                    fontWeight: "bold",
                                                     borderRadius: "8px",
                                                     boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                                                     transition: "0.3s",
@@ -413,10 +410,9 @@ const TaskDetails = () => {
                                             <Button
                                                 variant="contained"
                                                 onClick={setIsEditing}
+                                                className="form-button"
                                                 sx={{
                                                     padding: "12px 24px",
-                                                    fontSize: "14px",
-                                                    fontWeight: "bold",
                                                     borderRadius: "8px",
                                                     boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                                                     transition: "0.3s",
@@ -429,7 +425,6 @@ const TaskDetails = () => {
                                                     },
                                                 }}
                                             >
-
                                                 Edit
                                             </Button>
                                         )}

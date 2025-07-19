@@ -637,8 +637,8 @@ const CmTicketDetails = () => {
                       variant="contained"
                       sx={{
                         padding: "12px 24px",
-                        fontSize: "14px",
-                        fontWeight: "bold",
+                        fontSize: "12px",
+                        fontWeight: "600",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",

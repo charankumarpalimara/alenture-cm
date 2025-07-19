@@ -242,11 +242,11 @@ const NewExperiences = ({ apiUrl }) => {
 
         {/* Export Button */}
         <Button
+                  className="form-button"
           sx={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -258,11 +258,11 @@ const NewExperiences = ({ apiUrl }) => {
 
         {/* Filter Button */}
         <Button
+          className="form-button"
           sx={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -316,9 +316,9 @@ const NewExperiences = ({ apiUrl }) => {
         {getCreaterRole() === "cm" && (
           <Button
             variant="contained"
+            className="form-button"
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none"

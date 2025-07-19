@@ -410,7 +410,7 @@ const CmExperienceRegistrationForm = () => {
                 htmlType="submit"
                 style={{
                   padding: "14px 20px",
-                  fontSize: "14px",
+                  fontSize: "12px",
                   fontWeight: "600",
                   borderRadius: "3px",
                   boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",

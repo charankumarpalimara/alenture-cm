@@ -7,11 +7,11 @@ const ResolveDialog = ({ open, onClose, onConfirm }) => (
       <Typography>Are you sure you want to Resolve this experience?</Typography>
     </DialogContent>
     <DialogActions>
-      <Button onClick={onClose} color="primary">
+      <Button onClick={onClose} color="primary" className="form-button">
         Cancel
       </Button>
-      <Button onClick={onConfirm} color="error" variant="contained">
-        Yes, Close
+      <Button onClick={onConfirm} color="error" variant="contained" className="form-button">
+        Resolve
       </Button>
     </DialogActions>
   </Dialog>

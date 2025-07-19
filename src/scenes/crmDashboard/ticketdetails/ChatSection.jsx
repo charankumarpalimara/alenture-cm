@@ -235,6 +235,7 @@ const ChatSection = ({
         onClick={handleSendMessage}
         disabled={!newMessage.trim()}
         fullWidth
+        className="form-button"
         sx={{
           background: colors.blueAccent[1000],
           color: "#fff",
@@ -242,7 +243,6 @@ const ChatSection = ({
           textTransform: "none",
           minWidth: 0,
           width: "100%",
-          fontSize: { xs: "14px", sm: "16px" },
           display: safeExperienceData.status === "Resolved" ? "none" : "block",
         }}
       >

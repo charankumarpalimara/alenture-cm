@@ -89,41 +89,41 @@ const CmProfile = () => {
   };
 
   // Accept Formik helpers as argument for crop save
-const handleCropImage = async () => {
-  if (!completedCrop || !imgRef.current) return;
-  const image = imgRef.current;
-  const canvas = document.createElement('canvas');
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
-  canvas.width = completedCrop.width;
-  canvas.height = completedCrop.height;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-  ctx.drawImage(
-    image,
-    completedCrop.x * scaleX,
-    completedCrop.y * scaleY,
-    completedCrop.width * scaleX,
-    completedCrop.height * scaleY,
-    0,
-    0,
-    completedCrop.width,
-    completedCrop.height
-  );
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-      // Set preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(blob);
-      setProfileImageBlob(blob); // <-- store blob in state
-      resolve(blob);
-    }, 'image/jpeg', 0.9);
-  });
-};
+  const handleCropImage = async () => {
+    if (!completedCrop || !imgRef.current) return;
+    const image = imgRef.current;
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = completedCrop.width;
+    canvas.height = completedCrop.height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.drawImage(
+      image,
+      completedCrop.x * scaleX,
+      completedCrop.y * scaleY,
+      completedCrop.width * scaleX,
+      completedCrop.height * scaleY,
+      0,
+      0,
+      completedCrop.width,
+      completedCrop.height
+    );
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        // Set preview
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setProfileImage(reader.result);
+        };
+        reader.readAsDataURL(blob);
+        setProfileImageBlob(blob); // <-- store blob in state
+        resolve(blob);
+      }, 'image/jpeg', 0.9);
+    });
+  };
 
   // Accept Formik helpers for crop save
   const handleSaveCroppedImage = async () => {
@@ -132,46 +132,46 @@ const handleCropImage = async () => {
   };
 
   // Handle form submit
-const handleFinish = async (values) => {
-  setIsLoading(true);
-  const sessionData = JSON.parse(sessionStorage.getItem("CmDetails"));
-  const cmid = sessionData?.cmid || "";
-  const formData = new FormData();
-  formData.append("cmid", cmid);
-  formData.append("password", values.password);
-  formData.append("firstName", values.firstName);
-  formData.append("lastName", values.lastName);
-  formData.append("email", values.email);
-  formData.append("PhoneNo", values.PhoneNo);
-  formData.append("gender", values.gender);
-  // Add photo if selected
-  if (profileImageBlob) {
-    formData.append("cmProfileImage", profileImageBlob, "profile.jpg");
-  }
-  try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/v1/updateCmProfile`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    message.success("Profile updated successfully!");
-    // Update sessionStorage with new imageUrl if present in response
-    let updatedUserDetails = { ...sessionData, passwords: values.password, firstname: values.firstName, lastname: values.lastName, email: values.email, mobile: values.PhoneNo, extraind2: values.gender};
-    if (response.data && response.data.imageUrl) {
-      updatedUserDetails.imageUrl = response.data.imageUrl;
+  const handleFinish = async (values) => {
+    setIsLoading(true);
+    const sessionData = JSON.parse(sessionStorage.getItem("CmDetails"));
+    const cmid = sessionData?.cmid || "";
+    const formData = new FormData();
+    formData.append("cmid", cmid);
+    formData.append("password", values.password);
+    formData.append("firstName", values.firstName);
+    formData.append("lastName", values.lastName);
+    formData.append("email", values.email);
+    formData.append("PhoneNo", values.PhoneNo);
+    formData.append("gender", values.gender);
+    // Add photo if selected
+    if (profileImageBlob) {
+      formData.append("cmProfileImage", profileImageBlob, "profile.jpg");
     }
-    sessionStorage.setItem("CmDetails", JSON.stringify(updatedUserDetails));
-    setIsEditing(false);
-  } catch (error) {
-    message.error("Error submitting form");
-  } finally {
-    setIsLoading(false);
-  }
-};
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/v1/updateCmProfile`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      message.success("Profile updated successfully!");
+      // Update sessionStorage with new imageUrl if present in response
+      let updatedUserDetails = { ...sessionData, passwords: values.password, firstname: values.firstName, lastname: values.lastName, email: values.email, mobile: values.PhoneNo, extraind2: values.gender };
+      if (response.data && response.data.imageUrl) {
+        updatedUserDetails.imageUrl = response.data.imageUrl;
+      }
+      sessionStorage.setItem("CmDetails", JSON.stringify(updatedUserDetails));
+      setIsEditing(false);
+    } catch (error) {
+      message.error("Error submitting form");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Handle cancel
   const handleCancel = () => {
@@ -336,11 +336,11 @@ const handleFinish = async (values) => {
                     loading={isLoading}
                     size="large"
                     style={{
-                      fontWeight: "bold",
                       borderRadius: 8,
                       background: colors.blueAccent[1000],
                     }}
                     htmlType="submit"
+                    className="form-button"
                   >
                     Save
                   </Button>
@@ -354,10 +354,10 @@ const handleFinish = async (values) => {
                     size="large"
                     style={{
                       marginLeft: 8,
-                      fontWeight: "bold",
                       borderRadius: 8,
                     }}
                     onClick={handleCancel}
+                    className="form-button"
                   >
                     Cancel
                   </Button>
@@ -402,12 +402,12 @@ const handleFinish = async (values) => {
             <Col>
               <Button
                 htmlType="button"
+                className="form-button"
                 icon={<EditOutlined />}
                 size="large"
                 style={{
                   background: colors.blueAccent[1000],
                   color: "#fff",
-                fontWeight: "600",
                   borderRadius: 8,
                 }}
                 onClick={() => setIsEditing(true)}

@@ -367,7 +367,8 @@ const CrmProfile = ({apiUrl}) => {
                   icon={<SaveOutlined />}
                   loading={isLoading}
                   size="large"
-                  style={{ fontWeight: '600', borderRadius: 8, background: colors.blueAccent[1000] }}
+                  style={{ borderRadius: 8, background: colors.blueAccent[1000] }}
+                  className="form-button"
                 >
                   Save
                 </Button>
@@ -385,6 +386,7 @@ const CrmProfile = ({apiUrl}) => {
                     resetForm();
                     setProfileImage(null);
                   }}
+                  className="form-button"
                 >
                   Cancel
                 </Button>

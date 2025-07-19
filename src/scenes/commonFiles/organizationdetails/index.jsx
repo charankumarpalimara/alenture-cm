@@ -413,27 +413,33 @@ const OrganizationDetails = () => {
                         type="primary"
                         onClick={() => handleBranchSave(idx)}
                         loading={isLoading}
+                        className="form-button"
                         style={{
                           background: colors.blueAccent[1000],
                           color: "#fff",
-                          fontWeight: "600",
+                          minWidth: 120,
                           marginRight: 8,
                         }}
                       >
                         Save
                       </Button>
-                      <Button onClick={handleBranchCancel}>Cancel</Button>
+                      <Button
+                        onClick={handleBranchCancel}
+                        className="form-button"
+                      >
+                        Cancel
+                      </Button>
                     </>
                   ) : (
                     <>
                       <Button
                         type="primary"
                         onClick={() => handleBranchEdit(idx)}
+                        className="form-button"
                         style={{
                           background: colors.blueAccent[1000],
                           color: "#fff",
-                          fontWeight: "600",
-                          marginRight: 8,
+                          minWidth: 120,
                         }}
                       >
                         Edit
@@ -444,11 +450,11 @@ const OrganizationDetails = () => {
 
                           // size="small"
                           danger
+                          className="form-button"
                           style={{
                             // backgroundColor: "#3e4396",
                             // color: "#fff",
-                            fontWeight: "600",
-                            marginRight: 8,
+                            minWidth: 120,
                             // borderColor: "#f8dcdb",
 
                           }}
@@ -503,11 +509,12 @@ const OrganizationDetails = () => {
                 },
               });
             }}
+            className="form-button"
             style={{
               marginTop: 16,
               background: colors.blueAccent[1000],
               color: "#fff",
-              fontWeight: "600",
+              minWidth: 120,
             }}
           >
             Add New Unit

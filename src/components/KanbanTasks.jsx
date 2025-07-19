@@ -221,10 +221,9 @@ function KanbanBoard() {
         <Button
           variant="contained"
           onClick={() => setAddOpen(true)}
+          className="form-button"
           sx={{
             background: colors.blueAccent[1000],
-            fontWeight: 600,
-            fontSize: "12px",
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
@@ -474,6 +473,7 @@ function KanbanBoard() {
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
           <Button
             onClick={() => setAddOpen(false)}
+            className="form-button"
             sx={{
               textTransform: "none",
               color: "#fff",
@@ -485,6 +485,7 @@ function KanbanBoard() {
           <Button
             variant="contained"
             onClick={handleAddSave}
+            className="form-button"
             sx={{
               background: colors.blueAccent[1000],
               color: "#fff",
@@ -494,10 +495,9 @@ function KanbanBoard() {
               textTransform: "none",
               borderRadius: "8px",
               boxShadow: "none",
-              fontWeight: 600,
             }}
           >
-            {addLoading ? "Saving..." : "Save"}
+            {addLoading ? "Adding..." : "Add Task"}
           </Button>
         </DialogActions>
       </Dialog>
@@ -514,8 +514,8 @@ function KanbanBoard() {
           <Typography>Are you sure you want to delete this task?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-          <Button color="error" variant="contained" onClick={handleConfirmDelete}>
+          <Button onClick={() => setDeleteDialogOpen(false)} className="form-button">Cancel</Button>
+          <Button color="error" variant="contained" onClick={handleConfirmDelete} className="form-button">
             {deleteLoading ? "Deleting..." : "Delete"}
           </Button>
         </DialogActions>
@@ -586,10 +586,10 @@ function KanbanBoard() {
           <Button
             onClick={() => setViewOpen(false)}
             variant="contained"
+            className="form-button"
             sx={{
               background: colors.blueAccent[1000],
               color: "#fff",
-              fontSize: "12px",
               padding: "10px 20px",
               "&:hover": {
                 backgroundColor: colors.blueAccent[600],
@@ -681,6 +681,7 @@ function KanbanBoard() {
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
           <Button
             onClick={() => setEditOpen(false)}
+            className="form-button"
             sx={{
               textTransform: "none",
               color: "#fff",
@@ -692,6 +693,7 @@ function KanbanBoard() {
           <Button
             variant="contained"
             onClick={handleEditSave}
+            className="form-button"
             sx={{
               background: colors.blueAccent[1000],
               color: "#fff",
@@ -701,7 +703,6 @@ function KanbanBoard() {
               textTransform: "none",
               borderRadius: "8px",
               boxShadow: "none",
-              fontWeight: 600,
             }}
           >
             {editLoading ? "Updating..." : "Update Task"}

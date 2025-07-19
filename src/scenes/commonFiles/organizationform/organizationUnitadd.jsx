@@ -808,27 +808,32 @@ const OrganizationUnitadd = () => {
                             type="primary"
                             onClick={() => handleBranchSave(idx)}
                             loading={isLoading}
+                            className="form-button"
                             style={{
-                              backgroundColor: "#3e4396",
+                              background: colors.blueAccent[1000],
                               color: "#fff",
-                              fontWeight: "bold",
-                              marginRight: 8,
+                              borderRadius: 8,
                             }}
                           >
                             Save
                           </Button>
-                          <Button onClick={handleBranchCancel}>Cancel</Button>
+                          <Button
+                            onClick={handleBranchCancel}
+                            className="form-button"
+                          >
+                            Cancel
+                          </Button>
                         </>
                       ) : (
                         <>
                           <Button
                             type="primary"
                             onClick={() => handleBranchEdit(idx)}
+                            className="form-button"
                             style={{
-                              backgroundColor: "#3e4396",
+                              background: colors.blueAccent[1000],
                               color: "#fff",
-                              fontWeight: "bold",
-                              marginRight: 8,
+                              borderRadius: 8,
                             }}
                           >
                             Edit
@@ -839,11 +844,11 @@ const OrganizationUnitadd = () => {
 
                               // size="small"
                               danger
+                              className="form-button"
                               style={{
                                 // backgroundColor: "#3e4396",
                                 // color: "#fff",
-                                fontWeight: "bold",
-                                marginRight: 8,
+                                borderRadius: 8,
                                 // borderColor: "#f8dcdb",
 
                               }}
@@ -894,11 +899,12 @@ const OrganizationUnitadd = () => {
                 <Button
                   type="primary"
                   onClick={() => setUnitAddForm(true)}
+                  className="form-button"
                   style={{
                     marginTop: 16,
-                    backgroundColor: "#3e4396",
+                    background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "600",
+                    borderRadius: 8,
                   }}
                 >
                   Add Organization Unit
@@ -906,11 +912,12 @@ const OrganizationUnitadd = () => {
                 <Button
                   type="primary"
                   onClick={() => setCmform(true)}
+                  className="form-button"
                   style={{
                     marginTop: 16,
-                    backgroundColor: "#3e4396",
+                    background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "600",
+                    borderRadius: 8,
                   }}
                 >
                   Add Customer Manager
@@ -1168,10 +1175,10 @@ const OrganizationUnitadd = () => {
                   type="primary"
                   // htmlType="submit"
                   onClick={handleBack}
+                  className="form-button"
                   style={{
                     padding: "12px 24px",
                     fontSize: "14px",
-                    fontWeight: "600",
                     borderRadius: "8px",
                     background: colors.blueAccent[1000],
                     color: "#fff",
@@ -1184,10 +1191,10 @@ const OrganizationUnitadd = () => {
                   type="primary"
                   htmlType="submit"
                   loading={isLoading} // <-- Add this line
+                  className="form-button"
                   style={{
                     padding: "12px 24px",
                     fontSize: "14px",
-                    fontWeight: "600",
                     borderRadius: "8px",
                     background: colors.blueAccent[1000],
                     color: "#fff",
@@ -1511,6 +1518,7 @@ const OrganizationUnitadd = () => {
                       type="primary"
                       size="large"
                       onClick={() => setCmform(false)} // <-- Add this
+                      className="form-button"
                       style={{
                         background: colors.blueAccent[1000],
                         color: "#fff",
@@ -1527,6 +1535,7 @@ const OrganizationUnitadd = () => {
                       htmlType="submit"
                       loading={isLoading} // <-- Add this line
                       size="large"
+                      className="form-button"
                       style={{
                         background: colors.blueAccent[1000],
                         color: "#fff",

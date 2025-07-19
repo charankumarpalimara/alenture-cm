@@ -280,17 +280,16 @@ const Notes = () => {
             />
             <Button
               variant="contained"
+              onClick={handleOpenModal}
+              className="form-button"
               sx={{
                 background: colors.blueAccent[1000],
-                color: "#ffffff",
+                color: "#fff",
                 width: "40%",
                 height: "55px",
                 borderRadius: "8px",
-                fontSize: "14px",
-                fontWeight: "600",
                 textTransform: "none",
               }}
-              onClick={handleOpenModal}
             >
               Create New
             </Button>
@@ -326,17 +325,16 @@ const Notes = () => {
             />
             <Button
               variant="contained"
+              onClick={handleOpenModal}
+              className="form-button"
               sx={{
                 background: colors.blueAccent[1000],
-                color: "#ffffff",
+                color: "#fff",
                 width: "15%",
                 height: "45px",
                 borderRadius: "4px",
-                fontSize: "14px",
-                fontWeight: "600",
                 textTransform: "none",
               }}
-              onClick={handleOpenModal}
             >
               Create New
             </Button>
@@ -371,11 +369,11 @@ const Notes = () => {
             >
               <Box>
                 <Typography
-                  sx={{ fontWeight: "bold", marginBottom: 1, fontSize: "16px" }}
+                  sx={{ fontWeight: "500", marginBottom: 1, fontSize: "16px" }}
                 >
                   {note.name}
                 </Typography>
-                <Typography sx={{ marginBottom: 2, fontWeight: "14px" }}>
+                <Typography sx={{ marginBottom: 2, fontSize: "14px" }}>
                   {note.description}
                 </Typography>
               </Box>
@@ -440,9 +438,9 @@ const Notes = () => {
               <AntdButton
                 type="primary"
                 onClick={handleEditSubmit}
+                className="form-button"
                 style={{
                   padding: "8px 32px",
-                  fontSize: 14,
                   background: colors.blueAccent[1000],
                   color: "#fff",
                   fontWeight: "600",
@@ -454,9 +452,9 @@ const Notes = () => {
 
               <AntdButton
                 onClick={() => setEditModalOpen(false)}
+                            className="form-button"
                 style={{
                   padding: "8px 32px",
-                  fontSize: 14,
                   background: "#475569",
                   color: "#fff",
                 }}
@@ -467,9 +465,9 @@ const Notes = () => {
             <AntdButton
               danger
               onClick={handleDeleteNote}
+                          className="form-button"
               style={{
                 padding: "8px 32px",
-                fontSize: 14,
                 background: "#e53935",
                 color: "#fff",
               }}
@@ -511,9 +509,10 @@ const Notes = () => {
             <AntdButton
               type="primary"
               onClick={handleSubmit}
+                          className="form-button"
               style={{
                 padding: "8px 32px",
-                fontSize: 14,
+         
                 background: colors.blueAccent[1000],
                 color: "#fff",
                 fontWeight: "600",
@@ -523,9 +522,9 @@ const Notes = () => {
             </AntdButton>
             <AntdButton
               onClick={handleCloseModal}
+                          className="form-button"
               style={{
                 padding: "8px 32px",
-                fontSize: 14,
                 background: "#475569",
                 color: "#fff",
               }}

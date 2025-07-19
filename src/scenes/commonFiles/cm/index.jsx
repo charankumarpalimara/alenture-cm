@@ -209,16 +209,30 @@ const Cm = () => {
           </IconButton>
         </Box>
         <Button
-          variant="contained"
-          sx={{
+          type="primary"
+          onClick={() => Navigate("/cmform")}
+          className="form-button"
+          style={{
             background: colors.blueAccent[1000],
-            color: "#ffffff",
-            fontWeight: "600",
+            borderColor: colors.blueAccent[1000],
+            color: "#fff",
+            minWidth: 120,
           }}
-          startIcon={<AddIcon />}
-          onClick={handleNewTicket}
         >
-          Create New
+          Add CM
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => Navigate("/cmdetails")}
+          className="form-button"
+          style={{
+            background: colors.blueAccent[1000],
+            borderColor: colors.blueAccent[1000],
+            color: "#fff",
+            minWidth: 120,
+          }}
+        >
+          View Details
         </Button>
       </Box>
 
@@ -235,6 +249,7 @@ const Cm = () => {
       >
         <Button
           variant={statusFilter === "Active" ? "contained" : "outlined"}
+          className="form-button"
           onClick={() => handleStatusFilter("Active")}
           sx={{
             background: statusFilter === "Active"
@@ -250,7 +265,6 @@ const Cm = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "600",
             minWidth: 120,
           }}
         >
@@ -258,6 +272,7 @@ const Cm = () => {
         </Button>
         <Button
           variant={statusFilter === "Suspend" ? "contained" : "outlined"}
+          className="form-button"
           onClick={() => handleStatusFilter("Suspend")}
           sx={{
             background: statusFilter === "Suspend"
@@ -273,7 +288,6 @@ const Cm = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "600",
             minWidth: 120,
           }}
         >

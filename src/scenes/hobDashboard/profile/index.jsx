@@ -423,10 +423,12 @@ const AdminProfile = () => {
                           icon={<SaveOutlined />}
                           loading={isLoading}
                           size="large"
-                          style={{
-                            fontWeight: "600",
-                            borderRadius: 8,
+                          className="form-button"
+                          sx={{
                             background: colors.blueAccent[1000],
+                            color: "#fff",
+                            "&:hover": { backgroundColor: colors.blueAccent[600] },
+                            textTransform: "none",
                           }}
                         >
                           Save
@@ -438,10 +440,13 @@ const AdminProfile = () => {
                           type="default"
                           icon={<CloseOutlined />}
                           size="large"
-                          style={{
+                          className="form-button"
+                          sx={{
                             marginLeft: 8,
-                            fontWeight: "bold",
-                            borderRadius: 8,
+                            borderColor: colors.blueAccent[500],
+                            color: colors.blueAccent[500],
+                            "&:hover": { borderColor: colors.blueAccent[600] },
+                            textTransform: "none",
                           }}
                           onClick={() => {
                             setIsEditing(false);
@@ -463,11 +468,12 @@ const AdminProfile = () => {
                       htmlType="button"
                       icon={<EditOutlined />}
                       size="large"
-                      style={{
+                      className="form-button"
+                      sx={{
                         background: colors.blueAccent[1000],
                         color: "#fff",
-                        fontWeight: "600",
-                        borderRadius: 8,
+                        "&:hover": { backgroundColor: colors.blueAccent[600] },
+                        textTransform: "none",
                       }}
                       onClick={() => setIsEditing(true)}
                     >

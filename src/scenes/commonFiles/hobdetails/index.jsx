@@ -457,8 +457,8 @@ const HobDetails = () => {
                     danger
                     style={{
                       padding: "12px 24px",
-                      fontSize: "14px",
-                      fontWeight: "bold",
+                      fontWeight: "600",
+                      fontSize: "12px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
@@ -504,8 +504,7 @@ const HobDetails = () => {
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight: "600",
-                    borderRadius: 8,
+                    minWidth: 120,
                   }}
                   size="large"
                   onClick={() => setIsEditing(true)}
@@ -517,12 +516,31 @@ const HobDetails = () => {
           ) : (
             <>
               <Col>
-                <Button type="primary" htmlType="submit" size="large" style={{ background: colors.blueAccent[1000], fontWeight: "600" }} onClick={() => form.submit()}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  className="form-button"
+                  style={{
+                    background: colors.blueAccent[1000],
+                    color: "#fff",
+                    minWidth: 120,
+                  }}
+                  onClick={() => form.submit()}
+                >
                   Save
                 </Button>
               </Col>
               <Col>
-                <Button size="large" danger onClick={handleCancel}>
+                <Button
+                  size="large"
+                  className="form-button"
+                  style={{
+                    marginLeft: 8,
+                    minWidth: 120,
+                  }}
+                  onClick={handleCancel}
+                >
                   Cancel
                 </Button>
               </Col>

@@ -554,11 +554,11 @@ const HobForm = () => {
                 <Button
                   type="primary"
                   onClick={() => setIsEditMode(true)}
+                  className="form-button"
                   style={{
                     background: "#3e4396",
                     borderColor: "#3e4396",
                     color: "#fff",
-                    fontWeight: "bold",
                     minWidth: 120,
                   }}
                 >
@@ -568,6 +568,7 @@ const HobForm = () => {
                   style={{ marginLeft: 12 }}
                   onClick={handleModalClose}
                   danger
+                  className="form-button"
                 >
                   Close
                 </Button>
@@ -582,7 +583,6 @@ const HobForm = () => {
                     background: "#3e4396",
                     borderColor: "#3e4396",
                     color: "#fff",
-                    fontWeight: "bold",
                     minWidth: 120,
                   }}
                 >
@@ -889,6 +889,7 @@ const HobForm = () => {
                     background: colors.blueAccent[1000],
                     color: "#fff",
                     fontWeight: "600",
+                    fontSize: "12px",
                     borderRadius: 8,
                   }}
                   loading={isLoading}

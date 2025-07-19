@@ -662,11 +662,11 @@ const CrmForm = () => {
                 <Button
                   type="primary"
                   onClick={() => setIsEditMode(true)}
+                  className="form-button"
                   style={{
                     background: "#3e4396",
                     borderColor: "#3e4396",
                     color: "#fff",
-                    fontWeight: "bold",
                     minWidth: 120,
                   }}
                 >
@@ -676,6 +676,7 @@ const CrmForm = () => {
                   style={{ marginLeft: 12 }}
                   onClick={handleModalClose}
                   danger
+                  className="form-button"
                 >
                   Close
                 </Button>
@@ -686,11 +687,11 @@ const CrmForm = () => {
                   type="primary"
                   onClick={handleUpdate}
                   loading={isLoading}
+                  className="form-button"
                   style={{
                     background: "#3e4396",
                     borderColor: "#3e4396",
                     color: "#fff",
-                    fontWeight: "bold",
                     minWidth: 120,
                   }}
                 >
@@ -700,6 +701,7 @@ const CrmForm = () => {
                   style={{ marginLeft: 12 }}
                   onClick={handleCancelEdit}
                   danger
+                  className="form-button"
                 >
                   Cancel
                 </Button>
@@ -718,11 +720,9 @@ const CrmForm = () => {
                     type="text"
                     icon={<CloseOutlined style={{ fontSize: 20 }} />}
                     onClick={() => navigate(-1)}
+                    className="form-button"
                     style={{
-                      // margin: "16px 0 0 8px",
                       color: "#3e4396",
-                      fontWeight: 600,
-                      fontSize: 16,
                       alignSelf:"flex-end"
                     }}
                   >
@@ -769,6 +769,7 @@ const CrmForm = () => {
                 <Button
                   icon={<CameraOutlined />}
                   shape="circle"
+                  className="form-button"
                   style={{
                     position: "absolute",
                     bottom: 0,
@@ -1013,6 +1014,7 @@ const CrmForm = () => {
                   background: colors.blueAccent[1000],
                   color: "#fff",
                   fontWeight: "600",
+                  fontSize: "12px",
                   borderRadius: 8,
                 }}
                 loading={isLoading}

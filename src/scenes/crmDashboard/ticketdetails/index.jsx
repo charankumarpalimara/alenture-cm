@@ -1211,6 +1211,7 @@ const CrmTicketDetails = () => {
                       icon={<DownloadOutlined />}
                       disabled={isDownloading}
                       onClick={handleDownload}
+                      className="form-button"
                       sx={{ minWidth: 180 }}
                     >
                       {isDownloading ? "Downloading..." : "Download Attachment"}
@@ -1229,10 +1230,10 @@ const CrmTicketDetails = () => {
                 >
                   <Button
                     variant="contained"
+                    onClick={() => setOpenConfirm(true)}
+                    className="form-button"
                     sx={{
                       padding: "12px 24px",
-                      fontSize: "12px",
-                      // fontWeight: "600",
 
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
@@ -1245,7 +1246,6 @@ const CrmTicketDetails = () => {
                         boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
                       },
                     }}
-                    onClick={() => setOpenConfirm(true)}
                   >
                     Resolve
                   </Button>
@@ -1262,10 +1262,9 @@ const CrmTicketDetails = () => {
                       <Button
                         variant="contained"
                         onClick={() => setIsEditing(false)}
+                        className="form-button"
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "12px",
-                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1286,10 +1285,9 @@ const CrmTicketDetails = () => {
                           setIsEditing(false);
                           message.success("Changes saved!");
                         }}
+                        className="form-button"
                         sx={{
                           padding: "12px 24px",
-                          fontSize: "12px",
-                          // fontWeight: "600",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1309,10 +1307,9 @@ const CrmTicketDetails = () => {
                     <Button
                       variant="contained"
                       onClick={() => setIsEditing(true)}
+                      className="form-button"
                       sx={{
                         padding: "12px 24px",
-                        fontSize: "12px",
-                        // fontWeight: "600",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
@@ -1430,9 +1427,10 @@ const CrmTicketDetails = () => {
           <Button
             variant="contained"
             fullWidth
+            onClick={() => setshareEntireExperience(true)}
+            className="form-button"
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",
@@ -1440,9 +1438,7 @@ const CrmTicketDetails = () => {
                 background: colors.blueAccent[1000],
               },
               width: isMobile ? "25%" : "20%",
-              fontSize: { xs: "12px", sm: "14px" },
             }}
-            onClick={() => setshareEntireExperience(true)}
           >
             Assign To
           </Button>

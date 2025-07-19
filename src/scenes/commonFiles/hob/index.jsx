@@ -243,6 +243,7 @@ const Hob = () => {
           sx={{
             background: colors.blueAccent[1000],
             fontWeight: "600",
+            fontSize: "12px",
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
@@ -287,6 +288,7 @@ const Hob = () => {
                 : "none",
             border: "1px solid #b3c6ff",
             fontWeight: "600",
+            fontSize: "12px",
             minWidth: 120,
           }}
         >
@@ -311,6 +313,7 @@ const Hob = () => {
                 : "none",
             border: "1px solid #b3c6ff",
             fontWeight: "600",
+            fontSize: "12px",
             minWidth: 120,
           }}
         >

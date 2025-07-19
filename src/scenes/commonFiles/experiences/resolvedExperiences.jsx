@@ -174,7 +174,7 @@ const ResolvedExperiences = ({ apiUrl }) => {
   };
 
   const handleRowClick = (record) => {
-    if (getCreaterRole() === "cm" || getCreaterRole() === "crm" ) {
+    if (getCreaterRole() === "cm" || getCreaterRole() === "crm") {
       Navigate(`/ticketdetails/${record.experienceid}`);
     } else {
       Navigate("/ticketdetails", { state: { ticket: record } });
@@ -219,11 +219,11 @@ const ResolvedExperiences = ({ apiUrl }) => {
 
         {/* Export Button */}
         <Button
+          className="form-button"
           sx={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -235,11 +235,11 @@ const ResolvedExperiences = ({ apiUrl }) => {
 
         {/* Filter Button */}
         <Button
+          className="form-button"
           sx={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
-            fontWeight: "600",
             textTransform: "none",
           }}
           variant="contained"
@@ -293,9 +293,9 @@ const ResolvedExperiences = ({ apiUrl }) => {
         {getCreaterRole() === "cm" && (
           <Button
             variant="contained"
+            className="form-button"
             sx={{
               background: colors.blueAccent[1000],
-              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none"

@@ -77,6 +77,7 @@ const AssignCrmForm = ({ crmNameList, onClose, experienceid, existcrmid }) => {
           <Button
             onClick={onClose}
             style={{ background: "#e57373", color: "#fff", borderRadius: 8 }}
+            className="form-button"
           >
             Cancel
           </Button>
@@ -89,10 +90,10 @@ const AssignCrmForm = ({ crmNameList, onClose, experienceid, existcrmid }) => {
             style={{
               background: colors.blueAccent[1000],
               borderRadius: 8,
-              fontWeight: "600",
               color: "#fff",
               ...(loading && { opacity: 0.7 }),
             }}
+            className="form-button"
           >
             {loading ? "Assigning..." : "Assign"}
           </Button>

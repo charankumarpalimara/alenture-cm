@@ -203,6 +203,7 @@ const handleSubmit = async (values) => {
                   size="small"
                   sx={{ textTransform: "none", color: "#3e4396", fontWeight: "bold" }}
                   onClick={() => navigate("/forgot-password")}
+                  className="form-button"
                 >
                   Forgot Password?
                 </Button>
@@ -216,7 +217,8 @@ const handleSubmit = async (values) => {
                   type="submit"
                   sx={{
                     mb: 3,
-                    fontWeight: "bold",
+                    fontWeight: "600",
+                    fontSize: "12px",
                     background:
                       "linear-gradient(to right, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4)",
                     color: "white",
@@ -226,6 +228,7 @@ const handleSubmit = async (values) => {
                     },
                   }}
                   disabled={loading}
+                  className="form-button"
                 >
                   Sign in
                 </Button>

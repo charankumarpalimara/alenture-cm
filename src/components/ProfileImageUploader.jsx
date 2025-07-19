@@ -127,11 +127,21 @@ const ProfileImageUploader = React.memo(function ProfileImageUploader({
                 icon={<CloseOutlined />}
                 onClick={() => setCropModalVisible(false)}
                 style={{ marginRight: 8 }}
+                className="form-button"
               >
                 Cancel
               </Button>
-              <Button type="primary" onClick={handleSaveCroppedImage}>
-                Save
+              <Button
+                type="primary"
+                onClick={handleSaveCroppedImage}
+                className="form-button"
+                style={{
+                  background: "#3e4396",
+                  color: "#fff",
+                  minWidth: 120,
+                }}
+              >
+                Save Photo
               </Button>
             </div>
           </>
