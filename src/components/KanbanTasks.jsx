@@ -7,8 +7,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
-  MenuItem,
   Card,
   CardContent,
   IconButton,
@@ -18,7 +16,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { message } from "antd";
+import { message, Input, Select } from "antd";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 import { useTasks } from "../utils/TasksContext";
@@ -83,38 +81,17 @@ function KanbanBoard() {
     };
   });
 
-  // Add Task
-  const handleAddSave = async () => {
-    if (!addValues.taskName || !addValues.taskOwner) {
-      message.error("Task Name and Owner required");
-      return;
-    }
-    setAddLoading(true);
-    const formData = new FormData();
-    formData.append("taskname", addValues.taskName);
-    formData.append("taskowner", addValues.taskOwner);
-    formData.append("priority", addValues.taskPriority);
-    formData.append("discription", addValues.taskDescription);
-    formData.append("status", addValues.taskStatus);
-    // experienceid and crmid will be added in context/provider
-    try {
-      await addTask(formData);
-      message.success("Task created successfully!");
-      setAddOpen(false);
-      setAddValues({
-        taskName: "",
-        taskDescription: "",
-        taskOwner: "",
-        taskPriority: "Medium",
-        taskStatus: "To Do",
-      });
-    } catch (err) {
-      message.error("Failed to create task!");
-    }
-    setAddLoading(false);
+  // Handler functions
+  const handleViewClick = (card) => {
+    setViewingCard(card);
+    setViewOpen(true);
   };
 
-  // Edit Task
+  const handleDeleteClick = (taskId) => {
+    setDeletingTaskId(taskId);
+    setDeleteDialogOpen(true);
+  };
+
   const handleEditCard = (card) => {
     setEditingCard(card);
     setAddValues({
@@ -127,50 +104,88 @@ function KanbanBoard() {
     setEditOpen(true);
   };
 
-  const handleEditSave = async () => {
-    if (!editingCard) return;
-    setEditLoading(true);
+  const handleAddSave = async () => {
+    if (!addValues.taskName.trim()) {
+      message.error("Task name is required");
+      return;
+    }
+
+    if (!addValues.taskDescription.trim()) {
+      message.error("Task description is required");
+      return;
+    }
+
+    setAddLoading(true);
     try {
-      await editTask(editingCard.Id, {
-        taskname: addValues.taskName,
-        discription: addValues.taskDescription,
-        taskowner: addValues.taskOwner,
+      await addTask({
+        taskname: addValues.taskName.trim(),
+        description: addValues.taskDescription.trim(),
+        taskowner: addValues.taskOwner?.trim() || "",
         priority: addValues.taskPriority,
         status: addValues.taskStatus,
       });
-      message.success("Task updated successfully!");
+      
+      setAddValues({
+        taskName: "",
+        taskDescription: "",
+        taskOwner: "",
+        taskPriority: "Medium",
+        taskStatus: "To Do",
+      });
+      setAddOpen(false);
+      message.success("Task added successfully");
+    } catch (error) {
+      console.error("Add task error:", error);
+      message.error("Failed to add task");
+    } finally {
+      setAddLoading(false);
+    }
+  };
+
+  const handleEditSave = async () => {
+    if (!addValues.taskName.trim()) {
+      message.error("Task name is required");
+      return;
+    }
+
+    if (!addValues.taskDescription.trim()) {
+      message.error("Task description is required");
+      return;
+    }
+
+    setEditLoading(true);
+    try {
+      await editTask(editingCard.Id, {
+        taskname: addValues.taskName.trim(),
+        description: addValues.taskDescription.trim() || "null",
+        taskowner: addValues.taskOwner?.trim() || "",
+        priority: addValues.taskPriority,
+        status: addValues.taskStatus,
+      });
+      
       setEditOpen(false);
       setEditingCard(null);
-    } catch (err) {
-      message.error("Failed to update task!");
+      message.success("Task updated successfully");
+    } catch (error) {
+      console.error("Edit task error:", error);
+      message.error("Failed to update task");
+    } finally {
+      setEditLoading(false);
     }
-    setEditLoading(false);
-  };
-
-  // Delete Task
-  const handleDeleteClick = (id) => {
-    setDeletingTaskId(id);
-    setDeleteDialogOpen(true);
-  };
-
-  // View Task
-  const handleViewClick = (card) => {
-    setViewingCard(card);
-    setViewOpen(true);
   };
 
   const handleConfirmDelete = async () => {
-    if (!deletingTaskId) return;
     setDeleteLoading(true);
     try {
       await deleteTask(deletingTaskId);
       setDeleteDialogOpen(false);
       setDeletingTaskId(null);
-      message.success("Task deleted successfully!");
-    } catch (err) {
-      message.error("Failed to delete task!");
+      message.success("Task deleted successfully");
+    } catch (error) {
+      message.error("Failed to delete task");
+    } finally {
+      setDeleteLoading(false);
     }
-    setDeleteLoading(false);
   };
 
   return (
@@ -188,7 +203,6 @@ function KanbanBoard() {
         alignItems: "left",
         py: 2,
       }}>
-
         {/* <Typography
           variant="h4"
           sx={{
@@ -216,9 +230,7 @@ function KanbanBoard() {
             "&:hover": { backgroundColor: colors.blueAccent[600] },
             width: isMobile ? "45%" : "15%",
             display: getCreaterRole() === "crm" && experienceStatus !== "Resolved" ? "block" : "none",
-
           }}
-        // startIcon={<AddIcon />}
         >
           Add Task
         </Button>
@@ -266,7 +278,6 @@ function KanbanBoard() {
                 py: 1,
                 background: colors.blueAccent[1000],
                 borderRadius: "8px",
-                // border: `2px solid ${col.color}`,
                 fontWeight: 600,
                 fontSize: "12px",
               }}>
@@ -303,7 +314,6 @@ function KanbanBoard() {
                     >
                       <VisibilityIcon fontSize="small" />
                     </IconButton>
-
                     {/* Delete Button */}
                     <IconButton
                       size="small"
@@ -319,7 +329,6 @@ function KanbanBoard() {
                     >
                       <DeleteIcon fontSize="small" />
                     </IconButton>
-
                     <IconButton
                       size="small"
                       sx={{
@@ -334,7 +343,6 @@ function KanbanBoard() {
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
-
                     <Typography sx={{ fontWeight: 400, fontSize: { xs: 15, md: 16 }, color: "#1e293b", mb: 1 }}>
                       {card.Title}
                     </Typography>
@@ -395,7 +403,11 @@ function KanbanBoard() {
           sx: {
             borderRadius: "14px",
             p: 2,
+            zIndex: 1000,
           },
+        }}
+        sx={{
+          zIndex: 1000,
         }}
       >
         <DialogTitle
@@ -411,57 +423,51 @@ function KanbanBoard() {
         </DialogTitle>
         <DialogContent sx={{ pt: 1 }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <TextField
-              label="Task Name"
-              fullWidth
-              size="small"
+            <Input
+              placeholder="Task Name"
               value={addValues.taskName}
               onChange={e => setAddValues(v => ({ ...v, taskName: e.target.value }))}
+              style={{ marginBottom: 16 }}
             />
-            <TextField
-              label="Task Description"
-              fullWidth
-              multiline
-              rows={3}
-              size="small"
+            <Input.TextArea
+              placeholder="Task Description"
               value={addValues.taskDescription}
               onChange={e => setAddValues(v => ({ ...v, taskDescription: e.target.value }))}
+              rows={3}
+              style={{ marginBottom: 16 }}
             />
-            <TextField
-              label="Task Owner"
-              fullWidth
-              size="small"
+            <Input
+              placeholder="Task Owner"
               value={addValues.taskOwner}
               onChange={e => setAddValues(v => ({ ...v, taskOwner: e.target.value }))}
+              style={{ marginBottom: 16 }}
             />
-            <TextField
-              label="Priority"
-              select
-              fullWidth
-              size="small"
+            <Select
+              placeholder="Priority"
               value={addValues.taskPriority}
-              onChange={e => setAddValues(v => ({ ...v, taskPriority: e.target.value }))}
-            >
-              {priorityOptions.map(opt => (
-                <MenuItem key={opt} value={opt}>
-                  {opt}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              label="Status"
-              select
-              fullWidth
-              size="small"
+              onChange={val => setAddValues(v => ({ ...v, taskPriority: val }))}
+              style={{ width: "100%", marginBottom: 16 }}
+              options={priorityOptions.map(p => ({ label: p, value: p }))}
+              dropdownStyle={{ zIndex: 9999 }}
+              getPopupContainer={(triggerNode) => triggerNode.parentNode}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+            />
+            <Select
+              placeholder="Status"
               value={addValues.taskStatus}
-              onChange={e => setAddValues(v => ({ ...v, taskStatus: e.target.value }))}
-            >
-              {columnDefinitions.map(col => (
-                <MenuItem key={col.key} value={col.key}>
-                  {col.title}
-                </MenuItem>
-              ))}
-            </TextField>
+              onChange={val => setAddValues(v => ({ ...v, taskStatus: val }))}
+              style={{ width: "100%", marginBottom: 16 }}
+              options={columnDefinitions.map(col => ({ label: col.title, value: col.key }))}
+              dropdownStyle={{ zIndex: 9999 }}
+              getPopupContainer={(triggerNode) => triggerNode.parentNode}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+            />
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
@@ -471,7 +477,6 @@ function KanbanBoard() {
               textTransform: "none",
               color: "#fff",
               background: colors.redAccent[500],
-
             }}
           >
             Cancel
@@ -493,7 +498,6 @@ function KanbanBoard() {
           >
             {addLoading ? "Adding..." : "Add Task"}
           </Button>
-
         </DialogActions>
       </Dialog>
 
@@ -543,77 +547,38 @@ function KanbanBoard() {
         <DialogContent sx={{ pt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                label="Title"
-                fullWidth
+              <Input
+                placeholder="Title"
                 value={viewingCard?.Title || ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="outlined"
-                sx={{ mb: 2 }}
+                readOnly
+                style={{ marginBottom: 16, width: "100%" }}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Description"
-                fullWidth
-                multiline
-                rows={3}
+              <Input.TextArea
+                placeholder="Description"
                 value={viewingCard?.Description || ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="outlined"
-                sx={{ mb: 2 }}
+                readOnly
+                rows={3}
+                style={{ marginBottom: 16, width: "100%" }}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Status"
-                fullWidth
+              <Input
+                placeholder="Status"
                 value={viewingCard?.Status || ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="outlined"
-                sx={{ mb: 2 }}
+                readOnly
+                style={{ marginBottom: 16, width: "100%" }}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                label="Priority"
-                fullWidth
+              <Input
+                placeholder="Priority"
                 value={viewingCard?.Priority || ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="outlined"
-                sx={{ mb: 2 }}
+                readOnly
+                style={{ marginBottom: 16, width: "100%" }}
               />
             </Grid>
-            {/* <Grid item xs={6}>
-              <TextField
-                label="Tags"
-                fullWidth
-                value={viewingCard?.Tags || ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="outlined"
-              />
-            </Grid> */}
-            {/* <Grid item xs={6}>
-              <TextField
-                label="Due Date"
-                fullWidth
-                value={viewingCard?.DueDate || ""}
-                InputProps={{
-                  readOnly: true,
-                }}
-                variant="outlined"
-              />
-            </Grid> */}
           </Grid>
         </DialogContent>
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
@@ -624,7 +589,6 @@ function KanbanBoard() {
               background: colors.blueAccent[1000],
               color: "#fff",
               fontSize: "12px",
-              // fontWeight: "bold",
               padding: "10px 20px",
               "&:hover": {
                 backgroundColor: colors.blueAccent[600],
@@ -646,7 +610,11 @@ function KanbanBoard() {
           sx: {
             borderRadius: "14px",
             p: 2,
+            zIndex: 1000,
           },
+        }}
+        sx={{
+          zIndex: 1000,
         }}
       >
         <DialogTitle
@@ -662,57 +630,51 @@ function KanbanBoard() {
         </DialogTitle>
         <DialogContent sx={{ pt: 1 }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <TextField
-              label="Task Name"
-              fullWidth
-              size="small"
+            <Input
+              placeholder="Task Name"
               value={addValues.taskName}
               onChange={e => setAddValues(v => ({ ...v, taskName: e.target.value }))}
+              style={{ marginBottom: 16 }}
             />
-            <TextField
-              label="Task Description"
-              fullWidth
-              multiline
-              rows={3}
-              size="small"
+            <Input.TextArea
+              placeholder="Task Description"
               value={addValues.taskDescription}
               onChange={e => setAddValues(v => ({ ...v, taskDescription: e.target.value }))}
+              rows={3}
+              style={{ marginBottom: 16 }}
             />
-            <TextField
-              label="Task Owner"
-              fullWidth
-              size="small"
+            <Input
+              placeholder="Task Owner"
               value={addValues.taskOwner}
               onChange={e => setAddValues(v => ({ ...v, taskOwner: e.target.value }))}
+              style={{ marginBottom: 16 }}
             />
-            <TextField
-              label="Priority"
-              select
-              fullWidth
-              size="small"
+            <Select
+              placeholder="Priority"
               value={addValues.taskPriority}
-              onChange={e => setAddValues(v => ({ ...v, taskPriority: e.target.value }))}
-            >
-              {priorityOptions.map(opt => (
-                <MenuItem key={opt} value={opt}>
-                  {opt}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              label="Status"
-              select
-              fullWidth
-              size="small"
+              onChange={val => setAddValues(v => ({ ...v, taskPriority: val }))}
+              style={{ width: "100%", marginBottom: 16 }}
+              options={priorityOptions.map(p => ({ label: p, value: p }))}
+              dropdownStyle={{ zIndex: 9999 }}
+              getPopupContainer={(triggerNode) => triggerNode.parentNode}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+            />
+            <Select
+              placeholder="Status"
               value={addValues.taskStatus}
-              onChange={e => setAddValues(v => ({ ...v, taskStatus: e.target.value }))}
-            >
-              {columnDefinitions.map(col => (
-                <MenuItem key={col.key} value={col.key}>
-                  {col.title}
-                </MenuItem>
-              ))}
-            </TextField>
+              onChange={val => setAddValues(v => ({ ...v, taskStatus: val }))}
+              style={{ width: "100%", marginBottom: 16 }}
+              options={columnDefinitions.map(col => ({ label: col.title, value: col.key }))}
+              dropdownStyle={{ zIndex: 9999 }}
+              getPopupContainer={(triggerNode) => triggerNode.parentNode}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+            />
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
