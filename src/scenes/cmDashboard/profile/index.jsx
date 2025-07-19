@@ -21,10 +21,12 @@ import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const CmProfile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const Navigate = useNavigate();
   const [form] = Form.useForm();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -211,6 +213,22 @@ const CmProfile = () => {
           margin: 16,
         }}
       >
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                  <Button
+                    type="text"
+                    icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                    onClick={() => Navigate(-1)}
+                    style={{
+                      // margin: "16px 0 0 8px",
+                      color: "#3e4396",
+                      fontWeight: 600,
+                      fontSize: 16,
+                      alignSelf: "flex-end"
+                    }}
+                  >
+                    {/* Back */}
+                  </Button>
+                  </div>
         <Form
           form={form}
           layout="vertical"

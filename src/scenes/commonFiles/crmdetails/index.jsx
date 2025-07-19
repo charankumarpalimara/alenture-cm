@@ -976,7 +976,7 @@ const CrmDetails = () => {
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
-                      backgroundColor: "#af3f3b",
+                      background: colors.redAccent[400],
                       color: "#ffffff",
                       textTransform: "none",
                     }}

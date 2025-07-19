@@ -9,10 +9,12 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { tokens } from '../../../theme'; // Adjust the path as necessary
 import { useTheme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const CrmProfile = ({apiUrl}) => {
+const CrmProfile = ({ apiUrl }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const Navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -98,7 +100,7 @@ const CrmProfile = ({apiUrl}) => {
 
       message.success('Profile updated successfully!');
       // Update sessionStorage with new imageUrl if present in response
-      let updatedUserDetails = { ...sessionData, passwords  };
+      let updatedUserDetails = { ...sessionData, passwords };
       if (response.data && response.data.imageUrl) {
         updatedUserDetails.imageUrl = response.data.imageUrl;
       }
@@ -195,253 +197,269 @@ const CrmProfile = ({apiUrl}) => {
 
   return (
     <div style={cardStyle}>
-<Formik initialValues={initialValues} validationSchema={checkoutSchema} onSubmit={handleSubmit} enableReinitialize>
-  {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm }) => (
-    <>
-      <form onSubmit={handleSubmit}>
-        <Row justify="center" style={{ marginBottom: 24 }}>
-          <Col>
-            <Avatar
-              size={120}
-              src={profileImage || profileImageUrl || 'https://via.placeholder.com/150'}
-              style={{ border: '2px solid #1677ff', cursor: isEditing ? 'pointer' : 'default', opacity: isEditing ? 1 : 0.8 }}
-              onClick={() => isEditing && fileInputRef.current?.click()}
-              icon={<CameraOutlined />}
-            />
-            {isEditing && (
-              <div style={{ marginTop: 8, textAlign: 'center' }}>
-                <Button
-                  type="dashed"
-                  icon={<CameraOutlined />}
-                  size="small"
-                  onClick={() => fileInputRef.current?.click()}
-                  style={{ borderRadius: 8 }}
-                >
-                  {profileImage ? 'Change Photo' : 'Add Photo'}
-                </Button>
-              </div>
-            )}
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageUpload}
-              accept="image/*"
-              style={{ display: 'none' }}
-              disabled={!isEditing}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <h2 style={{ marginBottom: 24, textAlign: "center" }}>Profile Details</h2>
-          </Col>
-        </Row>
-<Row gutter={16}>
-  <Col xs={24} md={8}>
-    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>ID</div>
-    <Form.Item
-      validateStatus={touched.crmId && errors.crmId ? 'error' : ''}
-      help={touched.crmId && errors.crmId}
-      style={{ marginBottom: 16 }}
-    >
-      <Input
-        name="crmId"
-        value={values.crmId || userDetails.crmid || ''}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        size="large"
-      />
-    </Form.Item>
-  </Col>
-  <Col xs={24} md={8}>
-    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>First Name</div>
-    <Form.Item
-      validateStatus={touched.firstName && errors.firstName ? 'error' : ''}
-      help={touched.firstName && errors.firstName}
-      style={{ marginBottom: 16 }}
-    >
-      <Input
-        name="firstName"
-        value={values.firstName}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        size="large"
-      />
-    </Form.Item>
-  </Col>
-  <Col xs={24} md={8}>
-    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Last Name</div>
-    <Form.Item
-      validateStatus={touched.lastName && errors.lastName ? 'error' : ''}
-      help={touched.lastName && errors.lastName}
-      style={{ marginBottom: 16 }}
-    >
-      <Input
-        name="lastName"
-        value={values.lastName}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        size="large"
-      />
-    </Form.Item>
-  </Col>
-  <Col xs={24} md={8}>
-    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Email</div>
-    <Form.Item
-      validateStatus={touched.email && errors.email ? 'error' : ''}
-      help={touched.email && errors.email}
-      style={{ marginBottom: 16 }}
-    >
-      <Input
-        name="email"
-        value={values.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        size="large"
-      />
-    </Form.Item>
-  </Col>
-  <Col xs={24} md={8}>
-    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Phone Number</div>
-    <Form.Item
-      validateStatus={touched.PhoneNo && errors.PhoneNo ? 'error' : ''}
-      help={touched.PhoneNo && errors.PhoneNo}
-      style={{ marginBottom: 16 }}
-    >
-      <Input
-        name="PhoneNo"
-        value={values.PhoneNo}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        size="large"
-      />
-    </Form.Item>
-  </Col>
-  <Col xs={24} md={8}>
-    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Gender</div>
-    <Form.Item
-      validateStatus={touched.gender && errors.gender ? 'error' : ''}
-      help={touched.gender && errors.gender}
-      style={{ marginBottom: 16 }}
-    >
-      <Input
-        name="gender"
-        value={values.gender}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={true}
-        size="large"
-      />
-    </Form.Item>
-  </Col>
-  <Col xs={24} md={8}>
-    <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Password</div>
-    <Form.Item
-      validateStatus={touched.password && errors.password ? 'error' : ''}
-      help={touched.password && errors.password}
-      style={{ marginBottom: 16 }}
-    >
-      <Input.Password
-        name="password"
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        disabled={!isEditing}
-        size="large"
-      />
-    </Form.Item>
-  </Col>
-</Row>
-        <Row justify="end" gutter={16} style={{ marginTop: 24 }}>
-          {isEditing && (
-            <>
-              <Col>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  icon={<SaveOutlined />}
-                  loading={isLoading}
-                  size="large"
-                  style={{ borderRadius: 8, background: colors.blueAccent[1000] }}
-                  className="form-button"
-                >
-                  Save
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  htmlType="button"
-                  type="default"
-                  icon={<CloseOutlined />}
-                  size="large"
-                  danger
-                  style={{ marginLeft: 8, fontWeight: '600', borderRadius: 8, }}
-                  onClick={() => {
-                    setIsEditing(false);
-                    resetForm();
-                    setProfileImage(null);
-                  }}
-                  className="form-button"
-                >
-                  Cancel
-                </Button>
-              </Col>
-            </>
-          )}
-        </Row>
-      </form>
-      <Row justify="end" gutter={16} style={{ marginTop: 16 }}>
-        {!isEditing && (
-          <Col>
-            <Button
-              htmlType="button"
-              icon={<EditOutlined />}
-              size="large"
-              style={{ background: colors.blueAccent[1000], color: '#fff', fontWeight: '600', borderRadius: 8 }}
-              onClick={() => setIsEditing(true)}
+                      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                        <Button
+                          type="text"
+                          icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                          onClick={() => Navigate(-1)}
+                          style={{
+                            // margin: "16px 0 0 8px",
+                            color: "#3e4396",
+                            fontWeight: 600,
+                            fontSize: 16,
+                            alignSelf: "flex-end"
+                          }}
+                        >
+                          {/* Back */}
+                        </Button>
+                        </div>
+      <Formik initialValues={initialValues} validationSchema={checkoutSchema} onSubmit={handleSubmit} enableReinitialize>
+        {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm }) => (
+          <>
+            <form onSubmit={handleSubmit}>
+              <Row justify="center" style={{ marginBottom: 24 }}>
+                <Col>
+                  <Avatar
+                    size={120}
+                    src={profileImage || profileImageUrl || 'https://via.placeholder.com/150'}
+                    style={{ border: '2px solid #1677ff', cursor: isEditing ? 'pointer' : 'default', opacity: isEditing ? 1 : 0.8 }}
+                    onClick={() => isEditing && fileInputRef.current?.click()}
+                    icon={<CameraOutlined />}
+                  />
+                  {isEditing && (
+                    <div style={{ marginTop: 8, textAlign: 'center' }}>
+                      <Button
+                        type="dashed"
+                        icon={<CameraOutlined />}
+                        size="small"
+                        onClick={() => fileInputRef.current?.click()}
+                        style={{ borderRadius: 8 }}
+                      >
+                        {profileImage ? 'Change Photo' : 'Add Photo'}
+                      </Button>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    disabled={!isEditing}
+                  />
+                </Col>
+              </Row>
+              {/* <Row>
+                <Col span={24}>
+                  <h2 style={{ marginBottom: 24, textAlign: "center" }}>Profile Details</h2>
+                </Col>
+              </Row> */}
+              <Row gutter={16}>
+                <Col xs={24} md={8}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>ID</div>
+                  <Form.Item
+                    validateStatus={touched.crmId && errors.crmId ? 'error' : ''}
+                    help={touched.crmId && errors.crmId}
+                    style={{ marginBottom: 16 }}
+                  >
+                    <Input
+                      name="crmId"
+                      value={values.crmId || userDetails.crmid || ''}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={true}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>First Name</div>
+                  <Form.Item
+                    validateStatus={touched.firstName && errors.firstName ? 'error' : ''}
+                    help={touched.firstName && errors.firstName}
+                    style={{ marginBottom: 16 }}
+                  >
+                    <Input
+                      name="firstName"
+                      value={values.firstName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={true}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Last Name</div>
+                  <Form.Item
+                    validateStatus={touched.lastName && errors.lastName ? 'error' : ''}
+                    help={touched.lastName && errors.lastName}
+                    style={{ marginBottom: 16 }}
+                  >
+                    <Input
+                      name="lastName"
+                      value={values.lastName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={true}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Email</div>
+                  <Form.Item
+                    validateStatus={touched.email && errors.email ? 'error' : ''}
+                    help={touched.email && errors.email}
+                    style={{ marginBottom: 16 }}
+                  >
+                    <Input
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={true}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Phone Number</div>
+                  <Form.Item
+                    validateStatus={touched.PhoneNo && errors.PhoneNo ? 'error' : ''}
+                    help={touched.PhoneNo && errors.PhoneNo}
+                    style={{ marginBottom: 16 }}
+                  >
+                    <Input
+                      name="PhoneNo"
+                      value={values.PhoneNo}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={true}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Gender</div>
+                  <Form.Item
+                    validateStatus={touched.gender && errors.gender ? 'error' : ''}
+                    help={touched.gender && errors.gender}
+                    style={{ marginBottom: 16 }}
+                  >
+                    <Input
+                      name="gender"
+                      value={values.gender}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={true}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Password</div>
+                  <Form.Item
+                    validateStatus={touched.password && errors.password ? 'error' : ''}
+                    help={touched.password && errors.password}
+                    style={{ marginBottom: 16 }}
+                  >
+                    <Input.Password
+                      name="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      disabled={!isEditing}
+                      size="large"
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row justify="end" gutter={16} style={{ marginTop: 24 }}>
+                {isEditing && (
+                  <>
+                    <Col>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        icon={<SaveOutlined />}
+                        loading={isLoading}
+                        size="large"
+                        style={{ borderRadius: 8, background: colors.blueAccent[1000] }}
+                        className="form-button"
+                      >
+                        Save
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Button
+                        htmlType="button"
+                        type="default"
+                        icon={<CloseOutlined />}
+                        size="large"
+                        danger
+                        style={{ marginLeft: 8, fontWeight: '600', borderRadius: 8, }}
+                        onClick={() => {
+                          setIsEditing(false);
+                          resetForm();
+                          setProfileImage(null);
+                        }}
+                        className="form-button"
+                      >
+                        Cancel
+                      </Button>
+                    </Col>
+                  </>
+                )}
+              </Row>
+            </form>
+            <Row justify="end" gutter={16} style={{ marginTop: 16 }}>
+              {!isEditing && (
+                <Col>
+                  <Button
+                    htmlType="button"
+                    icon={<EditOutlined />}
+                    size="large"
+                    style={{ background: colors.blueAccent[1000], color: '#fff', borderRadius: 8 }}
+                    onClick={() => setIsEditing(true)}
+                  >
+                    Edit
+                  </Button>
+                </Col>
+              )}
+            </Row>
+            {/* Crop Modal */}
+            <Modal
+              open={cropModalVisible}
+              title="Crop Profile Picture"
+              onCancel={() => setCropModalVisible(false)}
+              onOk={() => handleSaveCroppedImage(setFieldValue)}
+              okText="Save Photo"
+              cancelText="Cancel"
+              width={400}
+              styles={{ body: { height: 350 } }}
             >
-              Edit
-            </Button>
-          </Col>
+              {originalImage && (
+                <ReactCrop
+                  crop={crop}
+                  onChange={(c) => setCrop(c)}
+                  onComplete={handleCropComplete}
+                  aspect={1}
+                  circularCrop
+                >
+                  <img
+                    ref={imgRef}
+                    src={originalImage}
+                    onLoad={onImageLoad}
+                    style={{ maxHeight: '70vh', maxWidth: '100%' }}
+                    alt="Crop preview"
+                  />
+                </ReactCrop>
+              )}
+            </Modal>
+          </>
         )}
-      </Row>
-      {/* Crop Modal */}
-      <Modal
-        open={cropModalVisible}
-        title="Crop Profile Picture"
-        onCancel={() => setCropModalVisible(false)}
-        onOk={() => handleSaveCroppedImage(setFieldValue)}
-        okText="Save Photo"
-        cancelText="Cancel"
-        width={400}
-        styles={{ body: { height: 350 } }}
-      >
-        {originalImage && (
-          <ReactCrop
-            crop={crop}
-            onChange={(c) => setCrop(c)}
-            onComplete={handleCropComplete}
-            aspect={1}
-            circularCrop
-          >
-            <img
-              ref={imgRef}
-              src={originalImage}
-              onLoad={onImageLoad}
-              style={{ maxHeight: '70vh', maxWidth: '100%' }}
-              alt="Crop preview"
-            />
-          </ReactCrop>
-        )}
-      </Modal>
-    </>
-  )}
-</Formik>
+      </Formik>
     </div>
   );
 };

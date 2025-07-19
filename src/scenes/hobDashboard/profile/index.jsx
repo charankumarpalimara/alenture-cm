@@ -25,10 +25,11 @@ import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
-
+const { useNavigate } = require("react-router-dom");
 const AdminProfile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const Navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -231,7 +232,7 @@ const AdminProfile = () => {
 
       <div style={cardStyle}>
         {/* Styled heading similar to organization details */}
-        <Typography.Title
+        {/* <Typography.Title
           level={3}
           style={{
             color: "#3e4396",
@@ -242,7 +243,25 @@ const AdminProfile = () => {
           }}
         >
           Profile Details
-        </Typography.Title>
+        </Typography.Title> */}
+
+
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+                  <Button
+                    type="text"
+                    icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                    onClick={() => Navigate(-1)}
+                    style={{
+                      // margin: "16px 0 0 8px",
+                      color: "#3e4396",
+                      fontWeight: 600,
+                      fontSize: 16,
+                      alignSelf: "flex-end"
+                    }}
+                  >
+                    {/* Back */}
+                  </Button>
+                </div>
         <Formik
           initialValues={initialValues}
           validationSchema={checkoutSchema}

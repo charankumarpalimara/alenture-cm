@@ -813,11 +813,13 @@ const OrganizationUnitadd = () => {
                               background: colors.blueAccent[1000],
                               color: "#fff",
                               borderRadius: 8,
+                              marginRight: 8,
                             }}
                           >
                             Save
                           </Button>
                           <Button
+                          danger
                             onClick={handleBranchCancel}
                             className="form-button"
                           >
@@ -834,6 +836,7 @@ const OrganizationUnitadd = () => {
                               background: colors.blueAccent[1000],
                               color: "#fff",
                               borderRadius: 8,
+                              marginRight: 8,
                             }}
                           >
                             Edit

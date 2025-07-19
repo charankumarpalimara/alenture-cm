@@ -13,7 +13,7 @@ import {
   message,
   Switch,
 } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined, CloseOutlined } from "@ant-design/icons";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -291,6 +291,7 @@ const Calendar = () => {
 
   return (
     <div style={{ margin: 8, background: "#fff", borderRadius: 8, padding: 6 }}>
+      
       <Typography.Title level={4} style={{ marginBottom: 16 }}>
         My Calendar
       </Typography.Title>
@@ -393,6 +394,7 @@ const Calendar = () => {
           <Button
             key="cancel"
             className="form-button"
+            danger
             onClick={() => {
               setModalVisible(false);
               form.resetFields();

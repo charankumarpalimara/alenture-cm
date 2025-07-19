@@ -1,3 +1,4 @@
+import { CloseOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import {
   Box,
@@ -125,7 +126,7 @@ function KanbanBoard() {
       formData.append("status", addValues.taskStatus);
 
       await addTask(formData);
-      
+
       setAddValues({
         taskName: "",
         taskDescription: "",
@@ -163,7 +164,7 @@ function KanbanBoard() {
         priority: addValues.taskPriority,
         status: addValues.taskStatus,
       });
-      
+
       setEditOpen(false);
       setEditingCard(null);
       message.success("Task updated successfully");
@@ -279,7 +280,7 @@ function KanbanBoard() {
                 background: colors.blueAccent[1000],
                 borderRadius: "8px",
                 fontWeight: 600,
-                fontSize: "12px",
+                fontSize: "14px",
               }}>
                 <span style={{ fontSize: 10, marginTop: 3 }}>{col.icon}</span>
                 <span style={{ color: "#fff" }}>{col.title}</span>
@@ -305,8 +306,8 @@ function KanbanBoard() {
                       size="small"
                       sx={{
                         position: "absolute",
-                        top: experienceStatus !== "Resolved" ?  8 : 8,
-                        right: experienceStatus !== "Resolved" ?  72 : 8,
+                        top: 8 ,
+                        right: experienceStatus !== "Resolved" ? 72 : 8,
                         color: "#2563eb",
                         "&:hover": { background: "rgba(37,99,235,0.1)" },
                       }}
@@ -343,7 +344,7 @@ function KanbanBoard() {
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
-                    <Typography sx={{ fontWeight: 400, fontSize: { xs: 15, md: 16 }, color: "#1e293b", mb: 1 }}>
+                    <Typography sx={{ fontWeight: 400, fontSize:"15px", color: "#1e293b", mb: 1 }}>
                       {card.Title}
                     </Typography>
                     <Typography sx={{ color: "#64748b", fontSize: { xs: 13, md: 14 }, mb: 1 }}>
@@ -472,16 +473,24 @@ function KanbanBoard() {
         </DialogContent>
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
           <Button
+            key="cancel"
             onClick={() => setAddOpen(false)}
+            type="default"
             className="form-button"
-            sx={{
+            danger
+            ghost
+            icon={<CloseOutlined />}
+            style={{
               textTransform: "none",
-              color: "#fff",
-              background: colors.redAccent[400],
+              border: `1.5px solid ${colors.redAccent[500]}`,
+              borderRadius: 8,
+              color: colors.redAccent[500],
+              background: "transparent"
             }}
           >
             Cancel
           </Button>
+
           <Button
             variant="contained"
             onClick={handleAddSave}
@@ -514,7 +523,23 @@ function KanbanBoard() {
           <Typography>Are you sure you want to delete this task?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} className="form-button">Cancel</Button>
+          <Button
+            onClick={() => setDeleteDialogOpen(false)}
+            type="default"
+            className="form-button"
+            danger
+            ghost
+            icon={<CloseOutlined />}
+            style={{
+              textTransform: "none",
+              borderColor: colors.redAccent[500],
+              borderRadius: 8,
+              color: colors.redAccent[500],
+              background: "#fff"
+            }}
+          >
+            Cancel
+          </Button>
           <Button color="error" variant="contained" onClick={handleConfirmDelete} className="form-button">
             {deleteLoading ? "Deleting..." : "Delete"}
           </Button>
@@ -681,15 +706,38 @@ function KanbanBoard() {
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
           <Button
             onClick={() => setEditOpen(false)}
+            type="default"
             className="form-button"
-            sx={{
+            danger
+            ghost
+            icon={<CloseOutlined />}
+            style={{
               textTransform: "none",
-              color: "#fff",
-              background: colors.redAccent[500],
+              border: `1.5px solid ${colors.redAccent[500]}`,
+              borderRadius: 8,
+              color: colors.redAccent[500],
+              background: "transparent"
             }}
           >
             Cancel
           </Button>
+          {/* <Button
+          onClick={() => setEditOpen(false)}
+          type="default"
+          className="form-button"
+          danger
+          ghost
+          icon={<CloseOutlined />}
+          style={{
+            textTransform: "none",
+            borderColor: colors.redAccent[500],
+            borderRadius: 8,
+            color: colors.redAccent[500],
+            background: "#fff"
+          }}
+        >
+          Cancel
+        </Button> */}
           <Button
             variant="contained"
             onClick={handleEditSave}

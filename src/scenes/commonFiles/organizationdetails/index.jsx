@@ -425,6 +425,7 @@ const OrganizationDetails = () => {
                       </Button>
                       <Button
                         onClick={handleBranchCancel}
+                        danger
                         className="form-button"
                       >
                         Cancel
@@ -480,7 +481,7 @@ const OrganizationDetails = () => {
                                   );
                                   message.success("Organization deleted successfully!");
                                   setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-                                  Navigate("/organization");
+                                  // Navigate("/organization");
                                 } catch (error) {
                                   message.error("Failed to delete Organization.");
                                 }
