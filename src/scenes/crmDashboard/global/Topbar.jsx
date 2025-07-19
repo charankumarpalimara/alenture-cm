@@ -924,14 +924,14 @@ const notifClick = (data) => {
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
-            <Item
+            {/* <Item
               title="Customer Relationship Manager"
               to="/crm"
               icon={<HandshakeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
-            />
+            /> */}
             {getCreaterRole() === "admin" && (
             <Item
               title="Head of the Business"
