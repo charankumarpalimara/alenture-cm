@@ -482,7 +482,7 @@ const CrmDetails = () => {
             {/* Back */}
           </Button>
         </div>
-        
+
         <Form
           form={form}
           layout="vertical"
@@ -955,7 +955,7 @@ const CrmDetails = () => {
               borderColor: colors.blueAccent[1000],
               color: "#fff",
               minWidth: 120,
-              marginTop:5,
+              marginTop: 5,
             }}
           >
             Add Customer Manager
@@ -968,12 +968,11 @@ const CrmDetails = () => {
                 {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
                   <Button
                     variant="contained"
+                    className="form-button"
                     size="large"
                     danger
                     style={{
                       padding: "12px 24px",
-                      fontWeight:"600",
-                      fontSize:"12px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
@@ -1016,11 +1015,10 @@ const CrmDetails = () => {
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
                 <Button
                   type="primary"
+                  className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
-                    fontWeight:"600",
-                    fontSize:"12px",
                     borderRadius: 8,
                   }}
                   size="large"
@@ -1035,12 +1033,12 @@ const CrmDetails = () => {
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
                 <Button
                   type="primary"
+                  className="form-button"
                   htmlType="submit"
                   size="large"
-                  fontWeight="600"
-                  fontSize="12px"
                   style={{
                     background: colors.blueAccent[1000],
+                    marginRight: 8,
                   }}
                   onClick={() => form.submit()}
                 >
@@ -1048,7 +1046,7 @@ const CrmDetails = () => {
                 </Button>
               </Col>
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
-                <Button size="large" style={{fontSize: "12px", fontWeight: "600"}} danger onClick={handleCancel}>
+                <Button size="large" style={{ fontSize: "12px", fontWeight: "600" }} danger onClick={handleCancel}>
                   Cancel
                 </Button>
               </Col>

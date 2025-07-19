@@ -534,9 +534,10 @@ const HobDetails = () => {
               <Col>
                 <Button
                   size="large"
+                  danger
                   className="form-button"
                   style={{
-                    marginLeft: 8,
+                marginRight: 8,
                     // minWidth: 120,
                   }}
                   onClick={handleCancel}
