@@ -537,7 +537,7 @@ const HobDetails = () => {
                   danger
                   className="form-button"
                   style={{
-                marginRight: 8,
+                    // marginLeft: 8,
                     // minWidth: 120,
                   }}
                   onClick={handleCancel}
