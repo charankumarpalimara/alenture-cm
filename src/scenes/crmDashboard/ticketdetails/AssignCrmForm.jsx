@@ -76,7 +76,7 @@ const AssignCrmForm = ({ crmNameList, onClose, experienceid, existcrmid }) => {
         <Col>
           <Button
             onClick={onClose}
-            style={{ background: "#e57373", color: "#fff", borderRadius: 8 }}
+            style={{ background: colors.redAccent[400], color: "#fff", borderRadius: 8 }}
             className="form-button"
           >
             Cancel

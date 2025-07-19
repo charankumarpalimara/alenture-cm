@@ -477,7 +477,7 @@ function KanbanBoard() {
             sx={{
               textTransform: "none",
               color: "#fff",
-              background: colors.redAccent[500],
+              background: colors.redAccent[400],
             }}
           >
             Cancel

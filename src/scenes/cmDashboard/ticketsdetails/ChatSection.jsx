@@ -21,6 +21,7 @@ const ChatSection = ({
   addImage,
   addTable,
   addYoutubeVideo,
+  
 }) => (
   <Box
     sx={{
@@ -85,7 +86,7 @@ const ChatSection = ({
                 wordBreak: "break-word",
               }}
             >
-              {message.sender === "manager" ? message.crmname : "You"}
+              {message.sender === "manager" ? message.crmname : experienceData.cmname}
             </Typography>
             <Box
               sx={{
