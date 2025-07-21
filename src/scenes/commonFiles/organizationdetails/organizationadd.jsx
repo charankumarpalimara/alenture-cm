@@ -110,9 +110,9 @@ const handleFormSubmit = async () => {
         if (
           error.response &&
           error.response.status === 409 &&
-          error.response.data?.error === "Branch Already Exicist"
+          error.response.data?.error === "Unit Already Exists"
         ) {
-          message.error(`Branch "${branch.branch}" already exists!`);
+          message.error(`Unit "${branch.branch}" Already Exists!`);
           setIsLoading(false);
           return; // Stop further processing
         } else {

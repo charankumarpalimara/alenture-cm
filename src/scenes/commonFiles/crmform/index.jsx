@@ -324,7 +324,7 @@ const CrmForm = () => {
         const crmData = response.data.data || {};
         const FinalCrmid = response.data.crmid || crmData.crmid;
         // Modal.success({ content: "CRM Registered Successfully!" });
-        message.success("CRM Registered Successfully!");
+        message.success("Relationship Manager Registered Successfully!");
         setEditValues({ ...values, profileImage, crmid: FinalCrmid }); // <-- set modal values
         setCreatedCrmId(FinalCrmid);
         setOriginalEditValues({ ...values, profileImage });
