@@ -1212,15 +1212,21 @@ const CrmTicketDetails = () => {
                         className="form-button"
                         disabled={isDownloading}
                         onClick={handleDownload}
-                        sx={{
-                          // border: '1px solid #3e4396',
-                          cursor: 'pointer',
-                          maxWidth: '180px',
-                          // background: 'transparent',
-                          color: '#3e4396',
-                          borderRadius: 8,
-                          fontWeight: 600,
-                        }}
+                          sx={{
+                        border: '1px solid #3e4396',
+                        cursor: 'pointer',
+                        maxWidth: '180px',
+                        background: 'transparent',
+                        color: '#3e4396',
+                        borderRadius: 8,
+                        fontWeight: 600,
+                        transition: 'border-color 0.2s, color 0.2s, background 0.2s',
+                        '&:hover': {
+                          border: '1px solid #2E2E9F',
+                          color: '#2E2E9F',
+                          background: '#f5f7ff',
+                        },
+                      }}
                       >
                         {isDownloading ? "Downloading..." : "Download Attachment"}
                       </Button>
