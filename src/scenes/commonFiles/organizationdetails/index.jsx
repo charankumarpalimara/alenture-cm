@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button as MuiButton } from "@mui/material";
 import {
   Input,
   Button,
@@ -270,7 +270,7 @@ const OrganizationDetails = () => {
                       <Select.Option value="Branch">Branch</Select.Option>
                     </Select>
                   </Col>
-                  <Col xs={24} md={8} style={{ display :editData.branchtype === "Parent" ? "none" : "block" }}>
+                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
                     <Typography.Text strong>Organization Unit</Typography.Text>
                     <Input
                       value={editData.branch}
@@ -447,20 +447,18 @@ const OrganizationDetails = () => {
                         Edit
                       </Button>
                       {getCreaterRole() === "admin" && (
-                        <Button
-                          // type="outlined"
-
+                        <MuiButton
+                          variant="outlined"
                           // size="small"
-                          danger
+                          color="error"
                           className="form-button"
-                          style={{
-                            // backgroundColor: "#3e4396",
-                            // color: "#fff",
-                            minWidth: 120,
-                            // borderColor: "#f8dcdb",
-                              // marginLeft: 8,
-
-                          }}
+                          // sx={{
+                          //   minWidth: 120,
+                          //   border: "1px solid #bb2124", // Set your desired outline color
+                          //   backgroundColor: "transparent", // Ensure no background
+                          //   color: "#bb2124", // Match outline color for text
+                          //   boxShadow: "none", // Remove any shadow
+                          // }}
 
                           onClick={() => {
                             Modal.confirm({
@@ -490,7 +488,7 @@ const OrganizationDetails = () => {
                           }}
                         >
                           Delete
-                        </Button>
+                        </MuiButton>
 
 
                       )}

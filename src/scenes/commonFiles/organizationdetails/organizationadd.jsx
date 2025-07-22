@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button as MuiButton } from "@mui/material";
 import {
   Form,
   Input,
@@ -182,7 +182,7 @@ const handleFormSubmit = async () => {
             >
               <Row gutter={16}>
                 <Col xs={24} md={8} style={{ display: "none" }}>
-                  <Form.Item label="Organization Id">
+                  <Form.Item label={<Text strong>Organization Id</Text>}>
                     <Input
                       value={organizationid || ""}
                       disabled
@@ -198,7 +198,7 @@ const handleFormSubmit = async () => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <Form.Item label="Organization Name">
+                  <Form.Item label={<Text strong>Organization Name</Text>}>
                     <Input
                       value={organizationname || ""}
                       disabled
@@ -215,7 +215,7 @@ const handleFormSubmit = async () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label="Organization Unit"
+                    label={<Text strong>Organization Unit</Text>}
                     name={[index, "branch"]}
                     rules={[
                       { required: true, message: "Organization Unit is required" },
@@ -301,7 +301,7 @@ const handleFormSubmit = async () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label="Email Id"
+                    label={<Text strong>Email Id</Text>}
                     name={[index, "email"]}
                     rules={[
                       {
@@ -330,7 +330,7 @@ const handleFormSubmit = async () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label="Country"
+                    label={<Text strong>Country</Text>}
                     name={[index, "country"]}
                     rules={[{ required: true, message: "Country is required" }]}
                   >
@@ -362,7 +362,7 @@ const handleFormSubmit = async () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label="State/Province"
+                    label={<Text strong>State/Province</Text>}
                     name={[index, "province"]}
                     rules={[
                       { required: true, message: "State/Province is required" },
@@ -403,7 +403,7 @@ const handleFormSubmit = async () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label="City"
+                    label={<Text strong>City</Text>}
                     name={[index, "city"]}
                     rules={[{ required: true, message: "City is required" }]}
                   >
@@ -446,7 +446,7 @@ const handleFormSubmit = async () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label="Postal Code"
+                    label={<Text strong>Postal Code</Text>}
                     name={[index, "postcode"]}
                     rules={[
                       { required: true, message: "Postal Code is required" },
@@ -476,34 +476,46 @@ const handleFormSubmit = async () => {
                     md={8}
                     style={{ display: "flex", alignItems: "center" }}
                   >
-                    <Button
-                      danger
+                    <MuiButton
+                    variant="outlined"
+                   color="error"
                       onClick={() => handleRemoveBranch(index)}
                       style={{ width: "100%" }}
                     >
                       Remove 
-                    </Button>
+                    </MuiButton>
                   </Col>
                 )}
               </Row>
             </Box>
           ))}
           <Box display="flex" justifyContent="flex-start" mt="10px" gap="10px">
-            <Button
+            <MuiButton
               type="dashed"
               onClick={handleAddBranch}
-              style={{ padding: "8px 16px", borderRadius: 8, fontWeight: 600 }}
+              className="form-button"
+              sx={{ 
+                padding: "8px 16px", 
+                // borderRadius: 8, 
+                fontWeight: 600,
+                height: "35px",
+                border: "1px solid #ccc", // Set your desired outline color
+                backgroundColor: "transparent", // Ensure no background
+                // color: "#ccc", // Match outline color for text  
+                }}
             >
               + Add Organization Unit
-            </Button>
+            </MuiButton>
             <Button
               type="primary"
               htmlType="submit"
+              className="form-button"
               style={{
                 padding: "12px 24px",
                 fontSize: "14px",
                 fontWeight: "600",
                 borderRadius: "8px",
+                // height: "40px",
                 background: colors.blueAccent[1000],
                 color: "#fff",
               }}

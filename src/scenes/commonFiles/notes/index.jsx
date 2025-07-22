@@ -6,6 +6,7 @@ import {
   Box,
   Typography,
   useMediaQuery,
+  Button as MuiButton,
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
@@ -438,33 +439,35 @@ const Notes = () => {
                 Save
               </Button>
 
-              <Button
-                type="default"
+            <MuiButton
+              variant="outlined"
+              color="error"
                 onClick={() => setEditModalOpen(false)}
                 className="form-button"
-                style={{
-                  padding: "8px 32px",
-                  background: "#475569",
-                  color: "#fff",
-                }}
+                // style={{
+                //   padding: "8px 32px",
+                //   background: "#475569",
+                //   color: "#fff",
+                // }}
               >
                 Cancel
-              </Button>
+              </MuiButton>
             </div>
-            <Button
-              danger
+            <MuiButton
+              variant="outlined"
+              color="error"
               onClick={handleDeleteNote}
               className="form-button"
-              style={{
-                padding: "8px 32px",
-                background: "#e53935",
-                color: "#fff",
-              }}
+              // style={{
+              //   padding: "8px 32px",
+              //   background: "#e53935",
+              //   color: "#fff",
+              // }}
               loading={isLoading}
               icon={<DeleteIcon />}
             >
               Delete
-            </Button>
+            </MuiButton>
           </div>
         </AntdModal>
 
@@ -509,8 +512,9 @@ const Notes = () => {
             >
               Submit
             </Button>
-            <Button
-              type="default"
+            <MuiButton
+              variant="outlined"
+              color="error"
               onClick={handleCloseModal}
               className="form-button"
               style={{
@@ -520,7 +524,7 @@ const Notes = () => {
               }}
             >
               Cancel
-            </Button>
+            </MuiButton>
           </div>
         </AntdModal>
       </Box>
