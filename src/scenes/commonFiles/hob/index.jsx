@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
-  IconButton,
-  InputBase,
   useTheme,
   useMediaQuery,
+    Button as MuiButton,
 } from "@mui/material";
 // import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../../theme";
-import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
+import { Add as AddIcon,   Search as SearchIcon, } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Table } from "antd";
+import { Table, Button, Input } from "antd";
+// import { SearchOutlined } from "@ant-design/icons"; 
 import CustomTablePagination from '../../../components/CustomPagination';
 // Columns for DataGrid
 const columns = [
@@ -85,7 +84,7 @@ const Hob = () => {
       );
       setFilteredTickets(filtered);
     }
-            setPage(0); // Reset to first page on search
+    setPage(0); // Reset to first page on search
   };
 
   useEffect(() => {
@@ -227,29 +226,32 @@ const Hob = () => {
           borderRadius="3px"
           flex={1}
         >
-          <InputBase
-            sx={{ ml: 2, flex: 1 }}
+          <Input
             placeholder="Search"
             value={searchTerm}
             onChange={handleSearchChange}
+            prefix={<SearchIcon style={{ color: "rgba(0,0,0,.25)" }} />}
+            style={{
+              height: "34px",
+              borderRadius: "3px",
+              border: "none",
+              boxShadow: "none",
+            }}
+
           />
-          <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
         </Box>
 
         <Button
-          variant="contained"
-          sx={{
+          type="contained"
+          icon={<AddIcon />}
+          onClick={handleNewTicket}
+          className="form-button"
+          style={{
             background: colors.blueAccent[1000],
-            fontWeight: "600",
-            fontSize: "12px",
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
           }}
-          startIcon={<AddIcon />}
-          onClick={handleNewTicket}
         >
           Create New
         </Button>
@@ -269,14 +271,14 @@ const Hob = () => {
           // border: "1px solid #e3e8ff",
         }}
       >
-        <Button
+        <MuiButton
           variant={statusFilter === "Active" ? "contained" : "outlined"}
+          className="form-button"
           onClick={() => handleStatusFilter("Active")}
           sx={{
-            background:
-              statusFilter === "Active"
-                ? colors.blueAccent[1000]
-                : "#e3e8ff",
+            background: statusFilter === "Active"
+              ? colors.blueAccent[1000]
+              : "#e3e8ff",
             color:
               statusFilter === "Active"
                 ? "#ffffff"
@@ -287,21 +289,19 @@ const Hob = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "600",
-            fontSize: "12px",
             minWidth: 120,
           }}
         >
           Active
-        </Button>
-        <Button
+        </MuiButton>
+        <MuiButton
           variant={statusFilter === "Suspend" ? "contained" : "outlined"}
+          className="form-button"
           onClick={() => handleStatusFilter("Suspend")}
           sx={{
-            background:
-              statusFilter === "Suspend"
-                ? colors.blueAccent[1000]
-                : "#e3e8ff",
+            background: statusFilter === "Suspend"
+              ? colors.blueAccent[1000]
+              : "#e3e8ff",
             color:
               statusFilter === "Suspend"
                 ? "#ffffff"
@@ -312,13 +312,11 @@ const Hob = () => {
                 ? "0 2px 8px rgba(62,67,150,0.10)"
                 : "none",
             border: "1px solid #b3c6ff",
-            fontWeight: "600",
-            fontSize: "12px",
             minWidth: 120,
           }}
         >
           Suspend
-        </Button>
+        </MuiButton>
       </Box>
 
       {/* DataGrid */}
@@ -332,7 +330,7 @@ const Hob = () => {
           overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-     <Table
+        <Table
           dataSource={paginatedData}
           columns={columns}
           pagination={false}

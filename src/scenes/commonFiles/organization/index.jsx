@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
-  IconButton,
-  InputBase,
+
+  // IconButton,
+  // InputBase,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -12,7 +12,7 @@ import { tokens } from "../../../theme";
 import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole } from "../../../config";
-import { Table } from "antd";
+import { Table, Button, Input } from "antd";
 import CustomTablePagination from '../../../components/CustomPagination';
 // import { Country } from "country-state-city";
 
@@ -217,27 +217,30 @@ const AdminANDHobOrganization = () => {
           borderRadius="3px"
           flex={1}
         >
-          <InputBase
-            sx={{ ml: 2, flex: 1 }}
+          <Input
             placeholder="Search"
             value={searchTerm}
             onChange={handleSearchChange}
+            prefix={<SearchIcon style={{ color: "rgba(0,0,0,.25)" }} />}
+            style={{
+              height: "34px",
+              borderRadius: "3px",
+              border: "none",
+              boxShadow: "none",
+            }}
           />
-          <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
         </Box>
         {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
           <Button
-            variant="contained"
-            sx={{
+            type="primary"
+            className="form-button"
+            style={{
               background: colors.blueAccent[1000],
-              fontWeight: "600",
               color: "#ffffff",
               whiteSpace: "nowrap",
               textTransform: "none",
             }}
-            startIcon={<AddIcon />}
+            icon={<AddIcon />}
             onClick={handleNewTicket}
           >
             Create New
@@ -254,7 +257,7 @@ const AdminANDHobOrganization = () => {
           overflowX: isMobile ? "auto" : "unset", // Enable horizontal scroll on mobile
         }}
       >
-    <Table
+        <Table
           dataSource={paginatedData}
           columns={columns}
           pagination={false}

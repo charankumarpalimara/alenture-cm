@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
 
-/* Use Ant Design font for the whole app */
+/* Use Apple system font for the whole app */
 html,
 body,
 #root,
@@ -8,7 +8,7 @@ body,
 .content {
   height: 100%;
   width: 100%;
-  font-family: "Poppins", "Source Sans Pro", "Segoe UI", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .app {
@@ -44,26 +44,131 @@ body,
   display: none !important;
   background: transparent !important;
 }
+
 .hide-scrollbar {
-  scrollbar-width: none !important; /* Firefox */
+  scrollbar-width: none !important;
+  /* Firefox */
+}
+
+/* Apply Apple system font family to Ant Design buttons */
+.ant-btn {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 500;
+  box-shadow: none !important;
+  border: 1px solid transparent !important;
+}
+
+/* Fix button hover and focus states */
+.ant-btn:hover,
+.ant-btn:focus {
+  box-shadow: none !important;
+  box-shadow: none !important;
+  /* border-bottom: none !important; */
+  outline: none !important;
+/* Ensure primary button styling */
+.ant-btn-primary {
+  box-shadow: none !important;
+}
+
+  box-shadow: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+}
+
+/* Remove any bottom border or shadow specifically */
+.ant-btn::before,
+.ant-btn::after {
+  display: none !important;
+}
+
+/* Force remove all shadows and borders */
+.form-button.ant-btn {
+  box-shadow: none !important;
+  border-bottom: none !important;
+  outline: none !important;
 }
 
 
-.custom-ant-table-header .ant-table-thead > tr {
-  background:  linear-gradient( to bottom, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
+
+.form-button.ant-btn:hover,
+.form-button.ant-btn:focus,
+.form-button.ant-btn:active {
+  box-shadow: none !important;
+  border-bottom: none !important;
+  outline: none !important;
 }
+
+/* Global button styling fixes for all buttons */
+button,
+.ant-btn,
+.MuiButton-root {
+  /* box-shadow: none !important; */
+  /* border-bottom: none !important; */
+  outline: none !important;
+}
+
+
+
+
+.ant-btn:hover,
+.ant-btn:focus,
+.ant-btn:active {
+  box-shadow: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+}
+
+/* Specifically target form buttons */
+.form-button {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  box-shadow: none !important;
+  outline: none !important;
+  /* Do NOT remove border-bottom for Material-UI buttons */
+}
+
+.MuiButton-root.form-button {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  /* box-shadow: none !important;
+  border-bottom: none !important;
+  outline: none !important; */
+}
+/* .form-button {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+} */
+
+/* Apply font to other Ant Design components if needed */
+.ant-input,
+.ant-select,
+.ant-typography,
+.ant-form-item-label>label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+
+.custom-ant-table-header .ant-table-thead>tr {
+  background: linear-gradient(to bottom, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
+}
+
 .custom-row:hover td {
-       background: #e3e8ff !important;
+  background: #e3e8ff !important;
 }
+
 .custom-button-color {
-    background: linear-gradient(90deg, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
-    font-weight: bold !important;
-    color: #fff !important;
-    white-space: nowrap !important;
-    text-transform: none !important;
+  background: linear-gradient(90deg, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
+  font-weight: bold !important;
+  color: #fff !important;
+  white-space: nowrap !important;
+  text-transform: none !important;
 }
+
 /* Ant Design Table header customizations */
-.custom-ant-table-header .ant-table-thead > tr > th {
+.custom-ant-table-header .ant-table-thead>tr>th {
   background: transparent !important;
   color: #fff !important;
   /* font-weight: bold; */
@@ -72,23 +177,23 @@ body,
   border-bottom: none !important;
   padding-top: 6px !important;
   padding-bottom: 6px !important;
-  height: 36px !important; /* optional, for extra control */
+  height: 36px !important;
+  /* optional, for extra control */
 }
 
 
 /* Remove all header column dividers */
-.custom-ant-table-header .ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+.custom-ant-table-header .ant-table-thead>tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
   display: none !important;
   background: none !important;
   width: 0 !important;
   content: none !important;
 }
-.form-button{
-  font-size: 12px !important;
-  font-weight: 600 !important;
-}
+
+
 
 /* Remove default AntD table header bottom border for all tables */
-.ant-table-thead > tr > th {
+.ant-table-thead>tr>th {
   border-bottom: none !important;
+
 }

@@ -135,7 +135,6 @@ const [isAuthenticated, setIsAuthenticated] = useState(
   const appTheme = createTheme(theme, {
     typography: {
       fontFamily: [
-        "Poppins",
         "-apple-system",
         "BlinkMacSystemFont",
         '"Segoe UI"',
@@ -158,21 +157,13 @@ const [isAuthenticated, setIsAuthenticated] = useState(
       MuiCssBaseline: {
         styleOverrides: {
           body: {
-            fontFamily: "Poppins, sans-serif",
-          },
-        },
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: 500,
+            fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
           },
         },
       },
       MuiTypography: {
         defaultProps: {
-          fontFamily: "Poppins, sans-serif",
+          fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
         },
       },
     },
@@ -274,7 +265,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(
                 borderRadius: "4px",
               },
 
-              fontFamily: 'Poppins, sans-serif !important',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important',
             }}
           >
             <Routes>

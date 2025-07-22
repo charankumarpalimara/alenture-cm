@@ -1206,16 +1206,23 @@ const CrmTicketDetails = () => {
                 </Box>
                 {safeExperienceData.filename && (
                   <Box sx={{ display: "flex", gap: 2 }}>
-                    <Button
-                      variant="contained"
-                      icon={<DownloadOutlined />}
-                      disabled={isDownloading}
-                      onClick={handleDownload}
-                      className="form-button"
-                      sx={{ minWidth: 180 }}
-                    >
-                      {isDownloading ? "Downloading..." : "Download Attachment"}
-                    </Button>
+                      <Button
+                        variant="outlined"
+                        className="form-button"
+                        disabled={isDownloading}
+                        onClick={handleDownload}
+                        style={{
+                          border: '1px solid #3e4396',
+                          cursor: 'pointer',
+                          maxWidth: '180px',
+                          background: 'transparent',
+                          color: '#3e4396',
+                          borderRadius: 8,
+                          fontWeight: 600,
+                        }}
+                      >
+                        {isDownloading ? "Downloading..." : "Download Attachment"}
+                      </Button>
                   </Box>
                 )}
                 {/* Action Buttons */}

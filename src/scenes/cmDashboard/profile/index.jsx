@@ -213,22 +213,22 @@ const CmProfile = () => {
           margin: 16,
         }}
       >
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-                  <Button
-                    type="text"
-                    icon={<CloseOutlined style={{ fontSize: 20 }} />}
-                    onClick={() => Navigate(-1)}
-                    style={{
-                      // margin: "16px 0 0 8px",
-                      color: "#3e4396",
-                      fontWeight: 600,
-                      fontSize: 16,
-                      alignSelf: "flex-end"
-                    }}
-                  >
-                    {/* Back */}
-                  </Button>
-                  </div>
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => Navigate(-1)}
+            style={{
+              // margin: "16px 0 0 8px",
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end"
+            }}
+          >
+            {/* Back */}
+          </Button>
+        </div>
         <Form
           form={form}
           layout="vertical"
@@ -273,13 +273,13 @@ const CmProfile = () => {
           </Row>
           <Row gutter={16}>
             <Col xs={24} md={8}>
-              <Form.Item label="ID" name="crmId">
+              <Form.Item label={<span style={{fontWeight:600}}>ID</span>} name="crmId">
                 <Input disabled />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="First Name"
+                label={<span style={{fontWeight:600}}>First Name</span>}
                 name="firstName"
                 rules={[{ required: true, message: "First Name is required" }]}
               >
@@ -293,7 +293,7 @@ const CmProfile = () => {
             </Col> */}
             <Col xs={24} md={8}>
               <Form.Item
-                label="Last Name"
+                label={<span style={{fontWeight:600}}>Last Name</span>}
                 name="lastName"
                 rules={[{ required: true, message: "Last Name is required" }]}
               >
@@ -302,7 +302,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Email"
+                label={<span style={{fontWeight:600}}>Email</span>}
                 name="email"
                 rules={[
                   { required: true, message: "Email is required" },
@@ -314,7 +314,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Phone Number"
+                label={<span style={{fontWeight:600}}>Phone Number</span>}
                 name="PhoneNo"
                 rules={[
                   { required: true, message: "Phone number is required" },
@@ -327,7 +327,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Gender"
+                label={<span style={{fontWeight:600}}>Gender</span>}
                 name="gender"
                 rules={[{ required: true, message: "Gender is required" }]}
               >
@@ -336,7 +336,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Password"
+                label={<span style={{fontWeight:600}}>Password</span>}
                 name="password"
                 rules={[{ required: true, message: "Password is required" }]}
               >

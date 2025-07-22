@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
-  IconButton,
-  InputBase,
+  Button as MuiButton,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
@@ -13,7 +11,7 @@ import {
   Add as AddIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Table } from "antd";
+import { Table, Input, Button  } from "antd";
 import "antd/dist/reset.css";
 // import TablePagination from '@mui/material/TablePagination';
 import CustomTablePagination from '../../../components/CustomPagination';
@@ -198,19 +196,22 @@ const Cm = () => {
           borderRadius="3px"
           flex={1}
         >
-          <InputBase
-            sx={{ ml: 2, flex: 1 }}
+          <Input
             placeholder="Search"
             value={searchTerm}
             onChange={handleSearchChange}
+            prefix={<SearchIcon style={{ color: "rgba(0,0,0,.25)" }} />}
+            style={{
+              height: "34px",
+              borderRadius: "3px",
+              border: "none",
+              boxShadow: "none",
+            }}
           />
-          <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
         </Box>
         <Button
           type="primary"
-          startIcon={<AddIcon />}
+          icon={<AddIcon />}
           onClick={() => Navigate("/cmform")}
           className="form-button"
           style={{
@@ -248,7 +249,7 @@ const Cm = () => {
           borderRadius: "12px",
         }}
       >
-        <Button
+        <MuiButton
           variant={statusFilter === "Active" ? "contained" : "outlined"}
           className="form-button"
           onClick={() => handleStatusFilter("Active")}
@@ -270,8 +271,8 @@ const Cm = () => {
           }}
         >
           Active
-        </Button>
-        <Button
+        </MuiButton>
+        <MuiButton
           variant={statusFilter === "Suspend" ? "contained" : "outlined"}
           className="form-button"
           onClick={() => handleStatusFilter("Suspend")}
@@ -293,7 +294,7 @@ const Cm = () => {
           }}
         >
           Suspend
-        </Button>
+        </MuiButton>
       </Box>
 
       {/* Table */}

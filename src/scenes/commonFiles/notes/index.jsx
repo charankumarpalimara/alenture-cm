@@ -6,16 +6,14 @@ import {
   Box,
   Typography,
   useMediaQuery,
-  TextField,
-  Button,
 } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
 import { tokens } from "../../../theme";
-import { Search as SearchIcon } from "@mui/icons-material";
+import { Search as SearchIcon, Add as AddIcon } from "@mui/icons-material";
 import {
   Input,
-  Button as AntdButton,
+  Button,
   Modal as AntdModal,
   Typography as AntdTypography,
   message,
@@ -183,10 +181,10 @@ const Notes = () => {
     }
   };
 
-    const filteredNotes = notes.filter(
+  const filteredNotes = notes.filter(
     (note) =>
-      note.name.toLowerCase().includes(searchTerm.toLowerCase()) 
-      // note.description.toLowerCase().includes(searchTerm.toLowerCase())
+      note.name.toLowerCase().includes(searchTerm.toLowerCase())
+    // note.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // const StyledTextField = ({ label, name, value, handleChange, handleBlur, error, multiline = false, rows = 1 }) => {
@@ -250,7 +248,7 @@ const Notes = () => {
         </div>
       )}
       <Box sx={{ padding: 3 }}>
-        {isMobile ? (
+        {/* {isMobile ? (
           <Box
             display="flex"
             flexDirection="column"
@@ -259,30 +257,26 @@ const Notes = () => {
             p={3}
             gap={2}
           >
-            <TextField
-              variant="outlined"
+            <Input
               placeholder="Search..."
-              size="small"
-              sx={{
+              value={searchTerm}
+              onChange={handleSearchChange}
+              prefix={<SearchIcon style={{ color: "rgba(0,0,0,.25)" }} />}
+              style={{
                 background: "#ffffff",
                 flexGrow: 1,
                 minWidth: "50px",
                 maxWidth: "600px",
                 padding: "5px 20px",
                 borderRadius: "8px",
-                "& fieldset": { border: "none" },
-              }}
-              value={searchTerm}
-              onChange={handleSearchChange}
-              InputProps={{
-                startAdornment: <SearchIcon sx={{ color: "action.active" }} />,
+                border: "none",
               }}
             />
             <Button
-              variant="contained"
+              type="primary"
               onClick={handleOpenModal}
               className="form-button"
-              sx={{
+              style={{
                 background: colors.blueAccent[1000],
                 color: "#fff",
                 width: "40%",
@@ -294,52 +288,47 @@ const Notes = () => {
               Create New
             </Button>
           </Box>
-        ) : (
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            p={3}
-            gap={2}
+        ) : ( */}
+        <Box
+          display="flex"
+          flexDirection={isMobile ? "column" : "row"}
+          justifyContent="center"
+          alignItems="center"
+          paddingX={10}
+          p={3}
+          gap={2}
+        >
+          <Input
+            placeholder="Search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            prefix={<SearchIcon style={{ color: "rgba(0,0,0,.25)" }} />}
+            style={{
+              height: "34px",
+              width: isMobile ? "100%" : "50%",
+              borderRadius: "3px",
+              border: "none",
+              boxShadow: "none",
+            }}
+          />
+          <Button
+            type="primary"
+            onClick={handleOpenModal}
+            className="form-button"
+            icon={<AddIcon />}
+            style={{
+              background: colors.blueAccent[1000],
+              color: "#fff",
+              // width: "15%",
+              height: "34px",
+              borderRadius: "4px",
+              textTransform: "none",
+            }}
           >
-            <TextField
-              variant="outlined"
-              placeholder="Search..."
-              size="small"
-              sx={{
-                background: "#ffffff",
-                flexGrow: 1,
-                minWidth: "100px",
-                maxWidth: "600px",
-                padding: "5px 20px",
-                borderRadius: "8px",
-                "& fieldset": { border: "none" },
-              }}
-              value={searchTerm}
-              onChange={handleSearchChange}
-              InputProps={{
-                startAdornment: (
-                  <SearchIcon sx={{ color: "action.active", mr: 1 }} />
-                ),
-              }}
-            />
-            <Button
-              variant="contained"
-              onClick={handleOpenModal}
-              className="form-button"
-              sx={{
-                background: colors.blueAccent[1000],
-                color: "#fff",
-                width: "15%",
-                height: "45px",
-                borderRadius: "4px",
-                textTransform: "none",
-              }}
-            >
-              Create New
-            </Button>
-          </Box>
-        )}
+            Create New
+          </Button>
+        </Box>
+        {/* )} */}
 
         <Box
           sx={{
@@ -389,13 +378,12 @@ const Notes = () => {
                   {note.date}
                 </Typography>
                 <Button
-                  variant="text"
+                  type="text"
                   size="small"
                   onClick={() => handleEditClick(note)}
-                  sx={{ minWidth: 0, padding: "4px" }}
-                >
-                  <EditIcon fontSize="small" />
-                </Button>
+                  style={{ minWidth: 0, padding: "4px" }}
+                  icon={<EditIcon fontSize="small" />}
+                />
               </Box>
             </Box>
           ))}
@@ -435,7 +423,7 @@ const Notes = () => {
             }}
           >
             <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              <AntdButton
+              <Button
                 type="primary"
                 onClick={handleEditSubmit}
                 className="form-button"
@@ -443,16 +431,17 @@ const Notes = () => {
                   padding: "8px 32px",
                   background: colors.blueAccent[1000],
                   color: "#fff",
-                  fontWeight: "600",
+                  // fontWeight: "600",
                 }}
                 loading={isLoading}
               >
                 Save
-              </AntdButton>
+              </Button>
 
-              <AntdButton
+              <Button
+                type="default"
                 onClick={() => setEditModalOpen(false)}
-                            className="form-button"
+                className="form-button"
                 style={{
                   padding: "8px 32px",
                   background: "#475569",
@@ -460,12 +449,12 @@ const Notes = () => {
                 }}
               >
                 Cancel
-              </AntdButton>
+              </Button>
             </div>
-            <AntdButton
+            <Button
               danger
               onClick={handleDeleteNote}
-                          className="form-button"
+              className="form-button"
               style={{
                 padding: "8px 32px",
                 background: "#e53935",
@@ -475,7 +464,7 @@ const Notes = () => {
               icon={<DeleteIcon />}
             >
               Delete
-            </AntdButton>
+            </Button>
           </div>
         </AntdModal>
 
@@ -506,23 +495,24 @@ const Notes = () => {
             style={{ marginBottom: 24 }}
           />
           <div style={{ display: "flex", gap: 12 }}>
-            <AntdButton
+            <Button
               type="primary"
               onClick={handleSubmit}
-                          className="form-button"
+              className="form-button"
               style={{
                 padding: "8px 32px",
-         
+
                 background: colors.blueAccent[1000],
                 color: "#fff",
-                fontWeight: "600",
+                // fontWeight: "600",
               }}
             >
               Submit
-            </AntdButton>
-            <AntdButton
+            </Button>
+            <Button
+              type="default"
               onClick={handleCloseModal}
-                          className="form-button"
+              className="form-button"
               style={{
                 padding: "8px 32px",
                 background: "#475569",
@@ -530,7 +520,7 @@ const Notes = () => {
               }}
             >
               Cancel
-            </AntdButton>
+            </Button>
           </div>
         </AntdModal>
       </Box>

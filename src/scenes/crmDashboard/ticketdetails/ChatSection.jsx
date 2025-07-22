@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Typography, IconButton, Button } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
+import { Button } from "antd";
 import { EditorContent } from "@tiptap/react";
 import FormatBold from "@mui/icons-material/FormatBold";
 import FormatItalic from "@mui/icons-material/FormatItalic";
@@ -231,17 +232,13 @@ const ChatSection = ({
       }}
     >
       <Button
-        variant="contained"
+        type="primary"
         onClick={handleSendMessage}
         disabled={!newMessage.trim()}
-        fullWidth
         className="form-button"
-        sx={{
+        style={{
           background: colors.blueAccent[1000],
           color: "#fff",
-          "&:hover": { backgroundColor: colors.blueAccent[600] },
-          textTransform: "none",
-          minWidth: 0,
           width: "100%",
           display: safeExperienceData.status === "Resolved" ? "none" : "block",
         }}

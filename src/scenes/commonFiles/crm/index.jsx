@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
-  IconButton,
-  InputBase,
   useTheme,
   useMediaQuery,
+  Button as MuiButton,
 } from "@mui/material";
 // import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../../theme";
@@ -15,7 +13,7 @@ import {
   // PostAdd,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Table } from "antd";
+import { Table, Input, Button } from "antd";
 import "antd/dist/reset.css"; // Ant Design resets
 // import { first } from "lodash";
 import CustomTablePagination from '../../../components/CustomPagination';
@@ -70,9 +68,9 @@ const Crm = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("Active");
 
-    // Pagination state
-    const [page, setPage] = useState(0); // 0-based index
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+  // Pagination state
+  const [page, setPage] = useState(0); // 0-based index
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Search filter
   const handleSearchChange = (event) => {
@@ -91,7 +89,7 @@ const Crm = () => {
       );
       setFilteredTickets(filtered);
     }
-        setPage(0); // Reset to first page on search
+    setPage(0); // Reset to first page on search
   };
 
   useEffect(() => {
@@ -194,7 +192,7 @@ const Crm = () => {
           : (item.status || "").toLowerCase() === "suspend"
       )
     );
-        // setPage(0); // Reset to first page on filter change
+    // setPage(0); // Reset to first page on filter change
   };
 
 
@@ -231,27 +229,32 @@ const Crm = () => {
           borderRadius="3px"
           flex={1}
         >
-          <InputBase
-            sx={{ ml: 2, flex: 1 }}
+          <Input
             placeholder="Search"
             value={searchTerm}
             onChange={handleSearchChange}
+            prefix={<SearchIcon style={{ color: "rgba(0,0,0,.25)" }} />}
+            style={{
+              height: "34px",
+              borderRadius: "3px",
+              border: "none",
+              boxShadow: "none",
+            }}
+
           />
-          <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
         </Box>
 
         <Button
-          variant="contained"       
+          type="primary"
           className="form-button"
-          sx={{
+          style={{
             background: colors.blueAccent[1000],
+            borderColor: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
           }}
-          startIcon={<AddIcon />}
+          icon={<AddIcon />}
           onClick={handleNewTicket}
         >
           Create New
@@ -271,15 +274,14 @@ const Crm = () => {
           // border: "1px solid #e3e8ff",
         }}
       >
-        <Button
-                className="form-button"
+        <MuiButton
           variant={statusFilter === "Active" ? "contained" : "outlined"}
+          className="form-button"
           onClick={() => handleStatusFilter("Active")}
           sx={{
-            background:
-              statusFilter === "Active"
-                ? colors.blueAccent[1000]
-                : "#e3e8ff",
+            background: statusFilter === "Active"
+              ? colors.blueAccent[1000]
+              : "#e3e8ff",
             color:
               statusFilter === "Active"
                 ? "#ffffff"
@@ -294,16 +296,15 @@ const Crm = () => {
           }}
         >
           Active
-        </Button>
-        <Button
-          className="form-button"
+        </MuiButton>
+        <MuiButton
           variant={statusFilter === "Suspend" ? "contained" : "outlined"}
+          className="form-button"
           onClick={() => handleStatusFilter("Suspend")}
           sx={{
-            background:
-              statusFilter === "Suspend"
-                ? colors.blueAccent[1000]
-                : "#e3e8ff",
+            background: statusFilter === "Suspend"
+              ? colors.blueAccent[1000]
+              : "#e3e8ff",
             color:
               statusFilter === "Suspend"
                 ? "#ffffff"
@@ -318,7 +319,7 @@ const Crm = () => {
           }}
         >
           Suspend
-        </Button>
+        </MuiButton>
       </Box>
 
       {/* DataGrid */}

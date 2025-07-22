@@ -2,11 +2,11 @@ import {
   Box,
   useMediaQuery,
   Typography,
-  Button,
   useTheme,
   // IconButton,
+  Button as MuiButtom,
 } from "@mui/material";
-import { message, Modal } from "antd";
+import { message, Modal, Button } from "antd";
 import { Formik } from "formik";
 import { tokens } from "../../../theme";
 import * as yup from "yup";
@@ -609,16 +609,25 @@ const CmTicketDetails = () => {
 
                 {/* Download Button */}
                 {experienceData.filename && (
-                  <Box sx={{ display: "flex", gap: 2 }}>
+                  <Box sx={{ display: "flex", gap: 2 ,}}>
                     {fileUrl && (
-                      <Button
-                        variant="contained"
+                      <MuiButtom
+                        variant="outlined"
+                        className="form-button"
                         disabled={isDownloading}
                         onClick={handleDownload}
-                        sx={{ minWidth: 180 }}
+                        style={{
+                          border: '1px solid #3e4396',
+                          cursor: 'pointer',
+                          maxWidth: '180px',
+                          background: 'transparent',
+                          color: '#3e4396',
+                          borderRadius: 8,
+                          fontWeight: 600,
+                        }}
                       >
                         {isDownloading ? "Downloading..." : "Download Attachment"}
-                      </Button>
+                      </MuiButtom>
                     )}
                   </Box>
                 )}
@@ -634,8 +643,8 @@ const CmTicketDetails = () => {
                 >
                   {values.status === "New" && (
                     <Button
-                      variant="contained"
-                      sx={{
+                      type="primary"
+                      style={{
                         padding: "12px 24px",
                         fontSize: "12px",
                         fontWeight: "600",

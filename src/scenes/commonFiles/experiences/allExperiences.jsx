@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import {
   Box,
-  Button,
-  IconButton,
-  InputBase,
   useTheme,
   useMediaQuery,
   MenuItem,
@@ -21,7 +18,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
-import { Table } from "antd";
+import { Table, Button, Input } from "antd";
 import CustomTablePagination from '../../../components/CustomPagination';
 // import { date } from "yup";
 
@@ -231,27 +228,32 @@ const AllExperiences = () => {
           borderRadius="3px"
           flex={1}
         >
-          <InputBase
-            sx={{ ml: 2, flex: 1 }}
+          <Input
             placeholder="Search"
             value={searchTerm}
             onChange={handleSearchChange}
+            prefix={<SearchIcon style={{ color: "rgba(0,0,0,.25)" }} />}
+            style={{
+              height: "34px",
+              borderRadius: "3px",
+              boxShadow: "none",
+              border: "none",
+              // border: "1px solid #d9d9d9",
+            }}
+      
           />
-          <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
         </Box>
 
         {/* Export Button */}
         <Button
-          sx={{
+          style={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
           }}
           variant="contained"
-          startIcon={<ImportExportIcon />}
+          icon={<ImportExportIcon />}
           onClick={() => alert("Export Data!")}
           className="form-button"
         >
@@ -260,14 +262,14 @@ const AllExperiences = () => {
 
         {/* Filter Button */}
         <Button
-          sx={{
+          style={{
             background: colors.blueAccent[1000],
             color: "#ffffff",
             whiteSpace: "nowrap",
             textTransform: "none",
           }}
           variant="contained"
-          startIcon={<FilterIcon />}
+          icon={<FilterIcon />}
           onClick={handleFilterClick}
           className="form-button"
         >
@@ -277,7 +279,7 @@ const AllExperiences = () => {
         {getCreaterRole() === "cm" && (
           <Button
             variant="contained"
-            sx={{
+            style={{
               background: colors.blueAccent[1000],
               color: "#ffffff",
               whiteSpace: "nowrap",

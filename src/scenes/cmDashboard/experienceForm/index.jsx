@@ -388,8 +388,9 @@ const CmExperienceRegistrationForm = () => {
                 maxCount={1}
                 showUploadList={false}
                 fileList={selectedFile ? [{ uid: '-1', name: selectedFile.name, status: 'done' }] : []}
+                style={{ border: '1px solid #ccc', cursor: 'pointer', borderRadius: 8 }}
               >
-                <AntdButton icon={<UploadOutlined />}>Attach Files</AntdButton>
+                <AntdButton  icon={<UploadOutlined />}>Attach Files</AntdButton>
               </Upload>
               {selectedFile && (
                 <div style={{

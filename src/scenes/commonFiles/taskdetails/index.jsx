@@ -1,4 +1,5 @@
-import { Box, useMediaQuery, Typography, Button, useTheme, TextField, Autocomplete } from "@mui/material";
+import { Box, useMediaQuery, Typography, useTheme, TextField, Autocomplete } from "@mui/material";
+import { Button } from "antd";
 import { Formik } from "formik";
 import { tokens } from "../../../theme";
 import * as yup from "yup";
@@ -321,20 +322,13 @@ const TaskDetails = () => {
                                 {/* Action Buttons */}
                                 <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, mt: 1 }}>
                                     <Button
-                                        variant="contained"
+                                        danger
                                         className="form-button"
-                                        sx={{
+                                        style={{
                                             padding: "12px 24px",
                                             borderRadius: "8px",
-                                            boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                                            transition: "0.3s",
                                             backgroundColor: colors.redAccent[400],
                                             color: "#ffffff",
-                                            textTransform: "none",
-                                            "&:hover": {
-                                                backgroundColor: colors.redAccent[500],
-                                                boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)"
-                                            },
                                         }}
                                     >
                                         Delete
@@ -365,41 +359,27 @@ const TaskDetails = () => {
                                     {isEditing ? (
                                         <Box sx={{ display: "flex", gap: 2 }}>
                                             <Button
-                                                variant="contained"
                                                 onClick={() => setIsEditing(false)}
                                                 className="form-button"
-                                                sx={{
+                                                style={{
                                                     padding: "12px 24px",
                                                     borderRadius: "8px",
-                                                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                                                    transition: "0.3s",
                                                     backgroundColor: colors.redAccent[400],
                                                     color: "#ffffff",
-                                                    textTransform: "none",
-                                                    "&:hover": {
-                                                        backgroundColor: colors.redAccent[500],
-                                                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)"
-                                                    },
+                                                    marginRight: "8px",
                                                 }}
                                             >
                                                 Cancel
                                             </Button>
 
                                             <Button
-                                                variant="contained"
+                                                type="primary"
                                                 className="form-button"
-                                                sx={{
+                                                style={{
                                                     padding: "12px 24px",
                                                     borderRadius: "8px",
-                                                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                                                    transition: "0.3s",
                                                     background: colors.blueAccent[1000],
                                                     color: "#ffffff",
-                                                    textTransform: "none",
-                                                    "&:hover": {
-                                                        backgroundColor: colors.blueAccent[600],
-                                                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)"
-                                                    },
                                                 }}
                                             >
                                                 Save
@@ -408,21 +388,14 @@ const TaskDetails = () => {
                                     ) :
                                         (
                                             <Button
-                                                variant="contained"
+                                                type="primary"
                                                 onClick={setIsEditing}
                                                 className="form-button"
-                                                sx={{
+                                                style={{
                                                     padding: "12px 24px",
                                                     borderRadius: "8px",
-                                                    boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                                                    transition: "0.3s",
                                                     background: colors.blueAccent[1000],
                                                     color: "#ffffff",
-                                                    textTransform: "none",
-                                                    "&:hover": {
-                                                        backgroundColor: colors.blueAccent[600],
-                                                        boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)"
-                                                    },
                                                 }}
                                             >
                                                 Edit
