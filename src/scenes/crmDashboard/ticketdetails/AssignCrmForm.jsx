@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Select, Button, message, Col, Row } from "antd";
+import { Button as MuiButton } from "@mui/material";
 import { tokens } from "../../../theme";
 
 
@@ -74,15 +75,15 @@ const AssignCrmForm = ({ crmNameList, onClose, experienceid, existcrmid }) => {
       </Form.Item>
       <Row justify="end" gutter={8}>
         <Col>
-          <Button
+          <MuiButton
             onClick={onClose}
-            type="outline"
-            danger
-            style={{ color: "#fff", borderRadius: 8 }}
+            variant="outlined"
+            color="error"
+            style={{ borderRadius: 8 }}
             className="form-button"
           >
             Cancel
-          </Button>
+          </MuiButton>
         </Col>
         <Col>
           <Button

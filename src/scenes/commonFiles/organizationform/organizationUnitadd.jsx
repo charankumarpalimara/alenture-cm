@@ -22,7 +22,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
-import { useTheme } from "@mui/material";
+import { useTheme, Button as MuiButton } from "@mui/material";
 import { tokens } from "../../../theme";
 import { getCreaterRole, getCreaterId } from "../../../config";
 // import {  CloseOutlined } from "@ant-design/icons";
@@ -842,11 +842,11 @@ const OrganizationUnitadd = () => {
                             Edit
                           </Button>
                           {getCreaterRole() === "admin" && (
-                            <Button
+                            <MuiButton
                               // type="outlined"
-
+                               variant="outlined"
                               // size="small"
-                              danger
+                              color="error"
                               className="form-button"
                               style={{
                                 // backgroundColor: "#3e4396",
@@ -884,7 +884,7 @@ const OrganizationUnitadd = () => {
                               }}
                             >
                               Delete
-                            </Button>
+                            </MuiButton>
 
 
                           )}

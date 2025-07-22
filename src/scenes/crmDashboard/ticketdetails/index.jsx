@@ -1208,14 +1208,15 @@ const CrmTicketDetails = () => {
                   <Box sx={{ display: "flex", gap: 2 }}>
                       <Button
                         variant="outlined"
+                        color="error"
                         className="form-button"
                         disabled={isDownloading}
                         onClick={handleDownload}
-                        style={{
-                          border: '1px solid #3e4396',
+                        sx={{
+                          // border: '1px solid #3e4396',
                           cursor: 'pointer',
                           maxWidth: '180px',
-                          background: 'transparent',
+                          // background: 'transparent',
                           color: '#3e4396',
                           borderRadius: 8,
                           fontWeight: 600,

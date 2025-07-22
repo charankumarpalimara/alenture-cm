@@ -347,6 +347,7 @@ const OrganizationForm = () => {
           <Box display="flex" justifyContent="flex-end" mt="10px" gap="10px">
             <Button
               type="primary"
+              className="form-button"
               htmlType="submit"
               style={{
                 padding: "12px 24px",

@@ -6,7 +6,7 @@ import {
   Autocomplete,
   // IconButton,
   Modal,
-  Button, Dialog,  DialogContent, DialogActions, Typography,
+  Button, Dialog, DialogContent, DialogActions, Typography,
 } from "@mui/material";
 import {
   Form,
@@ -867,7 +867,7 @@ const AdminTicketDetails = () => {
         <Row justify="end" gutter={8}>
           <Col>
             <Button
-            className="form-button"
+              className="form-button"
               onClick={handleClose}
               style={{ background: colors.redAccent[500], color: "#fff", borderRadius: 8, }}
             >
@@ -877,7 +877,7 @@ const AdminTicketDetails = () => {
           <Col>
             <Button
               type="primary"
-               className="form-button"
+              className="form-button"
               onClick={() => assignForm.submit()}
               disabled={loading}
               style={{
@@ -1215,12 +1215,25 @@ const AdminTicketDetails = () => {
                 {filenamevalue !== 'N/A' && (
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       className="form-button"
-                      icon={<DownloadOutlined />}
                       disabled={isDownloading}
                       onClick={handleDownload}
-                      sx={{ minWidth: 180 }}
+                      sx={{
+                        border: '1px solid #3e4396',
+                        cursor: 'pointer',
+                        maxWidth: '180px',
+                        background: 'transparent',
+                        color: '#3e4396',
+                        borderRadius: 8,
+                        fontWeight: 600,
+                        transition: 'border-color 0.2s, color 0.2s, background 0.2s',
+                        '&:hover': {
+                          border: '1px solid #2E2E9F',
+                          color: '#2E2E9F',
+                          background: '#f5f7ff',
+                        },
+                      }}
                     >
                       {isDownloading ? "Downloading..." : "Download Attachment"}
                     </Button>
@@ -1249,7 +1262,7 @@ const AdminTicketDetails = () => {
                       color: "#fff",
                       "&:hover": { background: colors.redAccent[500] },
                       textTransform: "none",
-                           borderRadius: "8px",
+                      borderRadius: "8px",
                     }}
                   >
                     Resolve
@@ -1278,7 +1291,7 @@ const AdminTicketDetails = () => {
                         Cancel
                       </Button>
                       <Button
-                      className="form-button"
+                        className="form-button"
                         onClick={async () => {
                           setOpenConfirm(false);
                           await handleCloseExperience();
@@ -1295,7 +1308,7 @@ const AdminTicketDetails = () => {
                     <Box sx={{ display: "flex", gap: 2 }}>
                       <Button
                         variant="contained"
-                               className="form-button"
+                        className="form-button"
                         onClick={() => setIsEditing(false)}
                         sx={{
                           padding: "12px 24px",
@@ -1557,7 +1570,7 @@ const AdminTicketDetails = () => {
         </Box> */}
       </Box>
 
-   
+
 
       <Box
         sx={{

@@ -475,17 +475,16 @@ function KanbanBoard() {
           <Button
             key="cancel"
             onClick={() => setAddOpen(false)}
-            type="default"
+            variant="outlined"
             className="form-button"
-            danger
-            ghost
+            color="error"
             icon={<CloseOutlined />}
             style={{
               textTransform: "none",
-              border: `1.5px solid ${colors.redAccent[500]}`,
+              // border: `1.5px solid ${colors.redAccent[500]}`,
               borderRadius: 8,
-              color: colors.redAccent[500],
-              background: "transparent"
+              // color: colors.redAccent[500],
+              // background: "transparent"
             }}
           >
             Cancel
@@ -518,24 +517,24 @@ function KanbanBoard() {
         maxWidth="xs"
         fullWidth
       >
-        <DialogTitle>Confirm Delete</DialogTitle>
+        {/* <DialogTitle>Confirm Delete</DialogTitle> */}
         <DialogContent>
           <Typography>Are you sure you want to delete this task?</Typography>
         </DialogContent>
         <DialogActions>
           <Button
             onClick={() => setDeleteDialogOpen(false)}
-            type="default"
+            variant="outlined"
+            color="error"
             className="form-button"
-            danger
-            ghost
+            // ghost
             icon={<CloseOutlined />}
             style={{
               textTransform: "none",
-              borderColor: colors.redAccent[500],
+              // borderColor: colors.redAccent[500],
               borderRadius: 8,
-              color: colors.redAccent[500],
-              background: "#fff"
+              // color: colors.redAccent[500],
+              // background: "#fff"
             }}
           >
             Cancel
@@ -610,16 +609,17 @@ function KanbanBoard() {
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
           <Button
             onClick={() => setViewOpen(false)}
-            variant="contained"
+            variant="outlined"
+            color="error"
             className="form-button"
-            sx={{
-              background: colors.blueAccent[1000],
-              color: "#fff",
-              padding: "10px 20px",
-              "&:hover": {
-                backgroundColor: colors.blueAccent[600],
-              },
-            }}
+            // sx={{
+            //   background: colors.blueAccent[1000],
+            //   color: "#fff",
+            //   padding: "10px 20px",
+            //   "&:hover": {
+            //     backgroundColor: colors.blueAccent[600],
+            //   },
+            // }}
           >
             Close
           </Button>
@@ -706,16 +706,15 @@ function KanbanBoard() {
         <DialogActions sx={{ p: 2, justifyContent: "center" }}>
           <Button
             onClick={() => setEditOpen(false)}
-            type="default"
+            variant="outlined"
+            color="error"
             className="form-button"
-            danger
-            ghost
             icon={<CloseOutlined />}
             style={{
               textTransform: "none",
-              border: `1.5px solid ${colors.redAccent[500]}`,
+              // border: `1.5px solid ${colors.redAccent[500]}`,
               borderRadius: 8,
-              color: colors.redAccent[500],
+              // color: colors.redAccent[500],
               background: "transparent"
             }}
           >
