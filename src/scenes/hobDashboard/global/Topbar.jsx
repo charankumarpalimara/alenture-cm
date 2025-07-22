@@ -66,8 +66,7 @@ const getActivePage = (pathname) => {
     pathname.includes("/organizationform") ||
     pathname.includes("/organizationdetails") ||
     pathname.includes("/organizationadd") ||
-    pathname.includes("/OrganizationUnitadd"))
-    {
+    pathname.includes("/OrganizationUnitadd")) {
     return "/organization";
   } else if (
     pathname === "/" ||
@@ -343,7 +342,7 @@ const Topbar = ({ onLogout }) => {
   //         primaryTitle: "Organization",
   //         secondaryTitle: "Create a New Organization",
   //       };
-        
+
 
   //     case "/organizationadd":
   //       return {
