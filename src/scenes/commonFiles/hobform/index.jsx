@@ -884,6 +884,7 @@ const HobForm = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
+                  className="form-button"
                   size="large"
                   style={{
                     background: colors.blueAccent[1000],

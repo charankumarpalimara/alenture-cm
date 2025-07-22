@@ -14,6 +14,7 @@ import {
   Switch,
 } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined, CloseOutlined } from "@ant-design/icons";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -27,7 +28,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { getCreaterId, getCreaterRole } from "../../../config";
 import { tokens } from "../../../theme";
-import { useTheme } from "@mui/material";
+import { useTheme, Button as MuiButton } from "@mui/material";
 
 // Helpers for date and time
 function formatDate(dt) {
@@ -380,21 +381,28 @@ const Calendar = () => {
         }}
         footer={[
           editMode && (
-            <Button
+            <MuiButton
               key="delete"
-              
-              icon={<DeleteOutlined />}
-              danger
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              sx={{
+                marginRight: "8px",
+              }}
               className="form-button"
               onClick={handleDeleteEvent}
             >
               Delete
-            </Button>
+            </MuiButton>
           ),
-          <Button
+          <MuiButton
             key="cancel"
             className="form-button"
-            danger
+             variant="outlined"
+            color="error"
+            sx={{
+              marginRight: "8px",
+            }}
             onClick={() => {
               setModalVisible(false);
               form.resetFields();
@@ -402,7 +410,7 @@ const Calendar = () => {
             }}
           >
             Cancel
-          </Button>,
+          </MuiButton>,
 
           <Button
             key="ok"

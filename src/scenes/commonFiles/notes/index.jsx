@@ -464,7 +464,8 @@ const Notes = () => {
               //   color: "#fff",
               // }}
               loading={isLoading}
-              icon={<DeleteIcon />}
+              // icon={<DeleteIcon />}
+                     startIcon={<DeleteIcon />}
             >
               Delete
             </MuiButton>
@@ -518,9 +519,9 @@ const Notes = () => {
               onClick={handleCloseModal}
               className="form-button"
               style={{
-                padding: "8px 32px",
-                background: "#475569",
-                color: "#fff",
+                // padding: "8px 32px",
+                // background: "#475569",
+                // color: "#fff",
               }}
             >
               Cancel

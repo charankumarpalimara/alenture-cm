@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Form, Input, Select, Button, Row, Col, Avatar, Modal, Typography, message, Spin } from 'antd';
+import {
+  Button as MuiButton,
+} from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { CameraOutlined } from '@ant-design/icons';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -451,18 +455,19 @@ const HobDetails = () => {
             <Row style={{ width: "100%", justifyContent: "space-between" }} gutter={16}>
               <Col>
                 {getCreaterRole() === "admin" && (
-                  <Button
-                    variant="contained"
-                      className='form-button'
-                    size="large"
-                    danger
+                  <MuiButton
+                    variant="outlined"
+                    className='form-button'
+                    // size="large"
+                    startIcon={<DeleteIcon />}
+                    color="error"
                     style={{
-                      padding: "12px 24px",
+                      // padding: "12px 24px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
-                      backgroundColor: "#af3f3b",
-                      color: "#ffffff",
+                      // backgroundColor: "#af3f3b",
+                      // color: "#ffffff",
                       textTransform: "none",
                     }}
                     onClick={() => {
@@ -494,23 +499,24 @@ const HobDetails = () => {
                     }}
                   >
                     Delete
-                  </Button>
+                  </MuiButton>
                 )}
               </Col>
               <Col>
-                <Button
-                  type="primary"
+                <MuiButton
+                  variant="contained"
+                  startIcon={<EditIcon />}
                   className='form-button'
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
                     // minWidth: 120,
                   }}
-                  size="large"
+                  // size="large"
                   onClick={() => setIsEditing(true)}
                 >
                   Edit
-                </Button>
+                </MuiButton>
               </Col>
             </Row>
           ) : (
@@ -519,7 +525,7 @@ const HobDetails = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  size="large"
+                  // size="large"
                   className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
@@ -532,9 +538,11 @@ const HobDetails = () => {
                 </Button>
               </Col>
               <Col>
-                <Button
-                  size="large"
-                  danger
+                <MuiButton
+                  // size="large"
+                  // danger
+                  variant="outlined"
+                  color="error"
                   className="form-button"
                   style={{
                     // marginLeft: 8,
@@ -543,7 +551,7 @@ const HobDetails = () => {
                   onClick={handleCancel}
                 >
                   Cancel
-                </Button>
+                </MuiButton>
               </Col>
             </>
           )}

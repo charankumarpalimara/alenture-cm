@@ -17,6 +17,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
 import { getCreaterId, getCreaterRole } from "../../../config";
+import { CloseOutlined } from "@ant-design/icons";
 
 
 const { Text } = Typography;
@@ -73,78 +74,78 @@ const Organizationadd = () => {
     }
   };
 
-const handleFormSubmit = async () => {
-  setIsLoading(true);
-  // const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {};
-  const createrrole =  getCreaterRole();
-  const createrid = getCreaterId();
-  try {
-    for (const branch of branchInstances) {
-      const payload = {
-        organizationid: organizationid || "",
-        organizationname: organizationname || "",
-        branch: branch.branch,
-        branchtype: "Branch",
-        phonecode: branch.phoneCode,
-        mobile: branch.phoneno,
-        email: branch.email,
-        username: organizationname.toLowerCase(),
-        passwords: branch.passwords || "defaultPassword123",
-        country: branch.country,
-        state: branch.province,
-        district: branch.city,
-        address: branch.address,
-        postalcode: branch.postcode,
-        createrid,
-        createrrole,
-      };
-      try {
-        await axios.post(
-          `${process.env.REACT_APP_API_URL}/v1/organizationAdding`,
-          payload,
-          {
-            headers: { "Content-Type": "application/json" },
+  const handleFormSubmit = async () => {
+    setIsLoading(true);
+    // const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {};
+    const createrrole = getCreaterRole();
+    const createrid = getCreaterId();
+    try {
+      for (const branch of branchInstances) {
+        const payload = {
+          organizationid: organizationid || "",
+          organizationname: organizationname || "",
+          branch: branch.branch,
+          branchtype: "Branch",
+          phonecode: branch.phoneCode,
+          mobile: branch.phoneno,
+          email: branch.email,
+          username: organizationname.toLowerCase(),
+          passwords: branch.passwords || "defaultPassword123",
+          country: branch.country,
+          state: branch.province,
+          district: branch.city,
+          address: branch.address,
+          postalcode: branch.postcode,
+          createrid,
+          createrrole,
+        };
+        try {
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}/v1/organizationAdding`,
+            payload,
+            {
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        } catch (error) {
+          if (
+            error.response &&
+            error.response.status === 409 &&
+            error.response.data?.error === "Unit Already Exists"
+          ) {
+            message.error(`Unit "${branch.branch}" Already Exists!`);
+            setIsLoading(false);
+            return; // Stop further processing
+          } else {
+            throw error; // Rethrow for other errors
           }
-        );
-      } catch (error) {
-        if (
-          error.response &&
-          error.response.status === 409 &&
-          error.response.data?.error === "Unit Already Exists"
-        ) {
-          message.error(`Unit "${branch.branch}" Already Exists!`);
-          setIsLoading(false);
-          return; // Stop further processing
-        } else {
-          throw error; // Rethrow for other errors
         }
       }
+      message.success("Branch Registered successfully!");
+      form.resetFields();
+      setBranchInstances([
+        {
+          branch: "",
+          email: "",
+          phoneCode: "",
+          phoneno: "",
+          address: "",
+          city: "",
+          province: "",
+          country: "",
+          postcode: "",
+          branchtype: "",
+          passwords: "",
+        },
+      ]);
+      Navigate("/organizationdetails", { state: { ticket: organizationid } });
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+      message.error("Error submitting form data");
+    } finally {
+      setIsLoading(false);
     }
-    message.success("Branch Registered successfully!");
-    form.resetFields();
-    setBranchInstances([
-      {
-        branch: "",
-        email: "",
-         phoneCode: "",
-        phoneno: "",
-        address: "",
-        city: "",
-        province: "",
-        country: "",
-        postcode: "",
-        branchtype: "",
-        passwords: "",
-      },
-    ]);
-   Navigate("/organizationdetails", { state: { ticket: organizationid } });
-  } catch (error) {
-    console.error("Error submitting form data:", error);
-    message.error("Error submitting form data");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   return (
     <>
@@ -165,10 +166,27 @@ const handleFormSubmit = async () => {
             fontSize: "20px",
           }}
         >
-           <Spin size="large" fullscreen />
+          <Spin size="large" fullscreen />
         </div>
       )}
+
       <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => Navigate(-1)}
+            style={{
+              // margin: "16px 0 0 8px",
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end"
+            }}
+          >
+            {/* Back */}
+          </Button>
+        </div>
         <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
           {branchInstances.map((branch, index) => (
             <Box
@@ -477,12 +495,12 @@ const handleFormSubmit = async () => {
                     style={{ display: "flex", alignItems: "center" }}
                   >
                     <MuiButton
-                    variant="outlined"
-                   color="error"
+                      variant="outlined"
+                      color="error"
                       onClick={() => handleRemoveBranch(index)}
                       style={{ width: "100%" }}
                     >
-                      Remove 
+                      Remove
                     </MuiButton>
                   </Col>
                 )}
@@ -494,15 +512,15 @@ const handleFormSubmit = async () => {
               type="dashed"
               onClick={handleAddBranch}
               className="form-button"
-              sx={{ 
-                padding: "8px 16px", 
+              sx={{
+                padding: "8px 16px",
                 // borderRadius: 8, 
                 fontWeight: 600,
                 height: "35px",
                 border: "1px solid #ccc", // Set your desired outline color
                 backgroundColor: "transparent", // Ensure no background
                 // color: "#ccc", // Match outline color for text  
-                }}
+              }}
             >
               + Add Organization Unit
             </MuiButton>

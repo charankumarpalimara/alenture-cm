@@ -12,6 +12,10 @@ import {
   message,
   Spin,
 } from "antd";
+import {
+  Button as MuiButton,
+} from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -693,18 +697,19 @@ const CmDetails = () => {
             >
               <Col>
                 {getCreaterRole() === "admin" && (
-                  <Button
-                    variant="contained"
+                  <MuiButton
+                    variant="outlined"
                     className="form-button"
-                    size="large"
-                    danger
+                    // size="large"
+                    color="error"
+                    startIcon={<DeleteIcon />}
                     style={{
-                      padding: "12px 24px",
+                      // padding: "12px 24px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
-                      background: colors.redAccent[400],
-                      color: "#ffffff",
+                      // background: colors.redAccent[400],
+                      // color: "#ffffff",
                       textTransform: "none",
                     }}
                     onClick={() => {
@@ -737,23 +742,24 @@ const CmDetails = () => {
                     }}
                   >
                     Delete
-                  </Button>
+                  </MuiButton>
                 )}
               </Col>
               <Col>
-                <Button
-                  type="primary"
+                <MuiButton
+                  variant="contained"
                  className="form-button"
+                 startIcon={<EditIcon />}
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
                     borderRadius: 8,
                   }}
-                  size="large"
+                  // size="large"
                   onClick={() => setIsEditing(true)}
                 >
                   Edit
-                </Button>
+                </MuiButton>
               </Col>
             </Row>
           ) : (
@@ -762,7 +768,7 @@ const CmDetails = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  size="large"
+                  // size="large"
                   className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
@@ -775,9 +781,9 @@ const CmDetails = () => {
                 </Button>
               </Col>
               <Col>
-                <Button size="large" className="form-button" danger onClick={handleCancel}>
+                <MuiButton variant="outlined" color="error" className="form-button" onClick={handleCancel}>
                   Cancel
-                </Button>
+                </MuiButton>
               </Col>
             </>
           )}

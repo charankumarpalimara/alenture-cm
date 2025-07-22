@@ -14,6 +14,10 @@ import {
   Spin,
   Space
 } from "antd";
+import {
+  Button as MuiButton,
+} from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -966,18 +970,19 @@ const CrmDetails = () => {
             <Row style={{ width: "100%", justifyContent: "space-between" }} gutter={16}>
               <Col>
                 {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
-                  <Button
-                    variant="contained"
+                  <MuiButton
+                    variant="outlined"
                     className="form-button"
-                    size="large"
-                    danger
+                    startIcon={<DeleteIcon />}
+                    // size="large"
+                    color="error"
                     style={{
-                      padding: "12px 24px",
+                      // padding: "12px 24px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                       transition: "0.3s",
-                      background: colors.redAccent[400],
-                      color: "#ffffff",
+                      // background: colors.redAccent[400],
+                      // color: "#ffffff",
                       textTransform: "none",
                     }}
                     onClick={() => {
@@ -1009,23 +1014,24 @@ const CrmDetails = () => {
                     }}
                   >
                     Delete
-                  </Button>
+                  </MuiButton>
                 )}
               </Col>
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
-                <Button
-                  type="primary"
+                <MuiButton
+                  variant="contained"
+                  startIcon={<EditIcon />}
                   className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
                     borderRadius: 8,
                   }}
-                  size="large"
+                  // size="large"
                   onClick={() => setIsEditing(true)}
                 >
                   Edit
-                </Button>
+                </MuiButton>
               </Col>
             </Row>
           ) : (
@@ -1035,7 +1041,7 @@ const CrmDetails = () => {
                   type="primary"
                   className="form-button"
                   htmlType="submit"
-                  size="large"
+                  // size="large"
                   style={{
                     background: colors.blueAccent[1000],
                     marginRight: 8,
@@ -1046,9 +1052,9 @@ const CrmDetails = () => {
                 </Button>
               </Col>
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
-                <Button size="large" style={{ fontSize: "12px", fontWeight: "600" }} danger onClick={handleCancel}>
+                <MuiButton variant="outlined" color="error" style={{ fontSize: "12px", fontWeight: "600" }} onClick={handleCancel}>
                   Cancel
-                </Button>
+                </MuiButton>
               </Col>
             </Row>
           )}

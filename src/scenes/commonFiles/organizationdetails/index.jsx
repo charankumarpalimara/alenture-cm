@@ -1,4 +1,5 @@
 import { Box, Button as MuiButton } from "@mui/material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import {
   Input,
   Button,
@@ -417,39 +418,45 @@ const OrganizationDetails = () => {
                         style={{
                           background: colors.blueAccent[1000],
                           color: "#fff",
-                          minWidth: 120,
+                          minWidth: 80,
+                          // padding: "5px 15px",
                           marginRight: 8,
                         }}
                       >
                         Save
                       </Button>
-                      <Button
+                      <MuiButton
+                        variant="outlined"
+                        // startIcon={<CloseOutlined />}
+                        color="error"
                         onClick={handleBranchCancel}
-                        danger
+                        // danger
                         className="form-button"
                       >
                         Cancel
-                      </Button>
+                      </MuiButton>
                     </>
                   ) : (
                     <>
-                      <Button
-                        type="primary"
+                      <MuiButton
+                        variant="contained"
                         onClick={() => handleBranchEdit(idx)}
                         className="form-button"
+                        startIcon={<EditIcon />}
                         style={{
                           background: colors.blueAccent[1000],
                           color: "#fff",
-                          minWidth: 120,
+                          // minWidth: 120,
                           marginRight: 8,
                         }}
                       >
                         Edit
-                      </Button>
+                      </MuiButton>
                       {getCreaterRole() === "admin" && (
                         <MuiButton
                           variant="outlined"
                           // size="small"
+                          startIcon={<DeleteIcon />}
                           color="error"
                           className="form-button"
                           // sx={{
