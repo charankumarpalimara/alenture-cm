@@ -87,10 +87,10 @@ const ActivityTimeline = ({
           }}
         />
         <Typography
-          variant="body1"
           component="span"
-          className="custom-headding-13px"
-          sx={{ color: "#3e4396" }}
+          variant="subtitle2" 
+          sx={{ fontWeight: "600", color: "#3e4396" }}
+          // sx={{ color: "#3e4396" }}
         >
           {open ? "Hide Activity Timeline" : "Show Activity Timeline"}
         </Typography>
@@ -106,7 +106,10 @@ const ActivityTimeline = ({
             width: "100%",
           }}
         >
-          <Typography className="custom-headding-13px" sx={{ mb: 1 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontWeight: "600", color: "#000" }}
+          >
             Activity Timeline
           </Typography>
           <Divider sx={{ mb: 1 }} />
@@ -117,10 +120,14 @@ const ActivityTimeline = ({
                 <ListItemText
                   primary={
                     <>
-                      <Typography className="custom-headding-13px">
+                      <Typography        
+                         variant="subtitle2"
+                         sx={{ fontWeight: "600", color: "#000" }}>
                         {item.label}:
                       </Typography>{" "}
-                      {getLocalDateTimeString(item.date, item.time)}
+                     <Typography variant="subtitle2">
+                       {getLocalDateTimeString(item.date, item.time)}
+                     </Typography>
                     </>
                   }
                 />
