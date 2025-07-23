@@ -30,7 +30,7 @@ import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-import { getCreaterRole } from "../../../config";
+import { getCreaterFirstName, getCreaterRole } from "../../../config";
 
 import logoLight from "./alentur-logo.avif";
 
@@ -120,8 +120,8 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight: "bold !important", // Ensure text is bold for selected item
-            fontSize: "15px",
+            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontSize: "13px",
           },
         }}
       />
@@ -633,7 +633,7 @@ const notifClick = (data) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {getCrmName()}
+                  {getCreaterFirstName()}
                 </Typography>
               </IconButton>
               <Snackbar
@@ -746,7 +746,7 @@ const notifClick = (data) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {getCrmName()}
+                  {getCreaterFirstName()}
                 </Typography>
               </IconButton>
             </Box>

@@ -11,6 +11,10 @@ body,
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Set table data font size globally */
+td, .ant-table-tbody > tr > td {
+  font-size: 11px !important;
+}
 .app {
   display: flex;
   position: relative;
@@ -120,8 +124,8 @@ button,
 
 /* Specifically target form buttons */
 .form-button {
-  font-size: 12px !important;
-  font-weight: 600 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
   box-shadow: none !important;
   outline: none !important;
@@ -129,8 +133,8 @@ button,
 }
 
 .MuiButton-root.form-button {
-  font-size: 12px !important;
-  font-weight: 600 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
   /* box-shadow: none !important;
   border-bottom: none !important;
@@ -171,8 +175,8 @@ button,
 .custom-ant-table-header .ant-table-thead>tr>th {
   background: transparent !important;
   color: #fff !important;
-  /* font-weight: bold; */
-  /* font-size: 16px; */
+  font-weight: bold;
+  font-size: 11px;
   border-right: none !important;
   border-bottom: none !important;
   padding-top: 6px !important;
@@ -196,4 +200,44 @@ button,
 .ant-table-thead>tr>th {
   border-bottom: none !important;
 
+}
+
+/* Custom placeholder font size for form inputs */
+
+/* Custom placeholder font size for form inputs (AntD Input, Select, and native input) */
+/* .custom-placeholder-12px .ant-input::placeholder,
+.custom-placeholder-12px input::placeholder,
+.custom-placeholder-12px .ant-select-selection-placeholder,
+.custom-placeholder-12px .ant-select-selector,
+.custom-placeholder-12px .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  font-size: 12px !important;
+  opacity: 1 !important;
+  color: #bfbfbf !important; 
+} */
+
+/* For cross-browser support */
+/* .custom-placeholder-12px .ant-input::-webkit-input-placeholder,
+.custom-placeholder-12px input::-webkit-input-placeholder { font-size: 12px !important; }
+.custom-placeholder-12px .ant-input::-moz-placeholder,
+.custom-placeholder-12px input::-moz-placeholder { font-size: 12px !important; }
+.custom-placeholder-12px .ant-input:-ms-input-placeholder,
+.custom-placeholder-12px input:-ms-input-placeholder { font-size: 12px !important; }
+.custom-placeholder-12px .ant-input::-ms-input-placeholder,
+.custom-placeholder-12px input::-ms-input-placeholder { font-size: 12px !important; } */
+
+.custom-placeholder-12px .ant-form-item-label > label {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.custom-headding-12px{
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; */
+}
+
+.custom-headding-13px{
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; */
 }

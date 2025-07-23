@@ -35,7 +35,7 @@ import Badge from "@mui/material/Badge";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCreaterName, getCreaterRole } from "../../../config";
+import { getCreaterFirstName, getCreaterRole } from "../../../config";
 import {
   getAdminNotifications,
   markNotificationRead,
@@ -118,8 +118,8 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight: "600 !important", // Ensure text is bold for selected item
-            fontSize: "12px",
+            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontSize: "13px",
           },
         }}
       />
@@ -629,7 +629,7 @@ const Topbar = ({ onLogout }) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {getCreaterName()}
+                  {getCreaterFirstName()}
                 </Typography>
               </IconButton>
             </Box>
@@ -730,7 +730,7 @@ const Topbar = ({ onLogout }) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {getCreaterName()}
+                  {getCreaterFirstName()}
                 </Typography>
               </IconButton>
               <Snackbar

@@ -569,7 +569,7 @@ const CrmDetails = () => {
           <Row gutter={24}>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>ID</Text>}
+                label={<Text className="custom-headding-12px">ID</Text>}
                 name="crmid"
                 rules={[{ required: true, message: "Crm id is required" }]}
               >
@@ -578,7 +578,7 @@ const CrmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>First Name</Text>}
+                label={<Text className="custom-headding-12px">First Name</Text>}
                 name="firstName"
                 rules={[{ required: true, message: "First name is required" }]}
               >
@@ -591,7 +591,7 @@ const CrmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Last Name</Text>}
+                label={<Text className="custom-headding-12px">Last Name</Text>}
                 name="lastName"
                 rules={[{ required: true, message: "Last name is required" }]}
               >
@@ -604,7 +604,7 @@ const CrmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Email Id</Text>}
+                label={<Text className="custom-headding-12px">Email Id</Text>}
                 name="email"
                 rules={[
                   {
@@ -618,7 +618,7 @@ const CrmDetails = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label={<Text strong>Phone Number</Text>} required>
+              <Form.Item label={<Text className="custom-headding-12px">Phone Number</Text>} required>
                 <Input.Group compact>
                   <Form.Item
                     name="phoneCode"
@@ -662,7 +662,7 @@ const CrmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Gender</Text>}
+                label={<Text className="custom-headding-12px">Gender</Text>}
                 name="gender"
                 rules={[{ required: true, message: "Gender is required" }]}
               >
@@ -681,7 +681,7 @@ const CrmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Status</Text>}
+                label={<Text className="custom-headding-12px">Status</Text>}
                 name="status"
                 rules={[{ required: true, message: "Status is required" }]}
               >
@@ -700,7 +700,7 @@ const CrmDetails = () => {
             </Col>
           </Row>
           {/* Organization/Manager Pairs */}
-          <Typography.Title level={5} style={{ margin: "16px 0 8px 0" }}>
+          <Typography.Title level={5} className="custom-headding-12px">
             Customer Managers
           </Typography.Title>
           <Col span={24}>
@@ -725,7 +725,7 @@ const CrmDetails = () => {
                       >
                         <Col xs={24} md={8}>
                           <Form.Item
-                            label={<Text strong>Organization</Text>}
+                            label={<Text className="custom-headding-12px">Organization</Text>}
                             style={{ marginBottom: 0 }}
                           >
                             <Input
@@ -743,7 +743,7 @@ const CrmDetails = () => {
                         </Col>
                         <Col xs={24} md={8}>
                           <Form.Item
-                            label={<Text strong>Branch</Text>}
+                            label={<Text className="custom-headding-12px">Branch</Text>}
                             style={{ marginBottom: 0 }}
                           >
                             <Input
@@ -761,7 +761,7 @@ const CrmDetails = () => {
                         </Col>
                         <Col xs={24} md={8}>
                           <Form.Item
-                            label={<Text strong>Customer Manager</Text>}
+                            label={<Text className="custom-headding-12px">Customer Manager</Text>}
                             style={{ marginBottom: 0 }}
                           >
                             <Input

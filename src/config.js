@@ -26,6 +26,11 @@ export function getCreaterName() {
   return (first + " " + last).trim();
 }
 
+export function getCreaterFirstName() {
+  const userDetails = getUserDetails();
+  return userDetails.firstname || "";
+}
+
 export function getCreaterRole() {
   const userDetails = getUserDetails();
   return userDetails.extraind10 || "";

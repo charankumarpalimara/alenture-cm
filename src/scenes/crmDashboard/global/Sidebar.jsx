@@ -98,8 +98,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight: "600 !important", // Ensure text is bold for selected item
-            fontSize: "12px",
+            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontSize: "13px",
           },
         }}
       />

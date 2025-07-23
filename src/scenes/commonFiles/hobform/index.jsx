@@ -711,47 +711,55 @@ const HobForm = () => {
             <Row gutter={24}>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<b>First Name</b>}
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">First Name</span>}
                   name="firstName"
                   rules={[{ required: true, message: "First Name is required" }]}
                 >
                   <Input
                     placeholder="First Name"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<b>Last Name</b>}
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">Last Name</span>}
                   name="lastName"
                   rules={[{ required: true, message: "Last Name is required" }]}
                 >
                   <Input
                     placeholder="Last Name"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<b>Email Id</b>}
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">Email Id</span>}
                   name="email"
                   rules={[{ required: true, message: "Email is required" }]}
                 >
                   <Input
                     placeholder="Email"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
-                <Form.Item label={<b>Phone Number</b>} required>
+                <Form.Item
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">Phone Number</span>}
+                  required
+                >
                   <Input.Group compact>
                     <Form.Item
+                      className="custom-placeholder-12px"
                       name="phoneCode"
                       noStyle
                       rules={[{ required: true, message: "Code is required" }]}
@@ -772,6 +780,7 @@ const HobForm = () => {
                       </Select>
                     </Form.Item>
                     <Form.Item
+                      className="custom-placeholder-12px"
                       name="PhoneNo"
                       noStyle
                       rules={[
@@ -791,14 +800,15 @@ const HobForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<b>Gender</b>}
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">Gender</span>}
                   name="gender"
                   rules={[{ required: true, message: "Gender is required" }]}
                 >
                   <Select
                     placeholder="Select Gender"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                   >
                     {gender.map((g) => (
                       <Option key={g} value={g}>
@@ -810,7 +820,8 @@ const HobForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<b>Country</b>}
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">Country</span>}
                   name="country"
                   rules={[{ required: true, message: "Country is required" }]}
                 >
@@ -818,7 +829,7 @@ const HobForm = () => {
                     showSearch
                     placeholder="Select Country"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                     onChange={(value) => {
                       setSelectedCountry(value);
                       form.setFieldsValue({ state: "", city: "" });
@@ -834,7 +845,8 @@ const HobForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<b>State</b>}
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">State</span>}
                   name="state"
                   rules={[{ required: true, message: "State is required" }]}
                 >
@@ -842,7 +854,7 @@ const HobForm = () => {
                     showSearch
                     placeholder="Select State"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                     onChange={(value) => {
                       setSelectedState(value);
                       form.setFieldsValue({ city: "" });
@@ -859,7 +871,8 @@ const HobForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<b>City</b>}
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">City</span>}
                   name="city"
                   rules={[{ required: true, message: "City is required" }]}
                 >
@@ -867,7 +880,7 @@ const HobForm = () => {
                     showSearch
                     placeholder="Select City"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                     disabled={!selectedState}
                   >
                     {cities.map((city) => (
@@ -885,7 +898,7 @@ const HobForm = () => {
                   type="primary"
                   htmlType="submit"
                   className="form-button"
-                  size="large"
+                  // size="large"
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",

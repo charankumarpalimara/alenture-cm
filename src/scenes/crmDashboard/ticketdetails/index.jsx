@@ -66,7 +66,7 @@ import KanbanBoard from "../../../components/KanbanTasks";
 import AssignCrmModal from "./AssignCrmModal";
 import ResolveDialog from "./ResolveDialog";
 import ChatSection from "./ChatSection";
-
+// import  { TasksContext } from "../../../utils/TasksContext";
 
 // const { Option } = Select;
 
@@ -595,7 +595,7 @@ const CrmTicketDetails = () => {
       const now = new Date();
       const utcDate = now.toISOString().slice(0, 10);
       const utcTime = now.toISOString().slice(11, 19);
-      await fetch(
+      const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
         {
           method: "POST",
@@ -608,6 +608,14 @@ const CrmTicketDetails = () => {
           }),
         }
       );
+      if (response.status === 402) {
+        message.error("All tasks must be completed before resolving this experience.");
+        return;
+      }
+      if (!response.ok) {
+        message.error("Failed to update status.");
+        return;
+      }
       message.success("Experience status updated to Resolved!");
       fetchExperienceData(); // Refresh data only
     } catch (error) {
@@ -1001,7 +1009,7 @@ const CrmTicketDetails = () => {
                   >
                     Experience ID
                   </Typography>
-                  <Typography>{values.id}</Typography>
+                  <Typography    variant="subtitle2">{values.id}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1010,7 +1018,7 @@ const CrmTicketDetails = () => {
                   >
                     Organization
                   </Typography>
-                  <Typography>{values.organization}</Typography>
+                  <Typography    variant="subtitle2">{values.organization}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1019,7 +1027,7 @@ const CrmTicketDetails = () => {
                   >
                     Unit
                   </Typography>
-                  <Typography>{values.branch}</Typography>
+                  <Typography    variant="subtitle2">{values.branch}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1028,7 +1036,7 @@ const CrmTicketDetails = () => {
                   >
                     Customer Manager
                   </Typography>
-                  <Typography>{values.cmname}</Typography>
+                  <Typography    variant="subtitle2">{values.cmname}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1037,7 +1045,7 @@ const CrmTicketDetails = () => {
                   >
                     Relationship Manager
                   </Typography>
-                  <Typography>{values.crmname}</Typography>
+                  <Typography    variant="subtitle2">{values.crmname}</Typography>
                 </Box>
                 {isEditing ? (
                   <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -1114,6 +1122,7 @@ const CrmTicketDetails = () => {
                       Priority
                     </Typography>
                     <Typography
+                       variant="subtitle2"
                       sx={{ color: getExperienceColor(values.priority) }}
                     >
                       {values.priority}
@@ -1128,7 +1137,7 @@ const CrmTicketDetails = () => {
                     Status
                   </Typography>
                   <Typography
-
+                      variant="subtitle2"
                   >
                     {values.status}
                   </Typography>
@@ -1142,6 +1151,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography
                     sx={{ color: getExperienceColor(values.experience) }}
+                       variant="subtitle2"
                   >
                     {values.experience}
                   </Typography>
@@ -1166,7 +1176,7 @@ const CrmTicketDetails = () => {
                   >
                     Subject
                   </Typography>
-                  <Typography>{values.subject}</Typography>
+                  <Typography    variant="subtitle2">{values.subject}</Typography>
                 </Box>
               </Box>
 
@@ -1189,7 +1199,7 @@ const CrmTicketDetails = () => {
                       Request Details
                     </Typography>
                   </Box>
-                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
+                  <Typography    variant="subtitle2" sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
                     {values.requestdetails}
                   </Typography>
                 </Box>
@@ -1236,7 +1246,7 @@ const CrmTicketDetails = () => {
                 <Box
                   sx={{
                     // display: "flex",
-                    justifyContent: "flex-start",
+                    justifyContent: "flex-end",
                     gap: 2,
                     mt: 1,
                     display: safeExperienceData.status === "Resolved" ? "none" : "flex",
@@ -1247,7 +1257,7 @@ const CrmTicketDetails = () => {
                     onClick={() => setOpenConfirm(true)}
                     className="form-button"
                     sx={{
-                      padding: "12px 24px",
+                      // padding: "12px 24px",
 
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
@@ -1278,7 +1288,7 @@ const CrmTicketDetails = () => {
                         onClick={() => setIsEditing(false)}
                         className="form-button"
                         sx={{
-                          padding: "12px 24px",
+                          // padding: "12px 24px",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1301,7 +1311,7 @@ const CrmTicketDetails = () => {
                         }}
                         className="form-button"
                         sx={{
-                          padding: "12px 24px",
+                          // padding: "12px 24px",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1371,6 +1381,7 @@ const CrmTicketDetails = () => {
           addTable={addTable}
           addYoutubeVideo={addYoutubeVideo}
           cmname={safeExperienceData.cmname}
+          // mobile={isMobile}
         />
       </Box>
       {/* Third Column - Task Management */}
@@ -1399,7 +1410,7 @@ const CrmTicketDetails = () => {
           }}
         >
           <TasksProvider experienceId={ExperienceId} crmId={crmId} experienceStatus={safeExperienceData.status}>
-            <KanbanBoard />
+            <KanbanBoard  />
           </TasksProvider>
         </Box>
         {/* <AntdModal
@@ -1451,7 +1462,7 @@ const CrmTicketDetails = () => {
               "&:hover": {
                 background: colors.blueAccent[1000],
               },
-              width: isMobile ? "25%" : "20%",
+              width: isMobile ? "40%" : "20%",
             }}
           >
             Assign To

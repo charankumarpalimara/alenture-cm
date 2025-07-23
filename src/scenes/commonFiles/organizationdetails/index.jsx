@@ -241,7 +241,7 @@ const OrganizationDetails = () => {
               >
                 <Row gutter={16}>
                   <Col xs={24} md={8} style={{ display: "none" }}>
-                    <Typography.Text strong>Organization Name</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Organization Name</Typography.Text>
                     <Input
                       value={editData.organizationname}
                       onChange={(e) =>
@@ -257,7 +257,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8} style={{ display: "none" }}>
-                    <Typography.Text strong>Branch Type</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Branch Type</Typography.Text>
                     <Select
                       value={editData.branchtype}
                       onChange={(value) =>
@@ -272,7 +272,7 @@ const OrganizationDetails = () => {
                     </Select>
                   </Col>
                   <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
-                    <Typography.Text strong>Organization Unit</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>
                     <Input
                       value={editData.branch}
                       onChange={(e) =>
@@ -285,7 +285,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Phone Code</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Phone Code</Typography.Text>
                     <Input
                       value={editData.phonecode}
                       onChange={(e) =>
@@ -298,7 +298,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Mobile</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Mobile</Typography.Text>
                     <Input
                       value={editData.mobile}
                       onChange={(e) =>
@@ -311,7 +311,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Email</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Email</Typography.Text>
                     <Input
                       value={editData.email}
                       onChange={(e) =>
@@ -324,7 +324,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Country</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Country</Typography.Text>
                     <Input
                       value={editData.country}
                       onChange={(e) =>
@@ -337,7 +337,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>State</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">State</Typography.Text>
                     <Input
                       value={editData.state}
                       onChange={(e) =>
@@ -350,7 +350,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>District</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">District</Typography.Text>
                     <Input
                       value={editData.district}
                       onChange={(e) =>
@@ -376,7 +376,7 @@ const OrganizationDetails = () => {
                     />
                   </Col> */}
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Postal Code</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Postal Code</Typography.Text>
                     <Input
                       value={editData.postalcode}
                       onChange={(e) =>
@@ -389,7 +389,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Date</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Date</Typography.Text>
                     <Input
                       value={editData.date}
                       disabled
@@ -398,7 +398,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Time</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Time</Typography.Text>
                     <Input
                       value={editData.time}
                       disabled

@@ -9,6 +9,7 @@ import {
   message,
   Modal,
   Spin,
+  Typography
 } from "antd";
 import {
   EditOutlined,
@@ -271,15 +272,31 @@ const CmProfile = () => {
               />
             </Col>
           </Row>
+          <Row justify="center" style={{ marginBottom: 15 }}>
+            <Col>
+              <Typography.Title
+                level={4}
+                style={{
+                  color: "#3e4396",
+                  fontWeight: "500",
+                  // marginBottom: 20,
+                  textAlign: "center",
+                  letterSpacing: 1,
+                }}
+              >
+                 {initialValues.firstName} (Customer Manager) 
+              </Typography.Title>
+            </Col>
+          </Row>
           <Row gutter={16}>
             <Col xs={24} md={8}>
-              <Form.Item label={<span style={{fontWeight:600}}>ID</span>} name="crmId">
+              <Form.Item label={<span className="custom-headding-12px">ID</span>} name="crmId">
                 <Input disabled />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<span style={{fontWeight:600}}>First Name</span>}
+                label={<span className="custom-headding-12px">First Name</span>}
                 name="firstName"
                 rules={[{ required: true, message: "First Name is required" }]}
               >
@@ -293,7 +310,7 @@ const CmProfile = () => {
             </Col> */}
             <Col xs={24} md={8}>
               <Form.Item
-                label={<span style={{fontWeight:600}}>Last Name</span>}
+                label={<span className="custom-headding-12px">Last Name</span>}
                 name="lastName"
                 rules={[{ required: true, message: "Last Name is required" }]}
               >
@@ -302,7 +319,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<span style={{fontWeight:600}}>Email</span>}
+                label={<span className="custom-headding-12px">Email</span>}
                 name="email"
                 rules={[
                   { required: true, message: "Email is required" },
@@ -314,7 +331,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<span style={{fontWeight:600}}>Phone Number</span>}
+                label={<span className="custom-headding-12px">Phone Number</span>}
                 name="PhoneNo"
                 rules={[
                   { required: true, message: "Phone number is required" },
@@ -327,7 +344,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<span style={{fontWeight:600}}>Gender</span>}
+                label={<span className="custom-headding-12px">Gender</span>}
                 name="gender"
                 rules={[{ required: true, message: "Gender is required" }]}
               >
@@ -336,7 +353,7 @@ const CmProfile = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<span style={{fontWeight:600}}>Password</span>}
+                label={<span className="custom-headding-12px">Password</span>}
                 name="password"
                 rules={[{ required: true, message: "Password is required" }]}
               >

@@ -22,7 +22,8 @@ const ChatSection = ({
   addImage,
   addTable,
   addYoutubeVideo,
-  cmname
+  cmname,
+  // isMobile
 }) => (
   <Box
     sx={{
@@ -199,17 +200,17 @@ const ChatSection = ({
           display: "flex",
           flexDirection: "row",
           overflow: "scroll",
-          height: "250px",
+          height: isMobile ? "180px" : "250px",
         }}
       >
         <Box
           sx={{
             flex: 1,
             p: 2,
-            minHeight: "100px",
+            minHeight: "60px",
             maxHeight: "100px",
             "& .tiptap": {
-              minHeight: "200px",
+              minHeight: "150px",
               outline: "none",
               "& p": {
                 margin: 0,

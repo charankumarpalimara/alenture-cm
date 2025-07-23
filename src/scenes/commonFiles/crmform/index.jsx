@@ -1,3 +1,4 @@
+// The .custom-placeholder-12px class is used on Form.Item to style the input top heading (label) with font-size 12px, as defined in index.css
 import React, { useState, useRef, useEffect } from "react";
 import {
   Form,
@@ -506,29 +507,29 @@ const CrmForm = () => {
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+              <Form.Item className="custom-placeholder-12px" label="First Name" name="firstName" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+              <Form.Item className="custom-placeholder-12px" label="Last Name" name="lastName" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Email" name="email" rules={[{ required: true, type: "email" }]}>
+              <Form.Item className="custom-placeholder-12px" label="Email" name="email" rules={[{ required: true, type: "email" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Code" name="phoneCode" rules={[{ required: true }]}>
+              <Form.Item className="custom-placeholder-12px" label="Phone Code" name="phoneCode" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Number" name="PhoneNo" rules={[{ required: true }]}>
+              <Form.Item className="custom-placeholder-12px" label="Phone Number" name="PhoneNo" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
@@ -544,7 +545,8 @@ const CrmForm = () => {
           <Row gutter={24}>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Gender</b>}
+                className="custom-placeholder-12px"
+                label={<span>Gender</span>}
                 name="gender"
 
                 rules={[{ required: true, message: "Gender is required" }]}
@@ -566,7 +568,8 @@ const CrmForm = () => {
 
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Country</b>}
+                className="custom-placeholder-12px"
+                label={<span>Country</span>}
                 name="country"
                 rules={[{ required: true, message: "Country is required" }]}
               >
@@ -591,7 +594,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>State</b>}
+                className="custom-placeholder-12px"
+                label={<span>State</span>}
                 name="state"
                 rules={[{ required: true, message: "State is required" }]}
               // disabled={!isEditMode} 
@@ -618,7 +622,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>City</b>}
+                className="custom-placeholder-12px"
+                label={<span>City</span>}
                 name="city"
                 rules={[{ required: true, message: "City is required" }]}
               >
@@ -640,7 +645,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Postal Code</b>}
+                className="custom-placeholder-12px"
+                label={<span>Postal Code</span>}
                 name="postcode"
                 rules={[{ required: true, message: "Postal Code is required" }]}
               >
@@ -821,7 +827,8 @@ const CrmForm = () => {
           <Row gutter={24}>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>First Name</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">First Name</span>}
                 name="firstName"
                 rules={[{ required: true, message: "First Name is required" }]}
               >
@@ -834,7 +841,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Last Name</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">Last Name</span>}
                 name="lastName"
                 rules={[{ required: true, message: "Last Name is required" }]}
               >
@@ -847,7 +855,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Email Id</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">Email Id</span>}
                 name="email"
                 rules={[{ required: true, message: "Email is required" }]}
               >
@@ -859,9 +868,14 @@ const CrmForm = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label={<b>Phone Number</b>} required>
+              <Form.Item
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">Phone Number</span>}
+                required
+              >
                 <Input.Group compact>
                   <Form.Item
+                    className="custom-placeholder-12px"
                     name="phoneCode"
                     noStyle
                     rules={[{ required: true, message: "Code is required" }]}
@@ -883,6 +897,7 @@ const CrmForm = () => {
                     </Select>
                   </Form.Item>
                   <Form.Item
+                    className="custom-placeholder-12px"
                     name="PhoneNo"
                     noStyle
                     rules={[
@@ -902,7 +917,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Gender</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">Gender</span>}
                 name="gender"
                 rules={[{ required: true, message: "Gender is required" }]}
               >
@@ -922,7 +938,8 @@ const CrmForm = () => {
 
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Country</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">Country</span>}
                 name="country"
                 rules={[{ required: true, message: "Country is required" }]}
               >
@@ -946,7 +963,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>State</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">State</span>}
                 name="state"
                 rules={[{ required: true, message: "State is required" }]}
               >
@@ -971,7 +989,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>City</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">City</span>}
                 name="city"
                 rules={[{ required: true, message: "City is required" }]}
               >
@@ -992,7 +1011,8 @@ const CrmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<b>Postal Code</b>}
+                className="custom-placeholder-12px"
+                label={<span className="custom-headding-12px">Postal Code</span>}
                 name="postcode"
                 rules={[{ required: true, message: "Postal Code is required" }]}
               >
@@ -1010,7 +1030,7 @@ const CrmForm = () => {
                 type="primary"
                 htmlType="submit"
                 className="form-button"
-                size="large"
+                // size="large"
                 style={{
                   background: colors.blueAccent[1000],
                   color: "#fff",

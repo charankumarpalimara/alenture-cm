@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Form, Input, Button, Avatar, Row, Col, message, Modal } from 'antd';
+import { Form, Input, Button, Avatar, Row, Col, message, Modal, Typography } from 'antd';
 import { EditOutlined, SaveOutlined, CloseOutlined, CameraOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import 'antd/dist/reset.css';
@@ -197,22 +197,22 @@ const CrmProfile = ({ apiUrl }) => {
 
   return (
     <div style={cardStyle}>
-                      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-                        <Button
-                          type="text"
-                          icon={<CloseOutlined style={{ fontSize: 20 }} />}
-                          onClick={() => Navigate(-1)}
-                          style={{
-                            // margin: "16px 0 0 8px",
-                            color: "#3e4396",
-                            fontWeight: 600,
-                            fontSize: 16,
-                            alignSelf: "flex-end"
-                          }}
-                        >
-                          {/* Back */}
-                        </Button>
-                        </div>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+        <Button
+          type="text"
+          icon={<CloseOutlined style={{ fontSize: 20 }} />}
+          onClick={() => Navigate(-1)}
+          style={{
+            // margin: "16px 0 0 8px",
+            color: "#3e4396",
+            fontWeight: 600,
+            fontSize: 16,
+            alignSelf: "flex-end"
+          }}
+        >
+          {/* Back */}
+        </Button>
+      </div>
       <Formik initialValues={initialValues} validationSchema={checkoutSchema} onSubmit={handleSubmit} enableReinitialize>
         {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, resetForm }) => (
           <>
@@ -249,6 +249,22 @@ const CrmProfile = ({ apiUrl }) => {
                   />
                 </Col>
               </Row>
+              <Row justify="center" style={{ marginBottom: 15 }}>
+                <Col>
+                  <Typography.Title
+                    level={4}
+                    style={{
+                      color: "#3e4396",
+                      fontWeight: "500",
+                      // marginBottom: 20,
+                      textAlign: "center",
+                      letterSpacing: 1,
+                    }}
+                  >
+                      {initialValues.firstName}(Relationship Manager)
+                  </Typography.Title>
+                </Col>
+              </Row>
               {/* <Row>
                 <Col span={24}>
                   <h2 style={{ marginBottom: 24, textAlign: "center" }}>Profile Details</h2>
@@ -256,11 +272,12 @@ const CrmProfile = ({ apiUrl }) => {
               </Row> */}
               <Row gutter={16}>
                 <Col xs={24} md={8}>
-                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>ID</div>
+                  <Typography.Text className="custom-headding-12px" style={{ marginBottom: 8 }}>ID</Typography.Text>
                   <Form.Item
                     validateStatus={touched.crmId && errors.crmId ? 'error' : ''}
                     help={touched.crmId && errors.crmId}
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, display: 'flex', flexDirection: 'column' }}
+                    labelCol={{ style: { marginBottom: 4 } }}
                   >
                     <Input
                       name="crmId"
@@ -273,11 +290,12 @@ const CrmProfile = ({ apiUrl }) => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>First Name</div>
+                  <Typography.Text className="custom-headding-12px" style={{ marginBottom: 8 }}>First Name</Typography.Text>
                   <Form.Item
                     validateStatus={touched.firstName && errors.firstName ? 'error' : ''}
                     help={touched.firstName && errors.firstName}
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, display: 'flex', flexDirection: 'column' }}
+                    labelCol={{ style: { marginBottom: 4 } }}
                   >
                     <Input
                       name="firstName"
@@ -290,11 +308,12 @@ const CrmProfile = ({ apiUrl }) => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Last Name</div>
+                  <Typography.Text className="custom-headding-12px" style={{ marginBottom: 8 }}>Last Name</Typography.Text>
                   <Form.Item
                     validateStatus={touched.lastName && errors.lastName ? 'error' : ''}
                     help={touched.lastName && errors.lastName}
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, display: 'flex', flexDirection: 'column' }}
+                    labelCol={{ style: { marginBottom: 4 } }}
                   >
                     <Input
                       name="lastName"
@@ -307,11 +326,12 @@ const CrmProfile = ({ apiUrl }) => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Email</div>
+                  <Typography.Text className="custom-headding-12px" style={{ marginBottom: 8 }}>Email</Typography.Text>
                   <Form.Item
                     validateStatus={touched.email && errors.email ? 'error' : ''}
                     help={touched.email && errors.email}
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, display: 'flex', flexDirection: 'column' }}
+                    labelCol={{ style: { marginBottom: 4 } }}
                   >
                     <Input
                       name="email"
@@ -324,11 +344,12 @@ const CrmProfile = ({ apiUrl }) => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Phone Number</div>
+                  <Typography.Text className="custom-headding-12px" style={{ marginBottom: 8 }}>Phone Number</Typography.Text>
                   <Form.Item
                     validateStatus={touched.PhoneNo && errors.PhoneNo ? 'error' : ''}
                     help={touched.PhoneNo && errors.PhoneNo}
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, display: 'flex', flexDirection: 'column' }}
+                    labelCol={{ style: { marginBottom: 4 } }}
                   >
                     <Input
                       name="PhoneNo"
@@ -341,11 +362,12 @@ const CrmProfile = ({ apiUrl }) => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Gender</div>
+                  <Typography.Text className="custom-headding-12px" style={{ marginBottom: 8 }}>Gender</Typography.Text>
                   <Form.Item
                     validateStatus={touched.gender && errors.gender ? 'error' : ''}
                     help={touched.gender && errors.gender}
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, display: 'flex', flexDirection: 'column' }}
+                    labelCol={{ style: { marginBottom: 4 } }}
                   >
                     <Input
                       name="gender"
@@ -358,11 +380,12 @@ const CrmProfile = ({ apiUrl }) => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <div style={{ fontWeight: 'bold', marginBottom: 4 }}>Password</div>
+                  <Typography.Text className="custom-headding-12px" style={{ marginBottom: 8 }}>Password</Typography.Text>
                   <Form.Item
                     validateStatus={touched.password && errors.password ? 'error' : ''}
                     help={touched.password && errors.password}
-                    style={{ marginBottom: 16 }}
+                    style={{ marginBottom: 16, display: 'flex', flexDirection: 'column' }}
+                    labelCol={{ style: { marginBottom: 4 } }}
                   >
                     <Input.Password
                       name="password"
@@ -382,7 +405,7 @@ const CrmProfile = ({ apiUrl }) => {
                       <Button
                         type="primary"
                         htmlType="submit"
-                        
+
                         icon={<SaveOutlined />}
                         loading={isLoading}
                         size="large"
@@ -420,7 +443,7 @@ const CrmProfile = ({ apiUrl }) => {
                   <Button
                     htmlType="button"
                     icon={<EditOutlined />}
-                       className="form-button"
+                    className="form-button"
                     size="large"
                     style={{ background: colors.blueAccent[1000], color: '#fff', borderRadius: 8 }}
                     onClick={() => setIsEditing(true)}

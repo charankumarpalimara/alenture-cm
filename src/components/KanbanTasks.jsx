@@ -64,6 +64,7 @@ function KanbanBoard() {
     taskPriority: "Medium",
     taskStatus: "To Do",
   });
+  const [addTouched, setAddTouched] = useState({});
 
   const { tasks, addTask, editTask, deleteTask, experienceStatus } = useTasks();
 
@@ -106,16 +107,17 @@ function KanbanBoard() {
   };
 
   const handleAddSave = async () => {
-    if (!addValues.taskName.trim()) {
-      message.error("Task name is required");
+    const touched = {
+      taskName: true,
+      taskDescription: true,
+      taskOwner: true,
+      taskPriority: true,
+      taskStatus: true,
+    };
+    setAddTouched(touched);
+    if (!addValues.taskName.trim() || !addValues.taskDescription.trim() || !addValues.taskOwner.trim() || !addValues.taskPriority || !addValues.taskStatus) {
       return;
     }
-
-    if (!addValues.taskDescription.trim()) {
-      message.error("Task description is required");
-      return;
-    }
-
     setAddLoading(true);
     try {
       const formData = new FormData();
@@ -134,6 +136,7 @@ function KanbanBoard() {
         taskPriority: "Medium",
         taskStatus: "To Do",
       });
+      setAddTouched({});
       setAddOpen(false);
       message.success("Task added successfully");
     } catch (error) {
@@ -283,7 +286,7 @@ function KanbanBoard() {
                 fontSize: "12px",
               }}>
                 <span style={{ fontSize: 10, marginTop: 3 }}>{col.icon}</span>
-                <span style={{ color: "#fff" }}>{col.title}</span>
+                <span className="form-button" style={{ color: "#fff" }}>{col.title}</span>
               </Box>
               {/* Cards */}
               {kanbanData.filter(card => card.Status === col.key).map(card => (
@@ -306,7 +309,7 @@ function KanbanBoard() {
                       size="small"
                       sx={{
                         position: "absolute",
-                        top: 8 ,
+                        top: 8,
                         right: experienceStatus !== "Resolved" ? 72 : 8,
                         color: "#2563eb",
                         "&:hover": { background: "rgba(37,99,235,0.1)" },
@@ -344,10 +347,10 @@ function KanbanBoard() {
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
-                    <Typography sx={{ fontWeight: "bold", fontSize:"11px", color: "#1e293b", mb: 1 }}>
+                    <Typography sx={{ fontWeight: "bold", fontSize: "11px", color: "#1e293b", mb: 1 }}>
                       {card.Title}
                     </Typography>
-                    <Typography sx={{ color: "#64748b", fontSize:"11px", mb: 1 }}>
+                    <Typography sx={{ color: "#64748b", fontSize: "11px", mb: 1 }}>
                       {card.Description}
                     </Typography>
                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 2 }}>
@@ -418,35 +421,64 @@ function KanbanBoard() {
             fontSize: "18px",
             pb: 1,
             textAlign: "center",
+            position: "relative"
           }}
         >
           Add New Task
+          <IconButton
+            aria-label="close"
+            onClick={() => setAddOpen(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+            size="small"
+          >
+            <CloseOutlined />
+          </IconButton>
         </DialogTitle>
         <DialogContent sx={{ pt: 1 }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <Input
               placeholder="Task Name"
               value={addValues.taskName}
-              onChange={e => setAddValues(v => ({ ...v, taskName: e.target.value }))}
+              onChange={e => {
+                setAddValues(v => ({ ...v, taskName: e.target.value }));
+                setAddTouched(t => ({ ...t, taskName: true }));
+              }}
               style={{ marginBottom: 16 }}
+              status={addTouched.taskName && !addValues.taskName.trim() ? "error" : ""}
             />
             <Input.TextArea
               placeholder="Task Description"
               value={addValues.taskDescription}
-              onChange={e => setAddValues(v => ({ ...v, taskDescription: e.target.value }))}
+              onChange={e => {
+                setAddValues(v => ({ ...v, taskDescription: e.target.value }));
+                setAddTouched(t => ({ ...t, taskDescription: true }));
+              }}
               rows={3}
               style={{ marginBottom: 16 }}
+              status={addTouched.taskDescription && !addValues.taskDescription.trim() ? "error" : ""}
             />
             <Input
               placeholder="Task Owner"
               value={addValues.taskOwner}
-              onChange={e => setAddValues(v => ({ ...v, taskOwner: e.target.value }))}
+              onChange={e => {
+                setAddValues(v => ({ ...v, taskOwner: e.target.value }));
+                setAddTouched(t => ({ ...t, taskOwner: true }));
+              }}
               style={{ marginBottom: 16 }}
+              status={addTouched.taskOwner && !addValues.taskOwner.trim() ? "error" : ""}
             />
             <Select
               placeholder="Priority"
               value={addValues.taskPriority}
-              onChange={val => setAddValues(v => ({ ...v, taskPriority: val }))}
+              onChange={val => {
+                setAddValues(v => ({ ...v, taskPriority: val }));
+                setAddTouched(t => ({ ...t, taskPriority: true }));
+              }}
               style={{ width: "100%", marginBottom: 16 }}
               options={priorityOptions.map(p => ({ label: p, value: p }))}
               dropdownStyle={{ zIndex: 9999 }}
@@ -455,11 +487,15 @@ function KanbanBoard() {
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
               }
+              status={addTouched.taskPriority && !addValues.taskPriority ? "error" : ""}
             />
             <Select
               placeholder="Status"
               value={addValues.taskStatus}
-              onChange={val => setAddValues(v => ({ ...v, taskStatus: val }))}
+              onChange={val => {
+                setAddValues(v => ({ ...v, taskStatus: val }));
+                setAddTouched(t => ({ ...t, taskStatus: true }));
+              }}
               style={{ width: "100%", marginBottom: 16 }}
               options={columnDefinitions.map(col => ({ label: col.title, value: col.key }))}
               dropdownStyle={{ zIndex: 9999 }}
@@ -468,6 +504,7 @@ function KanbanBoard() {
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
               }
+              status={addTouched.taskStatus && !addValues.taskStatus ? "error" : ""}
             />
           </Box>
         </DialogContent>
@@ -505,7 +542,7 @@ function KanbanBoard() {
               boxShadow: "none",
             }}
           >
-            {addLoading ? "Adding..." : "Add Task"}
+            {addLoading ? "Saving..." : "Save"}
           </Button>
         </DialogActions>
       </Dialog>
@@ -517,7 +554,31 @@ function KanbanBoard() {
         maxWidth="xs"
         fullWidth
       >
-        {/* <DialogTitle>Confirm Delete</DialogTitle> */}
+        <DialogTitle
+          sx={{
+            fontWeight: 600,
+            color: "#1e293b",
+            fontSize: "18px",
+            pb: 1,
+            textAlign: "center",
+            position: "relative"
+          }}
+        >
+          Confirm Delete
+          <IconButton
+            aria-label="close"
+            onClick={() => setDeleteDialogOpen(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+            size="small"
+          >
+            <CloseOutlined />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <Typography>Are you sure you want to delete this task?</Typography>
         </DialogContent>
@@ -527,14 +588,10 @@ function KanbanBoard() {
             variant="outlined"
             color="error"
             className="form-button"
-            // ghost
             icon={<CloseOutlined />}
             style={{
               textTransform: "none",
-              // borderColor: colors.redAccent[500],
               borderRadius: 8,
-              // color: colors.redAccent[500],
-              // background: "#fff"
             }}
           >
             Cancel
@@ -565,9 +622,23 @@ function KanbanBoard() {
             fontSize: "22px",
             pb: 1,
             textAlign: "center",
+            position: "relative"
           }}
         >
           View Task
+          <IconButton
+            aria-label="close"
+            onClick={() => setViewOpen(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+            size="small"
+          >
+            <CloseOutlined />
+          </IconButton>
         </DialogTitle>
         <DialogContent sx={{ pt: 1 }}>
           <Grid container spacing={2}>
@@ -612,14 +683,14 @@ function KanbanBoard() {
             variant="outlined"
             color="error"
             className="form-button"
-            // sx={{
-            //   background: colors.blueAccent[1000],
-            //   color: "#fff",
-            //   padding: "10px 20px",
-            //   "&:hover": {
-            //     backgroundColor: colors.blueAccent[600],
-            //   },
-            // }}
+          // sx={{
+          //   background: colors.blueAccent[1000],
+          //   color: "#fff",
+          //   padding: "10px 20px",
+          //   "&:hover": {
+          //     backgroundColor: colors.blueAccent[600],
+          //   },
+          // }}
           >
             Close
           </Button>
@@ -650,9 +721,23 @@ function KanbanBoard() {
             fontSize: "18px",
             pb: 1,
             textAlign: "center",
+            position: "relative"
           }}
         >
           Edit Task
+          <IconButton
+            aria-label="close"
+            onClick={() => setEditOpen(false)}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+            size="small"
+          >
+            <CloseOutlined />
+          </IconButton>
         </DialogTitle>
         <DialogContent sx={{ pt: 1 }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

@@ -21,7 +21,7 @@ import axios from "axios";
 import "antd/dist/reset.css";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { useTheme } from "@mui/material";
+import { useTheme, Button as MuiButton } from "@mui/material";
 import { tokens } from "../../../theme";
 const { useNavigate } = require("react-router-dom");
 
@@ -289,10 +289,27 @@ const HobProfile = () => {
               />
             </Col>
           </Row>
+          <Row justify="center" style={{ marginBottom: 15 }}>
+            <Col>
+              <Typography.Title
+                level={4}
+                style={{
+                        color: "#3e4396",
+                        fontWeight: "500",
+                        // marginBottom: 20,
+                        textAlign: "center",
+                        letterSpacing: 1,
+                }}
+              >
+              {initialValues.firstName} (hob)
+              </Typography.Title>
+            </Col>
+          </Row>
           <Row gutter={16}>
             <Col xs={24} md={8}>
               <Form.Item
                 label="First Name"
+                className="custom-placeholder-12px"
                 name="firstName"
                 disabled={true}
                 rules={[{ required: true, message: "Required" }]}
@@ -303,6 +320,7 @@ const HobProfile = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label="Last Name"
+                className="custom-placeholder-12px"
                 name="lastName"
                 disabled={true}
                 rules={[{ required: true, message: "Required" }]}
@@ -313,6 +331,7 @@ const HobProfile = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label="Email"
+                className="custom-placeholder-12px"
                 name="email"
                 disabled={true}
                 rules={[
@@ -328,6 +347,7 @@ const HobProfile = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label="Phone Number"
+                className="custom-placeholder-12px"
                 name="PhoneNo"
                 disabled={true}
                 rules={[
@@ -342,6 +362,7 @@ const HobProfile = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label="Gender"
+                className="custom-placeholder-12px"
                 name="gender"
                 disabled={true}
                 rules={[{ required: true, message: "Required" }]}
@@ -352,6 +373,7 @@ const HobProfile = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label="Password"
+                className="custom-placeholder-12px"
                 name="password"
                 rules={[{ required: true, message: "Required" }]}
               >
@@ -368,29 +390,30 @@ const HobProfile = () => {
                     htmlType="submit"
                     icon={<SaveOutlined />}
                     loading={isLoading}
-                    size="large"
+                    // size="large"
                     className="form-button"
                     style={{
                       background: colors.blueAccent[1000],
                       borderColor: colors.blueAccent[1000],
                       color: "#fff",
-                      minWidth: 120,
+                      // minWidth: 120,
                     }}
                   >
                     Save
                   </Button>
                 </Col>
                 <Col>
-                  <Button
+                  <MuiButton
                     htmlType="button"
-                    type="default"
+                    variant="outlined"
                     icon={<CloseOutlined />}
-                    size="large"
+                    // size="large"
+                    color="error"
                     className="form-button"
-                    style={{
-                      marginLeft: 8,
+                    sx={{
+                      marginLeft: "8px",
                       // fontWeight: "bold",
-                      borderRadius: 8,
+                      borderRadius: "8px",
                     }}
                     onClick={() => {
                       setIsEditing(false);
@@ -399,7 +422,7 @@ const HobProfile = () => {
                     }}
                   >
                     Cancel
-                  </Button>
+                  </MuiButton>
                 </Col>
               </>
             )}
@@ -411,13 +434,13 @@ const HobProfile = () => {
               <Button
                 htmlType="button"
                 icon={<EditOutlined />}
-                size="large"
+                // size="large"
                 className="form-button"
                 style={{
                   background: colors.blueAccent[1000],
                   borderColor: colors.blueAccent[1000],
                   color: "#fff",
-                  minWidth: 120,
+                  // minWidth: 120,
                 }}
                 onClick={() => setIsEditing(true)}
               >

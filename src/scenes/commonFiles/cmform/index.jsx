@@ -507,34 +507,34 @@ const CmForm = () => {
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+              <Form.Item label="First Name" className="custom-placeholder-12px" name="firstName" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+              <Form.Item label="Last Name" className="custom-placeholder-12px" name="lastName" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Email" name="email" rules={[{ required: true, type: "email" }]}>
+              <Form.Item label="Email" className="custom-placeholder-12px" name="email" rules={[{ required: true, type: "email" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Code" name="phoneCode" rules={[{ required: true }]}>
+              <Form.Item label="Phone Code" className="custom-placeholder-12px" name="phoneCode" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Number" name="PhoneNo" rules={[{ required: true }]}>
+              <Form.Item label="Phone Number" className="custom-placeholder-12px" name="PhoneNo" rules={[{ required: true }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Gender" name="gender" rules={[{ required: true }]}>
+              <Form.Item label="Gender" className="custom-placeholder-12px" name="gender" rules={[{ required: true }]}>
                 <Select disabled={!isEditMode}>
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
@@ -551,6 +551,7 @@ const CmForm = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label="Organization"
+                className="custom-placeholder-12px"
                 name="organization"
                 rules={[{ required: true, message: "Organization is required" }]}
               >
@@ -573,7 +574,8 @@ const CmForm = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="Organization Unit"
+                label={<span>Organization Unit</span>}
+                className="custom-placeholder-12px"
                 name="branch"
                 rules={[{ required: true, message: "Organization Unit is required" }]}
               >
@@ -593,6 +595,7 @@ const CmForm = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label="CRM Name"
+                className="custom-placeholder-12px"
                 name="crmname"
                 rules={[{ required: true, message: "CRM Name is required" }]}
               >
@@ -686,7 +689,7 @@ const CmForm = () => {
           style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
 
         >
-         <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
             <Button
               type="text"
               icon={<CloseOutlined style={{ fontSize: 20 }} />}
@@ -792,45 +795,50 @@ const CmForm = () => {
             <Row gutter={24}>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>First Name</Text>}
+                  label={<Text className="custom-headding-12px">First Name</Text>}
+                  className="custom-placeholder-12px"
                   name="firstName"
                   rules={[{ required: true, message: "First Name is required" }]}
                 >
                   <Input
                     placeholder="First Name"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
+                    className="custom-placeholder-12px"
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Last Name</Text>}
+                  label={<Text className="custom-headding-12px">Last Name</Text>}
+                  className="custom-placeholder-12px"
                   name="lastName"
                   rules={[{ required: true, message: "Last Name is required" }]}
                 >
                   <Input
                     placeholder="Last Name"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff", }}
+                    className="custom-placeholder-12px"
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Email Id</Text>}
+                  label={<Text className="custom-headding-12px">Email Id</Text>}
+                  className="custom-placeholder-12px"
                   name="email"
                   rules={[{ required: true, message: "Email is required" }]}
                 >
                   <Input
                     placeholder="Email"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff", }}
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} md={8}>
-                <Form.Item label={<Text strong>Phone Number</Text>} required>
+                <Form.Item label={<Text className="custom-headding-12px">Phone Number</Text>} className="custom-placeholder-12px" required>
                   <Input.Group compact>
                     <Form.Item
                       name="phoneCode"
@@ -840,7 +848,7 @@ const CmForm = () => {
                       <Select
                         showSearch
                         style={{ width: 160 }}
-                        placeholder="Code"
+                        placeholder="Phone Code"
                         optionFilterProp="children"
                         size="large"
                       >
@@ -855,6 +863,7 @@ const CmForm = () => {
                     <Form.Item
                       name="PhoneNo"
                       noStyle
+                      className="custom-placeholder-12px"
                       rules={[
                         { required: true, message: "Phone number is required" },
                         { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
@@ -865,6 +874,7 @@ const CmForm = () => {
                         style={{ width: "calc(100% - 160px)" }}
                         placeholder="Phone Number"
                         size="large"
+
                       />
                     </Form.Item>
                   </Input.Group>
@@ -872,14 +882,15 @@ const CmForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Gender</Text>}
+                  label={<Text className="custom-headding-12px">Gender</Text>}
+                  className="custom-placeholder-12px"
                   name="gender"
                   rules={[{ required: true, message: "Gender is required" }]}
                 >
                   <Select
                     placeholder="Select Gender"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                   >
                     {gender.map((g) => (
                       <Option key={g} value={g}>
@@ -891,7 +902,8 @@ const CmForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Organization</Text>}
+                  label={<Text className="custom-headding-12px">Organization</Text>}
+                  className="custom-placeholder-12px"
                   name="organization"
                   rules={[
                     { required: true, message: "Organization is required" },
@@ -901,7 +913,7 @@ const CmForm = () => {
                     showSearch
                     placeholder="Select Organization"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
                     onChange={async (value) => {
                       form.setFieldsValue({ organization: value, branch: "" });
                       await fetchBranch(value);
@@ -917,7 +929,8 @@ const CmForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Organization Unit</Text>}
+                  label={<Text className="custom-headding-12px">Organization Unit</Text>}
+                  className="custom-placeholder-12px"
                   name="branch"
                   rules={[{ required: true, message: "Organization Unit is required" }]}
                 >
@@ -925,7 +938,8 @@ const CmForm = () => {
                     showSearch
                     placeholder="Select Organization Unit"
                     size="large"
-                    style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                    style={{ borderRadius: 8, background: "#fff" }}
+                    className="custom-placeholder-12px"
                   >
                     {branchNames.map((item, idx) => (
                       <Select.Option key={idx} value={item.branch}>
@@ -937,7 +951,8 @@ const CmForm = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Relationship Manager</Text>}
+                  label={<Text className="custom-headding-12px">Relationship Manager</Text>}
+                  className="custom-placeholder-12px"
                   name="crmname"
                   rules={[{ required: true, message: "Relationship Manager is required" }]}
                 >
@@ -953,6 +968,7 @@ const CmForm = () => {
                         crmid: value
                       });
                     }}
+                    className="custom-placeholder-12px"
                   >
                     {crmNameList.map((crm) => (
                       <Select.Option key={crm.crmid} value={crm.crmid}>
@@ -968,13 +984,13 @@ const CmForm = () => {
                 </Form.Item>
               </Col>
             </Row>
-            <Row justify="end" style={{ marginTop: 32 }} gutter={16}>
+            <Row justify="end" style={{ marginTop: 25 }} gutter={16}>
               <Col>
                 <Button
                   type="primary"
                   htmlType="submit"
                   className="form-button"
-                  size="large"
+                  // size="large"
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",

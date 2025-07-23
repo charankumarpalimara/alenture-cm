@@ -35,6 +35,7 @@ import { io } from "socket.io-client";
 import ActivityTimeline from "./ActivityTimeline";
 import ChatSection from './ChatSection';
 
+
 const CmTicketDetails = () => {
   const { experienceid } = useParams();
   const [experienceData, setExperienceData] = useState(null);
@@ -441,7 +442,7 @@ const CmTicketDetails = () => {
                   >
                     Experience ID
                   </Typography>
-                  <Typography >{values.id}</Typography>
+                  <Typography variant="subtitle2">{values.id}</Typography>
                 </Box>
 
                 <Box>
@@ -451,7 +452,7 @@ const CmTicketDetails = () => {
                   >
                     Organization
                   </Typography>
-                  <Typography>{values.organization}</Typography>
+                  <Typography variant="subtitle2">{values.organization}</Typography>
                 </Box>
 
                 <Box>
@@ -461,7 +462,7 @@ const CmTicketDetails = () => {
                   >
                     Unit
                   </Typography>
-                  <Typography>{values.branch}</Typography>
+                  <Typography variant="subtitle2">{values.branch}</Typography>
                 </Box>
 
                 <Box>
@@ -471,7 +472,7 @@ const CmTicketDetails = () => {
                   >
                     Customer Manager
                   </Typography>
-                  <Typography>{values.cmname}</Typography>
+                  <Typography variant="subtitle2">{values.cmname}</Typography>
                 </Box>
 
                 <Box>
@@ -481,7 +482,7 @@ const CmTicketDetails = () => {
                   >
                     Relationship Manager
                   </Typography>
-                  <Typography>{values.crmname}</Typography>
+                  <Typography variant="subtitle2">{values.crmname}</Typography>
                 </Box>
 
                 <Box>
@@ -492,6 +493,7 @@ const CmTicketDetails = () => {
                     Priority
                   </Typography>
                   <Typography
+                    variant="subtitle2"
                     sx={{ color: getExperienceColor(values.priority) }}
                   >
                     {values.priority}
@@ -506,7 +508,8 @@ const CmTicketDetails = () => {
                     Status
                   </Typography>
                   <Typography
-                    // sx={{ color: getExperienceColor(values.priority) }}
+                    variant="subtitle2"
+                  // sx={{ color: getExperienceColor(values.priority) }}
                   >
                     {values.status}
                   </Typography>
@@ -519,7 +522,7 @@ const CmTicketDetails = () => {
                   >
                     Date
                   </Typography>
-                  <Typography>{values.date}</Typography>
+                  <Typography variant="subtitle2">{values.date}</Typography>
                 </Box>
 
                 <Box>
@@ -529,7 +532,7 @@ const CmTicketDetails = () => {
                   >
                     Time
                   </Typography>
-                  <Typography>{values.time}</Typography>
+                  <Typography variant="subtitle2">{values.time}</Typography>
                 </Box>
 
                 <Box>
@@ -540,6 +543,7 @@ const CmTicketDetails = () => {
                     Experience
                   </Typography>
                   <Typography
+                    variant="subtitle2"
                     sx={{ color: getExperienceColor(values.experience) }}
                   >
                     {values.experience}
@@ -553,7 +557,7 @@ const CmTicketDetails = () => {
                   >
                     Impact
                   </Typography>
-                  <Typography>{values.impact}</Typography>
+                  <Typography variant="subtitle2">{values.impact}</Typography>
                 </Box>
 
                 <Box
@@ -567,7 +571,7 @@ const CmTicketDetails = () => {
                   >
                     Subject
                   </Typography>
-                  <Typography>{values.subject}</Typography>
+                  <Typography variant="subtitle2">{values.subject}</Typography>
                 </Box>
               </Box>
 
@@ -590,7 +594,7 @@ const CmTicketDetails = () => {
                       Request Details
                     </Typography>
                   </Box>
-                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
+                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }} variant="subtitle2">
                     {values.requestdetails}
                   </Typography>
 
@@ -609,28 +613,28 @@ const CmTicketDetails = () => {
 
                 {/* Download Button */}
                 {experienceData.filename && (
-                  <Box sx={{ display: "flex", gap: 2 ,}}>
+                  <Box sx={{ display: "flex", gap: 2, }}>
                     {fileUrl && (
                       <MuiButtom
                         variant="outlined"
                         className="form-button"
                         disabled={isDownloading}
                         onClick={handleDownload}
-                      sx={{
-                        border: '1px solid #3e4396',
-                        cursor: 'pointer',
-                        maxWidth: '180px',
-                        background: 'transparent',
-                        color: '#3e4396',
-                        borderRadius: 8,
-                        fontWeight: 600,
-                        transition: 'border-color 0.2s, color 0.2s, background 0.2s',
-                        '&:hover': {
-                          border: '1px solid #2E2E9F',
-                          color: '#2E2E9F',
-                          background: '#f5f7ff',
-                        },
-                      }}
+                        sx={{
+                          border: '1px solid #3e4396',
+                          cursor: 'pointer',
+                          maxWidth: '180px',
+                          background: 'transparent',
+                          color: '#3e4396',
+                          borderRadius: 8,
+                          fontWeight: 600,
+                          transition: 'border-color 0.2s, color 0.2s, background 0.2s',
+                          '&:hover': {
+                            border: '1px solid #2E2E9F',
+                            color: '#2E2E9F',
+                            background: '#f5f7ff',
+                          },
+                        }}
                       >
                         {isDownloading ? "Downloading..." : "Download Attachment"}
                       </MuiButtom>

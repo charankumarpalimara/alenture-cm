@@ -462,7 +462,7 @@ const CmDetails = () => {
           <Row gutter={24}>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>ID</Text>}
+                label={<Text className="custom-headding-12px">ID</Text>}
                 name="id"
                 rules={[{ required: true, message: "Id is required" }]}
               >
@@ -471,7 +471,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>First Name</Text>}
+                label={<Text className="custom-headding-12px">First Name</Text>}
                 name="firstName"
                 rules={[{ required: true, message: "First name is required" }]}
               >
@@ -484,7 +484,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Last Name</Text>}
+                label={<Text className="custom-headding-12px">Last Name</Text>}
                 name="lastName"
                 rules={[{ required: true, message: "Last name is required" }]}
               >
@@ -497,7 +497,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Organization</Text>}
+                label={<Text className="custom-headding-12px">Organization</Text>}
                 name="organizationname"
                 rules={[
                   { required: true, message: "Organization is required" },
@@ -533,7 +533,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Organization Unit</Text>}
+                label={<Text className="custom-headding-12px">Organization Unit</Text>}
                 name="branch"
                 rules={[
                   { required: true, message: "Organization Unit is required" },
@@ -556,7 +556,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Email Id</Text>}
+                label={<Text className="custom-headding-12px">Email Id</Text>}
                 name="email"
                 rules={[
                   {
@@ -570,7 +570,7 @@ const CmDetails = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label={<Text strong>Phone Number</Text>} required>
+              <Form.Item label={<Text className="custom-headding-12px">Phone Number</Text>} required>
                 <Input.Group compact>
                   <Form.Item
                     name="phoneCode"
@@ -614,7 +614,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Gender</Text>}
+                label={<Text className="custom-headding-12px">Gender</Text>}
                 name="gender"
                 rules={[{ required: true, message: "Gender is required" }]}
               >
@@ -633,7 +633,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Status</Text>}
+                label={<Text className="custom-headding-12px">Status</Text>}
                 name="status"
                 rules={[{ required: true, message: "Status is required" }]}
               >
@@ -652,7 +652,7 @@ const CmDetails = () => {
             </Col>
             <Col xs={24} md={8} style={{ display: getCreaterRole() === "crm" ? "none": "block"}}>
               <Form.Item
-                label={<Text strong>Relationship Manager</Text>}
+                label={<Text className="custom-headding-12px">Relationship Manager</Text>}
                 name="crmname"
                 rules={[{ required: true, message: "Relationship Manager is required" }]}
               >

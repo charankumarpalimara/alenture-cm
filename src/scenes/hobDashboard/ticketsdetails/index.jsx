@@ -969,7 +969,7 @@ const AdminTicketDetails = () => {
                   >
                     Experience ID
                   </Typography>
-                  <Typography>{values.id}</Typography>
+                  <Typography variant="subtitle2">{values.id}</Typography>
                 </Box>
 
                 <Box>
@@ -979,7 +979,7 @@ const AdminTicketDetails = () => {
                   >
                     Organization
                   </Typography>
-                  <Typography>{values.organization}</Typography>
+                  <Typography variant="subtitle2">{values.organization}</Typography>
                 </Box>
 
                 <Box>
@@ -989,7 +989,7 @@ const AdminTicketDetails = () => {
                   >
                     Unit
                   </Typography>
-                  <Typography>{values.branch}</Typography>
+                  <Typography variant="subtitle2">{values.branch}</Typography>
                 </Box>
 
                 <Box>
@@ -999,7 +999,7 @@ const AdminTicketDetails = () => {
                   >
                     Customer Manager
                   </Typography>
-                  <Typography>{values.cmname}</Typography>
+                  <Typography variant="subtitle2">{values.cmname}</Typography>
                 </Box>
 
                 <Box>
@@ -1012,7 +1012,7 @@ const AdminTicketDetails = () => {
                   </Typography>
                   {crmNamelistExp && crmNamelistExp.length > 0 ? (
                     crmNamelistExp.map((crm, idx) => (
-                      <Typography key={crm.crmid || idx}>
+                      <Typography key={crm.crmid || idx} variant="subtitle2"  >
                         {idx + 1}. {crm.crmnamebyexp} {crm.crmid ? `(${crm.crmid})` : ""}
                       </Typography>
                     ))
@@ -1098,6 +1098,7 @@ const AdminTicketDetails = () => {
                       Priority
                     </Typography>
                     <Typography
+                      variant="subtitle2"
                       sx={{ color: getExperienceColor(values.priority) }}
                     >
                       {values.priority}
@@ -1113,6 +1114,7 @@ const AdminTicketDetails = () => {
                     Status
                   </Typography>
                   <Typography
+                    variant="subtitle2"
                   >
                     {values.status}
                   </Typography>
@@ -1127,6 +1129,7 @@ const AdminTicketDetails = () => {
                     Experience
                   </Typography>
                   <Typography
+                            variant="subtitle2"
                     sx={{
                       color:
                         values.experience?.trim() === "Frustrated"
@@ -1151,7 +1154,7 @@ const AdminTicketDetails = () => {
                   >
                     Impact
                   </Typography>
-                  <Typography>{values.impact}</Typography>
+                  <Typography           variant="subtitle2">{values.impact}</Typography>
                 </Box>
 
                 <Box
@@ -1165,7 +1168,7 @@ const AdminTicketDetails = () => {
                   >
                     Subject
                   </Typography>
-                  <Typography>{values.subject}</Typography>
+                  <Typography           variant="subtitle2">{values.subject}</Typography>
                 </Box>
 
                 {/* ----- ACTIVITY TIMELINE - Full Width Row ----- */}
@@ -1194,7 +1197,7 @@ const AdminTicketDetails = () => {
                       Request Details
                     </Typography>
                   </Box>
-                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
+                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}           variant="subtitle2">
                     {values.requestdetails}
                   </Typography>
 
@@ -1247,7 +1250,7 @@ const AdminTicketDetails = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "flex-start",
+                    justifyContent: "flex-end",
                     gap: 2,
                     mt: 1,
 

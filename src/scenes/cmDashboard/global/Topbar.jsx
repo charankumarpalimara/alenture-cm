@@ -32,7 +32,7 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCmId, getCreaterName } from "../../../config";
+import { getCmId, getCreaterName, getCreaterFirstName, getCreaterRole } from "../../../config";
 
 import {
   getNotificationsDetails,
@@ -97,8 +97,8 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight: "600 !important", // Ensure text is bold for selected item
-            fontSize: "12px",
+            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontSize: "13px",
           },
         }}
       />
@@ -517,7 +517,7 @@ const notifClick = (data) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {username}
+              {getCreaterFirstName()}
                 </Typography>
               </IconButton>
             </Box>
@@ -617,7 +617,7 @@ const notifClick = (data) => {
                 <Typography
                   sx={{ color: "#000", fontSize: isMobile ? 15 : 17 }}
                 >
-                  {getCreaterName()}
+              {getCreaterFirstName()}
                 </Typography>
               </IconButton>
             </Box>

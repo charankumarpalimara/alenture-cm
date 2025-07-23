@@ -24,8 +24,12 @@ import "antd/dist/reset.css";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { tokens } from "../../../theme";
-import { useTheme } from "@mui/material";
-const { useNavigate } = require("react-router-dom");
+import { useTheme, Button as MuiButton } from "@mui/material";
+import { getCreaterFirstName, getCreaterRole } from "../../../config";
+
+import { useNavigate } from "react-router-dom";
+
+
 const AdminProfile = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -246,22 +250,22 @@ const AdminProfile = () => {
         </Typography.Title> */}
 
 
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-                  <Button
-                    type="text"
-                    icon={<CloseOutlined style={{ fontSize: 20 }} />}
-                    onClick={() => Navigate(-1)}
-                    style={{
-                      // margin: "16px 0 0 8px",
-                      color: "#3e4396",
-                      fontWeight: 600,
-                      fontSize: 16,
-                      alignSelf: "flex-end"
-                    }}
-                  >
-                    {/* Back */}
-                  </Button>
-                </div>
+        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => Navigate(-1)}
+            style={{
+              // margin: "16px 0 0 8px",
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end"
+            }}
+          >
+            {/* Back */}
+          </Button>
+        </div>
         <Formik
           initialValues={initialValues}
           validationSchema={checkoutSchema}
@@ -280,7 +284,8 @@ const AdminProfile = () => {
           }) => (
             <>
               <form onSubmit={handleSubmit}>
-                <Row justify="center" style={{ marginBottom: 24 }}>
+
+                <Row justify="center" style={{ marginBottom: 10 }}>
                   <Col>
                     <Avatar
                       size={120}
@@ -299,15 +304,15 @@ const AdminProfile = () => {
                     />
                     {isEditing && (
                       <div style={{ marginTop: 8, textAlign: "center" }}>
-                        <Button
-                          type="dashed"
-                          icon={<CameraOutlined />}
+                        <MuiButton
+                          variant="outlined"
+                          startIcon={<CameraOutlined />}
                           size="small"
                           onClick={() => fileInputRef.current?.click()}
-                          style={{ borderRadius: 8 }}
+                          // sx={{ borderRadius: 8, border: "1px solid #ccc" }}
                         >
                           {profileImage ? "Change Photo" : "Add Photo"}
-                        </Button>
+                        </MuiButton>
                       </div>
                     )}
                     <input
@@ -320,9 +325,25 @@ const AdminProfile = () => {
                     />
                   </Col>
                 </Row>
+                <Row justify="center" style={{ marginBottom: 15 }}>
+                  <Col>
+                    <Typography.Title
+                      level={4}
+                      style={{
+                        color: "#3e4396",
+                        fontWeight: "500",
+                        // marginBottom: 20,
+                        textAlign: "center",
+                        letterSpacing: 1,
+                      }}
+                    >
+                      {values.firstName} (admin)
+                    </Typography.Title>
+                  </Col>
+                </Row>
                 <Row gutter={16}>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>First Name</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">First Name</Typography.Text>
                     <Form.Item
                       validateStatus={
                         touched.firstName && errors.firstName ? "error" : ""
@@ -340,7 +361,7 @@ const AdminProfile = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Last Name</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Last Name</Typography.Text>
                     <Form.Item
                       validateStatus={
                         touched.lastName && errors.lastName ? "error" : ""
@@ -358,7 +379,7 @@ const AdminProfile = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Email</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Email</Typography.Text>
                     <Form.Item
                       validateStatus={
                         touched.email && errors.email ? "error" : ""
@@ -378,7 +399,7 @@ const AdminProfile = () => {
                 </Row>
                 <Row gutter={16}>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Phone Number</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>
                     <Form.Item
                       validateStatus={
                         touched.PhoneNo && errors.PhoneNo ? "error" : ""
@@ -396,7 +417,7 @@ const AdminProfile = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Gender</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Gender</Typography.Text>
                     <Form.Item
                       validateStatus={
                         touched.gender && errors.gender ? "error" : ""
@@ -414,7 +435,7 @@ const AdminProfile = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={8}>
-                    <Typography.Text strong>Password</Typography.Text>
+                    <Typography.Text className="custom-headding-12px">Password</Typography.Text>
                     <Form.Item
                       validateStatus={
                         touched.password && errors.password ? "error" : ""
@@ -441,7 +462,7 @@ const AdminProfile = () => {
                           htmlType="submit"
                           icon={<SaveOutlined />}
                           loading={isLoading}
-                          size="large"
+                          // size="large"
                           className="form-button"
                           style={{
                             background: colors.blueAccent[1000],
@@ -454,19 +475,20 @@ const AdminProfile = () => {
                         </Button>
                       </Col>
                       <Col>
-                        <Button
+                        <MuiButton
                           htmlType="button"
-                          type="default"
+                          variant="outlined"
                           icon={<CloseOutlined />}
-                          danger
-                          size="large"
+                          color="error"
+                          // size="large"
                           className="form-button"
                           sx={{
-                            marginLeft: 8,
-                            borderColor: colors.blueAccent[500],
-                            color: colors.blueAccent[500],
-                            "&:hover": { borderColor: colors.blueAccent[600] },
-                            textTransform: "none",
+                            marginLeft: "8px",
+                            borderRadius: "8px",
+                            // borderColor: colors.blueAccent[500],
+                            // color: colors.blueAccent[500],
+                            // "&:hover": { borderColor: colors.blueAccent[600] },
+                            // textTransform: "none",
                           }}
                           onClick={() => {
                             setIsEditing(false);
@@ -475,7 +497,7 @@ const AdminProfile = () => {
                           }}
                         >
                           Cancel
-                        </Button>
+                        </MuiButton>
                       </Col>
                     </>
                   )}
@@ -487,7 +509,7 @@ const AdminProfile = () => {
                     <Button
                       htmlType="button"
                       icon={<EditOutlined />}
-                      size="large"
+                      // size="large"
                       className="form-button"
                       style={{
                         background: colors.blueAccent[1000],

@@ -226,7 +226,6 @@ const HobDetails = () => {
   const countries = Country.getAllCountries();
   const gender = ['Male', 'Female'];
   const status = ['Suspend', 'Active'];
-
   if (hobDetails === null) {
     return (
       <div
@@ -350,7 +349,7 @@ const HobDetails = () => {
           <Row gutter={24}>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>ID</Text>}
+                label={<Text className="custom-headding-12px">ID</Text>}
                 name="hobid"
                 rules={[{ required: true, message: 'HOB id is required' }]}
               >
@@ -359,7 +358,7 @@ const HobDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>First Name</Text>}
+                label={<Text className="custom-headding-12px">First Name</Text>}
                 name="firstName"
                 rules={[{ required: true, message: 'First name is required' }]}
               >
@@ -368,7 +367,7 @@ const HobDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Last Name</Text>}
+                label={<Text className="custom-headding-12px">Last Name</Text>}
                 name="lastName"
                 rules={[{ required: true, message: 'Last name is required' }]}
               >
@@ -377,7 +376,7 @@ const HobDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Email Id</Text>}
+                label={<Text className="custom-headding-12px">Email Id</Text>}
                 name="email"
                 rules={[{ required: true, type: 'email', message: 'Valid email is required' }]}
               >
@@ -386,7 +385,7 @@ const HobDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Phone Number</Text>}
+                label={<Text className="custom-headding-12px">Phone Number</Text>}
                 required
               >
                 <Input.Group compact>
@@ -424,7 +423,7 @@ const HobDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Gender</Text>}
+                label={<Text className="custom-headding-12px">Gender</Text>}
                 name="gender"
                 rules={[{ required: true, message: 'Gender is required' }]}
               >
@@ -437,7 +436,7 @@ const HobDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label={<Text strong>Status</Text>}
+                label={<Text className="custom-headding-12px">Status</Text>}
                 name="status"
                 rules={[{ required: true, message: 'Status is required' }]}
               >

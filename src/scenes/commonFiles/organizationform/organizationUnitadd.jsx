@@ -25,6 +25,7 @@ import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import { useTheme, Button as MuiButton } from "@mui/material";
 import { tokens } from "../../../theme";
 import { getCreaterRole, getCreaterId } from "../../../config";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 // import {  CloseOutlined } from "@ant-design/icons";
 
 // import ReactCrop from "react-image-crop";
@@ -635,7 +636,7 @@ const OrganizationUnitadd = () => {
                   >
                     <Row gutter={16}>
                       <Col xs={24} md={8} style={{ display: "none" }}>
-                        <Typography.Text strong>Organization Name</Typography.Text>
+                        <Typography.Text  className="custom-placeholder-12px">Organization Name</Typography.Text>
                         <Input
                           value={editData.organizationname}
                           onChange={(e) =>
@@ -666,7 +667,7 @@ const OrganizationUnitadd = () => {
                         </Select>
                       </Col>
                       <Col xs={24} md={8} style={{ display : editData.branchtype === "Parent" ? "none" : "block"}}>
-                        <Typography.Text strong>Organization Unit</Typography.Text>
+                        <Typography.Text  className="custom-headding-12px">Organization Unit</Typography.Text>
                         <Input
                           value={editData.branch}
                           onChange={(e) =>
@@ -679,7 +680,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>Phone Code</Typography.Text>
+                        <Typography.Text className="custom-headding-12px" >Phone Code</Typography.Text>
                         <Input
                           value={editData.phonecode}
                           onChange={(e) =>
@@ -692,7 +693,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>Mobile</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">Mobile</Typography.Text>
                         <Input
                           value={editData.mobile}
                           onChange={(e) =>
@@ -705,7 +706,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>Email</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">Email</Typography.Text>
                         <Input
                           value={editData.email}
                           onChange={(e) =>
@@ -718,7 +719,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>Country</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">Country</Typography.Text>
                         <Input
                           value={editData.country}
                           onChange={(e) =>
@@ -731,7 +732,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>State</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">State</Typography.Text>
                         <Input
                           value={editData.state}
                           onChange={(e) =>
@@ -744,7 +745,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>District</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">District</Typography.Text>
                         <Input
                           value={editData.district}
                           onChange={(e) =>
@@ -770,7 +771,7 @@ const OrganizationUnitadd = () => {
                     />
                   </Col> */}
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>Postal Code</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">Postal Code</Typography.Text>
                         <Input
                           value={editData.postalcode}
                           onChange={(e) =>
@@ -783,7 +784,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>Date</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">Date</Typography.Text>
                         <Input
                           value={editData.date}
                           disabled
@@ -792,7 +793,7 @@ const OrganizationUnitadd = () => {
                         />
                       </Col>
                       <Col xs={24} md={8}>
-                        <Typography.Text strong>Time</Typography.Text>
+                        <Typography.Text className="custom-headding-12px">Time</Typography.Text>
                         <Input
                           value={editData.time}
                           disabled
@@ -828,23 +829,25 @@ const OrganizationUnitadd = () => {
                         </>
                       ) : (
                         <>
-                          <Button
-                            type="primary"
+                          <MuiButton
+                            variant="contained"
                             onClick={() => handleBranchEdit(idx)}
+                            startIcon={<EditIcon />}
                             className="form-button"
-                            style={{
+                            sx={{
                               background: colors.blueAccent[1000],
                               color: "#fff",
-                              borderRadius: 8,
-                              marginRight: 8,
+                              borderRadius: "8px",
+                              marginRight: "8px",
                             }}
                           >
                             Edit
-                          </Button>
+                          </MuiButton>
                           {getCreaterRole() === "admin" && (
                             <MuiButton
                               // type="outlined"
                                variant="outlined"
+                               startIcon={<DeleteIcon />}
                               // size="small"
                               color="error"
                               className="form-button"
@@ -947,7 +950,7 @@ const OrganizationUnitadd = () => {
             <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
               <Row gutter={16}>
                 <Col xs={24} md={8} style={{ display: "none" }}>
-                  <Form.Item label="Organization Id">
+                  <Form.Item label="Organization Id" className="custom-placeholder-12px">
                     <Input
                       value={firstBranch.organizationid || ""}
                       disabled
@@ -964,7 +967,7 @@ const OrganizationUnitadd = () => {
                 </Col>
 
                 <Col xs={24} md={8} style={{ display: "none" }} >
-                  <Form.Item label="Organization Name">
+                  <Form.Item label="Organization Name" className="custom-placeholder-12px">
                     <Input
                       value={firstBranch.organizationname || ""}
                       disabled
@@ -983,9 +986,10 @@ const OrganizationUnitadd = () => {
 
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<b>Organization Unit</b>}
+                    label={<b className="custom-headding-12px">Organization Unit</b>}
                     name="branch"
                     rules={[{ required: true, message: "Organization Unit is required" }]}
+                    className="custom-placeholder-12px"
                   >
                     <Input
                       placeholder="Organization Unit"
@@ -997,8 +1001,10 @@ const OrganizationUnitadd = () => {
 
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Typography.Text strong >Email</Typography.Text>}
-                    name="email">
+                    label={<Typography.Text className="custom-headding-12px" >Email</Typography.Text>}
+                    name="email"
+                    className="custom-placeholder-12px"
+                  >
                     <Input
                       value={firstBranch.email || ""}
                       // disabled 
@@ -1016,10 +1022,11 @@ const OrganizationUnitadd = () => {
 
 
                   <Col xs={24} md={8}>
-                    <Form.Item label={<Typography.Text strong>Phone Number</Typography.Text>} required>
+                    <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
                       <Input.Group compact>
                         <Form.Item
                           name="phoneCode"
+                                           className="custom-placeholder-12px" 
                           noStyle
                           rules={[{ required: true, message: "Code is required" }]}
                         >
@@ -1040,6 +1047,7 @@ const OrganizationUnitadd = () => {
                         </Form.Item>
                         <Form.Item
                           name="PhoneNo"
+                                           className="custom-placeholder-12px" 
                           noStyle
                           rules={[
                             { required: true, message: "Phone number is required" },
@@ -1060,9 +1068,10 @@ const OrganizationUnitadd = () => {
 
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Typography.Text strong >Country</Typography.Text>}
+                    label={<Typography.Text className="custom-headding-12px" >Country</Typography.Text>}
                     name="country"
                     rules={[{ required: true, message: "Country is required" }]}
+                    className="custom-placeholder-12px"
                   >
                     <Select
                       showSearch
@@ -1089,9 +1098,10 @@ const OrganizationUnitadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Typography.Text strong >State/Province</Typography.Text>}
+                    label={<Typography.Text className="custom-headding-12px">State/Province</Typography.Text>}
                     name="province"
                     rules={[{ required: true, message: "State/Province is required" }]}
+                    className="custom-placeholder-12px"
                   >
                     <Select
                       showSearch
@@ -1123,9 +1133,10 @@ const OrganizationUnitadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Typography.Text strong >City</Typography.Text>}
+                    label={<Typography.Text className="custom-headding-12px">City</Typography.Text>}
                     name="city"
                     rules={[{ required: true, message: "City is required" }]}
+                    className="custom-placeholder-12px"
                   >
                     <Select
                       showSearch
@@ -1156,9 +1167,10 @@ const OrganizationUnitadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Typography.Text strong >Postal Code</Typography.Text>}
+                    label={<Typography.Text className="custom-headding-12px" >Postal Code</Typography.Text>}
                     name="postcode"
                     rules={[{ required: true, message: "Postal Code is required" }]}
+                    className="custom-placeholder-12px"
                   >
                     <Input
                       placeholder="Postal Code"
@@ -1181,7 +1193,7 @@ const OrganizationUnitadd = () => {
                   className="form-button"
                   style={{
                     padding: "12px 24px",
-                    fontSize: "14px",
+                    // fontSize: "14px",
                     borderRadius: "8px",
                     background: colors.blueAccent[1000],
                     color: "#fff",
@@ -1197,7 +1209,7 @@ const OrganizationUnitadd = () => {
                   className="form-button"
                   style={{
                     padding: "12px 24px",
-                    fontSize: "14px",
+                    // fontSize: "14px",
                     borderRadius: "8px",
                     background: colors.blueAccent[1000],
                     color: "#fff",
@@ -1310,9 +1322,10 @@ const OrganizationUnitadd = () => {
                 <Row gutter={24}>
                   <Col xs={24} md={8}>
                     <Form.Item
-                      label={<Typography.Text strong>First Name</Typography.Text>}
+                      label={<Typography.Text className="custom-headding-12px">First Name</Typography.Text>}
                       name="firstName"
                       rules={[{ required: true, message: "First Name is required" }]}
+                      className="custom-placeholder-12px"
                     >
                       <Input
                         placeholder="First Name"
@@ -1323,9 +1336,10 @@ const OrganizationUnitadd = () => {
                   </Col>
                   <Col xs={24} md={8}>
                     <Form.Item
-                      label={<Typography.Text strong>Last Name</Typography.Text>}
+                      label={<Typography.Text className="custom-headding-12px">Last Name</Typography.Text>}
                       name="lastName"
                       rules={[{ required: true, message: "Last Name is required" }]}
+                      className="custom-placeholder-12px"
                     >
                       <Input
                         placeholder="Last Name"
@@ -1336,9 +1350,10 @@ const OrganizationUnitadd = () => {
                   </Col>
                   <Col xs={24} md={8}>
                     <Form.Item
-                      label={<Typography.Text strong>Email Id</Typography.Text>}
+                      label={<Typography.Text className="custom-headding-12px">Email Id</Typography.Text>}
                       name="email"
                       rules={[{ required: true, message: "Email is required" }]}
+                      className="custom-placeholder-12px"
                     >
                       <Input
                         placeholder="Email"
@@ -1348,10 +1363,11 @@ const OrganizationUnitadd = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={8}>
-                    <Form.Item label={<Typography.Text strong>Phone Number</Typography.Text>} required>
+                    <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
                       <Input.Group compact>
                         <Form.Item
                           name="phoneCode"
+                          className="custom-placeholder-12px" 
                           noStyle
                           rules={[{ required: true, message: "Code is required" }]}
                         >
@@ -1390,9 +1406,10 @@ const OrganizationUnitadd = () => {
                   </Col>
                   <Col xs={24} md={8}>
                     <Form.Item
-                      label={<Typography.Text strong>Gender</Typography.Text>}
+                      label={<Typography.Text className="custom-headding-12px">Gender</Typography.Text>}
                       name="gender"
                       rules={[{ required: true, message: "Gender is required" }]}
+                      className="custom-placeholder-12px"
                     >
                       <Select
                         placeholder="Select Gender"
@@ -1449,9 +1466,10 @@ const OrganizationUnitadd = () => {
 
                   <Col xs={24} md={8} style={{ display: "none" }}>
                     <Form.Item
-                      label={<Typography.Text strong>Organization</Typography.Text>}
+                      label={<Typography.Text className="custom-headding-12px">Organization</Typography.Text>}
                       name="organization"
                       rules={[{ required: true, message: "Organization is required" }]}
+                      className="custom-placeholder-12px"
                     >
                       <Input
                         placeholder="Organization Name"
@@ -1464,9 +1482,10 @@ const OrganizationUnitadd = () => {
 
                   <Col xs={24} md={8}>
                     <Form.Item
-                      label={<Typography.Text strong>Organization Unit</Typography.Text>}
+                      label={<Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>}
                       name="branch"
                       rules={[{ required: true, message: "Organization Unit is required" }]}
+                      className="custom-placeholder-12px"
                     >
                       <Select
                         showSearch
@@ -1486,9 +1505,10 @@ const OrganizationUnitadd = () => {
 
                   <Col xs={24} md={8}>
                     <Form.Item
-                      label={<Typography.Text strong>Relationship Manager</Typography.Text>}
+                      label={<Typography.Text className="custom-headding-12px">Relationship Manager</Typography.Text>}
                       name="crmname"
                       rules={[{ required: true, message: "Relationship Manager is required" }]}
+                      className="custom-placeholder-12px"
                     >
                       <Select
                         showSearch
@@ -1519,13 +1539,13 @@ const OrganizationUnitadd = () => {
                   <Col>
                     <Button
                       type="primary"
-                      size="large"
+                      // size="large"
                       onClick={() => setCmform(false)} // <-- Add this
                       className="form-button"
                       style={{
                         background: colors.blueAccent[1000],
                         color: "#fff",
-                       fontWeight: "600",
+                      //  fontWeight: "600",
                         borderRadius: 8,
                       }}
                     >
@@ -1537,12 +1557,12 @@ const OrganizationUnitadd = () => {
                       type="primary"
                       htmlType="submit"
                       loading={isLoading} // <-- Add this line
-                      size="large"
+                      // size="large"
                       className="form-button"
                       style={{
                         background: colors.blueAccent[1000],
                         color: "#fff",
-                        fontWeight: "600",
+                        // fontWeight: "600",
                         borderRadius: 8,
                       }}
                     >

@@ -200,7 +200,9 @@ const Organizationadd = () => {
             >
               <Row gutter={16}>
                 <Col xs={24} md={8} style={{ display: "none" }}>
-                  <Form.Item label={<Text strong>Organization Id</Text>}>
+                  <Form.Item 
+                    label={<Text strong>Organization Id</Text>} 
+                    className="custom-placeholder-12px">
                     <Input
                       value={organizationid || ""}
                       disabled
@@ -216,7 +218,10 @@ const Organizationadd = () => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <Form.Item label={<Text strong>Organization Name</Text>}>
+                  <Form.Item
+                    className="custom-placeholder-12px"
+                    label={<Text className="custom-headding-12px">Organization Name</Text>}
+                  >
                     <Input
                       value={organizationname || ""}
                       disabled
@@ -233,7 +238,8 @@ const Organizationadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Text strong>Organization Unit</Text>}
+                    label={<Text className="custom-headding-12px">Organization Unit</Text>}
+                   className="custom-placeholder-12px"
                     name={[index, "branch"]}
                     rules={[
                       { required: true, message: "Organization Unit is required" },
@@ -257,10 +263,14 @@ const Organizationadd = () => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <Form.Item label={<Text strong>Phone Number</Text>} required>
+                  <Form.Item   
+                     className="custom-placeholder-12px" 
+                     label={<Text className="custom-headding-12px">Phone Number</Text>}
+                      required>
                     <Input.Group compact>
                       <Form.Item
                         name={["branchInstances", index, "phoneCode"]}
+                        className="custom-placeholder-12px"
                         noStyle
                         rules={[{ required: true, message: "Code" }]}
                       >
@@ -288,6 +298,7 @@ const Organizationadd = () => {
                       </Form.Item>
                       <Form.Item
                         name="PhoneNo"
+                        className="custom-placeholder-12px"
                         noStyle
                         rules={[
                           {
@@ -319,7 +330,8 @@ const Organizationadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Text strong>Email Id</Text>}
+                    label={<Text className="custom-headding-12px">Email Id</Text>}
+                    className="custom-placeholder-12px"
                     name={[index, "email"]}
                     rules={[
                       {
@@ -348,7 +360,8 @@ const Organizationadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Text strong>Country</Text>}
+                    label={<Text className="custom-headding-12px">Country</Text>}
+                    className="custom-placeholder-12px"
                     name={[index, "country"]}
                     rules={[{ required: true, message: "Country is required" }]}
                   >
@@ -380,7 +393,8 @@ const Organizationadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Text strong>State/Province</Text>}
+                    label={<Text className="custom-headding-12px">State/Province</Text>}
+                    className="custom-placeholder-12px"
                     name={[index, "province"]}
                     rules={[
                       { required: true, message: "State/Province is required" },
@@ -421,7 +435,8 @@ const Organizationadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Text strong>City</Text>}
+                    label={<Text className="custom-headding-12px">City</Text>}
+                    className="custom-placeholder-12px"
                     name={[index, "city"]}
                     rules={[{ required: true, message: "City is required" }]}
                   >
@@ -464,7 +479,8 @@ const Organizationadd = () => {
                 </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Text strong>Postal Code</Text>}
+                    label={<Text className="custom-headding-12px">Postal Code</Text>}
+                    className="custom-placeholder-12px"
                     name={[index, "postcode"]}
                     rules={[
                       { required: true, message: "Postal Code is required" },
@@ -515,7 +531,7 @@ const Organizationadd = () => {
               sx={{
                 padding: "8px 16px",
                 // borderRadius: 8, 
-                fontWeight: 600,
+                // fontWeight: 600,
                 height: "35px",
                 border: "1px solid #ccc", // Set your desired outline color
                 backgroundColor: "transparent", // Ensure no background
@@ -530,8 +546,8 @@ const Organizationadd = () => {
               className="form-button"
               style={{
                 padding: "12px 24px",
-                fontSize: "14px",
-                fontWeight: "600",
+                // fontSize: "14px",
+                // fontWeight: "600",
                 borderRadius: "8px",
                 // height: "40px",
                 background: colors.blueAccent[1000],
