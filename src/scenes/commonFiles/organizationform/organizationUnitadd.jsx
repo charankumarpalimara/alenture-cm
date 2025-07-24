@@ -1290,7 +1290,7 @@ const OrganizationUnitadd = () => {
                     color: "#fff",
                   }}
                 >
-                  Back
+                  Skip
                 </Button>
 
                 <Button
