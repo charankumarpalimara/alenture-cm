@@ -27,9 +27,8 @@ const AssignCrmModal = ({ open, onClose, crmNameList, experienceid, existcrmid }
       <Box sx={assignmodel}>
         <Typography
           id="task-modal-title"
-          variant="h5"
-          component="h2"
-          sx={{ mb: 3 }}
+              className="custom-headding-16px"
+              sx={{ marginBottom: 5 }}
         >
           Assign To Relationship Manager
         </Typography>
