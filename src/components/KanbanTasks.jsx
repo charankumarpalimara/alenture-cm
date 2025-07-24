@@ -196,17 +196,19 @@ function KanbanBoard() {
   return (
     <Box sx={{
       width: "100%",
-      py: 4,
+      // py: 4,
       px: 0,
       display: "flex",
       flexDirection: "column",
       alignItems: "center"
     }}>
+
+
       {/* Heading */}
       <Box sx={{
         width: "100%",
         alignItems: "left",
-        py: 2,
+        // py: 2,
       }}>
         {/* <Typography
           variant="h4"
@@ -310,7 +312,7 @@ function KanbanBoard() {
                       sx={{
                         position: "absolute",
                         top: 8,
-                        right: experienceStatus !== "Resolved" ? 72 : 8,
+                        right: experienceStatus === "Resolved" ? 8 : 72,
                         color: "#2563eb",
                         "&:hover": { background: "rgba(37,99,235,0.1)" },
                       }}
@@ -617,7 +619,7 @@ function KanbanBoard() {
       >
         <DialogTitle
           sx={{
-            fontWeight: 700,
+            fontWeight: 600,
             color: "#1e293b",
             fontSize: "22px",
             pb: 1,
@@ -716,7 +718,7 @@ function KanbanBoard() {
       >
         <DialogTitle
           sx={{
-            fontWeight: 700,
+            fontWeight: 600,
             color: "#1e293b",
             fontSize: "18px",
             pb: 1,

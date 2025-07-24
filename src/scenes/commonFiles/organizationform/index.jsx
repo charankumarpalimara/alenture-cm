@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Form, Input, Button, Row, Col, Select, message, Spin } from "antd";
+import { Form, Input, Button, Row, Col, Select, message, Spin, Typography } from "antd";
 import { Country, State, City } from "country-state-city";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { tokens } from "../../../theme";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { CloseOutlined } from "@ant-design/icons";
 
-
+const { Text } = Typography;
 const OrganizationForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -20,6 +20,8 @@ const OrganizationForm = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [existingOrgs, setExistingOrgs] = useState([]);
+  const [industryList, setIndustryList] = useState([]);
+  // const [interestList, setInterestList] = useState([]);
 
   useEffect(() => {
     const getallOrganizations = async () => {
@@ -38,6 +40,15 @@ const OrganizationForm = () => {
     getallOrganizations();
   }, []);
 
+    useEffect(() => {
+      const fetchIndustry = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetOrganizationIndustries`);
+        const data = await res.json();
+        setIndustryList(data.data || data.industries || []);
+      };
+      fetchIndustry();
+    }, []);
+
   const handleFormSubmit = async (values) => {
     // setIsLoading(true);
     const createrrole = getCreaterRole();
@@ -46,6 +57,7 @@ const OrganizationForm = () => {
       const formData = new FormData();
       formData.append("organizationname", values.organization);
       formData.append("branch", values.organization);
+      formData.append("industry", values.industry);
       formData.append("phonecode", values.phoneCode);
       formData.append("mobile", values.phoneno);
       formData.append("email", values.email);
@@ -128,19 +140,24 @@ const OrganizationForm = () => {
 
 
       <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Text
+            className="custom-headding-16px"
+          >
+            Create New Organization
+          </Text>
           <Button
             type="text"
             icon={<CloseOutlined style={{ fontSize: 20 }} />}
             onClick={() => navigate(-1)}
-            className="form-button"
             style={{
               color: "#3e4396",
-              alignSelf: "flex-end"
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
             }}
-          >
-            {/* Back */}
-          </Button>
+          />
         </div>
         <Form
           form={form}
@@ -190,6 +207,26 @@ const OrganizationForm = () => {
                 />
               </Form.Item>
             </Col>
+
+                          <Col xs={24} md={8}>
+                            <Form.Item
+                              label={<Text className="custom-headding-12px">Industry</Text>}
+                              className="custom-placeholder-12px"
+                              name="industry"
+                              rules={[{ required: true, message: "Industry is required" }]}
+                            >
+                              <Select
+                                showSearch
+                                size="large"
+                                placeholder="Select Industry"
+                                style={{ borderRadius: 8, background: "#fff" }}
+                              >
+                                {industryList.map((fn, idx) => (
+                                  <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </Col>
             {/* <Col xs={24} md={8}>
               <Form.Item
                 label={<b>Organization Unit</b>}
@@ -342,7 +379,7 @@ const OrganizationForm = () => {
             <Col xs={24} md={8}>
               <Form.Item
                 label={<span className="custom-headding-12px">Postal Code</span>}
-                className="custom-placeholder-12px" 
+                className="custom-placeholder-12px"
                 name="postcode"
                 rules={[{ required: true, message: "Postal Code is required" }]}
               >

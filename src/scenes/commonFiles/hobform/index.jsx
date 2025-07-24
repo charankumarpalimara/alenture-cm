@@ -10,7 +10,8 @@ import {
   Col,
   message,
   Spin,
-  Result
+  Result,
+  Typography
 } from "antd";
 import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 import { Country, State, City } from "country-state-city";
@@ -22,6 +23,7 @@ import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
 
 const { Option } = Select;
+const { Text } = Typography;
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   const cropWidth = mediaWidth * 0.9;
@@ -605,21 +607,24 @@ const HobForm = () => {
         <div
           style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
         >
-          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            <Text
+              className="custom-headding-16px"
+            >
+              Create New Hob
+            </Text>
             <Button
               type="text"
               icon={<CloseOutlined style={{ fontSize: 20 }} />}
               onClick={() => navigate(-1)}
               style={{
-                // margin: "16px 0 0 8px",
                 color: "#3e4396",
                 fontWeight: 600,
                 fontSize: 16,
-                alignSelf: "flex-end"
+                alignSelf: "flex-end",
+                marginLeft: 8,
               }}
-            >
-              {/* Back */}
-            </Button>
+            />
           </div>
           <Form
             form={form}

@@ -45,7 +45,7 @@ const HobDetails = () => {
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
   const location = useLocation();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const { createdHobId } = useParams();
   const [hobDetails, sethobDetails] = useState(null);
@@ -264,22 +264,25 @@ const HobDetails = () => {
 
       <div style={{ background: '#fff', borderRadius: 8, padding: 24, margin: 16 }}>
 
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-                  <Button
-                    type="text"
-                    icon={<CloseOutlined style={{ fontSize: 20 }} />}
-                    onClick={() => Navigate(-1)}
-                    style={{
-                      // margin: "16px 0 0 8px",
-                      color: "#3e4396",
-                      fontWeight: 600,
-                      fontSize: 16,
-                      alignSelf: "flex-end"
-                    }}
-                  >
-                    {/* Back */}
-                  </Button>
-                </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Text
+            className="custom-headding-16px"
+          >
+            Hob Details
+          </Text>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => navigate(-1)}
+            style={{
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
+            }}
+          />
+        </div>
         <Form
           form={form}
           layout="vertical"
@@ -489,7 +492,7 @@ const HobDetails = () => {
                               }
                             );
                             message.success("Hob deleted successfully!");
-                            Navigate("/hob");
+                            navigate("/hob");
                           } catch (error) {
                             message.error("Failed to delete Hob.");
                           }

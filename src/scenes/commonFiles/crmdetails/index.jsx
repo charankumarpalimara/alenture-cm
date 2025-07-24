@@ -59,7 +59,7 @@ const CrmDetails = () => {
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
   const location = useLocation();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
   const [cmNames, setCmNames] = useState([]);
@@ -470,21 +470,24 @@ const CrmDetails = () => {
         style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
       >
 
-        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Text
+            className="custom-headding-16px"
+          >
+            Relationship Manager Details
+          </Text>
           <Button
             type="text"
             icon={<CloseOutlined style={{ fontSize: 20 }} />}
-            onClick={() => Navigate(-1)}
+            onClick={() => navigate(-1)}
             style={{
-              // margin: "16px 0 0 8px",
               color: "#3e4396",
               fontWeight: 600,
               fontSize: 16,
-              alignSelf: "flex-end"
+              alignSelf: "flex-end",
+              marginLeft: 8,
             }}
-          >
-            {/* Back */}
-          </Button>
+          />
         </div>
 
         <Form
@@ -924,23 +927,28 @@ const CrmDetails = () => {
               <Row gutter={16} style={{ display: "flex", justifyContent: "flex-end" }}>
                 <Col>
                   <Space>
-                    <Button
-                      type="primary"
+                    <MuiButton
+                      variant="contained"
                       htmlType="submit"
-                      size="large"
+                      // size="large"
                       className="form-button"
                       style={{
                         background: colors.blueAccent[1000],
                         borderColor: colors.blueAccent[1000],
                         color: "#fff",
-                        minWidth: 120,
+                        // minWidth: 120,
                       }}
                     >
                       Assign
-                    </Button>
-                    <Button size="large" className="form-button" danger onClick={() => setAssingForm(false)}>
+                    </MuiButton>
+                    <MuiButton 
+                    variant="outlined"
+                    color="error"
+                     className="form-button" 
+                    //  danger 
+                     onClick={() => setAssingForm(false)}>
                       Cancel
-                    </Button>
+                    </MuiButton>
                   </Space>
                 </Col>
               </Row>
@@ -1005,7 +1013,7 @@ const CrmDetails = () => {
                               }
                             );
                             message.success("Relationship Manager deleted successfully!");
-                            Navigate("/crm");
+                            navigate("/crm");
                           } catch (error) {
                             message.error("Failed to delete Crm.");
                           }

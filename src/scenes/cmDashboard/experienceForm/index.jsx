@@ -292,22 +292,25 @@ const CmExperienceRegistrationForm = () => {
       {!showSuccess && (
         <div style={{ backgroundColor: "#fff", padding: 20 }}>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-            <AntdButton
-              type="text"
-              icon={<CloseOutlined style={{ fontSize: 20 }} />}
-              onClick={() => navigate(-1)}
-              style={{
-                // margin: "16px 0 0 8px",
-                color: "#3e4396",
-                fontWeight: 600,
-                fontSize: 16,
-                alignSelf: "flex-end"
-              }}
-            >
-              {/* Back */}
-            </AntdButton>
-          </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <AntdTypography
+            className="custom-headding-16px"
+          >
+            Experience Resitration Form
+          </AntdTypography>
+          <AntdButton
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => navigate(-1)}
+            style={{
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
+            }}
+          />
+        </div>
           <Form
             form={form}
             layout="vertical"

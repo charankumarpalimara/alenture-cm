@@ -11,7 +11,8 @@ import {
   Col,
   message,
   Spin,
-    Result
+    Result,
+    Typography
 } from "antd";
 import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 import { Country, State, City } from "country-state-city";
@@ -24,6 +25,7 @@ import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
 
 const { Option } = Select;
+const { Text } = Typography;
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   const cropWidth = mediaWidth * 0.9;
@@ -721,20 +723,25 @@ const CrmForm = () => {
       <div
         style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
       >
-        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-                  <Button
-                    type="text"
-                    icon={<CloseOutlined style={{ fontSize: 20 }} />}
-                    onClick={() => navigate(-1)}
-                    className="form-button"
-                    style={{
-                      color: "#3e4396",
-                      alignSelf:"flex-end"
-                    }}
-                  >
-                    {/* Back */}
-                  </Button>
-                  </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            <Text
+              className="custom-headding-16px"
+            >
+              Create New Relationship Manager
+            </Text>
+            <Button
+              type="text"
+              icon={<CloseOutlined style={{ fontSize: 20 }} />}
+              onClick={() => navigate(-1)}
+              style={{
+                color: "#3e4396",
+                fontWeight: 600,
+                fontSize: 16,
+                alignSelf: "flex-end",
+                marginLeft: 8,
+              }}
+            />
+          </div>
         <Form
           form={form}
           layout="vertical"

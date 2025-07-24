@@ -56,7 +56,7 @@ import TableCell from "@tiptap/extension-table-cell";
 import Youtube from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 // import { getCreaterId } from "../../../config";
 import ActivityTimeline from "./ActivityTimeline";
@@ -66,6 +66,7 @@ import KanbanBoard from "../../../components/KanbanTasks";
 import AssignCrmModal from "./AssignCrmModal";
 import ResolveDialog from "./ResolveDialog";
 import ChatSection from "./ChatSection";
+import { CloseOutlined } from "@ant-design/icons";
 // import  { TasksContext } from "../../../utils/TasksContext";
 
 // const { Option } = Select;
@@ -85,7 +86,7 @@ const CrmTicketDetails = () => {
   const [crmIdList, setCrmIdList] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
   // const [tasks, setTasks] = useState([]);
-  // const Navigate = useNavigate();
+  const navigate = useNavigate();
   // const [openTaskModal, setOpenTaskModal] = useState(false);
   const [shareEntireExperience, setshareEntireExperience] = useState(false);
   // const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
@@ -977,6 +978,26 @@ const CrmTicketDetails = () => {
           },
         }}
       >
+
+                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                    <Typography
+                      className="custom-headding-16px"
+                    >
+                      Experience Details
+                    </Typography>
+                    {/* <Button
+                      type="text"
+                      startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+                      onClick={() => navigate(-1)}
+                      style={{
+                        color: "#3e4396",
+                        fontWeight: 600,
+                        fontSize: 16,
+                        alignSelf: "flex-end",
+                        marginLeft: 8,
+                      }}
+                    /> */}
+                  </div>
         <Formik
           enableReinitialize
           initialValues={buildInitialValues(experienceData)}
@@ -1009,7 +1030,7 @@ const CrmTicketDetails = () => {
                   >
                     Experience ID
                   </Typography>
-                  <Typography    variant="subtitle2">{values.id}</Typography>
+                  <Typography variant="subtitle2">{values.id}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1018,7 +1039,7 @@ const CrmTicketDetails = () => {
                   >
                     Organization
                   </Typography>
-                  <Typography    variant="subtitle2">{values.organization}</Typography>
+                  <Typography variant="subtitle2">{values.organization}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1027,7 +1048,7 @@ const CrmTicketDetails = () => {
                   >
                     Unit
                   </Typography>
-                  <Typography    variant="subtitle2">{values.branch}</Typography>
+                  <Typography variant="subtitle2">{values.branch}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1036,7 +1057,7 @@ const CrmTicketDetails = () => {
                   >
                     Customer Manager
                   </Typography>
-                  <Typography    variant="subtitle2">{values.cmname}</Typography>
+                  <Typography variant="subtitle2">{values.cmname}</Typography>
                 </Box>
                 <Box>
                   <Typography
@@ -1045,7 +1066,7 @@ const CrmTicketDetails = () => {
                   >
                     Relationship Manager
                   </Typography>
-                  <Typography    variant="subtitle2">{values.crmname}</Typography>
+                  <Typography variant="subtitle2">{values.crmname}</Typography>
                 </Box>
                 {isEditing ? (
                   <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -1122,7 +1143,7 @@ const CrmTicketDetails = () => {
                       Priority
                     </Typography>
                     <Typography
-                       variant="subtitle2"
+                      variant="subtitle2"
                       sx={{ color: getExperienceColor(values.priority) }}
                     >
                       {values.priority}
@@ -1137,7 +1158,7 @@ const CrmTicketDetails = () => {
                     Status
                   </Typography>
                   <Typography
-                      variant="subtitle2"
+                    variant="subtitle2"
                   >
                     {values.status}
                   </Typography>
@@ -1151,7 +1172,7 @@ const CrmTicketDetails = () => {
                   </Typography>
                   <Typography
                     sx={{ color: getExperienceColor(values.experience) }}
-                       variant="subtitle2"
+                    variant="subtitle2"
                   >
                     {values.experience}
                   </Typography>
@@ -1176,7 +1197,7 @@ const CrmTicketDetails = () => {
                   >
                     Subject
                   </Typography>
-                  <Typography    variant="subtitle2">{values.subject}</Typography>
+                  <Typography variant="subtitle2">{values.subject}</Typography>
                 </Box>
               </Box>
 
@@ -1199,7 +1220,7 @@ const CrmTicketDetails = () => {
                       Request Details
                     </Typography>
                   </Box>
-                  <Typography    variant="subtitle2" sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
+                  <Typography variant="subtitle2" sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
                     {values.requestdetails}
                   </Typography>
                 </Box>
@@ -1216,13 +1237,13 @@ const CrmTicketDetails = () => {
                 </Box>
                 {safeExperienceData.filename && (
                   <Box sx={{ display: "flex", gap: 2 }}>
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        className="form-button"
-                        disabled={isDownloading}
-                        onClick={handleDownload}
-                          sx={{
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      className="form-button"
+                      disabled={isDownloading}
+                      onClick={handleDownload}
+                      sx={{
                         border: '1px solid #3e4396',
                         cursor: 'pointer',
                         maxWidth: '180px',
@@ -1237,9 +1258,9 @@ const CrmTicketDetails = () => {
                           background: '#f5f7ff',
                         },
                       }}
-                      >
-                        {isDownloading ? "Downloading..." : "Download Attachment"}
-                      </Button>
+                    >
+                      {isDownloading ? "Downloading..." : "Download Attachment"}
+                    </Button>
                   </Box>
                 )}
                 {/* Action Buttons */}
@@ -1381,17 +1402,17 @@ const CrmTicketDetails = () => {
           addTable={addTable}
           addYoutubeVideo={addYoutubeVideo}
           cmname={safeExperienceData.cmname}
-          // mobile={isMobile}
+        // mobile={isMobile}
         />
       </Box>
       {/* Third Column - Task Management */}
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          p: { xs: 1, sm: isDesktop ? 3 : 2 },
+          p: { xs: 1, sm: isDesktop ? 1 : 2 },
           borderRadius: "8px",
           gridColumn: { xs: "1 / -1", md: "1 / -1" },
-          mt: { xs: 2, md: 0 },
+          // mt: { xs: 2, md: 0 },
           width: "100%",
           minWidth: 0,
         }}
@@ -1404,13 +1425,13 @@ const CrmTicketDetails = () => {
             p: { xs: 1, sm: 3 },
             borderRadius: "8px",
             gridColumn: { xs: "1 / -1", md: "1 / -1" },
-            mt: { xs: 2, md: 0 },
+            // mt: { xs: 2, md: 0 },
             width: "100%",
             minWidth: 0,
           }}
         >
           <TasksProvider experienceId={ExperienceId} crmId={crmId} experienceStatus={safeExperienceData.status}>
-            <KanbanBoard  />
+            <KanbanBoard />
           </TasksProvider>
         </Box>
         {/* <AntdModal

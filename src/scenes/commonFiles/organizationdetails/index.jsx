@@ -11,6 +11,7 @@ import {
   Collapse,
   Spin,
   Modal
+  // Typography
 } from "antd";
 // import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect } from "react";
@@ -32,7 +33,7 @@ import { getCreaterRole } from "../../../config";
 // import { heIL } from "@mui/x-data-grid";
 // import { Height } from "@mui/icons-material";
 
-// const { Text } = Typography;
+const { Text } = Typography;
 
 const OrganizationDetails = () => {
   // const [form] = Form.useForm();
@@ -44,7 +45,7 @@ const OrganizationDetails = () => {
   const [branchesData, setBranchesData] = useState([]);
   const [editingBranchIndex, setEditingBranchIndex] = useState(null); // <--- NEW
   const [branchEdits, setBranchEdits] = useState({}); // <--- NEW
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   // const countries = Country.getAllCountries();
 
@@ -193,25 +194,25 @@ const OrganizationDetails = () => {
         }}
       >
 
-        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-          <Button
-            type="text"
-            icon={<CloseOutlined style={{ fontSize: 20 }} />}
-            onClick={() => Navigate(-1)}
-            style={{
-              // margin: "16px 0 0 8px",
-              color: "#3e4396",
-              fontWeight: 600,
-              fontSize: 16,
-              alignSelf: "flex-end"
-            }}
-          >
-            {/* Back */}
-          </Button>
-        </div>
-        <Typography.Title level={5} style={{ margin: "16px 0 8px 0", color: "#2E2E9F" }}>
-          Oraganization Details
-        </Typography.Title>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            <Text
+              className="custom-headding-16px"
+            >
+              Organization Details
+            </Text>
+            <Button
+              type="text"
+              icon={<CloseOutlined style={{ fontSize: 20 }} />}
+              onClick={() => navigate(-1)}
+              style={{
+                color: "#3e4396",
+                fontWeight: 600,
+                fontSize: 16,
+                alignSelf: "flex-end",
+                marginLeft: 8,
+              }}
+            />
+          </div>
         <Collapse
           accordion
           expandIconPosition="end"
@@ -510,7 +511,7 @@ const OrganizationDetails = () => {
           <Button
             type="primary"
             onClick={() => {
-              Navigate("/organizationadd", {
+              navigate("/organizationadd", {
                 state: {
                   organizationid: ticket.id,
                   organizationname: ticket.name,

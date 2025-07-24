@@ -56,7 +56,7 @@ const CmDetails = () => {
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
   const location = useLocation();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
@@ -223,7 +223,7 @@ const CmDetails = () => {
         message.success("Customer Manager details updated successfully");
         setIsLoading(false);
         setIsEditing(false);
-        Navigate("/cm");
+        navigate("/cm");
       } else {
         message.error("Update failed: " + (data?.error || response.statusText));
         setIsEditing(false);
@@ -361,22 +361,24 @@ const CmDetails = () => {
           boxShadow: "2px 2px 8px rgba(0,0,0,0.08)",
         }}
       >
-
-        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Text
+            className="custom-headding-16px"
+          >
+            Customer Manager Details
+          </Text>
           <Button
             type="text"
             icon={<CloseOutlined style={{ fontSize: 20 }} />}
-            onClick={() => Navigate(-1)}
+            onClick={() => navigate(-1)}
             style={{
-              // margin: "16px 0 0 8px",
               color: "#3e4396",
               fontWeight: 600,
               fontSize: 16,
-              alignSelf: "flex-end"
+              alignSelf: "flex-end",
+              marginLeft: 8,
             }}
-          >
-            {/* Back */}
-          </Button>
+          />
         </div>
         <Form
           form={form}
@@ -733,7 +735,7 @@ const CmDetails = () => {
                               }
                             );
                             message.success("Cm deleted successfully!");
-                            Navigate("/cm");
+                            navigate("/cm");
                           } catch (error) {
                             message.error("Failed to delete Cm.");
                           }

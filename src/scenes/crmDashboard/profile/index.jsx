@@ -252,9 +252,9 @@ const CrmProfile = ({ apiUrl }) => {
               <Row justify="center" style={{ marginBottom: 15 }}>
                 <Col>
                   <Typography.Title
-                    level={4}
+                    level={5}
                     style={{
-                      color: "#3e4396",
+                      color: "#333333",
                       fontWeight: "500",
                       // marginBottom: 20,
                       textAlign: "center",

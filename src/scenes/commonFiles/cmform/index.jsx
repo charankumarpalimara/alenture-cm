@@ -160,6 +160,8 @@ const CmForm = () => {
   const [modalOrganizationNames, setModalOrganizationNames] = useState([]);
   const [modalBranchNames, setModalBranchNames] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [functionList, setFunctionList] = useState([]);
+  const [interestList, setInterestList] = useState([]);
 
   //  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
   useEffect(() => {
@@ -213,10 +215,29 @@ const CmForm = () => {
     fetchCrmNames();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchCrmNames = async () => {
-  //     try {
-  //       // const res = await fetch(`${process.env.REACT_APP_API_URL}/GetCrmNames`);
+
+
+  useEffect(() => {
+    const fetchFunctions = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmFunction`);
+      const data = await res.json();
+      setFunctionList(data.functions || data.data || []);
+    };
+    fetchFunctions();
+  }, []);
+
+  // ...existing code...
+
+
+
+  useEffect(() => {
+    const fetchInterest = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
+      const data = await res.json();
+      setInterestList(data.data || data.interests || []);
+    };
+    fetchInterest();
+  }, []);
   //       const res = await fetch(`http://127.0.0.1:8080/GetCrmNames`);
   //       const data = await res.json();
   //       setCrmNameList(data.data || []);
@@ -310,6 +331,9 @@ const CmForm = () => {
     formData.append("mobile", values.PhoneNo || "");
     formData.append("email", values.email || "");
     formData.append("gender", values.gender || "");
+    formData.append("functionValue", values.function || "");
+    // Convert interests array to comma-separated string
+    formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
     formData.append("designation", values.designation || "");
     formData.append("organization", values.organization || "");
     formData.append("branch", values.branch || "");
@@ -385,7 +409,8 @@ const CmForm = () => {
     formData.append("organization", values.organization || "");
     formData.append("branch", values.branch || "");
     formData.append("username", values.email || "");
-
+    // Convert interests array to comma-separated string
+    formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
     formData.append("crmId", values.crmid || "");
     formData.append("crmName", values.crmname || "");
     // const createrrole = getCreaterRole() || "";
@@ -689,21 +714,24 @@ const CmForm = () => {
           style={{ background: "#fff", borderRadius: 8, padding: 24, margin: 16 }}
 
         >
-          <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            <Text
+              className="custom-headding-16px"
+            >
+              Create New Customer Manager
+            </Text>
             <Button
               type="text"
               icon={<CloseOutlined style={{ fontSize: 20 }} />}
               onClick={() => navigate(-1)}
               style={{
-                // margin: "16px 0 0 8px",
                 color: "#3e4396",
                 fontWeight: 600,
                 fontSize: 16,
-                alignSelf: "flex-end"
+                alignSelf: "flex-end",
+                marginLeft: 8,
               }}
-            >
-              {/* Back */}
-            </Button>
+            />
           </div>
           <Form
             form={form}
@@ -900,6 +928,51 @@ const CmForm = () => {
                   </Select>
                 </Form.Item>
               </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text className="custom-headding-12px">Function</Text>}
+                  className="custom-placeholder-12px"
+                  name="function"
+                  rules={[{ required: true, message: "Function is required" }]}
+                >
+                  <Select
+                    showSearch
+                    size="large"
+                    placeholder="Select Function"
+                    style={{ borderRadius: 8, background: "#fff" }}
+                  >
+                    {functionList.map((fn, idx) => (
+                      <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text className="custom-headding-12px">Interests</Text>}
+                  className="custom-placeholder-12px"
+                  name="interests"
+                  rules={[{ required: true, message: "Interests are required" }]}
+                >
+                  <Select
+                    mode="multiple"
+                    allowClear
+                    showSearch
+                    placeholder="Select Interests"
+                    className="interests-select"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff" }}
+                    optionFilterProp="children"
+                  >
+                    {interestList.map((interest, idx) => (
+                      <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </Col>
+
+
               <Col xs={24} md={8}>
                 <Form.Item
                   label={<Text className="custom-headding-12px">Organization</Text>}

@@ -44,7 +44,7 @@ import { io } from "socket.io-client";
 import ActivityTimeline from "./ActivityTimeline";
 import { TasksProvider } from "../../../utils/TasksContext";
 import KanbanBoard from "../../../components/KanbanTasks";
-
+import { CloseOutlined } from "@ant-design/icons";
 // const { Option } = Select;
 
 const AdminTicketDetails = () => {
@@ -62,7 +62,7 @@ const AdminTicketDetails = () => {
   const [crmNameList, setCrmNameList] = useState([]);
   const [crmNamelistExp, setCrmNameListExp] = useState([]);
   // const [tasks, setTasks] = useState([]);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   // const [openTaskModal, setOpenTaskModal] = useState(false);
   const [shareEntireExperience, setshareEntireExperience] = useState(false);
   const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
@@ -622,7 +622,7 @@ const AdminTicketDetails = () => {
         }
       );
       message.success("Experience status updated to Resolved!");
-      Navigate("/resolvedExperiences");
+      navigate("/resolvedExperiences");
     } catch (error) {
       message.error("Failed to update status.");
     }
@@ -938,6 +938,26 @@ const AdminTicketDetails = () => {
           },
         }}
       >
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 30 }}>
+          <Typography
+            className="custom-headding-16px"
+          >
+            Experience Details
+          </Typography>
+          {/* <Button
+            type="text"
+            startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => navigate(-1)}
+            style={{
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
+            }}
+          /> */}
+        </div>
         <Formik
           initialValues={initialValues}
           validationSchema={checkoutSchema}
@@ -1129,7 +1149,7 @@ const AdminTicketDetails = () => {
                     Experience
                   </Typography>
                   <Typography
-                            variant="subtitle2"
+                    variant="subtitle2"
                     sx={{
                       color:
                         values.experience?.trim() === "Frustrated"
@@ -1154,7 +1174,7 @@ const AdminTicketDetails = () => {
                   >
                     Impact
                   </Typography>
-                  <Typography           variant="subtitle2">{values.impact}</Typography>
+                  <Typography variant="subtitle2">{values.impact}</Typography>
                 </Box>
 
                 <Box
@@ -1168,7 +1188,7 @@ const AdminTicketDetails = () => {
                   >
                     Subject
                   </Typography>
-                  <Typography           variant="subtitle2">{values.subject}</Typography>
+                  <Typography variant="subtitle2">{values.subject}</Typography>
                 </Box>
 
                 {/* ----- ACTIVITY TIMELINE - Full Width Row ----- */}
@@ -1197,7 +1217,7 @@ const AdminTicketDetails = () => {
                       Request Details
                     </Typography>
                   </Box>
-                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }}           variant="subtitle2">
+                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }} variant="subtitle2">
                     {values.requestdetails}
                   </Typography>
 
@@ -1586,6 +1606,26 @@ const AdminTicketDetails = () => {
           minWidth: 0,
         }}
       >
+
+               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <Typography
+                          className="custom-headding-16px"
+                        >
+                          Task Board
+                        </Typography>
+                        {/* <Button
+                          type="text"
+                          startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+                          onClick={() => navigate(-1)}
+                          style={{
+                            color: "#3e4396",
+                            fontWeight: 600,
+                            fontSize: 16,
+                            alignSelf: "flex-end",
+                            marginLeft: 8,
+                          }}
+                        /> */}
+                      </div>
         {/* Ant Design Table */}
         <Box
           sx={{
