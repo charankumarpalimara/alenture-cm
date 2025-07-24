@@ -1416,6 +1416,27 @@ const AdminTicketDetails = () => {
           gap: 3,
         }}
       >
+        {/* <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+            Discussions
+          </Typography> */}
+
+        {/* <div style={{justifyContent: "flex-start", alignItems:"flex-start" }}> */}
+        <Typography sx={{ fontSize: "18px", fontWeight: 600 }} >
+          Discussions
+        </Typography>
+        {/* <Button
+            type="text"
+            startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => navigate(-1)}
+            style={{
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
+            }}
+          /> */}
+        {/* </div> */}
         <Box
           sx={{
             p: 2,
@@ -1427,9 +1448,7 @@ const AdminTicketDetails = () => {
             maxHeight: isMobile ? "600px" : "620px",
           }}
         >
-          <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-            Discussions
-          </Typography>
+
           <Typography sx={{ mb: 2, color: colors.grey[600] }}>
             Discuss with Customer Support
           </Typography>
@@ -1607,25 +1626,14 @@ const AdminTicketDetails = () => {
         }}
       >
 
-               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <Typography
-                          className="custom-headding-16px"
-                        >
-                          Task Board
-                        </Typography>
-                        {/* <Button
-                          type="text"
-                          startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
-                          onClick={() => navigate(-1)}
-                          style={{
-                            color: "#3e4396",
-                            fontWeight: 600,
-                            fontSize: 16,
-                            alignSelf: "flex-end",
-                            marginLeft: 8,
-                          }}
-                        /> */}
-                      </div>
+        {/* <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Typography
+            className="custom-headding-16px"
+          >
+            Task Management
+          </Typography>
+ 
+        </div> */}
         {/* Ant Design Table */}
         <Box
           sx={{
@@ -1672,6 +1680,26 @@ const AdminTicketDetails = () => {
             minWidth: 0,
           }}
         >
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Typography
+              className="custom-headding-16px"
+            >
+              Task Management Board
+            </Typography>
+            {/* <Button
+                          type="text"
+                          startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+                          onClick={() => navigate(-1)}
+                          style={{
+                            color: "#3e4396",
+                            fontWeight: 600,
+                            fontSize: 16,
+                            alignSelf: "flex-end",
+                            marginLeft: 8,
+                          }}
+                        /> */}
+          </div>
           <TasksProvider experienceId={ExperienceId} crmId={crmId}>
             <KanbanBoard />
           </TasksProvider>

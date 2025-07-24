@@ -979,13 +979,13 @@ const CrmTicketDetails = () => {
         }}
       >
 
-                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                    <Typography
-                      className="custom-headding-16px"
-                    >
-                      Experience Details
-                    </Typography>
-                    {/* <Button
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Typography
+            className="custom-headding-16px"
+          >
+            Experience Details
+          </Typography>
+          {/* <Button
                       type="text"
                       startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
                       onClick={() => navigate(-1)}
@@ -997,7 +997,7 @@ const CrmTicketDetails = () => {
                         marginLeft: 8,
                       }}
                     /> */}
-                  </div>
+        </div>
         <Formik
           enableReinitialize
           initialValues={buildInitialValues(experienceData)}
@@ -1390,6 +1390,10 @@ const CrmTicketDetails = () => {
           minWidth: 0,
         }}
       >
+
+        <Typography sx={{ fontSize: "18px", fontWeight: 600 }} >
+          Discussions
+        </Typography>
         <ChatSection
           messages={messages}
           newMessage={newMessage}
@@ -1430,6 +1434,26 @@ const CrmTicketDetails = () => {
             minWidth: 0,
           }}
         >
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Typography
+              className="custom-headding-16px"
+            >
+              Task Management Board
+            </Typography>
+            {/* <Button
+                type="text"
+                startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+                onClick={() => navigate(-1)}
+                style={{
+                  color: "#3e4396",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  alignSelf: "flex-end",
+                  marginLeft: 8,
+                }}
+              /> */}
+          </div>
           <TasksProvider experienceId={ExperienceId} crmId={crmId} experienceStatus={safeExperienceData.status}>
             <KanbanBoard />
           </TasksProvider>

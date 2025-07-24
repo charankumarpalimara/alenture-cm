@@ -743,6 +743,10 @@ const CmTicketDetails = () => {
           minWidth: 0,
         }}
       >
+
+        <Typography sx={{ fontSize: "18px", fontWeight: 600 }} >
+          Discussions
+        </Typography>
         <ChatSection
           messages={messages}
           newMessage={newMessage}
