@@ -767,10 +767,8 @@ const CmDetails = () => {
           ) : (
             <>
               <Col>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  // size="large"
+                <MuiButton
+                  variant="contained"
                   className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
@@ -778,9 +776,10 @@ const CmDetails = () => {
                     borderRadius: 8,
                   }}
                   onClick={() => form.submit()}
+                  type="submit"
                 >
                   Save
-                </Button>
+                </MuiButton>
               </Col>
               <Col>
                 <MuiButton variant="outlined" color="error" className="form-button" onClick={handleCancel}>

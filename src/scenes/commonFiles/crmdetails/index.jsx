@@ -1045,19 +1045,19 @@ const CrmDetails = () => {
           ) : (
             <Row>
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
-                <Button
-                  type="primary"
+                <MuiButton
+                  variant="contained"
                   className="form-button"
-                  htmlType="submit"
-                  // size="large"
                   style={{
                     background: colors.blueAccent[1000],
                     marginRight: 8,
+                    color: "#fff"
                   }}
                   onClick={() => form.submit()}
+                  type="submit"
                 >
                   Save
-                </Button>
+                </MuiButton>
               </Col>
               <Col style={{ display: assignForm ? 'none' : 'block' }}>
                 <MuiButton variant="outlined" color="error" style={{ fontSize: "12px", fontWeight: "600" }} onClick={handleCancel}>

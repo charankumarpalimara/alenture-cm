@@ -524,10 +524,8 @@ const HobDetails = () => {
           ) : (
             <>
               <Col>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  // size="large"
+                <MuiButton
+                  variant="contained"
                   className="form-button"
                   style={{
                     background: colors.blueAccent[1000],
@@ -535,9 +533,10 @@ const HobDetails = () => {
                     // minWidth: 120,
                   }}
                   onClick={() => form.submit()}
+                  type="submit"
                 >
                   Save
-                </Button>
+                </MuiButton>
               </Col>
               <Col>
                 <MuiButton
