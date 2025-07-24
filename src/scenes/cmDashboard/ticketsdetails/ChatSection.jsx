@@ -35,9 +35,9 @@ const ChatSection = ({
       maxHeight: isMobile ? "600px" : "620px",
     }}
   >
-    <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+    {/* <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
       Discussions
-    </Typography>
+    </Typography> */}
     <Typography sx={{ mb: 2, color: colors.grey[600] }}>
       Discuss with Customer Support
     </Typography>
