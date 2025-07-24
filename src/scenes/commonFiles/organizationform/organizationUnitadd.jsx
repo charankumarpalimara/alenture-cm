@@ -35,6 +35,7 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 // const { Typography } = Typography;
 
 const { Option } = Select;
+const { Text } = Typography;
 // const { Panel } = Collapse;
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
@@ -160,7 +161,7 @@ const OrganizationUnitadd = () => {
   const [branchesData, setBranchesData] = useState([]);
   const [editingBranchIndex, setEditingBranchIndex] = useState(null); // <--- NEW
   const [branchEdits, setBranchEdits] = useState({}); // <--- NEW
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const countries = Country.getAllCountries();
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -171,6 +172,8 @@ const OrganizationUnitadd = () => {
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
+    const [functionList, setFunctionList] = useState([]);
+    const [interestList, setInterestList] = useState([]);
   // const countries = Country.getAllCountries();
   const isMobile = useMediaQuery("(max-width:400px)");
 
@@ -180,6 +183,7 @@ const OrganizationUnitadd = () => {
   console.log("location.state:", location.state);
   console.log("organizationid:", organizationid);
   const firstBranch = branchesData[0] || {};
+  // const industry = firstBranch.industry || "";
 
 
 
@@ -340,6 +344,29 @@ const OrganizationUnitadd = () => {
     fetchGetAllData();
   }, [organizationid]);
 
+
+    useEffect(() => {
+      const fetchFunctions = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmFunction`);
+        const data = await res.json();
+        setFunctionList(data.functions || data.data || []);
+      };
+      fetchFunctions();
+    }, []);
+  
+    // ...existing code...
+  
+  
+  
+    useEffect(() => {
+      const fetchInterest = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
+        const data = await res.json();
+        setInterestList(data.data || data.interests || []);
+      };
+      fetchInterest();
+    }, []);
+
   // Sync form fields with branch state
   // useEffect(() => {
   //   form.setFieldsValue(branch);
@@ -428,6 +455,7 @@ const OrganizationUnitadd = () => {
         organizationid: firstBranch.organizationid || "",
         // If you have organization name from navigation state, use it, else leave blank
         organizationname: firstBranch.organizationname || "",
+        industry: firstBranch.extraind1 || "",
         branch: values.branch,
         branchtype: "Branch",
         phonecode: values.phoneCode,
@@ -496,6 +524,9 @@ const OrganizationUnitadd = () => {
     formData.append("username", values.email || "");
     formData.append("crmId", values.crmid || "");
     formData.append("crmName", values.crmname || "");
+    // Convert interests array to comma-separated string
+    formData.append("functionValue", values.function || "");
+    formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
 
     // const sessionData = JSON.parse(sessionStorage.getItem("hobDetails"));
     const createrrole = getCreaterRole();
@@ -604,14 +635,32 @@ const OrganizationUnitadd = () => {
               height: "100%",
             }}
           >
-            <Typography.Text level={5} style={{ marginBottom: "30px", color:"#2E2E9F", fontWeight: "600", fontSize: "14px" }}>
-              Oraganization Details
-            </Typography.Text>
+                  {/* <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}> */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                      <Text
+                        className="custom-headding-16px"
+                      >
+                         Organization Details
+                      </Text>
+                      {/* <Button
+                        type="text"
+                        icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                        onClick={() => navigate(-1)}
+                        style={{
+                          color: "#3e4396",
+                          fontWeight: 600,
+                          fontSize: 16,
+                          alignSelf: "flex-end",
+                          marginLeft: 8,
+                        }}
+                      /> */}
+                    </div>
+
             <Collapse
               accordion
               expandIconPosition="end"
               expandIcon={({ isActive }) =>
-                isActive ? <UpOutlined />  : <DownOutlined />
+                isActive ? <UpOutlined /> : <DownOutlined />
               }
               defaultActiveKey={
                 sortedBranches.length > 0
@@ -627,7 +676,7 @@ const OrganizationUnitadd = () => {
 
                 const panelLabel =
                   branch.branchtype === "Parent"
-                    ? <span>  <Typography.Text  strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
+                    ? <span>  <Typography.Text strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
                     : <span> <Typography.Text strong>{branch.branch}</Typography.Text> (Unit) </span>;
                 return (
                   <Collapse.Panel
@@ -636,7 +685,7 @@ const OrganizationUnitadd = () => {
                   >
                     <Row gutter={16}>
                       <Col xs={24} md={8} style={{ display: "none" }}>
-                        <Typography.Text  className="custom-placeholder-12px">Organization Name</Typography.Text>
+                        <Typography.Text className="custom-placeholder-12px">Organization Name</Typography.Text>
                         <Input
                           value={editData.organizationname}
                           onChange={(e) =>
@@ -666,8 +715,8 @@ const OrganizationUnitadd = () => {
                           <Select.Option value="Branch">Branch</Select.Option>
                         </Select>
                       </Col>
-                      <Col xs={24} md={8} style={{ display : editData.branchtype === "Parent" ? "none" : "block"}}>
-                        <Typography.Text  className="custom-headding-12px">Organization Unit</Typography.Text>
+                      <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
+                        <Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>
                         <Input
                           value={editData.branch}
                           onChange={(e) =>
@@ -820,7 +869,7 @@ const OrganizationUnitadd = () => {
                             Save
                           </Button>
                           <Button
-                          danger
+                            danger
                             onClick={handleBranchCancel}
                             className="form-button"
                           >
@@ -846,8 +895,8 @@ const OrganizationUnitadd = () => {
                           {getCreaterRole() === "admin" && (
                             <MuiButton
                               // type="outlined"
-                               variant="outlined"
-                               startIcon={<DeleteIcon />}
+                              variant="outlined"
+                              startIcon={<DeleteIcon />}
                               // size="small"
                               color="error"
                               className="form-button"
@@ -878,7 +927,7 @@ const OrganizationUnitadd = () => {
                                       );
                                       message.success("Organization deleted successfully!");
                                       setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-                                      Navigate("/organization");
+                                      navigate("/organization");
                                     } catch (error) {
                                       message.error("Failed to delete Organization.");
                                     }
@@ -940,12 +989,30 @@ const OrganizationUnitadd = () => {
           {/* organization unit add */}
           {unitAddForm && (
             <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
-              <Typography style={{  fontWeight: "600", fontSize: 14, color:"#2E2E9F"}} >Add Organization Unit</Typography>
+              <Typography style={{ fontWeight: "600", fontSize: 14, color: "#2E2E9F" }} >Add Organization Unit</Typography>
             </div>
           )}
 
           <Box sx={{ backgroundColor: "#ffffff", borderRadius: "8px", padding: "24px", margin: "10px", display: unitAddForm ? "block" : "none" }}>
-            
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                      <Text
+                        className="custom-headding-16px"
+                      >
+                         Create New Organization Unit
+                      </Text>
+                      {/* <Button
+                        type="text"
+                        icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                        onClick={() => navigate(-1)}
+                        style={{
+                          color: "#3e4396",
+                          fontWeight: 600,
+                          fontSize: 16,
+                          alignSelf: "flex-end",
+                          marginLeft: 8,
+                        }}
+                      /> */}
+                    </div>
 
             <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
               <Row gutter={16}>
@@ -1021,49 +1088,49 @@ const OrganizationUnitadd = () => {
                 </Col>
 
 
-                  <Col xs={24} md={8}>
-                    <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
-                      <Input.Group compact>
-                        <Form.Item
-                          name="phoneCode"
-                                           className="custom-placeholder-12px" 
-                          noStyle
-                          rules={[{ required: true, message: "Code is required" }]}
+                <Col xs={24} md={8}>
+                  <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
+                    <Input.Group compact>
+                      <Form.Item
+                        name="phoneCode"
+                        className="custom-placeholder-12px"
+                        noStyle
+                        rules={[{ required: true, message: "Code is required" }]}
+                      >
+                        <Select
+                          showSearch
+                          style={{ width: 160 }}
+                          placeholder="Code"
+                          optionFilterProp="children"
+                          size="large"
                         >
-                          <Select
-                            showSearch
-                            style={{ width: 160 }}
-                            placeholder="Code"
-                            optionFilterProp="children"
-                            size="large"
-                          >
-                            {countries.map((c) => (
-                              <Select.Option
-                                key={c.isoCode}
-                                value={`+${c.phonecode}`}
-                              >{`+${c.phonecode} (${c.name})`}</Select.Option>
-                            ))}
-                          </Select>
-                        </Form.Item>
-                        <Form.Item
-                          name="PhoneNo"
-                                           className="custom-placeholder-12px" 
-                          noStyle
-                          rules={[
-                            { required: true, message: "Phone number is required" },
-                            { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
-                            { min: 10, message: "At least 10 digits" },
-                          ]}
-                        >
-                          <Input
-                            style={{ width: "calc(100% - 160px)" }}
-                            placeholder="Phone Number"
-                            size="large"
-                          />
-                        </Form.Item>
-                      </Input.Group>
-                    </Form.Item>
-                  </Col>
+                          {countries.map((c) => (
+                            <Select.Option
+                              key={c.isoCode}
+                              value={`+${c.phonecode}`}
+                            >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                      <Form.Item
+                        name="PhoneNo"
+                        className="custom-placeholder-12px"
+                        noStyle
+                        rules={[
+                          { required: true, message: "Phone number is required" },
+                          { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                          { min: 10, message: "At least 10 digits" },
+                        ]}
+                      >
+                        <Input
+                          style={{ width: "calc(100% - 160px)" }}
+                          placeholder="Phone Number"
+                          size="large"
+                        />
+                      </Form.Item>
+                    </Input.Group>
+                  </Form.Item>
+                </Col>
 
 
                 <Col xs={24} md={8}>
@@ -1225,7 +1292,7 @@ const OrganizationUnitadd = () => {
 
           {cmform && (
             <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
-              <Typography style={{ fontWeight: "600", fontSize: 14, color:"#2E2E9F" }} >ADD Customer Manager</Typography>
+              <Typography style={{ fontWeight: "600", fontSize: 14, color: "#2E2E9F" }} >ADD Customer Manager</Typography>
             </div>
           )}
           {cmform && (
@@ -1233,6 +1300,25 @@ const OrganizationUnitadd = () => {
             <div
               style={{ background: "#fff", borderRadius: 8, padding: 24, margin: "10px" }}
             >
+                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                      <Text
+                        className="custom-headding-16px"
+                      >
+                         Create New Customer Manager
+                      </Text>
+                      {/* <Button
+                        type="text"
+                        icon={<CloseOutlined style={{ fontSize: 20 }} />}
+                        onClick={() => navigate(-1)}
+                        style={{
+                          color: "#3e4396",
+                          fontWeight: 600,
+                          fontSize: 16,
+                          alignSelf: "flex-end",
+                          marginLeft: 8,
+                        }}
+                      /> */}
+                    </div>
 
               <Form
                 form={cmForm}
@@ -1255,42 +1341,6 @@ const OrganizationUnitadd = () => {
                 scrollToFirstError
                 autoComplete="off"
               >
-                <Row justify="center" style={{ marginBottom: 24 }}>
-                  <Col>
-                    <div style={{ position: "relative", display: "inline-block" }}>
-                      <Avatar
-                        src={profileImage || "https://via.placeholder.com/150"}
-                        size={120}
-                        style={{
-                          border: "2px solid #1677ff",
-                          cursor: "pointer",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                        }}
-                        onClick={triggerFileInput}
-                      />
-                      <Button
-                        icon={<CameraOutlined />}
-                        shape="circle"
-                        style={{
-                          position: "absolute",
-                          bottom: 0,
-                          right: 0,
-                          background: "#1677ff",
-                          color: "#fff",
-                          border: "none",
-                        }}
-                        onClick={triggerFileInput}
-                      />
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleImageUpload}
-                        accept="image/*"
-                        style={{ display: "none" }}
-                      />
-                    </div>
-                  </Col>
-                </Row>
                 <Modal
                   open={cropModalOpen}
                   title="Crop Profile Picture"
@@ -1362,12 +1412,55 @@ const OrganizationUnitadd = () => {
                       />
                     </Form.Item>
                   </Col>
+                                <Col xs={24} md={8}>
+                                  <Form.Item
+                                    label={<Text className="custom-headding-12px">Function</Text>}
+                                    className="custom-placeholder-12px"
+                                    name="function"
+                                    rules={[{ required: true, message: "Function is required" }]}
+                                  >
+                                    <Select
+                                      showSearch
+                                      size="large"
+                                      placeholder="Select Function"
+                                      style={{ borderRadius: 8, background: "#fff" }}
+                                    >
+                                      {functionList.map((fn, idx) => (
+                                        <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                                      ))}
+                                    </Select>
+                                  </Form.Item>
+                                </Col>
+                  
+                                <Col xs={24} md={8}>
+                                  <Form.Item
+                                    label={<Text className="custom-headding-12px">Interests</Text>}
+                                    className="custom-placeholder-12px"
+                                    name="interests"
+                                    rules={[{ required: true, message: "Interests are required" }]}
+                                  >
+                                    <Select
+                                      mode="multiple"
+                                      allowClear
+                                      showSearch
+                                      placeholder="Select Interests"
+                                      className="interests-select"
+                                      size="large"
+                                      style={{ borderRadius: 8, background: "#fff" }}
+                                      optionFilterProp="children"
+                                    >
+                                      {interestList.map((interest, idx) => (
+                                        <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                                      ))}
+                                    </Select>
+                                  </Form.Item>
+                                </Col>
                   <Col xs={24} md={8}>
                     <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
                       <Input.Group compact>
                         <Form.Item
                           name="phoneCode"
-                          className="custom-placeholder-12px" 
+                          className="custom-placeholder-12px"
                           noStyle
                           rules={[{ required: true, message: "Code is required" }]}
                         >
@@ -1535,6 +1628,23 @@ const OrganizationUnitadd = () => {
                     </Form.Item>
                   </Col>
                 </Row>
+                <Row gutter={24} style={{ marginBottom: 24 }}>
+                  <Col xs={24} md={8}>
+                    <Form.Item label={<span className="custom-headding-12px">Profile Image</span>}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        style={{
+                          display: "block",
+                          width: "100%",
+                          // padding: "8px 0",
+                          fontSize: 12,
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
                 <Row justify="end" style={{ marginTop: 32, justifyContent: "space-between" }} gutter={16}>
                   <Col>
                     <Button
@@ -1545,7 +1655,7 @@ const OrganizationUnitadd = () => {
                       style={{
                         background: colors.blueAccent[1000],
                         color: "#fff",
-                      //  fontWeight: "600",
+                        //  fontWeight: "600",
                         borderRadius: 8,
                       }}
                     >
@@ -1579,7 +1689,7 @@ const OrganizationUnitadd = () => {
 
 
       {showSuccess && (
-        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => Navigate("/organizationdetails", { state: { ticket: firstBranch.organizationid } })} />
+        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate("/organizationdetails", { state: { ticket: firstBranch.organizationid } })} />
       )}
 
 
