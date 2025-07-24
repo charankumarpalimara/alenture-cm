@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Form, Input, Button, Avatar, Row, Col, message, Modal, Typography } from 'antd';
-import { EditOutlined, SaveOutlined, CloseOutlined, CameraOutlined } from '@ant-design/icons';
+import { SaveOutlined, CloseOutlined, CameraOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import 'antd/dist/reset.css';
 import ReactCrop from 'react-image-crop';
@@ -10,6 +10,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { tokens } from '../../../theme'; // Adjust the path as necessary
 import { useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Edit as EditIcon } from "@mui/icons-material";
 
 const CrmProfile = ({ apiUrl }) => {
   const theme = useTheme();
@@ -442,7 +443,7 @@ const CrmProfile = ({ apiUrl }) => {
                 <Col>
                   <Button
                     htmlType="button"
-                    icon={<EditOutlined />}
+                    icon={<EditIcon />}
                     className="form-button"
                     size="large"
                     style={{ background: colors.blueAccent[1000], color: '#fff', borderRadius: 8 }}

@@ -12,7 +12,7 @@ import {
   Typography
 } from "antd";
 import {
-  EditOutlined,
+  // EditOutlined,
   SaveOutlined,
   CloseOutlined,
   CameraOutlined,
@@ -23,6 +23,7 @@ import "react-image-crop/dist/ReactCrop.css";
 import { tokens } from "../../../theme";
 import { useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Edit as EditIcon } from "@mui/icons-material";
 
 const CmProfile = () => {
   const theme = useTheme();
@@ -284,7 +285,7 @@ const CmProfile = () => {
                   letterSpacing: 1,
                 }}
               >
-                 {initialValues.firstName} (Customer Manager) 
+                 {initialValues.firstName} (Customer Manager)
               </Typography.Title>
             </Col>
           </Row>
@@ -438,7 +439,7 @@ const CmProfile = () => {
               <Button
                 htmlType="button"
                 className="form-button"
-                icon={<EditOutlined />}
+                icon={<EditIcon />}
                 size="large"
                 style={{
                   background: colors.blueAccent[1000],

@@ -32,7 +32,7 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCmId, getCreaterName, getCreaterFirstName, getCreaterRole } from "../../../config";
+import { getCmId, getCreaterFirstName } from "../../../config";
 
 import {
   getNotificationsDetails,
@@ -116,10 +116,10 @@ const Topbar = ({ isSidebar, onLogout }) => {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  const userDetails = JSON.parse(sessionStorage.getItem("CmDetails")) || {}; // Retrieve user details from sessionStorage
-  const username = userDetails.firstname
-    ? `${userDetails.firstname} ${userDetails.lastname}`
-    : "Guest"; // Construct username or fallback to 'Guest'
+  // const userDetails = JSON.parse(sessionStorage.getItem("CmDetails")) || {}; // Retrieve user details from sessionStorage
+  // const username = userDetails.firstname
+  //   ? `${userDetails.firstname} ${userDetails.lastname}`
+  //   : "Guest"; // Construct username or fallback to 'Guest'
 
   // const getPageTitle = () => {
   //   switch (location.pathname) {

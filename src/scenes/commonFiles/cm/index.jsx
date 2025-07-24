@@ -4,14 +4,17 @@ import {
   Button as MuiButton,
   useTheme,
   useMediaQuery,
+  Menu,
+  MenuItem,
 } from "@mui/material";
+import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { tokens } from "../../../theme";
 import {
   Search as SearchIcon,
   Add as AddIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Table, Input, Button  } from "antd";
+import { Table, Input, Button } from "antd";
 import "antd/dist/reset.css";
 // import TablePagination from '@mui/material/TablePagination';
 import CustomTablePagination from '../../../components/CustomPagination';
@@ -37,6 +40,9 @@ const Cm = () => {
   // Pagination state
   const [page, setPage] = useState(0); // 0-based index
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  // State for status filter menu
+  const [statusMenuAnchor, setStatusMenuAnchor] = useState(null);
 
   // Search filter
   const handleSearchChange = (event) => {
@@ -209,6 +215,81 @@ const Cm = () => {
             }}
           />
         </Box>
+        <Box display="flex" alignItems="center" gap={2}>
+          <Button
+            style={{
+              background: colors.blueAccent[1000],
+              color: "#ffffff",
+              whiteSpace: "nowrap",
+              textTransform: "none",
+              minWidth: isMobile ? 120 : "",
+            }}
+            type="primary"
+            icon={<ToggleOnIcon />}
+            onClick={e => setStatusMenuAnchor(e.currentTarget)}
+            className="form-button"
+          >
+            Status
+          </Button>
+          <Menu
+            anchorEl={statusMenuAnchor}
+            open={Boolean(statusMenuAnchor)}
+            onClose={() => setStatusMenuAnchor(null)}
+            PaperProps={{
+              sx: {
+                borderRadius: 2.5,
+                minWidth: 160,
+                boxShadow: '0 4px 24px 0 rgba(62,67,150,0.10)',
+                p: 0.5,
+                mt: 1,
+              }
+            }}
+            MenuListProps={{
+              sx: {
+                p: 0,
+              }
+            }}
+          >
+            <MenuItem
+              selected={statusFilter === "Active"}
+              onClick={() => {
+                handleStatusFilter("Active");
+                setStatusMenuAnchor(null);
+              }}
+              sx={{
+                fontWeight: 500,
+                fontSize: 15,
+                borderRadius: 1.5,
+                m: 0.5,
+                backgroundColor: statusFilter === "Active" ? colors.blueAccent[100] : 'transparent',
+                '&:hover': {
+                  backgroundColor: colors.blueAccent[50],
+                },
+              }}
+            >
+              Active
+            </MenuItem>
+            <MenuItem
+              selected={statusFilter === "Suspend"}
+              onClick={() => {
+                handleStatusFilter("Suspend");
+                setStatusMenuAnchor(null);
+              }}
+              sx={{
+                fontWeight: 500,
+                fontSize: 15,
+                borderRadius: 1.5,
+                m: 0.5,
+                backgroundColor: statusFilter === "Suspend" ? colors.blueAccent[100] : 'transparent',
+                '&:hover': {
+                  backgroundColor: colors.blueAccent[50],
+                },
+              }}
+            >
+              Suspend
+            </MenuItem>
+          </Menu>
+        </Box>
         <Button
           type="primary"
           icon={<AddIcon />}
@@ -221,7 +302,7 @@ const Cm = () => {
             minWidth: 120,
           }}
         >
-          Create CM
+          Create New
         </Button>
         {/* <Button
           type="primary"
@@ -238,64 +319,25 @@ const Cm = () => {
         </Button> */}
       </Box>
 
-      {/* Status Filter Buttons */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: "10px",
-          mb: "10px",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: "12px",
-        }}
-      >
-        <MuiButton
-          variant={statusFilter === "Active" ? "contained" : "outlined"}
-          className="form-button"
-          onClick={() => handleStatusFilter("Active")}
-          sx={{
-            background: statusFilter === "Active"
-              ? colors.blueAccent[1000]
-              : "#e3e8ff",
-            color:
-              statusFilter === "Active"
-                ? "#ffffff"
-                : colors.blueAccent[500],
-            borderRadius: "8px",
-            boxShadow:
-              statusFilter === "Active"
-                ? "0 2px 8px rgba(62,67,150,0.10)"
-                : "none",
-            border: "1px solid #b3c6ff",
-            minWidth: 120,
-          }}
-        >
-          Active
-        </MuiButton>
-        <MuiButton
-          variant={statusFilter === "Suspend" ? "contained" : "outlined"}
-          className="form-button"
-          onClick={() => handleStatusFilter("Suspend")}
-          sx={{
-            background: statusFilter === "Suspend"
-              ? colors.blueAccent[1000]
-              : "#e3e8ff",
-            color:
-              statusFilter === "Suspend"
-                ? "#ffffff"
-                : colors.blueAccent[500],
-            borderRadius: "8px",
-            boxShadow:
-              statusFilter === "Suspend"
-                ? "0 2px 8px rgba(62,67,150,0.10)"
-                : "none",
-            border: "1px solid #b3c6ff",
-            minWidth: 120,
-          }}
-        >
-          Suspend
-        </MuiButton>
-      </Box>
+
+
+      {/* Status Filter Button with Popup Menu */}
+
+
+      {/* <Button
+                sx={{
+                  background: colors.blueAccent[1000],
+                  color: "#ffffff",
+                  whiteSpace: "nowrap",
+                  textTransform: "none",
+                }}
+                variant="contained"
+                startIcon={<ImportExportIcon />}
+                onClick={() => alert("Export Data!")}
+                className="form-button"
+              >
+                Export
+              </Button> */}
 
       {/* Table */}
       <Box

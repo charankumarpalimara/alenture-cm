@@ -162,6 +162,7 @@ const CmForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [functionList, setFunctionList] = useState([]);
   const [interestList, setInterestList] = useState([]);
+  const [interestSearch, setInterestSearch] = useState("");
 
   //  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
   useEffect(() => {
@@ -953,10 +954,10 @@ const CmForm = () => {
                   label={<Text className="custom-headding-12px">Interests</Text>}
                   className="custom-placeholder-12px"
                   name="interests"
-                  rules={[{ required: true, message: "Interests are required" }]}
+                  rules={[{ required: true, type: 'array', message: "Interests are required" }]}
                 >
                   <Select
-                    mode="multiple"
+                    mode="tags"
                     allowClear
                     showSearch
                     placeholder="Select Interests"
@@ -964,10 +965,43 @@ const CmForm = () => {
                     size="large"
                     style={{ borderRadius: 8, background: "#fff" }}
                     optionFilterProp="children"
+                    onSearch={setInterestSearch}
+                    filterOption={false}
+                    dropdownRender={menu => {
+                      const search = interestSearch.trim();
+                      const lowerList = interestList.map(i => i.toLowerCase());
+                      const alreadySelected = (form.getFieldValue("interests") || []).map(i => i.toLowerCase());
+                      // HIDE custom add option for now (for testing)
+                      // if (search && !lowerList.includes(search.toLowerCase()) && !alreadySelected.includes(search.toLowerCase())) {
+                      //   return (
+                      //     <>
+                      //       {menu}
+                      //       <div
+                      //         style={{ padding: 8, cursor: "pointer", color: "#1677ff" }}
+                      //         onMouseDown={e => {
+                      //           e.preventDefault();
+                      //           const current = form.getFieldValue("interests") || [];
+                      //           form.setFieldsValue({ interests: [...current, search] });
+                      //           setInterestSearch("");
+                      //         }}
+                      //       >
+                      //         + Add "{search}" as custom interest
+                      //       </div>
+                      //     </>
+                      //   );
+                      // }
+                      return menu;
+                    }}
                   >
-                    {interestList.map((interest, idx) => (
-                      <Select.Option key={interest} value={interest}>{interest}</Select.Option>
-                    ))}
+                    {/* Show all interests except those already selected */}
+                    {(() => {
+                      const selected = form.getFieldValue("interests") || [];
+                      return interestList
+                        .filter(interest => !selected.includes(interest))
+                        .map((interest, idx) => (
+                          <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                        ));
+                    })()}
                   </Select>
                 </Form.Item>
               </Col>

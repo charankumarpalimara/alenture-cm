@@ -12,7 +12,7 @@ import {
   Typography,
 } from "antd";
 import {
-  EditOutlined,
+  // EditOutlined,
   SaveOutlined,
   CloseOutlined,
   CameraOutlined,
@@ -23,7 +23,9 @@ import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { useTheme, Button as MuiButton } from "@mui/material";
 import { tokens } from "../../../theme";
-const { useNavigate } = require("react-router-dom");
+import { Edit as EditIcon } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+
 
 const HobProfile = () => {
   const theme = useTheme();
@@ -433,7 +435,7 @@ const HobProfile = () => {
             <Col>
               <Button
                 htmlType="button"
-                icon={<EditOutlined />}
+                icon={<EditIcon />}
                 // size="large"
                 className="form-button"
                 style={{

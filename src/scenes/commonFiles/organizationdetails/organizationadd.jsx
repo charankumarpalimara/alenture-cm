@@ -27,7 +27,7 @@ const Organizationadd = () => {
   const colors = tokens(theme.palette.mode);
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const countries = Country.getAllCountries(); // <-- Fix for 'countries' is not defined
   const { organizationid, organizationname } = location.state || {};
@@ -138,7 +138,7 @@ const Organizationadd = () => {
           passwords: "",
         },
       ]);
-      Navigate("/organizationdetails", { state: { ticket: organizationid } });
+      navigate("/organizationdetails", { state: { ticket: organizationid } });
     } catch (error) {
       console.error("Error submitting form data:", error);
       message.error("Error submitting form data");
@@ -171,22 +171,27 @@ const Organizationadd = () => {
       )}
 
       <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Text
+            className="custom-headding-16px"
+          >
+            Add Organization Unit
+          </Text>
           <Button
             type="text"
             icon={<CloseOutlined style={{ fontSize: 20 }} />}
-            onClick={() => Navigate(-1)}
+            onClick={() => navigate(-1)}
             style={{
-              // margin: "16px 0 0 8px",
               color: "#3e4396",
               fontWeight: 600,
               fontSize: 16,
-              alignSelf: "flex-end"
+              alignSelf: "flex-end",
+              marginLeft: 8,
             }}
-          >
-            {/* Back */}
-          </Button>
+          />
         </div>
+
         <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
           {branchInstances.map((branch, index) => (
             <Box
@@ -200,8 +205,8 @@ const Organizationadd = () => {
             >
               <Row gutter={16}>
                 <Col xs={24} md={8} style={{ display: "none" }}>
-                  <Form.Item 
-                    label={<Text strong>Organization Id</Text>} 
+                  <Form.Item
+                    label={<Text strong>Organization Id</Text>}
                     className="custom-placeholder-12px">
                     <Input
                       value={organizationid || ""}
@@ -239,7 +244,7 @@ const Organizationadd = () => {
                 <Col xs={24} md={8}>
                   <Form.Item
                     label={<Text className="custom-headding-12px">Organization Unit</Text>}
-                   className="custom-placeholder-12px"
+                    className="custom-placeholder-12px"
                     name={[index, "branch"]}
                     rules={[
                       { required: true, message: "Organization Unit is required" },
@@ -263,10 +268,10 @@ const Organizationadd = () => {
                   </Form.Item>
                 </Col>
                 <Col xs={24} md={8}>
-                  <Form.Item   
-                     className="custom-placeholder-12px" 
-                     label={<Text className="custom-headding-12px">Phone Number</Text>}
-                      required>
+                  <Form.Item
+                    className="custom-placeholder-12px"
+                    label={<Text className="custom-headding-12px">Phone Number</Text>}
+                    required>
                     <Input.Group compact>
                       <Form.Item
                         name={["branchInstances", index, "phoneCode"]}

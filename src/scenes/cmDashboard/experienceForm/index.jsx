@@ -296,7 +296,7 @@ const CmExperienceRegistrationForm = () => {
           <AntdTypography
             className="custom-headding-16px"
           >
-            Experience Resitration Form
+            Share Your Experience
           </AntdTypography>
           <AntdButton
             type="text"

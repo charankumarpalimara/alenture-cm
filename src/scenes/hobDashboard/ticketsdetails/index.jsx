@@ -36,7 +36,7 @@ import {
   // Delete as DeleteIcon,
   // Add as AddIcon,
 } from "@mui/icons-material";
-import { DownloadOutlined } from "@ant-design/icons";
+// import { DownloadOutlined } from "@ant-design/icons";
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ import { io } from "socket.io-client";
 import ActivityTimeline from "./ActivityTimeline";
 import { TasksProvider } from "../../../utils/TasksContext";
 import KanbanBoard from "../../../components/KanbanTasks";
-import { CloseOutlined } from "@ant-design/icons";
+// import { CloseOutlined } from "@ant-design/icons";
 // const { Option } = Select;
 
 const AdminTicketDetails = () => {

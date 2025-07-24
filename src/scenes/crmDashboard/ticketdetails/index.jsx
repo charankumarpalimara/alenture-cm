@@ -44,7 +44,7 @@ import {
   // Check as CheckIcon,
   // Delete as DeleteIcon,
   // Add as AddIcon,
-  DownloadOutlined
+  // DownloadOutlined
 } from "@mui/icons-material";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -56,7 +56,7 @@ import TableCell from "@tiptap/extension-table-cell";
 import Youtube from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 // import { getCreaterId } from "../../../config";
 import ActivityTimeline from "./ActivityTimeline";
@@ -66,7 +66,7 @@ import KanbanBoard from "../../../components/KanbanTasks";
 import AssignCrmModal from "./AssignCrmModal";
 import ResolveDialog from "./ResolveDialog";
 import ChatSection from "./ChatSection";
-import { CloseOutlined } from "@ant-design/icons";
+// import { CloseOutlined } from "@ant-design/icons";
 // import  { TasksContext } from "../../../utils/TasksContext";
 
 // const { Option } = Select;
@@ -86,7 +86,7 @@ const CrmTicketDetails = () => {
   const [crmIdList, setCrmIdList] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
   // const [tasks, setTasks] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const [openTaskModal, setOpenTaskModal] = useState(false);
   const [shareEntireExperience, setshareEntireExperience] = useState(false);
   // const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
@@ -101,7 +101,7 @@ const CrmTicketDetails = () => {
 
 
   // Move fetchExperienceData to top-level so it can be called after resolve
-  const fetchExperienceData = async () => {
+  const fetchExperienceData = async (experienceid) => {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/experienceDetailsGet/${experienceid}`

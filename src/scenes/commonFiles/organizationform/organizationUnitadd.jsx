@@ -7,7 +7,7 @@ import {
   Select,
   Typography,
   message,
-  Avatar,
+  // Avatar,
   Collapse,
   Spin,
   Modal,
@@ -15,7 +15,7 @@ import {
   Result
 } from "antd";
 // import { CheckCircleTwoTone } from "@ant-design/icons";
-import { CameraOutlined } from "@ant-design/icons";
+// import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
 import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect, useRef } from "react";
@@ -167,13 +167,21 @@ const OrganizationUnitadd = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [unitAddForm, setUnitAddForm] = useState(false)
-  const [cmform, setCmform] = useState(false);
+  const [cmform, setCmform] = useState(true);
   const [crmNameList, setCrmNameList] = useState([]);
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
-    const [functionList, setFunctionList] = useState([]);
-    const [interestList, setInterestList] = useState([]);
+  const [functionList, setFunctionList] = useState([]);
+  const [interestList, setInterestList] = useState([]);
+  const [interestSearch, setInterestSearch] = useState("");
+  const [unitValue, setUnitValue] = useState("");
+  // Keep the Organization Unit field in the Customer Manager form in sync with unitValue
+  useEffect(() => {
+    if (unitValue && cmForm) {
+      cmForm.setFieldsValue({ branch: unitValue });
+    }
+  }, [unitValue, cmForm]);
   // const countries = Country.getAllCountries();
   const isMobile = useMediaQuery("(max-width:400px)");
 
@@ -263,7 +271,8 @@ const OrganizationUnitadd = () => {
 
   // Fetch all branches for this organization (full objects)
   // useEffect(() => {
-  const fetchGetAllData = async () => {
+  // Accepts an optional callback to set unitValue after fetch
+  const fetchGetAllData = async (onFetched) => {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/getOrganizationBranchesByOrgid/${organizationid}`
@@ -271,6 +280,11 @@ const OrganizationUnitadd = () => {
       const data = await response.json();
       if (response.ok && Array.isArray(data.rows)) {
         setBranchesData(data.rows); // full branch objects
+        if (typeof onFetched === 'function') {
+          onFetched(data.rows);
+        } else {
+          setUnitValue(data.rows[1]?.branch || data.rows[0]?.branch || "");
+        }
         console.log("Fetched branches:", data.rows);
       } else {
         setBranchesData([]);
@@ -326,7 +340,7 @@ const OrganizationUnitadd = () => {
   };
 
   useEffect(() => {
-    fetchBranch()
+    fetchBranch();
   }, [organizationname]);
 
   useEffect(() => {
@@ -345,27 +359,27 @@ const OrganizationUnitadd = () => {
   }, [organizationid]);
 
 
-    useEffect(() => {
-      const fetchFunctions = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmFunction`);
-        const data = await res.json();
-        setFunctionList(data.functions || data.data || []);
-      };
-      fetchFunctions();
-    }, []);
-  
-    // ...existing code...
-  
-  
-  
-    useEffect(() => {
-      const fetchInterest = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
-        const data = await res.json();
-        setInterestList(data.data || data.interests || []);
-      };
-      fetchInterest();
-    }, []);
+  useEffect(() => {
+    const fetchFunctions = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmFunction`);
+      const data = await res.json();
+      setFunctionList(data.functions || data.data || []);
+    };
+    fetchFunctions();
+  }, []);
+
+  // ...existing code...
+
+
+
+  useEffect(() => {
+    const fetchInterest = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
+      const data = await res.json();
+      setInterestList(data.data || data.interests || []);
+    };
+    fetchInterest();
+  }, []);
 
   // Sync form fields with branch state
   // useEffect(() => {
@@ -479,7 +493,10 @@ const OrganizationUnitadd = () => {
         }
       );
       message.success("Unit Registered successfully!");
-      fetchGetAllData(); // Refresh branches data
+      // After fetch, force unitValue to the just-added branch
+      fetchGetAllData((rows) => {
+        setUnitValue(values.branch || (rows && rows[1]?.branch) || "");
+      });
       form.resetFields();
       // Navigate("/organization");
       setUnitAddForm(false);
@@ -563,9 +580,16 @@ const OrganizationUnitadd = () => {
       // Modal.success({ content: "CM Registered Successfully!" });
       // message.success("CM Registered Successfully!");
       // setIsLoading(false);
+      if (branchesData[1]?.branch) {
+        setShowSuccess(true); // Show success message
+      } else {
+        setShowSuccess(false); // Hide success, show add unit form
+        setUnitAddForm(true); // Open the unit add form
+      }
+      form.resetFields();
       setCmform(false); // <-- Fix here
-      setUnitAddForm(false); // Close the unit add form
-      setShowSuccess(true); // Show success message
+      // setShowSuccess(false); // Show success message
+
       // Navigate('/')
 
       // const cmData = responce.data.data || {};
@@ -590,7 +614,7 @@ const OrganizationUnitadd = () => {
 
   const handleBack = () => {
     // navigate("/organizationunitadd", { state: { orgid: FinalOrgid, organizationname: values.organization } });
-    setUnitAddForm(false);
+    setShowSuccess(true);
   }
 
 
@@ -635,14 +659,14 @@ const OrganizationUnitadd = () => {
               height: "100%",
             }}
           >
-                  {/* <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}> */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                      <Text
-                        className="custom-headding-16px"
-                      >
-                         Organization Details
-                      </Text>
-                      {/* <Button
+            {/* <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}> */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <Text
+                className="custom-headding-16px"
+              >
+                Organization Details
+              </Text>
+              {/* <Button
                         type="text"
                         icon={<CloseOutlined style={{ fontSize: 20 }} />}
                         onClick={() => navigate(-1)}
@@ -654,7 +678,7 @@ const OrganizationUnitadd = () => {
                           marginLeft: 8,
                         }}
                       /> */}
-                    </div>
+            </div>
 
             <Collapse
               accordion
@@ -949,7 +973,7 @@ const OrganizationUnitadd = () => {
             </Collapse>
             {/* {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && ( */}
 
-            {(!unitAddForm && !cmform) && (
+            {/* {(!unitAddForm && !cmform) && (
               <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", marginTop: 16 }}>
                 <Button
                   type="primary"
@@ -978,7 +1002,7 @@ const OrganizationUnitadd = () => {
                   Add Customer Manager
                 </Button>
               </div>
-            )}
+            )} */}
             {/* )} */}
 
           </Box>
@@ -994,13 +1018,13 @@ const OrganizationUnitadd = () => {
           )}
 
           <Box sx={{ backgroundColor: "#ffffff", borderRadius: "8px", padding: "24px", margin: "10px", display: unitAddForm ? "block" : "none" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                      <Text
-                        className="custom-headding-16px"
-                      >
-                         Create New Organization Unit
-                      </Text>
-                      {/* <Button
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <Text
+                className="custom-headding-16px"
+              >
+                Create New Organization Unit
+              </Text>
+              {/* <Button
                         type="text"
                         icon={<CloseOutlined style={{ fontSize: 20 }} />}
                         onClick={() => navigate(-1)}
@@ -1012,7 +1036,7 @@ const OrganizationUnitadd = () => {
                           marginLeft: 8,
                         }}
                       /> */}
-                    </div>
+            </div>
 
             <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
               <Row gutter={16}>
@@ -1300,13 +1324,13 @@ const OrganizationUnitadd = () => {
             <div
               style={{ background: "#fff", borderRadius: 8, padding: 24, margin: "10px" }}
             >
-                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                      <Text
-                        className="custom-headding-16px"
-                      >
-                         Create New Customer Manager
-                      </Text>
-                      {/* <Button
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <Text
+                  className="custom-headding-16px"
+                >
+                  Create New Customer Manager
+                </Text>
+                {/* <Button
                         type="text"
                         icon={<CloseOutlined style={{ fontSize: 20 }} />}
                         onClick={() => navigate(-1)}
@@ -1318,7 +1342,7 @@ const OrganizationUnitadd = () => {
                           marginLeft: 8,
                         }}
                       /> */}
-                    </div>
+              </div>
 
               <Form
                 form={cmForm}
@@ -1412,49 +1436,82 @@ const OrganizationUnitadd = () => {
                       />
                     </Form.Item>
                   </Col>
-                                <Col xs={24} md={8}>
-                                  <Form.Item
-                                    label={<Text className="custom-headding-12px">Function</Text>}
-                                    className="custom-placeholder-12px"
-                                    name="function"
-                                    rules={[{ required: true, message: "Function is required" }]}
-                                  >
-                                    <Select
-                                      showSearch
-                                      size="large"
-                                      placeholder="Select Function"
-                                      style={{ borderRadius: 8, background: "#fff" }}
-                                    >
-                                      {functionList.map((fn, idx) => (
-                                        <Select.Option key={fn} value={fn}>{fn}</Select.Option>
-                                      ))}
-                                    </Select>
-                                  </Form.Item>
-                                </Col>
-                  
-                                <Col xs={24} md={8}>
-                                  <Form.Item
-                                    label={<Text className="custom-headding-12px">Interests</Text>}
-                                    className="custom-placeholder-12px"
-                                    name="interests"
-                                    rules={[{ required: true, message: "Interests are required" }]}
-                                  >
-                                    <Select
-                                      mode="multiple"
-                                      allowClear
-                                      showSearch
-                                      placeholder="Select Interests"
-                                      className="interests-select"
-                                      size="large"
-                                      style={{ borderRadius: 8, background: "#fff" }}
-                                      optionFilterProp="children"
-                                    >
-                                      {interestList.map((interest, idx) => (
-                                        <Select.Option key={interest} value={interest}>{interest}</Select.Option>
-                                      ))}
-                                    </Select>
-                                  </Form.Item>
-                                </Col>
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Text className="custom-headding-12px">Function</Text>}
+                      className="custom-placeholder-12px"
+                      name="function"
+                      rules={[{ required: true, message: "Function is required" }]}
+                    >
+                      <Select
+                        showSearch
+                        size="large"
+                        placeholder="Select Function"
+                        style={{ borderRadius: 8, background: "#fff" }}
+                      >
+                        {functionList.map((fn, idx) => (
+                          <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  <Col xs={24} md={8}>
+                    <Form.Item
+                      label={<Text className="custom-headding-12px">Interests</Text>}
+                      className="custom-placeholder-12px"
+                      name="interests"
+                      rules={[{ required: true, type: 'array', message: "Interests are required" }]}
+                    >
+                      <Select
+                        mode="tags"
+                        allowClear
+                        showSearch
+                        placeholder="Select Interests"
+                        className="interests-select"
+                        size="large"
+                        style={{ borderRadius: 8, background: "#fff" }}
+                        optionFilterProp="children"
+                        onSearch={setInterestSearch}
+                        filterOption={false}
+                        dropdownRender={menu => {
+                          const search = interestSearch.trim();
+                          const lowerList = interestList.map(i => i.toLowerCase());
+                          const alreadySelected = (form.getFieldValue("interests") || []).map(i => i.toLowerCase());
+                          // HIDE custom add option for now (for testing)
+                          // if (search && !lowerList.includes(search.toLowerCase()) && !alreadySelected.includes(search.toLowerCase())) {
+                          //   return (
+                          //     <>
+                          //       {menu}
+                          //       <div
+                          //         style={{ padding: 8, cursor: "pointer", color: "#1677ff" }}
+                          //         onMouseDown={e => {
+                          //           e.preventDefault();
+                          //           const current = form.getFieldValue("interests") || [];
+                          //           form.setFieldsValue({ interests: [...current, search] });
+                          //           setInterestSearch("");
+                          //         }}
+                          //       >
+                          //         + Add "{search}" as custom interest
+                          //       </div>
+                          //     </>
+                          //   );
+                          // }
+                          return menu;
+                        }}
+                      >
+                        {/* Show all interests except those already selected */}
+                        {(() => {
+                          const selected = form.getFieldValue("interests") || [];
+                          return interestList
+                            .filter(interest => !selected.includes(interest))
+                            .map((interest, idx) => (
+                              <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                            ));
+                        })()}
+                      </Select>
+                    </Form.Item>
+                  </Col>
                   <Col xs={24} md={8}>
                     <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
                       <Input.Group compact>
@@ -1573,26 +1630,19 @@ const OrganizationUnitadd = () => {
                     </Form.Item>
                   </Col>
 
-                  <Col xs={24} md={8}>
+                  <Col xs={24} md={8} style={{ display: "none" }}>
                     <Form.Item
                       label={<Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>}
                       name="branch"
                       rules={[{ required: true, message: "Organization Unit is required" }]}
                       className="custom-placeholder-12px"
                     >
-                      <Select
-                        showSearch
-                        placeholder="Select Organization Unit"
-                        value={organizationname}
+                      <Input
+                        placeholder="Organization Unit"
                         size="large"
                         style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                      >
-                        {branchNames.map((item, idx) => (
-                          <Select.Option key={idx} value={item.branch}>
-                            {item.branch}
-                          </Select.Option>
-                        ))}
-                      </Select>
+                        disabled
+                      />
                     </Form.Item>
                   </Col>
 
@@ -1645,8 +1695,8 @@ const OrganizationUnitadd = () => {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Row justify="end" style={{ marginTop: 32, justifyContent: "space-between" }} gutter={16}>
-                  <Col>
+                <Row justify="end" style={{ marginTop: 32, justifyContent: "flex-end" }} gutter={16}>
+                  {/* <Col>
                     <Button
                       type="primary"
                       // size="large"
@@ -1661,7 +1711,7 @@ const OrganizationUnitadd = () => {
                     >
                       Back
                     </Button>
-                  </Col>
+                  </Col> */}
                   <Col>
                     <Button
                       type="primary"
