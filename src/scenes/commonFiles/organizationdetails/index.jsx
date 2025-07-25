@@ -198,7 +198,7 @@ const OrganizationDetails = () => {
             <Text
               className="custom-headding-16px"
             >
-              Organization Details
+              Organization
             </Text>
             <Button
               type="text"

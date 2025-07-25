@@ -943,7 +943,7 @@ const AdminTicketDetails = () => {
           <Typography
             className="custom-headding-16px"
           >
-            Experience Details
+            Experience
           </Typography>
           {/* <Button
             type="text"

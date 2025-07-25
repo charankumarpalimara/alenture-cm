@@ -365,7 +365,7 @@ const CmDetails = () => {
           <Text
             className="custom-headding-16px"
           >
-            Customer Manager Details
+            Customer Manager
           </Text>
           <Button
             type="text"

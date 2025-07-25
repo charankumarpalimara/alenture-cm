@@ -474,7 +474,7 @@ const CrmDetails = () => {
           <Text
             className="custom-headding-16px"
           >
-            Relationship Manager Details
+            Relationship Manager
           </Text>
           <Button
             type="text"

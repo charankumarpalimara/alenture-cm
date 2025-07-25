@@ -268,7 +268,7 @@ const HobDetails = () => {
           <Text
             className="custom-headding-16px"
           >
-            Hob Details
+            Head of the Business
           </Text>
           <Button
             type="text"
