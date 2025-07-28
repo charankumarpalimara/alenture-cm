@@ -13,8 +13,8 @@ const { Text } = Typography;
 const OrganizationForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-    const isMobile = useMediaQuery("(max-width: 400px)");
-    const isTablet = useMediaQuery("(max-width: 700px)");
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const isTablet = useMediaQuery("(max-width: 700px)");
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -42,14 +42,14 @@ const OrganizationForm = () => {
     getallOrganizations();
   }, []);
 
-    useEffect(() => {
-      const fetchIndustry = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetOrganizationIndustries`);
-        const data = await res.json();
-        setIndustryList(data.data || data.industries || []);
-      };
-      fetchIndustry();
-    }, []);
+  useEffect(() => {
+    const fetchIndustry = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetOrganizationIndustries`);
+      const data = await res.json();
+      setIndustryList(data.data || data.industries || []);
+    };
+    fetchIndustry();
+  }, []);
 
   const handleFormSubmit = async (values) => {
     // setIsLoading(true);
@@ -60,15 +60,15 @@ const OrganizationForm = () => {
       formData.append("organizationname", values.organization);
       formData.append("branch", values.organization);
       formData.append("industry", values.industry);
-      formData.append("phonecode", values.phoneCode);
-      formData.append("mobile", values.phoneno);
-      formData.append("email", values.email);
+      // formData.append("phonecode", values.phoneCode);
+      // formData.append("mobile", values.phoneno);
+      // formData.append("email", values.email);
       formData.append("username", values.organization.toLowerCase());
       formData.append("passwords", values.passwords || "defaultPassword123");
       formData.append("country", values.country);
       formData.append("state", values.province);
       formData.append("district", values.city);
-      formData.append("address", "null");
+      formData.append("address", values.address);
       formData.append("postalcode", values.postcode);
       formData.append("createrid", createrid);
       formData.append("createrrole", createrrole);
@@ -141,21 +141,21 @@ const OrganizationForm = () => {
       )}
 
 
-      <Box m="15px" sx={{ backgroundColor: "#ffffff",  padding: isMobile ? "15px" : "24px" }}>
-          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
+      <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: isMobile ? "15px" : "24px" }}>
+        <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
           <Text
             className="custom-headding-16px"
-                                                    style={{
-                textAlign: isMobile ? "left" : "center",
-                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                paddingLeft: isMobile ? "0px" : "30px",
-              }}
+            style={{
+              textAlign: isMobile ? "left" : "center",
+              fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+              paddingLeft: isMobile ? "0px" : "30px",
+            }}
           >
             Create New Organization
           </Text>
           <Button
             type="text"
-              icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
+            icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
             onClick={() => navigate(-1)}
             style={{
               color: "#3e4396",
@@ -215,25 +215,25 @@ const OrganizationForm = () => {
               </Form.Item>
             </Col>
 
-                          <Col xs={24} md={8}>
-                            <Form.Item
-                              label={<Text className="custom-headding-12px">Industry</Text>}
-                              className="custom-placeholder-12px"
-                              name="industry"
-                              rules={[{ required: true, message: "Industry is required" }]}
-                            >
-                              <Select
-                                showSearch
-                                size="large"
-                                placeholder="Select Industry"
-                                style={{ borderRadius: 8, background: "#fff" }}
-                              >
-                                {industryList.map((fn, idx) => (
-                                  <Select.Option key={fn} value={fn}>{fn}</Select.Option>
-                                ))}
-                              </Select>
-                            </Form.Item>
-                          </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Industry</Text>}
+                className="custom-placeholder-12px"
+                name="industry"
+                rules={[{ required: true, message: "Industry is required" }]}
+              >
+                <Select
+                  showSearch
+                  size="large"
+                  placeholder="Select Industry"
+                  style={{ borderRadius: 8, background: "#fff" }}
+                >
+                  {industryList.map((fn, idx) => (
+                    <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
             {/* <Col xs={24} md={8}>
               <Form.Item
                 label={<b>Organization Unit</b>}
@@ -247,7 +247,7 @@ const OrganizationForm = () => {
                 />
               </Form.Item>
             </Col> */}
-            <Col xs={24} md={8}>
+            {/* <Col xs={24} md={8}>
               <Form.Item
                 label={<span className="custom-headding-12px">Phone Number</span>}
                 className="custom-placeholder-12px"
@@ -294,6 +294,7 @@ const OrganizationForm = () => {
                 </Input.Group>
               </Form.Item>
             </Col>
+
             <Col xs={24} md={8}>
               <Form.Item
                 label={<span className="custom-headding-12px">Email Id</span>}
@@ -309,7 +310,10 @@ const OrganizationForm = () => {
                   style={{ borderRadius: 8, background: "#fff" }}
                 />
               </Form.Item>
-            </Col>
+            </Col> */}
+
+
+
             <Col xs={24} md={8}>
               <Form.Item
                 label={<span className="custom-headding-12px">Country</span>}
@@ -361,6 +365,7 @@ const OrganizationForm = () => {
                 </Select>
               </Form.Item>
             </Col>
+
             <Col xs={24} md={8}>
               <Form.Item
                 label={<span className="custom-headding-12px">City</span>}
@@ -381,6 +386,22 @@ const OrganizationForm = () => {
                     </Select.Option>
                   ))}
                 </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<span className="custom-headding-12px">Address</span>}
+                className="custom-placeholder-12px"
+                name="address"
+                rules={[
+                  { required: true, message: " Address is required" },
+                 ]}
+              >
+                <Input
+                  placeholder="Address"
+                  size="large"
+                  style={{ borderRadius: 8, background: "#fff" }}
+                />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>

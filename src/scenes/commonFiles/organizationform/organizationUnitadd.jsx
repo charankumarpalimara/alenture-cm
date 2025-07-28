@@ -517,7 +517,7 @@ const OrganizationUnitadd = () => {
         country: values.country,
         state: values.province,
         district: values.city,
-        address: 'null',
+        address: values.address,
         postalcode: values.postcode,
         createrid,
         createrrole,
@@ -558,93 +558,93 @@ const OrganizationUnitadd = () => {
 
 
 
-  const handleCmSubmit = async (values) => {
-    // setIsLoading(true);
-    // console.log(crmName);
-    const formData = new FormData();
+  // const handleCmSubmit = async (values) => {
+  //   // setIsLoading(true);
+  //   // console.log(crmName);
+  //   const formData = new FormData();
 
-    // Use the exact field names as in your form and backend
-    formData.append("firstname", values.firstName || "");
-    formData.append("lastname", values.lastName || "");
-    formData.append("phonecode", values.phoneCode || "");
-    formData.append("mobile", values.PhoneNo || "");
-    formData.append("email", values.email || "");
-    formData.append("gender", values.gender || "");
-    formData.append("designation", values.designation || "");
-    formData.append("organization", values.organization || "");
-    formData.append("branch", values.branch || "");
-    formData.append("username", values.email || "");
-    formData.append("crmId", values.crmid || "");
-    formData.append("crmName", values.crmname || "");
-    // Convert interests array to comma-separated string
-    formData.append("functionValue", values.function || "");
-    formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
+  //   // Use the exact field names as in your form and backend
+  //   formData.append("firstname", values.firstName || "");
+  //   formData.append("lastname", values.lastName || "");
+  //   formData.append("phonecode", values.phoneCode || "");
+  //   formData.append("mobile", values.PhoneNo || "");
+  //   formData.append("email", values.email || "");
+  //   formData.append("gender", values.gender || "");
+  //   formData.append("designation", values.designation || "");
+  //   formData.append("organization", values.organization || "");
+  //   formData.append("branch", values.branch || "");
+  //   formData.append("username", values.email || "");
+  //   formData.append("crmId", values.crmid || "");
+  //   formData.append("crmName", values.crmname || "");
+  //   // Convert interests array to comma-separated string
+  //   formData.append("functionValue", values.function || "");
+  //   formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
 
-    // const sessionData = JSON.parse(sessionStorage.getItem("hobDetails"));
-    const createrrole = getCreaterRole();
-    const createrid = getCreaterId() || "";
-    const password = (values.firstName || "") + (values.PhoneNo || "");
-    formData.append("createrrole", createrrole);
-    formData.append("createrid", createrid);
-    formData.append("passwords", password);
+  //   // const sessionData = JSON.parse(sessionStorage.getItem("hobDetails"));
+  //   const createrrole = getCreaterRole();
+  //   const createrid = getCreaterId() || "";
+  //   const password = (values.firstName || "") + (values.PhoneNo || "");
+  //   formData.append("createrrole", createrrole);
+  //   formData.append("createrid", createrid);
+  //   formData.append("passwords", password);
 
-    if (profileImage) {
-      try {
-        // Convert base64 to blob if needed
-        let blob;
-        if (profileImage.startsWith("data:")) {
-          const res = await fetch(profileImage);
-          blob = await res.blob();
-        } else {
-          blob = profileImage;
-        }
-        formData.append("cmimage", blob, "profileImage.jpg");
-      } catch (error) {
-        console.error("Error converting image to blob:", error);
-      }
-    }
-    try {
-      const responce = await axios.post(
-        `${process.env.REACT_APP_API_URL}/v1/createCm`,
-        // `http://127.0.0.1:8080/v1/createCm`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      // Modal.success({ content: "CM Registered Successfully!" });
-      // message.success("CM Registered Successfully!");
-      // setIsLoading(false);
-      if (branchesData[1]?.branch) {
-        setShowSuccess(true); // Show success message
-      } else {
-        setShowSuccess(false); // Hide success, show add unit form
-        setUnitAddForm(true); // Open the unit add form
-      }
-      cmForm.resetFields();
-      setCmform(false); // <-- Fix here
-      // setShowSuccess(false); // Show success message
+  //   if (profileImage) {
+  //     try {
+  //       // Convert base64 to blob if needed
+  //       let blob;
+  //       if (profileImage.startsWith("data:")) {
+  //         const res = await fetch(profileImage);
+  //         blob = await res.blob();
+  //       } else {
+  //         blob = profileImage;
+  //       }
+  //       formData.append("cmimage", blob, "profileImage.jpg");
+  //     } catch (error) {
+  //       console.error("Error converting image to blob:", error);
+  //     }
+  //   }
+  //   try {
+  //     const responce = await axios.post(
+  //       `${process.env.REACT_APP_API_URL}/v1/createCm`,
+  //       // `http://127.0.0.1:8080/v1/createCm`,
+  //       formData,
+  //       {
+  //         headers: { "Content-Type": "multipart/form-data" },
+  //       }
+  //     );
+  //     // Modal.success({ content: "CM Registered Successfully!" });
+  //     // message.success("CM Registered Successfully!");
+  //     // setIsLoading(false);
+  //     if (branchesData[1]?.branch) {
+  //       setShowSuccess(true); // Show success message
+  //     } else {
+  //       setShowSuccess(false); // Hide success, show add unit form
+  //       setUnitAddForm(true); // Open the unit add form
+  //     }
+  //     cmForm.resetFields();
+  //     setCmform(false); // <-- Fix here
+  //     // setShowSuccess(false); // Show success message
 
-      // Navigate('/')
+  //     // Navigate('/')
 
-      // const cmData = responce.data.data || {};
-      // const FinalCmid = responce.data.cmid || cmData.cmid;
+  //     // const cmData = responce.data.data || {};
+  //     // const FinalCmid = responce.data.cmid || cmData.cmid;
 
-      // message.success("CM Registered Successfully!");
+  //     // message.success("CM Registered Successfully!");
 
-      // setEditValues({ ...values, profileImage, cmid: FinalCmid }); // <-- set modal values
-      // setCreatedCmId(FinalCmid);
-      // setOriginalEditValues({ ...values, profileImage });
-      // setShowEditModal(true); // <-- open modal
-      // setIsEditMode(false);
+  //     // setEditValues({ ...values, profileImage, cmid: FinalCmid }); // <-- set modal values
+  //     // setCreatedCmId(FinalCmid);
+  //     // setOriginalEditValues({ ...values, profileImage });
+  //     // setShowEditModal(true); // <-- open modal
+  //     // setIsEditMode(false);
 
-    } catch (error) {
-      // Modal.error({ content: "Error submitting form" });
-      message.error("Error submitting form");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //   } catch (error) {
+  //     // Modal.error({ content: "Error submitting form" });
+  //     message.error("Error submitting form");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
 
 
@@ -1411,6 +1411,23 @@ const OrganizationUnitadd = () => {
                     </Select>
                   </Form.Item>
                 </Col>
+
+                <Col xs={24} md={8}>
+              <Form.Item
+                label={<span className="custom-headding-12px">Address</span>}
+                className="custom-placeholder-12px"
+                name="address"
+                rules={[
+                  { required: true, message: " Address is required" },
+                 ]}
+              >
+                <Input
+                  placeholder="Address"
+                  size="large"
+                  style={{ borderRadius: 8, background: "#fff" }}
+                />
+              </Form.Item>
+            </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
                     label={<Typography.Text className="custom-headding-12px" >Postal Code</Typography.Text>}

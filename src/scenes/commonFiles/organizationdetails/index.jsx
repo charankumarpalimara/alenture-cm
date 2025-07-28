@@ -307,7 +307,7 @@ const OrganizationDetails = () => {
                     />
                   </Col>
 
-                  <Col xs={24} md={8}>
+                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
                     <Typography.Text className="custom-headding-12px">Phone Code</Typography.Text>
                     <Input
                       value={editData.phonecode}
@@ -320,7 +320,7 @@ const OrganizationDetails = () => {
                       style={{ marginBottom: 12 }}
                     />
                   </Col>
-                  <Col xs={24} md={8}>
+                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
                     <Typography.Text className="custom-headding-12px">Mobile</Typography.Text>
                     <Input
                       value={editData.mobile}
@@ -333,7 +333,7 @@ const OrganizationDetails = () => {
                       style={{ marginBottom: 12 }}
                     />
                   </Col>
-                  <Col xs={24} md={8}>
+                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
                     <Typography.Text className="custom-headding-12px">Email</Typography.Text>
                     <Input
                       value={editData.email}

@@ -324,7 +324,7 @@ const CmExperienceRegistrationForm = () => {
             onFinish={handleFormSubmit}
             initialValues={{ experience: "", subject: "", experienceDetails: "", impact: "" }}
           >
-            <AntdTypography.Text strong style={{ fontSize: 15 }}>How was your experience?</AntdTypography.Text>
+            <AntdTypography.Text className="custom-headding-12px">How was your experience?</AntdTypography.Text>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 5, marginTop: 8 }}>
               {experienceOptions.map((option) => (
                 <AntdButton
@@ -359,7 +359,7 @@ const CmExperienceRegistrationForm = () => {
               <Input type="hidden" />
             </Form.Item>
 
-            <AntdTypography.Text strong style={{ fontSize: 15 }}>Subject</AntdTypography.Text>
+            <AntdTypography.Text className="custom-headding-12px">Subject</AntdTypography.Text>
             <Form.Item
               name="subject"
               rules={[{ required: true, message: 'Subject is required' }]}
@@ -368,7 +368,7 @@ const CmExperienceRegistrationForm = () => {
               <Input placeholder="Enter subject" style={{ height: 45, background: '#fff', border: '1px solid #ccc', boxShadow: '2px 2px 5px rgba(0,0,0,0.1)' }} />
             </Form.Item>
 
-            <AntdTypography.Text strong style={{ fontSize: 15 }}>Details of your experience</AntdTypography.Text>
+            <AntdTypography.Text className="custom-headding-12px">Details of your experience</AntdTypography.Text>
             <Form.Item
               name="experienceDetails"
               rules={[{ required: true, message: 'Details are required' }, { max: 500, message: 'Maximum 500 characters' }]}
@@ -377,7 +377,7 @@ const CmExperienceRegistrationForm = () => {
               <TextArea rows={4} placeholder="Describe your experience" style={{ background: '#fff', border: '1px solid #ccc', boxShadow: '2px 2px 5px rgba(0,0,0,0.1)' }} />
             </Form.Item>
 
-            <AntdTypography.Text strong style={{ fontSize: 15 }}>Impact</AntdTypography.Text>
+            <AntdTypography.Text className="custom-headding-12px">Impact</AntdTypography.Text>
             <Form.Item
               name="impact"
               rules={[{ required: true, message: 'Impact selection is required' }]}
@@ -390,7 +390,7 @@ const CmExperienceRegistrationForm = () => {
               </AntdSelect>
             </Form.Item>
 
-            <AntdTypography.Text strong style={{ fontSize: 15 }}>Attach Files</AntdTypography.Text>
+            <AntdTypography.Text className="custom-headding-12px">Attach Files</AntdTypography.Text>
             <Form.Item style={{ marginBottom: 16 }}>
               <Upload
                 beforeUpload={() => false}

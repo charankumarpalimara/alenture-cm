@@ -68,8 +68,11 @@ const AllExperiences = () => {
         return;
       }
 
+      console.log("Fetching tickets from URL:", url);
       const response = await fetch(url);
+      console.log("Response status:", response.status);
       const data = await response.json();
+      console.log("Raw API response:", data);
 
       // FIX: Use data.data instead of data.updatedData
       if (response.ok && Array.isArray(data.data)) {
@@ -111,6 +114,9 @@ const AllExperiences = () => {
 
         setTickets(uniqueData);
         setFilteredTickets(uniqueData);
+        console.log("Successfully set tickets:", uniqueData.length, "items");
+      } else {
+        console.error("Invalid response format:", data);
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
@@ -203,6 +209,10 @@ const AllExperiences = () => {
   );
 
   const handleRowClick = (record) => {
+    console.log("Row clicked:", record);
+    console.log("User role:", getCreaterRole());
+    console.log("Experience ID:", record.experienceid);
+    
     if (getCreaterRole() === "cm" || getCreaterRole() === "crm" ) {
       Navigate(`/ticketdetails/${record.experienceid}`);
     } else {

@@ -56,7 +56,7 @@ import TableCell from "@tiptap/extension-table-cell";
 import Youtube from "@tiptap/extension-youtube";
 import { Underline } from "@tiptap/extension-underline";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 // import { getCreaterId } from "../../../config";
 import ActivityTimeline from "./ActivityTimeline";
@@ -66,7 +66,7 @@ import KanbanBoard from "../../../components/KanbanTasks";
 import AssignCrmModal from "./AssignCrmModal";
 import ResolveDialog from "./ResolveDialog";
 import ChatSection from "./ChatSection";
-// import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 // import  { TasksContext } from "../../../utils/TasksContext";
 
 // const { Option } = Select;
@@ -74,6 +74,7 @@ import ChatSection from "./ChatSection";
 const CrmTicketDetails = () => {
   const { experienceid } = useParams();
   const [experienceData, setExperienceData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [form] = Form.useForm();
   const socketRef = useRef(null);
   const theme = useTheme();
@@ -87,7 +88,7 @@ const CrmTicketDetails = () => {
   const [crmIdList, setCrmIdList] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
   // const [tasks, setTasks] = useState([]);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const [openTaskModal, setOpenTaskModal] = useState(false);
   const [shareEntireExperience, setshareEntireExperience] = useState(false);
   // const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
@@ -104,26 +105,38 @@ const CrmTicketDetails = () => {
   // Move fetchExperienceData to top-level so it can be called after resolve
   const fetchExperienceData = async (experienceid) => {
     try {
+      setIsLoading(true);
+      console.log("Fetching experience data for ID:", experienceid);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/experienceDetailsGet/${experienceid}`
       );
-      if (!response.ok) throw new Error("Network response was not ok");
+      console.log("Response status:", response.status);
+      
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+      
       const data = await response.json();
+      console.log("Raw API response:", data);
+      
       if (data && Array.isArray(data.data) && data.data.length > 0) {
         setExperienceData(data.data[0]);
-        console.log(data.data[0]);
+        console.log("Experience Data:", data.data[0]);
       } else {
+        console.log("No data found or invalid data structure:", data);
         setExperienceData({});
       }
     } catch (error) {
       console.error("Error fetching experience data:", error);
       setExperienceData({});
       message.error("Failed to load experience data. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (experienceid) fetchExperienceData();
+    if (experienceid) fetchExperienceData(experienceid);
   }, [experienceid]);
 
 
@@ -573,7 +586,8 @@ const CrmTicketDetails = () => {
       };
 
       try {
-        await fetch(
+        console.log("Sending processing status:", msgData);
+        const response = await fetch(
           `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatus`,
           {
             method: "POST",
@@ -581,12 +595,16 @@ const CrmTicketDetails = () => {
             body: JSON.stringify(msgData),
           }
         );
+        if (!response.ok) {
+          console.error("Failed to update status:", response.status);
+        }
       } catch (error) {
-        message.error("Failed to send message.");
+        console.error("Error updating status:", error);
+        message.error("Failed to update status.");
       }
     };
 
-    if (ExperienceId) {
+    if (ExperienceId && ExperienceId !== "") {
       sendProcessingStatus();
     }
   }, [ExperienceId]);
@@ -603,7 +621,7 @@ const CrmTicketDetails = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            experienceid: ExperienceId,
+            experienceid: experienceid,
             status: "Resolved",
             date: utcDate,
             time: utcTime
@@ -619,7 +637,7 @@ const CrmTicketDetails = () => {
         return;
       }
       message.success("Experience status updated to Resolved!");
-      fetchExperienceData(); // Refresh data only
+      fetchExperienceData(experienceid); // Refresh data only
     } catch (error) {
       message.error("Failed to update status.");
     }
@@ -952,6 +970,24 @@ const CrmTicketDetails = () => {
 
   const priority = ["Urgent", "High", "Medium", "Low"];
 
+  // Show loading state while data is being fetched
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+          fontSize: "18px",
+          color: "#666",
+        }}
+      >
+        Loading experience details...
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -991,7 +1027,7 @@ const CrmTicketDetails = () => {
           >
             Experience
           </Typography>
-          {/* <Button
+          <Button
                       type="text"
                       startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
                       onClick={() => navigate(-1)}
@@ -1002,7 +1038,7 @@ const CrmTicketDetails = () => {
                         alignSelf: "flex-end",
                         marginLeft: 8,
                       }}
-                    /> */}
+                    />
         </div>
         <Formik
           enableReinitialize

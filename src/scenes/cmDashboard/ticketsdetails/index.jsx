@@ -34,6 +34,7 @@ import { Underline } from "@tiptap/extension-underline";
 import { io } from "socket.io-client";
 import ActivityTimeline from "./ActivityTimeline";
 import ChatSection from './ChatSection';
+import { CloseOutlined } from "@ant-design/icons";
 
 
 const CmTicketDetails = () => {
@@ -51,7 +52,7 @@ const CmTicketDetails = () => {
   const isMobile = useMediaQuery("(max-width:484px)");
   const isTablet = useMediaQuery("(max-width: 700px)");
   const colors = tokens(theme.palette.mode);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Fetch experience details from backend using URL param
   useEffect(() => {
@@ -423,7 +424,7 @@ const CmTicketDetails = () => {
           >
             Experience
           </Typography>
-          {/* <Button
+          <Button
                               type="text"
                               startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
                               onClick={() => navigate(-1)}
@@ -434,7 +435,7 @@ const CmTicketDetails = () => {
                                 alignSelf: "flex-end",
                                 marginLeft: 8,
                               }}
-                            /> */}
+                            />
         </div>
         <Formik
           enableReinitialize
@@ -718,7 +719,7 @@ const CmTicketDetails = () => {
                                 }
                               );
                               message.success("Experience deleted successfully!");
-                              Navigate("/");
+                              navigate("/");
                             } catch (error) {
                               message.error("Failed to delete experience.");
                             }
