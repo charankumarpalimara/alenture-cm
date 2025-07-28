@@ -859,6 +859,7 @@ const OrganizationUnitadd = () => {
                           style={{ marginBottom: 12 }}
                         />
                       </Col>
+                      
                       <Col xs={24} md={8} style={{ display: "none" }}>
                         <Typography.Text strong>Branch Type</Typography.Text>
                         <Select
@@ -882,6 +883,19 @@ const OrganizationUnitadd = () => {
                             handleBranchInputChange("branch", e.target.value)
                           }
                           placeholder="Organization Unit"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Col>
+                      <Col xs={24} md={8}>
+                        <Typography.Text className="custom-headding-12px">Industry</Typography.Text>
+                        <Input
+                          value={editData.extraind1}
+                          onChange={(e) =>
+                            handleBranchInputChange("extraind1", e.target.value)
+                          }
+                          placeholder="Industry"
                           size="large"
                           disabled={!isEditing}
                           style={{ marginBottom: 12 }}

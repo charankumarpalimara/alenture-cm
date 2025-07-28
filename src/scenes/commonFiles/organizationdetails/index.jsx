@@ -292,6 +292,21 @@ const OrganizationDetails = () => {
                       style={{ marginBottom: 12 }}
                     />
                   </Col>
+
+                  <Col xs={24} md={8}>
+                    <Typography.Text className="custom-headding-12px">Industry</Typography.Text>
+                    <Input
+                      value={editData.extraind1}
+                      onChange={(e) =>
+                        handleBranchInputChange("extraind1", e.target.value)
+                      }
+                      placeholder="Email"
+                      size="large"
+                      disabled={!isEditing}
+                      style={{ marginBottom: 12 }}
+                    />
+                  </Col>
+
                   <Col xs={24} md={8}>
                     <Typography.Text className="custom-headding-12px">Phone Code</Typography.Text>
                     <Input
