@@ -1336,20 +1336,21 @@ const AdminTicketDetails = () => {
                   {isEditing ? (
                     <Box sx={{ display: "flex", gap: 2 }}>
                       <Button
-                        variant="contained"
-                        className="form-button"
+                        variant="outlined"
                         onClick={() => setIsEditing(false)}
+                        className="form-button"
+                        color="error"
                         sx={{
-                          padding: "12px 24px",
+                          // padding: "12px 24px",
                           borderRadius: "8px",
-                          boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
-                          transition: "0.3s",
-                          background: colors.redAccent[400],
-                          color: "#ffffff",
+                          // boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+                          // transition: "0.3s",
+                          // backgroundColor: colors.redAccent[400],
+                          // color: "#ffffff",
                           textTransform: "none",
                           "&:hover": {
-                            background: colors.redAccent[500],
-                            boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
+                            // backgroundColor: colors.redAccent[500],
+                            // boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
                           },
                         }}
                       >
