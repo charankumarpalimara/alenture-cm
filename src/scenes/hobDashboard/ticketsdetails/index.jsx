@@ -53,6 +53,7 @@ const AdminTicketDetails = () => {
   const theme = useTheme();
   const isDesktop = useMediaQuery("(min-width:600px)");
   const isMobile = useMediaQuery("(max-width:484px)");
+  const isTablet = useMediaQuery("(max-width: 700px)");
   const colors = tokens(theme.palette.mode);
   const location = useLocation();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -942,6 +943,11 @@ const AdminTicketDetails = () => {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 30 }}>
           <Typography
             className="custom-headding-16px"
+            style={{
+              textAlign: isMobile ? "left" : "center",
+              fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+              paddingLeft: isMobile ? "0px" : "30px",
+            }}
           >
             Experience
           </Typography>
