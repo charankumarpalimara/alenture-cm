@@ -618,7 +618,7 @@ const HobForm = () => {
                 paddingLeft: isMobile ? "0px" : "30px",
               }}
             >
-              Create New Head of the Business
+              Create New HOB
             </Text>
             <Button
               type="text"
