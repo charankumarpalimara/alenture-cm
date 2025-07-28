@@ -105,7 +105,7 @@ const CrmTicketDetails = () => {
   // Move fetchExperienceData to top-level so it can be called after resolve
   const fetchExperienceData = async (experienceid) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       console.log("Fetching experience data for ID:", experienceid);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/experienceDetailsGet/${experienceid}`
@@ -131,7 +131,7 @@ const CrmTicketDetails = () => {
       setExperienceData({});
       message.error("Failed to load experience data. Please try again later.");
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -971,22 +971,22 @@ const CrmTicketDetails = () => {
   const priority = ["Urgent", "High", "Medium", "Low"];
 
   // Show loading state while data is being fetched
-  if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "50vh",
-          fontSize: "18px",
-          color: "#666",
-        }}
-      >
-        Loading experience details...
-      </Box>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "50vh",
+  //         fontSize: "18px",
+  //         color: "#666",
+  //       }}
+  //     >
+  //       Loading experience details...
+  //     </Box>
+  //   );
+  // }
 
   return (
     <Box

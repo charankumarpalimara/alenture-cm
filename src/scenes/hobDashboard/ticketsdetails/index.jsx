@@ -45,6 +45,8 @@ import ActivityTimeline from "./ActivityTimeline";
 import { TasksProvider } from "../../../utils/TasksContext";
 import KanbanBoard from "../../../components/KanbanTasks";
 import { CloseOutlined } from "@ant-design/icons";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 // const { Option } = Select;
 
 const AdminTicketDetails = () => {
@@ -1757,18 +1759,32 @@ const AdminTicketDetails = () => {
           onClose={() => setshareEntireExperience(false)}
           aria-labelledby="task-modal-title"
           aria-describedby="task-modal-description"
+          // onClose={onClose}
         >
           <Box sx={assignmodel}>
-            <Typography
-              id="task-modal-title"
-              // variant="h5"
-              // component="h2"
-              className="custom-headding-16px"
-              sx={{ marginBottom: 5 }}
-            >
-              Assign To Relationship Manager
-            </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
+              <Typography
+                id="task-modal-title"
+                className="custom-headding-16px"
+              >
+                Assign To Relationship Manager
+              </Typography>
+              <IconButton
+                onClick={() => setshareEntireExperience(false)}
+                sx={{
+                  color: "#666",
+                  "&:hover": {
+                    color: "#333",
+                    backgroundColor: "#f5f5f5",
+                  },
+                }}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
             <AssignCrm
+              onClose={() => setshareEntireExperience(false)}
               handleClose={() => setshareEntireExperience(false)}
               crmNameList={crmNameList}
             />

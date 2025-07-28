@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, Box, Typography } from "@mui/material";
+import { Modal, Box, Typography, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import AssignCrmForm from "./AssignCrmForm";
 
 const AssignCrmModal = ({ open, onClose, crmNameList, experienceid, existcrmid }) => {
@@ -25,13 +26,27 @@ const AssignCrmModal = ({ open, onClose, crmNameList, experienceid, existcrmid }
       aria-describedby="task-modal-description"
     >
       <Box sx={assignmodel}>
-        <Typography
-          id="task-modal-title"
-              className="custom-headding-16px"
-              sx={{ marginBottom: 5 }}
-        >
-          Assign To Relationship Manager
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
+          <Typography
+            id="task-modal-title"
+            className="custom-headding-16px"
+          >
+            Assign To Relationship Manager
+          </Typography>
+          <IconButton
+            onClick={onClose}
+            sx={{
+              color: "#666",
+              "&:hover": {
+                color: "#333",
+                backgroundColor: "#f5f5f5",
+              },
+            }}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
         <AssignCrmForm
           crmNameList={crmNameList}
           onClose={onClose}
