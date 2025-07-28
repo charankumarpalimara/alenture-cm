@@ -24,6 +24,7 @@ import OrganizationForm from "../scenes/commonFiles/organizationform/index.jsx";
 import OrganizationDetails from "../scenes/commonFiles/organizationdetails";
 import Organizationadd from "../scenes/commonFiles/organizationdetails/organizationadd";
 import OrganizationUnitadd from "../scenes/commonFiles/organizationform/organizationUnitadd.jsx";
+import CmDataByOrganization from "../scenes/commonFiles/organizationdetails/CmDataByOrganization";
 import TaskDetails from "../scenes/commonFiles/taskdetails";
 
 const hobRoutes = [
@@ -51,6 +52,7 @@ const hobRoutes = [
   <Route key="organizationdetails" path="/organizationdetails" element={<OrganizationDetails />} />,
   <Route key="organizationadd" path="/organizationadd" element={<Organizationadd />} />,
   <Route key="organizationunitadd" path="/organizationunitadd" element={<OrganizationUnitadd />} />,
+  <Route key="cmDataByOrganization" path="/cmDataByOrganization" element={<CmDataByOrganization />} />,
   <Route key="taskdetails" path="/taskdetails" element={<TaskDetails />} />,
 ];
 

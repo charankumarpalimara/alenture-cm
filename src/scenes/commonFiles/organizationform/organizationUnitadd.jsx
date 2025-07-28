@@ -175,7 +175,7 @@ const OrganizationUnitadd = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [unitAddForm, setUnitAddForm] = useState(true)
-  const [cmform, setCmform] = useState(false);
+  const [cmform, setCmform] = useState(true);
   const [crmNameList, setCrmNameList] = useState([]);
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
@@ -503,6 +503,7 @@ const OrganizationUnitadd = () => {
     const createrid = getCreaterId();
     try {
       const payload = {
+
         organizationid: firstBranch.organizationid || "",
         // If you have organization name from navigation state, use it, else leave blank
         organizationname: firstBranch.organizationname || "",
@@ -529,20 +530,22 @@ const OrganizationUnitadd = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      message.success("Unit Registered successfully!");
+      // message.success("Unit Registered successfully!");
       // Refresh the data after adding new unit
       fetchGetAllData();
       form.resetFields();
       // Navigate("/organization");
       setUnitAddForm(false);
-      setCmform(true)
+      setCmform(false);
+      setShowSuccess(true);
+
     } catch (error) {
       if (
         error.response &&
         error.response.status === 409 &&
         error.response.data?.error === "Branch Already Exicist"
       ) {
-        message.error(`Branch "${values.branch}" already exists!`);
+        message.error(`Unit "${values.branch}" already exists!`);
       } else {
         console.error("Error submitting form data:", error);
         message.error("Error submitting form data");
@@ -690,8 +693,8 @@ const OrganizationUnitadd = () => {
         );
       }
       setCmform(false);
-      setShowSuccess(false);
-      setUnitAddForm(true);
+      setShowSuccess(true);
+      setUnitAddForm(false);
       setCmInstances([
         {
           firstName: "",
@@ -710,7 +713,7 @@ const OrganizationUnitadd = () => {
           profileImage: null,
         },
       ]);
-      message.success("Customer Managers Registered Successfully!");
+      // message.success("Customer Managers Registered Successfully!");
     } catch (error) {
       message.error("Error submitting form");
     } finally {
@@ -859,7 +862,7 @@ const OrganizationUnitadd = () => {
                           style={{ marginBottom: 12 }}
                         />
                       </Col>
-                      
+
                       <Col xs={24} md={8} style={{ display: "none" }}>
                         <Typography.Text strong>Branch Type</Typography.Text>
                         <Select
@@ -1156,9 +1159,6 @@ const OrganizationUnitadd = () => {
 
           </Box>
 
-
-
-
           {/* organization unit add */}
           {/* {unitAddForm && (
             <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
@@ -1240,6 +1240,14 @@ const OrganizationUnitadd = () => {
                       placeholder="Organization Unit"
                       size="large"
                       style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                      onChange={(e) => {
+                        setUnitValue(e.target.value);
+                        // Update all CM instances with the new unit value
+                        setCmInstances(prev => prev.map(cm => ({
+                          ...cm,
+                          branch: e.target.value
+                        })));
+                      }}
                     />
                   </Form.Item>
                 </Col>
@@ -1413,21 +1421,21 @@ const OrganizationUnitadd = () => {
                 </Col>
 
                 <Col xs={24} md={8}>
-              <Form.Item
-                label={<span className="custom-headding-12px">Address</span>}
-                className="custom-placeholder-12px"
-                name="address"
-                rules={[
-                  { required: true, message: " Address is required" },
-                 ]}
-              >
-                <Input
-                  placeholder="Address"
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff" }}
-                />
-              </Form.Item>
-            </Col>
+                  <Form.Item
+                    label={<span className="custom-headding-12px">Address</span>}
+                    className="custom-placeholder-12px"
+                    name="address"
+                    rules={[
+                      { required: true, message: " Address is required" },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Address"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                    />
+                  </Form.Item>
+                </Col>
                 <Col xs={24} md={8}>
                   <Form.Item
                     label={<Typography.Text className="custom-headding-12px" >Postal Code</Typography.Text>}
@@ -1448,22 +1456,8 @@ const OrganizationUnitadd = () => {
                 </Col>
                 {/* Add more fields as needed */}
               </Row>
-              <Box display="flex" justifyContent="space-between" mt="10px" gap="10px">
-                <Button
-                  type="primary"
-                  // htmlType="submit"
-                  onClick={handleBack}
-                  className="form-button"
-                  style={{
-                    padding: "12px 24px",
-                    // fontSize: "14px",
-                    borderRadius: "8px",
-                    background: colors.blueAccent[1000],
-                    color: "#fff",
-                  }}
-                >
-                  Skip
-                </Button>
+              {/* <Box display="flex" justifyContent="flex-end" mt="10px" gap="10px">
+
 
                 <Button
                   type="primary"
@@ -1478,33 +1472,32 @@ const OrganizationUnitadd = () => {
                     color: "#fff",
                   }}
                 >
-                  Save and Next
+                  Save
                 </Button>
-              </Box>
+              </Box> */}
             </Form>
-          </Box>
 
 
 
-          {cmform && (
-            <>
-              {/* <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
+            {cmform && (
+              <>
+                {/* <div style={{ display: "flex", marginTop: 16, alignItems: "left", marginBottom: 16, marginLeft: 16 }}>
                 <Typography style={{ fontWeight: "600", fontSize: 14, color: "#2E2E9F" }} >ADD Customer Manager</Typography>
               </div> */}
 
-              <div style={{ background: "#fff", borderRadius: 8, padding: 24, margin: "2px", marginTop: "10px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                  <Text
-                    className="custom-headding-16px"
-                    style={{
-                      textAlign: isMobile ? "left" : "center",
-                      fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                      paddingLeft: isMobile ? "0px" : "30px",
-                    }}
-                  >
-                    Create New Customer Manager
-                  </Text>
-                  {/* <Button
+                <div style={{ background: "#fff", borderRadius: 8, margin: "2px", marginTop: "10px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                    <Text
+                      className="custom-headding-16px"
+                      style={{
+                        textAlign: isMobile ? "left" : "center",
+                        fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                        paddingLeft: isMobile ? "0px" : "30px",
+                      }}
+                    >
+                      Create New Customer Manager
+                    </Text>
+                    {/* <Button
                         type="text"
                         icon={<CloseOutlined style={{ fontSize: 20 }} />}
                         onClick={() => navigate(-1)}
@@ -1516,402 +1509,442 @@ const OrganizationUnitadd = () => {
                           marginLeft: 8,
                         }}
                       /> */}
-                </div>
-                {cmInstances.map((cm, idx) => (
-                  <div key={idx} style={{ background: "#fff" }}>
-                    <Form
-                      layout="vertical"
-                      initialValues={cm}
-                      onValuesChange={(changed, all) => {
-                        const updated = [...cmInstances];
-                        updated[idx] = { ...updated[idx], ...changed };
-                        // Ensure branch field is always synced with unitValue
-                        if (unitValue) {
-                          updated[idx].branch = unitValue;
-                        }
-                        setCmInstances(updated);
-                      }}
-                      validateTrigger={["onChange", "onBlur"]}
-                      scrollToFirstError
-                      autoComplete="off"
-                    >
-                      <Row gutter={24}>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">First Name</Typography.Text>} name="firstName" rules={[{ required: true, message: "First Name is required" }]}>
-                            <Input placeholder="First Name" value={cm.firstName} size="large" />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Last Name</Typography.Text>} name="lastName" rules={[{ required: true, message: "Last Name is required" }]}>
-                            <Input placeholder="Last Name" value={cm.lastName} size="large" />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Email</Typography.Text>} name="email" rules={[{ required: true, message: "Email is required" }]}>
-                            <Input placeholder="Email" value={cm.email} size="large" />
-                          </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
-                            <Input.Group compact>
-                              <Form.Item
-                                name="phoneCode"
-                                className="custom-placeholder-12px"
-                                noStyle
-                                rules={[{ required: true, message: "Code is required" }]}
-                              >
-                                <Select
-                                  showSearch
-                                  placeholder="Select Code"
-                                  value={cm.phoneCode}
-                                  size="large"
-                                  style={{ width: 160 }}
-                                >
-                                  {countries.map((c) => (
-                                    <Select.Option key={c.isoCode} value={`+${c.phonecode}`}>{`+${c.phonecode} (${c.name})`}</Select.Option>
-                                  ))}
-                                </Select>
-                              </Form.Item>
-                              <Form.Item
-                                name="PhoneNo"
-                                className="custom-placeholder-12px"
-                                noStyle
-                                rules={[
-                                  { required: true, message: "Phone number is required" },
-                                  { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
-                                  { min: 10, message: "At least 10 digits" },
-                                ]}
-                              >
-                                <Input
-                                  placeholder="Phone Number"
-                                  value={cm.PhoneNo}
-                                  size="large"
-                                  style={{ width: "calc(100% - 160px)" }}
-                                />
-                              </Form.Item>
-                            </Input.Group>
-                          </Form.Item>
-                        </Col>
-
-
-
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Gender</Typography.Text>} name="gender" rules={[{ required: true, message: "Gender is required" }]}>
-                            <Select placeholder="Gender" value={cm.gender} size="large">
-                              <Select.Option value="Male">Male</Select.Option>
-                              <Select.Option value="Female">Female</Select.Option>
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8} style={{ display: "none" }}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Designation</Typography.Text>} name="designation" rules={[{ required: true, message: "Designation is required" }]}>
-                            <Input placeholder="Designation" value={cm.designation} />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8} style={{ display: "none" }}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Organization</Typography.Text>} name="organization" rules={[{ required: true, message: "Organization is required" }]}>
-                            <Input placeholder="Organization" value={cm.organization} />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8} style={{ display: "none" }}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Branch</Typography.Text>} name="branch" rules={[{ required: true, message: "Branch is required" }]}>
-                            <Input
-                              placeholder="Organization Unit"
-                              value={unitValue || cm.branch}
-                              readOnly
-                              size="large"
-                            />
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">CRM Name</Typography.Text>} name="crmname">
-                            <Select
-                              showSearch
-                              placeholder="Select CRM Name"
-                              value={cm.crmname}
-
-                              size="large"
-                              onChange={(value) => {
-                                const selected = crmNameList.find(crm => crm.crmid === value);
-                                const updated = [...cmInstances];
-                                updated[idx] = {
-                                  ...updated[idx],
-                                  crmname: selected ? selected.name : "",
-                                  crmid: value
-                                };
-                                setCmInstances(updated);
-                              }}
-                            >
-                              {crmNameList.map((crm) => (
-                                <Select.Option key={crm.crmid} value={crm.crmid}>
-                                  {crm.name} ({crm.crmid})
-                                </Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Function</Typography.Text>} name="function" rules={[{ required: true, message: "Function is required" }]}>
-                            <Select
-                              showSearch
-                              placeholder="Select Function"
-                              value={cm.function}
-                              size="large"
-                            >
-                              {functionList.map((fn) => (
-                                <Select.Option key={fn} value={fn}>{fn}</Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Interests</Typography.Text>} name="interests" rules={[{ required: true, message: "Interest is required" }]}>
-                            <Select
-                              mode="multiple"
-                              showSearch
-                              placeholder="Select Interests"
-                              value={cm.interests}
-                              size="large"
-                            >
-                              {interestList.map((interest) => (
-                                <Select.Option key={interest} value={interest}>{interest}</Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Country</Typography.Text>} name="country" rules={[{ required: true, message: "Country is required" }]}>
-                            <Select
-                              showSearch
-                              placeholder="Select Country"
-                              value={cm.country}
-                              size="large"
-                            >
-                              {countries.map((c) => (
-                                <Select.Option key={c.isoCode} value={c.name}>{c.name}</Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">State/Province</Typography.Text>} name="province" rules={[{ required: true, message: "State/Province is required" }]}>
-                            <Select
-                              showSearch
-                              placeholder="Select State/Province"
-                              value={cm.province}
-                              disabled={!cm.country}
-                              size="large"
-                            >
-                              {(cm.country
-                                ? State.getStatesOfCountry(
-                                  countries.find((c) => c.name === cm.country)?.isoCode || ""
-                                )
-                                : []
-                              ).map((s) => (
-                                <Select.Option key={s.isoCode} value={s.name}>{s.name}</Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">City</Typography.Text>} name="city" rules={[{ required: true, message: "City is required" }]}>
-                            <Select
-                              showSearch
-                              placeholder="Select City"
-                              value={cm.city}
-                              disabled={!cm.province}
-                              size="large"
-                            >
-                              {(cm.country && cm.province
-                                ? City.getCitiesOfState(
-                                  countries.find((c) => c.name === cm.country)?.isoCode || "",
-                                  State.getStatesOfCountry(
-                                    countries.find((c) => c.name === cm.country)?.isoCode || ""
-                                  ).find((s) => s.name === cm.province)?.isoCode || ""
-                                )
-                                : []
-                              ).map((city) => (
-                                <Select.Option key={city.name} value={city.name}>{city.name}</Select.Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                      </Row>
-                      <Row gutter={24} style={{ marginBottom: 24 }}>
-                        <Col xs={24} md={8}>
-                          <Form.Item label={<Typography.Text className="custom-headding-12px">Profile Photo</Typography.Text>} name="profileImage">
-                            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                id={`profile-upload-${idx}`}
-                                onChange={async (e) => {
-                                  const file = e.target.files[0];
-                                  if (file) {
-                                    const reader = new FileReader();
-                                    reader.onload = () => {
-                                      setOriginalImage(reader.result);
-                                      setCropModalOpen(true);
-                                      setEditingCmIndex(idx);
-                                    };
-                                    reader.readAsDataURL(file);
-                                  }
-                                }}
-                                style={{ marginBottom: 8 }}
-                              />
-                              {cm.profileImage && cm.profileImage.name && (
-                                <span style={{ fontSize: 13, color: '#333' }}>{cm.profileImage.name}</span>
-                              )}
-                            </div>
-                          </Form.Item>
-                        </Col>
-                        {/* Cropping Modal for Profile Photo */}
-                        {cropModalOpen && (
-                          <Modal
-                            open={cropModalOpen}
-                            onCancel={() => setCropModalOpen(false)}
-                            footer={null}
-                            centered
-                            width={400}
-                          >
-                            <div style={{ textAlign: "center" }}>
-                              <h3>Crop Profile Photo</h3>
-                              {originalImage && (
-                                <ReactCrop
-                                  src={originalImage}
-                                  crop={crop}
-                                  onChange={setCrop}
-                                  onComplete={setCompletedCrop}
-                                  aspect={1}
-                                >
-                                  <img
-                                    ref={imgRef}
-                                    alt="Crop"
-                                    src={originalImage}
-                                    style={{ maxWidth: "100%", maxHeight: 300 }}
-                                    onLoad={onImageLoad}
-                                  />
-                                </ReactCrop>
-                              )}
-
-                              <div style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center" }}>
-                                <MuiButton
-                                  variant="outlined"
-                                  htmlType="submit"
-                                  className="form-button"
-                                  onClick={() => setCropModalOpen(false)}
-                                  color="error"
-
-                                >
-                                  Cancel
-                                </MuiButton>
-                                <MuiButton
-                                  variant="contain"
-                                  className="form-button"
-                                  style={{ background: colors.blueAccent[1000], color: "#fff" }}
-                                  onClick={async () => {
-                                    if (!completedCrop || !imgRef.current) return;
-                                    const image = imgRef.current;
-                                    const canvas = document.createElement("canvas");
-                                    const scaleX = image.naturalWidth / image.width;
-                                    const scaleY = image.naturalHeight / image.height;
-                                    canvas.width = completedCrop.width;
-                                    canvas.height = completedCrop.height;
-                                    const ctx = canvas.getContext("2d");
-                                    ctx.drawImage(
-                                      image,
-                                      completedCrop.x * scaleX,
-                                      completedCrop.y * scaleY,
-                                      completedCrop.width * scaleX,
-                                      completedCrop.height * scaleY,
-                                      0,
-                                      0,
-                                      completedCrop.width,
-                                      completedCrop.height
-                                    );
-                                    canvas.toBlob((blob) => {
-                                      if (blob) {
-                                        // Convert blob to File object
-                                        const file = new File([blob], `cropped-image-${Date.now()}.jpg`, {
-                                          type: 'image/jpeg'
-                                        });
-
-                                        const updated = [...cmInstances];
-                                        updated[editingCmIndex].profileImage = file;
-                                        setCmInstances(updated);
-                                        setCropModalOpen(false);
-                                        setOriginalImage(null);
-                                      }
-                                    }, "image/jpeg");
-                                  }}
-                                >
-                                  Save Cropped Image
-                                </MuiButton>
-                              </div>
-                            </div>
-                          </Modal>
-                        )}
-                      </Row>
-                      {cmInstances.length > 1 && (
-                        <Row gutter={24} style={{ marginBottom: cmInstances.length > 1 ? "10px" : "0px" }}>
+                  </div>
+                  {cmInstances.map((cm, idx) => (
+                    <div key={idx} style={{ background: "#fff" }}>
+                      <Form
+                        layout="vertical"
+                        initialValues={cm}
+                        onValuesChange={(changed, all) => {
+                          const updated = [...cmInstances];
+                          updated[idx] = { ...updated[idx], ...changed };
+                          // Ensure branch field is always synced with unitValue
+                          if (unitValue) {
+                            updated[idx].branch = unitValue;
+                          }
+                          setCmInstances(updated);
+                        }}
+                        validateTrigger={["onChange", "onBlur"]}
+                        scrollToFirstError
+                        autoComplete="off"
+                      >
+                        <Row gutter={24}>
                           <Col xs={24} md={8}>
-                            <MuiButton
-                              variant="outlined"
-                              color="error"
-                              onClick={() => setCmInstances(cmInstances.filter((_, i) => i !== idx))}
-                              sx={{ width: "100%" }}
-                            >
-                              Remove
-                            </MuiButton>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">First Name</Typography.Text>} name="firstName" rules={[{ required: true, message: "First Name is required" }]}>
+                              <Input placeholder="First Name" value={cm.firstName} size="large" />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Last Name</Typography.Text>} name="lastName" rules={[{ required: true, message: "Last Name is required" }]}>
+                              <Input placeholder="Last Name" value={cm.lastName} size="large" />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Email</Typography.Text>} name="email" rules={[{ required: true, message: "Email is required" }]}>
+                              <Input placeholder="Email" value={cm.email} size="large" />
+                            </Form.Item>
+                          </Col>
+
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
+                              <Input.Group compact>
+                                <Form.Item
+                                  name="phoneCode"
+                                  className="custom-placeholder-12px"
+                                  noStyle
+                                  rules={[{ required: true, message: "Code is required" }]}
+                                >
+                                  <Select
+                                    showSearch
+                                    placeholder="Select Code"
+                                    value={cm.phoneCode}
+                                    size="large"
+                                    style={{ width: 160 }}
+                                  >
+                                    {countries.map((c) => (
+                                      <Select.Option key={c.isoCode} value={`+${c.phonecode}`}>{`+${c.phonecode} (${c.name})`}</Select.Option>
+                                    ))}
+                                  </Select>
+                                </Form.Item>
+                                <Form.Item
+                                  name="PhoneNo"
+                                  className="custom-placeholder-12px"
+                                  noStyle
+                                  rules={[
+                                    { required: true, message: "Phone number is required" },
+                                    { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                                    { min: 10, message: "At least 10 digits" },
+                                  ]}
+                                >
+                                  <Input
+                                    placeholder="Phone Number"
+                                    value={cm.PhoneNo}
+                                    size="large"
+                                    style={{ width: "calc(100% - 160px)" }}
+                                  />
+                                </Form.Item>
+                              </Input.Group>
+                            </Form.Item>
+                          </Col>
+
+
+
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Gender</Typography.Text>} name="gender" rules={[{ required: true, message: "Gender is required" }]}>
+                              <Select placeholder="Gender" value={cm.gender} size="large">
+                                <Select.Option value="Male">Male</Select.Option>
+                                <Select.Option value="Female">Female</Select.Option>
+                              </Select>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8} style={{ display: "none" }}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Designation</Typography.Text>} name="designation" rules={[{ required: true, message: "Designation is required" }]}>
+                              <Input placeholder="Designation" value={cm.designation} />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8} style={{ display: "none" }}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Organization</Typography.Text>} name="organization" rules={[{ required: true, message: "Organization is required" }]}>
+                              <Input placeholder="Organization" value={cm.organization} />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8} style={{ display: "none" }}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Branch</Typography.Text>} name="branch" rules={[{ required: true, message: "Branch is required" }]}>
+                              <Input
+                                placeholder="Organization Unit"
+                                value={unitValue || cm.branch}
+                                readOnly
+                                size="large"
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">CRM Name</Typography.Text>} name="crmname">
+                              <Select
+                                showSearch
+                                placeholder="Select CRM Name"
+                                value={cm.crmname}
+
+                                size="large"
+                                onChange={(value) => {
+                                  const selected = crmNameList.find(crm => crm.crmid === value);
+                                  const updated = [...cmInstances];
+                                  updated[idx] = {
+                                    ...updated[idx],
+                                    crmname: selected ? selected.name : "",
+                                    crmid: value
+                                  };
+                                  setCmInstances(updated);
+                                }}
+                              >
+                                {crmNameList.map((crm) => (
+                                  <Select.Option key={crm.crmid} value={crm.crmid}>
+                                    {crm.name} ({crm.crmid})
+                                  </Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Function</Typography.Text>} name="function" rules={[{ required: true, message: "Function is required" }]}>
+                              <Select
+                                showSearch
+                                placeholder="Select Function"
+                                value={cm.function}
+                                size="large"
+                              >
+                                {functionList.map((fn) => (
+                                  <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Interests</Typography.Text>} name="interests" rules={[{ required: true, message: "Interest is required" }]}>
+                              <Select
+                                mode="multiple"
+                                showSearch
+                                placeholder="Select Interests"
+                                value={cm.interests}
+                                size="large"
+                              >
+                                {interestList.map((interest) => (
+                                  <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Country</Typography.Text>} name="country" rules={[{ required: true, message: "Country is required" }]}>
+                              <Select
+                                showSearch
+                                placeholder="Select Country"
+                                value={cm.country}
+                                size="large"
+                              >
+                                {countries.map((c) => (
+                                  <Select.Option key={c.isoCode} value={c.name}>{c.name}</Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">State/Province</Typography.Text>} name="province" rules={[{ required: true, message: "State/Province is required" }]}>
+                              <Select
+                                showSearch
+                                placeholder="Select State/Province"
+                                value={cm.province}
+                                disabled={!cm.country}
+                                size="large"
+                              >
+                                {(cm.country
+                                  ? State.getStatesOfCountry(
+                                    countries.find((c) => c.name === cm.country)?.isoCode || ""
+                                  )
+                                  : []
+                                ).map((s) => (
+                                  <Select.Option key={s.isoCode} value={s.name}>{s.name}</Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">City</Typography.Text>} name="city" rules={[{ required: true, message: "City is required" }]}>
+                              <Select
+                                showSearch
+                                placeholder="Select City"
+                                value={cm.city}
+                                disabled={!cm.province}
+                                size="large"
+                              >
+                                {(cm.country && cm.province
+                                  ? City.getCitiesOfState(
+                                    countries.find((c) => c.name === cm.country)?.isoCode || "",
+                                    State.getStatesOfCountry(
+                                      countries.find((c) => c.name === cm.country)?.isoCode || ""
+                                    ).find((s) => s.name === cm.province)?.isoCode || ""
+                                  )
+                                  : []
+                                ).map((city) => (
+                                  <Select.Option key={city.name} value={city.name}>{city.name}</Select.Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
                           </Col>
                         </Row>
-                      )}
-                    </Form>
+                        <Row gutter={24} style={{ marginBottom: 24 }}>
+                          <Col xs={24} md={8}>
+                            <Form.Item label={<Typography.Text className="custom-headding-12px">Profile Photo</Typography.Text>} name="profileImage">
+                              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  id={`profile-upload-${idx}`}
+                                  onChange={async (e) => {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                      const reader = new FileReader();
+                                      reader.onload = () => {
+                                        setOriginalImage(reader.result);
+                                        setCropModalOpen(true);
+                                        setEditingCmIndex(idx);
+                                      };
+                                      reader.readAsDataURL(file);
+                                    }
+                                  }}
+                                  style={{ marginBottom: 8 }}
+                                />
+                                {cm.profileImage && cm.profileImage.name && (
+                                  <span style={{ fontSize: 13, color: '#333' }}>{cm.profileImage.name}</span>
+                                )}
+                              </div>
+                            </Form.Item>
+                          </Col>
+                          {/* Cropping Modal for Profile Photo */}
+                          {cropModalOpen && (
+                            <Modal
+                              open={cropModalOpen}
+                              onCancel={() => setCropModalOpen(false)}
+                              footer={null}
+                              centered
+                              width={400}
+                            >
+                              <div style={{ textAlign: "center" }}>
+                                <h3>Crop Profile Photo</h3>
+                                {originalImage && (
+                                  <ReactCrop
+                                    src={originalImage}
+                                    crop={crop}
+                                    onChange={setCrop}
+                                    onComplete={setCompletedCrop}
+                                    aspect={1}
+                                  >
+                                    <img
+                                      ref={imgRef}
+                                      alt="Crop"
+                                      src={originalImage}
+                                      style={{ maxWidth: "100%", maxHeight: 300 }}
+                                      onLoad={onImageLoad}
+                                    />
+                                  </ReactCrop>
+                                )}
+
+                                <div style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center" }}>
+                                  <MuiButton
+                                    variant="outlined"
+                                    htmlType="submit"
+                                    className="form-button"
+                                    onClick={() => setCropModalOpen(false)}
+                                    color="error"
+
+                                  >
+                                    Cancel
+                                  </MuiButton>
+                                  <MuiButton
+                                    variant="contain"
+                                    className="form-button"
+                                    style={{ background: colors.blueAccent[1000], color: "#fff" }}
+                                    onClick={async () => {
+                                      if (!completedCrop || !imgRef.current) return;
+                                      const image = imgRef.current;
+                                      const canvas = document.createElement("canvas");
+                                      const scaleX = image.naturalWidth / image.width;
+                                      const scaleY = image.naturalHeight / image.height;
+                                      canvas.width = completedCrop.width;
+                                      canvas.height = completedCrop.height;
+                                      const ctx = canvas.getContext("2d");
+                                      ctx.drawImage(
+                                        image,
+                                        completedCrop.x * scaleX,
+                                        completedCrop.y * scaleY,
+                                        completedCrop.width * scaleX,
+                                        completedCrop.height * scaleY,
+                                        0,
+                                        0,
+                                        completedCrop.width,
+                                        completedCrop.height
+                                      );
+                                      canvas.toBlob((blob) => {
+                                        if (blob) {
+                                          // Convert blob to File object
+                                          const file = new File([blob], `cropped-image-${Date.now()}.jpg`, {
+                                            type: 'image/jpeg'
+                                          });
+
+                                          const updated = [...cmInstances];
+                                          updated[editingCmIndex].profileImage = file;
+                                          setCmInstances(updated);
+                                          setCropModalOpen(false);
+                                          setOriginalImage(null);
+                                        }
+                                      }, "image/jpeg");
+                                    }}
+                                  >
+                                    Save Cropped Image
+                                  </MuiButton>
+                                </div>
+                              </div>
+                            </Modal>
+                          )}
+                        </Row>
+                        {cmInstances.length > 1 && (
+                          <Row gutter={24} style={{ marginBottom: cmInstances.length > 1 ? "10px" : "0px" }}>
+                            <Col xs={24} md={8}>
+                              <MuiButton
+                                variant="outlined"
+                                color="error"
+                                onClick={() => setCmInstances(cmInstances.filter((_, i) => i !== idx))}
+                                sx={{ width: "100%" }}
+                              >
+                                Remove
+                              </MuiButton>
+                            </Col>
+                          </Row>
+                        )}
+                      </Form>
+                    </div>
+                  ))}
+
+                  <div style={{ display: "flex", gap: 10, justifyContent: "space" }}>
+                    <div style={{ width: "100%" }}>
+                      <MuiButton
+                        variant="outlined"
+                        onClick={() => setCmInstances([
+                          ...cmInstances,
+                          {
+                            firstName: "",
+                            lastName: "",
+                            email: "",
+                            phoneCode: "",
+                            PhoneNo: "",
+                            gender: "",
+                            designation: "",
+                            organization: organizationname || "",
+                            // branch: "",
+                            crmid: "",
+                            crmname: "",
+                            interests: [],
+                            function: "",
+                            profileImage: null,
+                          },
+                        ])}
+                        sx={{ border: "1px solid #ccc", backgroundColor: "transparent" }}
+                      >
+                        + Add Customer Manager
+                      </MuiButton>
+                    </div>
+                    <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+                      <MuiButton
+                        variant="contained"
+                        onClick={async () => {
+                          setIsLoading(true);
+                          try {
+                            // Validate Organization Unit form
+                            const orgUnitValues = await form.validateFields();
+                            await handleFormSubmit(orgUnitValues);
+                            // Validate all Customer Manager forms (cmInstances)
+                            // (Assume cmInstances are already up to date via onValuesChange)
+                            await handleMultiCmSubmit(cmInstances);
+                          } catch (err) {
+                            // Validation errors are shown by AntD
+                          } finally {
+                            setIsLoading(false);
+                          }
+                        }}
+                        loading={isLoading}
+                        className="form-button"
+                        sx={{ background: colors.blueAccent[1000], color: "#fff", borderRadius: "8px" }}
+                      >
+                        Submit
+                      </MuiButton>
+
+                      <MuiButton
+                        variant="outlined"
+                        color="error"
+                        // htmlType="submit"
+                        onClick={handleBack}
+                        className="form-button"
+                        style={{
+                          // padding: "12px 24px",
+                          // fontSize: "14px",
+                          borderRadius: "8px",
+                          // background: colors.blueAccent[1000],
+                          // color: "#fff",
+                        }}
+                      >
+                        Close
+                      </MuiButton>
+                    </div>
                   </div>
-                ))}
-
-                <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-                  <MuiButton
-                    variant="outlined"
-                    onClick={() => setCmInstances([
-                      ...cmInstances,
-                      {
-                        firstName: "",
-                        lastName: "",
-                        email: "",
-                        phoneCode: "",
-                        PhoneNo: "",
-                        gender: "",
-                        designation: "",
-                        organization: organizationname || "",
-                        // branch: "",
-                        crmid: "",
-                        crmname: "",
-                        interests: [],
-                        function: "",
-                        profileImage: null,
-                      },
-                    ])}
-                    sx={{ border: "1px solid #ccc", backgroundColor: "transparent" }}
-                  >
-                    + Add Customer Manager
-                  </MuiButton>
-                  <MuiButton
-                    variant="contained"
-                    onClick={() => handleMultiCmSubmit(cmInstances)}
-                    loading={isLoading}
-                    className="form-button"
-                    sx={{ background: colors.blueAccent[1000], color: "#fff", borderRadius: "8px" }}
-                  >
-                    Submit All
-                  </MuiButton>
                 </div>
-              </div>
 
 
-            </>
-          )}
+              </>
+            )}
+          </Box>
+
+
+
+
         </>
       )}
 

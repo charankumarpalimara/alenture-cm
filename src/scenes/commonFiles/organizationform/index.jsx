@@ -434,7 +434,7 @@ const OrganizationForm = () => {
                 color: "#fff",
               }}
             >
-              Save and Next
+              Save
             </Button>
           </Box>
         </Form>

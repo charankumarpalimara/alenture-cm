@@ -14,6 +14,7 @@ import PendingExperiences from "../scenes/commonFiles/experiences/pendingExperie
 import ResolvedExperiences from "../scenes/commonFiles/experiences/resolvedExperiences";
 import Organization from "../scenes/commonFiles/organization";
 import OrganizationDetails from "../scenes/commonFiles/organizationdetails";
+import CmDataByOrganization from "../scenes/commonFiles/organizationdetails/CmDataByOrganization";
 import TaskDetails from "../scenes/commonFiles/taskdetails";
 import CrmProfile from "../scenes/crmDashboard/profile";
 
@@ -32,6 +33,7 @@ const crmRoutes = [
   <Route key="resolvedExperiences" path="/resolvedExperiences" element={<ResolvedExperiences />} />,
   <Route key="organization" path="/organization" element={<Organization />} />,
   <Route key="organizationdetails" path="/organizationdetails" element={<OrganizationDetails />} />,
+  <Route key="cmDataByOrganization" path="/cmDataByOrganization" element={<CmDataByOrganization />} />,
   <Route key="taskdetails" path="/taskdetails" element={<TaskDetails />} />,
   <Route key="profile" path="/profile" element={<CrmProfile />} />,
 ];
