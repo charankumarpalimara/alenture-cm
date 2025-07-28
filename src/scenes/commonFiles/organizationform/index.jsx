@@ -4,7 +4,7 @@ import { Country, State, City } from "country-state-city";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 import { tokens } from "../../../theme";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { CloseOutlined } from "@ant-design/icons";
@@ -13,6 +13,8 @@ const { Text } = Typography;
 const OrganizationForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+    const isMobile = useMediaQuery("(max-width: 400px)");
+    const isTablet = useMediaQuery("(max-width: 700px)");
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -139,16 +141,21 @@ const OrganizationForm = () => {
       )}
 
 
-      <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: "20px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+      <Box m="15px" sx={{ backgroundColor: "#ffffff",  padding: isMobile ? "15px" : "24px" }}>
+          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
           <Text
             className="custom-headding-16px"
+                                                    style={{
+                textAlign: isMobile ? "left" : "center",
+                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                paddingLeft: isMobile ? "0px" : "30px",
+              }}
           >
             Create New Organization
           </Text>
           <Button
             type="text"
-            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+              icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
             onClick={() => navigate(-1)}
             style={{
               color: "#3e4396",

@@ -23,7 +23,7 @@ import { Country } from "country-state-city";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { tokens } from "../../../theme";
-import { useTheme } from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 import { CloseOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 
@@ -45,6 +45,8 @@ const CmDetails = () => {
   const theme = useTheme();
   const { createdCmId } = useParams();
   const colors = tokens(theme.palette.mode);
+    const isMobile = useMediaQuery("(max-width: 400px)");
+    const isTablet = useMediaQuery("(max-width: 700px)");
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -356,20 +358,26 @@ const CmDetails = () => {
         style={{
           background: "#fff",
           borderRadius: 8,
-          padding: 24,
+       padding: isMobile ? 15 : 24,
           margin: 16,
           boxShadow: "2px 2px 8px rgba(0,0,0,0.08)",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
           <Text
             className="custom-headding-16px"
+            style={{
+                textAlign: isMobile ? "left" : "center",
+                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                paddingLeft: isMobile ? "0px" : "30px",
+            }}
+
           >
             Customer Manager
           </Text>
           <Button
             type="text"
-            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
             onClick={() => navigate(-1)}
             style={{
               color: "#3e4396",

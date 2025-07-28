@@ -254,11 +254,11 @@ button,
 }
 
 .custom-headding-16px{
-  font-size: 18px !important;
+  font-size: 18px ;
   font-weight: 600 !important;
-  text-align: center !important;
-  padding-left: 30px !important;
-  margin-bottom: 10px !important;
+  /* text-align: center !important; */
+  padding-left: 30px ;
+  /* margin-bottom: 10px !important; */
   width: 100% !important;
   flex: 1 !important;
   /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; */

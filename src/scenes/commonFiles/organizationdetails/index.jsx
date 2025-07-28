@@ -20,7 +20,7 @@ import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { tokens } from "../../../theme";
-import { useTheme } from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 import { CloseOutlined } from "@ant-design/icons";
 
@@ -39,6 +39,8 @@ const OrganizationDetails = () => {
   // const [form] = Form.useForm();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+    const isMobile = useMediaQuery("(max-width: 400px)");
+    const isTablet = useMediaQuery("(max-width: 700px)");
   const [isLoading, setIsLoading] = useState(false);
   // const [editMode, setEditMode] = useState(false);
   // const [originalBranch, setOriginalBranch] = useState(null);
@@ -194,15 +196,20 @@ const OrganizationDetails = () => {
         }}
       >
 
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
             <Text
               className="custom-headding-16px"
+                                               style={{
+                textAlign: isMobile ? "left" : "center",
+                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                paddingLeft: isMobile ? "0px" : "30px",
+              }}
             >
               Organization
             </Text>
             <Button
               type="text"
-              icon={<CloseOutlined style={{ fontSize: 20 }} />}
+              icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
               onClick={() => navigate(-1)}
               style={{
                 color: "#3e4396",

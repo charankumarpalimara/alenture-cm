@@ -124,7 +124,9 @@ const CmExperienceRegistrationForm = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [experience, setExperience] = useState("");
-  const isMobile = useMediaQuery("(max-width: 600px)");
+  const isFirstMobile = useMediaQuery("(max-width: 600px)");
+    const isMobile = useMediaQuery("(max-width: 400px)");
+    const isTablet = useMediaQuery("(max-width: 700px)");
   // const [showEditModal, setShowEditModal] = useState(false);
   // const [editValues, setEditValues] = useState({});
   const [createdTicketId, setCreatedTicketId] = useState(null);
@@ -290,17 +292,22 @@ const CmExperienceRegistrationForm = () => {
 
 
       {!showSuccess && (
-        <div style={{ backgroundColor: "#fff", padding: 20 }}>
+        <div style={{ backgroundColor: "#fff", padding: isMobile ? 15 : 24 }}>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
           <AntdTypography
             className="custom-headding-16px"
+             style={{
+                textAlign: isMobile ? "left" : "center",
+                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                paddingLeft: isMobile ? "0px" : "30px",
+              }}
           >
             Share Your Experience
           </AntdTypography>
           <AntdButton
             type="text"
-            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
             onClick={() => navigate(-1)}
             style={{
               color: "#3e4396",
@@ -326,7 +333,7 @@ const CmExperienceRegistrationForm = () => {
                   onClick={() => handleExperienceClick(option.value)}
                   style={{
                     display: "flex",
-                    alignItems: isMobile ? 'flex-start' : "center",
+                    alignItems: isFirstMobile ? 'flex-start' : "center",
                     gap: 8,
                     textTransform: "none",
                     fontSize: 15,
@@ -336,7 +343,7 @@ const CmExperienceRegistrationForm = () => {
                     color: experience === option.value ? "#000" : "#333",
                     boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.15)",
                     transition: "0.3s",
-                    width: isMobile ? "100%" : 250,
+                    width: isFirstMobile ? "100%" : 250,
                     marginBottom: 4,
                   }}
                 >

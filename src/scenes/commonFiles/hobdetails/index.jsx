@@ -9,7 +9,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { Country, State } from 'country-state-city';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useTheme } from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material';
 import { tokens } from '../../../theme';
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { CloseOutlined } from "@ant-design/icons";
@@ -33,6 +33,8 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
 const HobDetails = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+    const isMobile = useMediaQuery("(max-width: 400px)");
+    const isTablet = useMediaQuery("(max-width: 700px)");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
@@ -262,17 +264,22 @@ const HobDetails = () => {
         </div>
       )}
 
-      <div style={{ background: '#fff', borderRadius: 8, padding: 24, margin: 16 }}>
+      <div style={{ background: '#fff', borderRadius: 8, padding: isMobile ? 15 : 24, margin: 16 }}>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
           <Text
             className="custom-headding-16px"
+                          style={{
+                textAlign: isMobile ? "left" : "center",
+                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                paddingLeft: isMobile ? "0px" : "30px",
+              }}
           >
             Head of the Business
           </Text>
           <Button
             type="text"
-            icon={<CloseOutlined style={{ fontSize: 20 }} />}
+            icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
             onClick={() => navigate(-1)}
             style={{
               color: "#3e4396",

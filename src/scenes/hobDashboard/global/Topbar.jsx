@@ -992,6 +992,7 @@ const Topbar = ({ onLogout }) => {
                 icon={<StorefrontOutlinedIcon />}
                 selected={selected}
                 setSelected={setSelected}
+                handleClose={() => setIsModalOpen(false)}
               />
             )}
             <Item
