@@ -88,7 +88,7 @@ const OrganizationDetails = () => {
       try {
         // Try GET request first (as per router.get)
         response = await axios.get(
-          `http://127.0.0.1:8080/v1/getCmDataOrganiozations`,
+          `${process.env.REACT_APP_API_URL}/v1/getCmDataOrganiozations`,
           { 
             params: { organizationid: oragnizationid }
           }
@@ -98,7 +98,7 @@ const OrganizationDetails = () => {
         console.log('GET request failed, trying POST request...');
         // Fallback to POST request if GET fails (backend might expect req.body)
         response = await axios.post(
-          `http://127.0.0.1:8080/v1/getCmDataOrganiozations`,
+          `${process.env.REACT_APP_API_URL}/v1/getCmDataOrganiozations`,
           { organizationid: oragnizationid }
         );
         console.log('POST request successful');
@@ -109,11 +109,11 @@ const OrganizationDetails = () => {
       if (response.data && response.data.data) {
         setCmData(response.data.data);
         console.log('CM data set:', response.data.data);
-        message.success('Customer Manager data fetched successfully');
+        // message.success('Customer Manager data fetched successfully');
       } else {
         setCmData([]);
         console.log('No CM data found');
-        message.error('No Customer Manager data found');
+        // message.error('No Customer Manager data found');
       }
     } catch (error) {
       console.error('Error fetching CM data:', error);
@@ -703,7 +703,7 @@ const OrganizationDetails = () => {
           title={
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <UserOutlined style={{ color: colors.blueAccent[1000] }} />
-              <span>Customer Managers - {selectedUnit}</span>
+              <span className="custom-headding-16px">Customer Managers - {selectedUnit}</span>
             </div>
           }
           open={cmModalVisible}
