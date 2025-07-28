@@ -129,10 +129,10 @@ const Dashboard = () => {
       <Grid container spacing={2} mt={3}>
         <Grid item xs={12} md={4}>
           <Box p={2} borderRadius={2} sx={{ bgcolor: "#ffffff" }}>
-            <Typography variant="h6" mb={1} fontWeight="bold">
+            <Typography variant="h6"  className="custom-headding-16px" >
               Experience Quantity
             </Typography>
-            <Box height="250px">
+            <Box height="260px">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -144,7 +144,7 @@ const Dashboard = () => {
                     dataKey="value"
                     nameKey="name"
                     cx="50%"
-                    cy="50%"
+                    cy="53%"
                     outerRadius={80}
                     label
                   >
