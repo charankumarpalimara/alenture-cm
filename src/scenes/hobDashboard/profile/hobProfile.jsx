@@ -303,7 +303,7 @@ const HobProfile = () => {
                         letterSpacing: 1,
                 }}
               >
-              {initialValues.firstName} (hob)
+              {initialValues.firstName} (HOB)
               </Typography.Title>
             </Col>
           </Row>

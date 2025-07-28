@@ -338,7 +338,7 @@ const AdminProfile = () => {
                         letterSpacing: 1,
                       }}
                     >
-                      {values.firstName} (admin)
+                      {values.firstName} (Admin)
                     </Typography.Title>
                   </Col>
                 </Row>
