@@ -62,6 +62,7 @@ const CmDetails = () => {
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
+  const [functionList, setFunctionList] = useState([]);
 
   // Defensive: ticket may be undefined after refresh, so fallback to param
   const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
@@ -107,6 +108,8 @@ const CmDetails = () => {
     status: data.extraind3 || "",
     organizationid: data.organizationid || "",
     organizationname: data.organizationname || "",
+    function: data.extraind4 || "",
+    interests: data.extraind5 || "",
     // customerrelationshipmanagername: data.customerrelationshipmanagername || "",
     branch: data.branch || "",
     imageUrl: data.imageUrl || "",
@@ -171,6 +174,18 @@ const CmDetails = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchFunctions = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmFunction`);
+      const data = await res.json();
+      setFunctionList(data.functions || data.data || []);
+    };
+    fetchFunctions();
+  }, []);
+
+  
+
+
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -181,6 +196,8 @@ const CmDetails = () => {
     formData.append("phoneCode", values.phoneCode);
     formData.append("PhoneNo", values.PhoneNo);
     formData.append("crmid", values.crmid);
+    formData.append("functionValue", values.function);
+    // formData.append("interests", values.interests);
     formData.append(
       "crmname",
       values.crmname || values.customerrelationshipmanagername
@@ -193,7 +210,6 @@ const CmDetails = () => {
     formData.append("branch", values.branch);
     formData.append("gender", values.gender);
     formData.append("status", values.status);
-
     const createrrole = getCreaterRole();
     const createrid = getCreaterId();
     formData.append("createrrole", createrrole);
@@ -225,7 +241,7 @@ const CmDetails = () => {
         message.success("Customer Manager details updated successfully");
         setIsLoading(false);
         setIsEditing(false);
-        navigate("/cm");
+        // navigate("/cm");
       } else {
         message.error("Update failed: " + (data?.error || response.statusText));
         setIsEditing(false);
@@ -505,65 +521,7 @@ const CmDetails = () => {
                 />
               </Form.Item>
             </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text className="custom-headding-12px">Organization</Text>}
-                name="organizationname"
-                rules={[
-                  { required: true, message: "Organization is required" },
-                ]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Organization"
-                  disabled={!isEditing}
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                  onChange={(value, option) => {
-                    form.setFieldsValue({
-                      organizationname: option.children,
-                      organizationid: value,
-                    });
-                    fetchBranch(option.children);
-                  }}
-                >
-                  {organizationNames.map((org) => (
-                    <Select.Option
-                      key={org.organizationid}
-                      value={org.organizationid}
-                    >
-                      {org.organizationname}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item name="organizationid" style={{ display: "none" }}>
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label={<Text className="custom-headding-12px">Organization Unit</Text>}
-                name="branch"
-                rules={[
-                  { required: true, message: "Organization Unit is required" },
-                ]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Organization Unit"
-                  disabled={!isEditing}
-                  size="large"
-                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                >
-                  {branchNames.map((item, idx) => (
-                    <Select.Option key={idx} value={item.branch}>
-                      {item.branch}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
+
             <Col xs={24} md={8}>
               <Form.Item
                 label={<Text className="custom-headding-12px">Email Id</Text>}
@@ -636,6 +594,95 @@ const CmDetails = () => {
                   {gender.map((g) => (
                     <Select.Option key={g} value={g}>
                       {g}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Function</Text>}
+                name="function"
+                rules={[
+                  {
+                    required: true,
+                    type: "text",
+                    message: "Valid function is required",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select Function"
+                  disabled={!isEditing}
+                  size="large"
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {functionList.map((fn, idx) => (
+                    <Select.Option key={fn.id || idx} value={fn.name || fn.function || fn}>
+                      {fn.name || fn.function || fn}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Organization</Text>}
+                name="organizationname"
+                rules={[
+                  { required: true, message: "Organization is required" },
+                ]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select Organization"
+                  disabled={!isEditing}
+                  size="large"
+                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  onChange={(value, option) => {
+                    form.setFieldsValue({
+                      organizationname: option.children,
+                      organizationid: value,
+                    });
+                    fetchBranch(option.children);
+                  }}
+                >
+                  {organizationNames.map((org) => (
+                    <Select.Option
+                      key={org.organizationid}
+                      value={org.organizationid}
+                    >
+                      {org.organizationname}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item name="organizationid" style={{ display: "none" }}>
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Organization Unit</Text>}
+                name="branch"
+                rules={[
+                  { required: true, message: "Organization Unit is required" },
+                ]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select Organization Unit"
+                  disabled={!isEditing}
+                  size="large"
+                  style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                >
+                  {branchNames.map((item, idx) => (
+                    <Select.Option key={idx} value={item.branch}>
+                      {item.branch}
                     </Select.Option>
                   ))}
                 </Select>
