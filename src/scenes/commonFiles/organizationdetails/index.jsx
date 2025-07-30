@@ -41,8 +41,8 @@ const OrganizationDetails = () => {
   // const [form] = Form.useForm();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-    const isMobile = useMediaQuery("(max-width: 400px)");
-    const isTablet = useMediaQuery("(max-width: 700px)");
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const isTablet = useMediaQuery("(max-width: 700px)");
   const [isLoading, setIsLoading] = useState(false);
   // const [editMode, setEditMode] = useState(false);
   // const [originalBranch, setOriginalBranch] = useState(null);
@@ -63,7 +63,7 @@ const OrganizationDetails = () => {
 
   // Handle different data structures passed from different pages
   const oragnizationid = ticket.id || ticket.organizationid || ticket;
-  
+
   console.log('Location state:', location.state);
   console.log('Ticket object:', ticket);
   console.log('Ticket.id:', ticket.id);
@@ -71,7 +71,7 @@ const OrganizationDetails = () => {
   console.log('Organization ID:', oragnizationid);
   console.log('Organization ID type:', typeof oragnizationid);
 
-    // Fetch CM data for the organization
+  // Fetch CM data for the organization
   const fetchCmData = async () => {
     if (!oragnizationid || oragnizationid === 'undefined' || oragnizationid === 'null') {
       console.log('Organization ID not found or invalid:', oragnizationid);
@@ -81,15 +81,15 @@ const OrganizationDetails = () => {
     setCmLoading(true);
     try {
       console.log('Fetching CM data for organization ID:', oragnizationid);
-      
+
       console.log('Making API request with params:', { organizationid: oragnizationid });
-      
+
       let response;
       try {
         // Try GET request first (as per router.get)
         response = await axios.get(
           `${process.env.REACT_APP_API_URL}/v1/getCmDataOrganiozations`,
-          { 
+          {
             params: { organizationid: oragnizationid }
           }
         );
@@ -103,7 +103,7 @@ const OrganizationDetails = () => {
         );
         console.log('POST request successful');
       }
-      
+
       console.log('Response status:', response.status);
       console.log('Response data:', response.data);
       if (response.data && response.data.data) {
@@ -117,13 +117,13 @@ const OrganizationDetails = () => {
       }
     } catch (error) {
       console.error('Error fetching CM data:', error);
-      
+
       // Handle different error cases
       if (error.response) {
         // Server responded with error status
         console.log('Error response status:', error.response.status);
         console.log('Error response data:', error.response.data);
-        
+
         if (error.response.status === 404) {
           console.log('API endpoint not found (404) - check backend route registration');
           message.error('API endpoint not found. Please check backend configuration.');
@@ -326,30 +326,30 @@ const OrganizationDetails = () => {
         }}
       >
 
-          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
-            <Text
-              className="custom-headding-16px"
-                                               style={{
-                textAlign: isMobile ? "left" : "center",
-                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                paddingLeft: isMobile ? "0px" : "30px",
-              }}
-            >
-              Organization
-            </Text>
-            <Button
-              type="text"
-              icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
-              onClick={() => navigate(-1)}
-              style={{
-                color: "#3e4396",
-                fontWeight: 600,
-                fontSize: 16,
-                alignSelf: "flex-end",
-                marginLeft: 8,
-              }}
-            />
-          </div>
+        <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
+          <Text
+            className="custom-headding-16px"
+            style={{
+              textAlign: isMobile ? "left" : "center",
+              fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+              paddingLeft: isMobile ? "0px" : "30px",
+            }}
+          >
+            Organization
+          </Text>
+          <Button
+            type="text"
+            icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
+            onClick={() => navigate(-1)}
+            style={{
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
+            }}
+          />
+        </div>
         <Collapse
           accordion
           expandIconPosition="end"
@@ -378,7 +378,7 @@ const OrganizationDetails = () => {
                 key={branch.id || idx}
               >
                 <Row gutter={16}>
-                  <Col xs={24} md={8} style={{ display: "none" }}>
+                  <Col xs={24} md={8} style={{ display: editingBranchIndex === idx ? "block" : "none" }}>
                     <Typography.Text className="custom-headding-12px">Organization Name</Typography.Text>
                     <Input
                       value={editData.organizationname}
@@ -559,223 +559,229 @@ const OrganizationDetails = () => {
                       style={{ marginBottom: 12 }}
                     />
                   </Col>
-                </Row>
-                <div style={{ marginTop: 16 }}>
-                  {isEditing ? (
-                    <>
-                      <MuiButton
-                        variant="contained"
-                        onClick={() => handleBranchSave(idx)}
-                        loading={isLoading}
-                        className="form-button"
-                        sx={{
-                          background: colors.blueAccent[1000],
-                          color: "#fff",
-                          minWidth: 80,
-                          // padding: "5px 15px",
-                          marginRight: "8px",
-                        }}
-                      >
-                        Save
-                      </MuiButton>
-                      <MuiButton
-                        variant="outlined"
-                        // startIcon={<CloseOutlined />}
-                        color="error"
-                        onClick={handleBranchCancel}
-                        // danger
-                        className="form-button"
-                      >
-                        Cancel
-                      </MuiButton>
-                    </>
-                  ) : (
-                    <>
-                      <MuiButton
-                        variant="contained"
-                        onClick={() => handleBranchEdit(idx)}
-                        className="form-button"
-                        startIcon={<EditIcon />}
+
+                  {!isEditing && (
+                    <Col xs={24} md={8}>
+                      <Button
+                        type="link"
+                        onClick={() => handleUnitClick(branch.branch)}
                         style={{
-                          background: colors.blueAccent[1000],
-                          color: "#fff",
-                          // minWidth: 120,
-                          marginRight: 8,
+                          display: editData.branchtype === "Parent" ? "none" : "block",
+                          color: colors.blueAccent[1000],
+                          padding: 0,
+                          marginLeft: 8,
+                          fontSize: 14,
                         }}
                       >
-                        Edit
-                      </MuiButton>
-                      {getCreaterRole() === "admin" && (
-                        <MuiButton
-                          variant="outlined"
-                          // size="small"
-                          startIcon={<DeleteIcon />}
-                          color="error"
-                          className="form-button"
-                          // sx={{
-                          //   minWidth: 120,
-                          //   border: "1px solid #bb2124", // Set your desired outline color
-                          //   backgroundColor: "transparent", // Ensure no background
-                          //   color: "#bb2124", // Match outline color for text
-                          //   boxShadow: "none", // Remove any shadow
-                          // }}
-
-                          onClick={() => {
-                            Modal.confirm({
-                              title: "Are you sure you want to delete this Organization?",
-                              content: "This action cannot be undone.",
-                              okText: "Yes, Delete",
-                              okType: "danger",
-                              cancelText: "Cancel",
-                              onOk: async () => {
-                                try {
-                                  const branch = sortedBranches[idx];
-                                  await fetch(
-                                    `${process.env.REACT_APP_API_URL}/v1/OrganizationDelete/${branch.id}`,
-                                    {
-                                      method: "DELETE",
-                                      headers: { "Content-Type": "application/json" },
-                                    }
-                                  );
-                                  message.success("Organization deleted successfully!");
-                                  setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-                                  // Navigate("/organization");
-                                } catch (error) {
-                                  message.error("Failed to delete Organization.");
-                                }
-                              },
-                            });
-                          }}
-                        >
-                          Delete
-                        </MuiButton>
-
-
-                      )}
-                      {/* Customer Managers Link */}
-                      {!isEditing && (
-                        <Button
-                          type="link"
-                          onClick={() => handleUnitClick(branch.branch)}
-                          style={{
-                            color: colors.blueAccent[1000],
-                            padding: 0,
-                            marginLeft: 8,
-                            fontSize: 14,
-                          }}
-                        >
-                          Customer Managers
-                        </Button>
-                      )}
-                    </>
+                        Customer Managers
+                      </Button>
+                    </Col>
                   )}
-                </div>
-              </Collapse.Panel>
-            );
-          })}
-        </Collapse>
-        {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
-          <Button
-            type="primary"
-            onClick={() => {
-              navigate("/organizationadd", {
-                state: {
-                  organizationid: ticket.id,
-                  organizationname: ticket.name,
-                },
-              });
-            }}
-            className="form-button"
-            style={{
-              marginTop: 16,
-              background: colors.blueAccent[1000],
-              color: "#fff",
-              minWidth: 120,
-              marginRight: 8,
-            }}
-          >
-            Add New Unit
-          </Button>
-        )}
-
-        {/* Customer Managers Modal */}
-        <Modal
-          title={
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <UserOutlined style={{ color: colors.blueAccent[1000] }} />
-              <span className="custom-headding-16px">Customer Managers - {selectedUnit}</span>
-            </div>
-          }
-          open={cmModalVisible}
-          onCancel={() => setCmModalVisible(false)}
-          footer={[
-            <MuiButton variant="outlined" color="error" key="close" onClick={() => setCmModalVisible(false)}>
-              Close
-            </MuiButton>
-          ]}
-          width={isMobile ? '95%' : '80%'}
-          style={{ top: 20 }}
-        >
-          {cmLoading ? (
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'center', 
-              alignItems: 'center', 
-              minHeight: '200px' 
-            }}>
-              <Spin size="large" />
-            </div>
-          ) : selectedUnitData.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '40px' }}>
-              <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
-              <Text style={{ fontSize: 16, color: colors.grey[600] }}>
-                No Customer Managers found for {selectedUnit}
-              </Text>
-            </div>
+                </Row>
+        <div style={{ marginTop: 16 }}>
+          {isEditing ? (
+            <>
+              <MuiButton
+                variant="contained"
+                onClick={() => handleBranchSave(idx)}
+                loading={isLoading}
+                className="form-button"
+                sx={{
+                  background: colors.blueAccent[1000],
+                  color: "#fff",
+                  minWidth: 80,
+                  // padding: "5px 15px",
+                  marginRight: "8px",
+                }}
+              >
+                Save
+              </MuiButton>
+              <MuiButton
+                variant="outlined"
+                // startIcon={<CloseOutlined />}
+                color="error"
+                onClick={handleBranchCancel}
+                // danger
+                className="form-button"
+              >
+                Cancel
+              </MuiButton>
+            </>
           ) : (
-            <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-              {selectedUnitData.map((cm, index) => (
-                <div
-                  key={cm.cmid}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '12px 16px',
-                    borderBottom: index < selectedUnitData.length - 1 ? '1px solid #f0f0f0' : 'none',
-                    backgroundColor: index % 2 === 0 ? '#fafafa' : '#ffffff',
+            <>
+              <MuiButton
+                variant="contained"
+                onClick={() => handleBranchEdit(idx)}
+                className="form-button"
+                startIcon={<EditIcon />}
+                style={{
+                  background: colors.blueAccent[1000],
+                  color: "#fff",
+                  // minWidth: 120,
+                  marginRight: 8,
+                }}
+              >
+                Edit
+              </MuiButton>
+              {getCreaterRole() === "admin" && (
+                <MuiButton
+                  variant="outlined"
+                  // size="small"
+                  startIcon={<DeleteIcon />}
+                  color="error"
+                  className="form-button"
+                  // sx={{
+                  //   minWidth: 120,
+                  //   border: "1px solid #bb2124", // Set your desired outline color
+                  //   backgroundColor: "transparent", // Ensure no background
+                  //   color: "#bb2124", // Match outline color for text
+                  //   boxShadow: "none", // Remove any shadow
+                  // }}
+
+                  onClick={() => {
+                    Modal.confirm({
+                      title: "Are you sure you want to delete this Organization?",
+                      content: "This action cannot be undone.",
+                      okText: "Yes, Delete",
+                      okType: "danger",
+                      cancelText: "Cancel",
+                      onOk: async () => {
+                        try {
+                          const branch = sortedBranches[idx];
+                          await fetch(
+                            `${process.env.REACT_APP_API_URL}/v1/OrganizationDelete/${branch.id}`,
+                            {
+                              method: "DELETE",
+                              headers: { "Content-Type": "application/json" },
+                            }
+                          );
+                          message.success("Organization deleted successfully!");
+                          setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
+                          // Navigate("/organization");
+                        } catch (error) {
+                          message.error("Failed to delete Organization.");
+                        }
+                      },
+                    });
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{ 
-                      backgroundColor: colors.blueAccent[1000], 
-                      color: 'white', 
-                      borderRadius: '50%', 
-                      width: 32, 
-                      height: 32, 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center',
-                      fontSize: 12,
-                      fontWeight: 'bold'
-                    }}>
-                      {index + 1}
-                    </div>
-                    <div>
-                      <div style={{ fontWeight: 'bold', color: colors.grey[800] }}>
-                        {cm.firstname} {cm.lastname}
-                      </div>
-                      <div style={{ fontSize: 12, color: colors.grey[600] }}>
-                        ID: {cm.cmid}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  Delete
+                </MuiButton>
+
+
+              )}
+              {/* Customer Managers Link */}
+
+            </>
           )}
-        </Modal>
-      </Box>
+        </div>
+      </Collapse.Panel>
+      );
+          })}
+    </Collapse >
+      {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate("/organizationadd", {
+              state: {
+                organizationid: ticket.id,
+                organizationname: ticket.name,
+              },
+            });
+          }}
+          className="form-button"
+          style={{
+            marginTop: 16,
+            background: colors.blueAccent[1000],
+            color: "#fff",
+            minWidth: 120,
+            marginRight: 8,
+          }}
+        >
+          Add New Unit
+        </Button>
+      )
+}
+
+{/* Customer Managers Modal */ }
+<Modal
+  title={
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <UserOutlined style={{ color: colors.blueAccent[1000] }} />
+      <span className="custom-headding-16px">Customer Managers - {selectedUnit}</span>
+    </div>
+  }
+  open={cmModalVisible}
+  onCancel={() => setCmModalVisible(false)}
+  footer={[
+    <MuiButton variant="outlined" color="error" key="close" onClick={() => setCmModalVisible(false)}>
+      Close
+    </MuiButton>
+  ]}
+  width={isMobile ? '95%' : '80%'}
+  style={{ top: 20 }}
+>
+  {cmLoading ? (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '200px'
+    }}>
+      <Spin size="large" />
+    </div>
+  ) : selectedUnitData.length === 0 ? (
+    <div style={{ textAlign: 'center', padding: '40px' }}>
+      <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
+      <Text style={{ fontSize: 16, color: colors.grey[600] }}>
+        No Customer Managers found for {selectedUnit}
+      </Text>
+    </div>
+  ) : (
+    <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+      {selectedUnitData.map((cm, index) => (
+        <div
+          key={cm.cmid}
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '12px 16px',
+            borderBottom: index < selectedUnitData.length - 1 ? '1px solid #f0f0f0' : 'none',
+            backgroundColor: index % 2 === 0 ? '#fafafa' : '#ffffff',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{
+              backgroundColor: colors.blueAccent[1000],
+              color: 'white',
+              borderRadius: '50%',
+              width: 32,
+              height: 32,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 12,
+              fontWeight: 'bold'
+            }}>
+              {index + 1}
+            </div>
+            <div>
+              <div style={{ fontWeight: 'bold', color: colors.grey[800] }}>
+                {cm.firstname} {cm.lastname}
+              </div>
+              <div style={{ fontSize: 12, color: colors.grey[600] }}>
+                ID: {cm.cmid}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</Modal>
+      </Box >
     </>
   );
 };

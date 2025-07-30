@@ -425,17 +425,17 @@ const CmTicketDetails = () => {
             Experience
           </Typography>
           <Button
-                              type="text"
-                              startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
-                              onClick={() => navigate(-1)}
-                              style={{
-                                color: "#3e4396",
-                                fontWeight: 600,
-                                fontSize: 16,
-                                alignSelf: "flex-end",
-                                marginLeft: 8,
-                              }}
-                            />
+            type="text"
+            startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => navigate(-1)}
+            style={{
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
+            }}
+          />
         </div>
         <Formik
           enableReinitialize

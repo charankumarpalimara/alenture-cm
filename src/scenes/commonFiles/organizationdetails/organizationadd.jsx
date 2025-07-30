@@ -924,7 +924,7 @@ const Organizationadd = () => {
                     <Col xs={24} md={8}>
                       <Form.Item label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>} required className="custom-placeholder-12px">
                         <Input.Group compact>
-                          <Form.Item
+                          {/* <Form.Item
                             name="phoneCode"
                             className="custom-placeholder-12px"
                             noStyle
@@ -941,7 +941,43 @@ const Organizationadd = () => {
                                 <Select.Option key={c.isoCode} value={`+${c.phonecode}`}>{`+${c.phonecode} (${c.name})`}</Select.Option>
                               ))}
                             </Select>
-                          </Form.Item>
+                          </Form.Item> */}
+
+
+
+                  <Form.Item
+                    name="phoneCode"
+                    className="custom-placeholder-12px"
+                    noStyle
+                    rules={[{ required: true, message: "Code is required" }]}
+                  >
+                    <Select
+                      showSearch
+                      style={{ width: 160 }}
+                      placeholder="Code"
+                      optionFilterProp="children"
+                      size="large"
+                      value={cm.phoneCode}
+                      onChange={(value) => {
+                        const updated = [...cmInstances];
+                        updated[idx].phoneCode = value;
+                        setCmInstances(updated);
+                      }}
+                    >
+                      {countries.map((c) => (
+                        <Select.Option
+                          key={c.isoCode}
+                          value={`+${c.phonecode}`}
+                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+
+
+
+
+
+
                           <Form.Item
                             name="PhoneNo"
                             className="custom-placeholder-12px"
@@ -992,10 +1028,10 @@ const Organizationadd = () => {
                       </Form.Item>
                     </Col>
                     <Col xs={24} md={8}>
-                      <Form.Item label={<Typography.Text className="custom-headding-12px">CRM Name</Typography.Text>} name="crmname">
+                      <Form.Item label={<Typography.Text className="custom-headding-12px">Relationship Manager</Typography.Text>} name="crmname" rules={[{ required: true, message: "Relationship Manager is required" }]}>
                         <Select
                           showSearch
-                          placeholder="Select CRM Name"
+                          placeholder="Select Relationship Manager"
                           value={cm.crmname}
                           size="large"
                           onChange={(value) => {

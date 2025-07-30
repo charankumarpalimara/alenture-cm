@@ -176,10 +176,11 @@ const OrganizationUnitadd = () => {
   const [selectedState, setSelectedState] = useState("");
   const [unitAddForm, setUnitAddForm] = useState(true)
   const [cmform, setCmform] = useState(true);
+    const [showSuccess, setShowSuccess] = useState(false);
   const [crmNameList, setCrmNameList] = useState([]);
   const [organizationNames, setOrganizationNames] = useState([]);
   const [branchNames, setBranchNames] = useState([]);
-  const [showSuccess, setShowSuccess] = useState(false);
+
   const [functionList, setFunctionList] = useState([]);
   const [interestList, setInterestList] = useState([]);
   const [interestSearch, setInterestSearch] = useState("");
@@ -1554,17 +1555,26 @@ const OrganizationUnitadd = () => {
                                   noStyle
                                   rules={[{ required: true, message: "Code is required" }]}
                                 >
-                                  <Select
-                                    showSearch
-                                    placeholder="Select Code"
-                                    value={cm.phoneCode}
-                                    size="large"
-                                    style={{ width: 160 }}
-                                  >
-                                    {countries.map((c) => (
-                                      <Select.Option key={c.isoCode} value={`+${c.phonecode}`}>{`+${c.phonecode} (${c.name})`}</Select.Option>
-                                    ))}
-                                  </Select>
+                    <Select
+                      showSearch
+                      style={{ width: 160 }}
+                      placeholder="Code"
+                      optionFilterProp="children"
+                      size="large"
+                      value={cm.phoneCode}
+                      onChange={(value) => {
+                        const updated = [...cmInstances];
+                        updated[idx].phoneCode = value;
+                        setCmInstances(updated);
+                      }}
+                    >
+                      {countries.map((c) => (
+                        <Select.Option
+                          key={c.isoCode}
+                          value={`+${c.phonecode}`}
+                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                      ))}
+                    </Select>
                                 </Form.Item>
                                 <Form.Item
                                   name="PhoneNo"
@@ -1621,7 +1631,7 @@ const OrganizationUnitadd = () => {
                             <Form.Item label={<Typography.Text className="custom-headding-12px">CRM Name</Typography.Text>} name="crmname">
                               <Select
                                 showSearch
-                                placeholder="Select CRM Name"
+                                placeholder="Select Relationship Manager"
                                 value={cm.crmname}
 
                                 size="large"
