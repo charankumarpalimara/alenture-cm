@@ -426,7 +426,7 @@ const CmTicketDetails = () => {
           </Typography>
           <Button
             type="text"
-            startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+            icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
             onClick={() => navigate(-1)}
             style={{
               color: "#3e4396",
