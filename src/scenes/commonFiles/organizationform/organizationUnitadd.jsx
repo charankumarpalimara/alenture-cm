@@ -1512,6 +1512,7 @@ const OrganizationUnitadd = () => {
                       /> */}
                   </div>
                   {cmInstances.map((cm, idx) => (
+                <React.Fragment>
                     <div key={idx} style={{ background: "#fff" }}>
                       <Form
                         layout="vertical"
@@ -1872,6 +1873,18 @@ const OrganizationUnitadd = () => {
                         )}
                       </Form>
                     </div>
+                    {idx < cmInstances.length - 1 && (
+                      <hr style={{
+                        border: 'none',
+                        height: '1px',
+                        backgroundColor: '#e0e0e0',
+                        margin: '24px 0',
+                        opacity: 0.6,
+                        marginBottom: '20px',
+                        marginTop: '20px'
+                      }} />
+                    )}
+                    </React.Fragment>
                   ))}
 
                   <div style={{ display: "flex", gap: 10, justifyContent: "space" }}>
