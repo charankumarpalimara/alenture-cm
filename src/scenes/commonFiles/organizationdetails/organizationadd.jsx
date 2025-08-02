@@ -750,7 +750,7 @@ const Organizationadd = () => {
                         <Select.Option
                           key={c.isoCode}
                           value={`+${c.phonecode}`}
-                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                        >{`+${c.phonecode}`}</Select.Option>
                       ))}
                     </Select>
                   </Form.Item>
@@ -1009,7 +1009,7 @@ const Organizationadd = () => {
                         <Select.Option
                           key={c.isoCode}
                           value={`+${c.phonecode}`}
-                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                        >{`+${c.phonecode}`}</Select.Option>
                       ))}
                     </Select>
                   </Form.Item>

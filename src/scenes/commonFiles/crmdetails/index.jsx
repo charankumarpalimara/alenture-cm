@@ -641,14 +641,14 @@ const CrmDetails = () => {
                       style={{ width: "calc(100% - 40%)" }}
                       placeholder="Code"
                       optionFilterProp="children"
-                      disabled={true}
+                      disabled={!isEditing} 
                       size="large"
                     >
                       {countries.map((c) => (
                         <Select.Option
                           key={c.isoCode}
                           value={`+${c.phonecode}`}
-                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                        >{`+${c.phonecode}`}</Select.Option>
                       ))}
                     </Select>
                   </Form.Item>

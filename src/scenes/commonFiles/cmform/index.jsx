@@ -890,10 +890,10 @@ const CmForm = () => {
                         size="large"
                       >
                         {countries.map((c) => (
-                          <Select.Option
-                            key={c.isoCode}
-                            value={`+${c.phonecode}`}
-                          >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                                                  <Select.Option
+                          key={c.isoCode}
+                          value={`+${c.phonecode}`}
+                        >{`+${c.phonecode}`}</Select.Option>
                         ))}
                       </Select>
                     </Form.Item>

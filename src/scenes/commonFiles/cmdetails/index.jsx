@@ -557,7 +557,7 @@ const CmDetails = () => {
                         <Select.Option
                           key={c.isoCode}
                           value={`+${c.phonecode}`}
-                        >{`+${c.phonecode} (${c.name})`}</Select.Option>
+                        >{`+${c.phonecode}`}</Select.Option>
                       ))}
                     </Select>
                   </Form.Item>
@@ -650,6 +650,12 @@ const CmDetails = () => {
                     });
                     fetchBranch(option.children);
                   }}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => {
+                    const searchTerm = input.toLowerCase().trim();
+                    const optionText = option.children.toLowerCase();
+                    return optionText.includes(searchTerm);
+                  }}
                 >
                   {organizationNames.map((org) => (
                     <Select.Option
@@ -679,6 +685,12 @@ const CmDetails = () => {
                   disabled={!isEditing}
                   size="large"
                   style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
+                  optionFilterProp="children"
+                  filterOption={(input, option) => {
+                    const searchTerm = input.toLowerCase().trim();
+                    const optionText = option.children.toLowerCase();
+                    return optionText.includes(searchTerm);
+                  }}
                 >
                   {branchNames.map((item, idx) => (
                     <Select.Option key={idx} value={item.branch}>
