@@ -130,7 +130,7 @@ const Dashboard = () => {
         <Grid item xs={12} md={4}>
           <Box p={2} borderRadius={2} sx={{ bgcolor: "#ffffff" }}>
             <Typography   fontSize={15} fontWeight="bold" sx={{ color: "#141414" }}  >
-              Experience Quantity
+              EXPERIENCE QUANTITY
             </Typography>
             <Box height="300px">
               <ResponsiveContainer width="100%" height="100%">

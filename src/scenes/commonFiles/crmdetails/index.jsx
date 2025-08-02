@@ -48,8 +48,8 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
 const CrmDetails = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-    const isMobile = useMediaQuery("(max-width: 400px)");
-    const isTablet = useMediaQuery("(max-width: 700px)");
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const isTablet = useMediaQuery("(max-width: 700px)");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
@@ -473,14 +473,14 @@ const CrmDetails = () => {
         style={{ background: "#fff", borderRadius: 8, padding: isMobile ? 15 : 24, margin: 16 }}
       >
 
-          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
+        <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
           <Text
             className="custom-headding-16px"
-                          style={{
-                textAlign: isMobile ? "left" : "center",
-                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                paddingLeft: isMobile ? "0px" : "30px",
-              }}
+            style={{
+              textAlign: isMobile ? "left" : "center",
+              fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+              paddingLeft: isMobile ? "0px" : "30px",
+            }}
           >
             Relationship Manager
           </Text>
@@ -711,21 +711,21 @@ const CrmDetails = () => {
             </Col>
           </Row>
           {/* Organization/Manager Pairs */}
-          <Typography.Title 
-           className="custom-headding-16px"
-           style={{
- textAlign: isMobile ? "left" : "left",
- fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
- paddingLeft: isMobile ? "0px" : "0px",
-}}>
+          <Typography.Title
+            className="custom-headding-16px"
+            style={{
+              textAlign: isMobile ? "left" : "left",
+              fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
+              paddingLeft: isMobile ? "0px" : "0px",
+            }}>
             Customer Manager(s)
           </Typography.Title>
           <Col span={24}>
             <Collapse style={{ marginTop: 24 }}
-                    expandIconPosition="end"
-                    expandIcon={({ isActive }) =>
-                      isActive ? <UpOutlined /> : <DownOutlined />
-                    }>
+              expandIconPosition="end"
+              expandIcon={({ isActive }) =>
+                isActive ? <UpOutlined /> : <DownOutlined />
+              }>
               {Object.entries(orgGroups).map(([orgId, items]) => (
                 <Collapse.Panel
                   header={
@@ -839,8 +839,8 @@ const CrmDetails = () => {
                           ) : (
                             <>
                               <MuiButton
-                              variant="outlined"
-                              startIcon={<DeleteIcon />}
+                                variant="outlined"
+                                startIcon={<DeleteIcon />}
                                 color="error"
                                 onClick={() => {
                                   Modal.confirm({
@@ -970,12 +970,12 @@ const CrmDetails = () => {
                     >
                       Assign
                     </MuiButton>
-                    <MuiButton 
-                    variant="outlined"
-                    color="error"
-                     className="form-button" 
-                    //  danger 
-                     onClick={() => setAssingForm(false)}>
+                    <MuiButton
+                      variant="outlined"
+                      color="error"
+                      className="form-button"
+                      //  danger 
+                      onClick={() => setAssingForm(false)}>
                       Cancel
                     </MuiButton>
                   </Space>
