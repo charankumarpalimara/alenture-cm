@@ -884,7 +884,7 @@ const CmForm = () => {
                     >
                       <Select
                         showSearch
-                        style={{ width: 160 }}
+                        style={{ width: "40%" }}
                         placeholder="Phone Code"
                         optionFilterProp="children"
                         size="large"
@@ -908,7 +908,7 @@ const CmForm = () => {
                       ]}
                     >
                       <Input
-                        style={{ width: "calc(100% - 160px)" }}
+                        style={{ width: "60%" }}
                         placeholder="Phone Number"
                         size="large"
 

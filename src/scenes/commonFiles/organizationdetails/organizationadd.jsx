@@ -739,13 +739,13 @@ const Organizationadd = () => {
                     noStyle
                     rules={[{ required: true, message: "Code is required" }]}
                   >
-                    <Select
-                      showSearch
-                      style={{ width: 160 }}
-                      placeholder="Code"
-                      optionFilterProp="children"
-                      size="large"
-                    >
+                                      <Select
+                    showSearch
+                    style={{ width: "40%" }}
+                    placeholder="Code"
+                    optionFilterProp="children"
+                    size="large"
+                  >
                       {countries.map((c) => (
                         <Select.Option
                           key={c.isoCode}
@@ -764,11 +764,11 @@ const Organizationadd = () => {
                       { min: 10, message: "At least 10 digits" },
                     ]}
                   >
-                    <Input
-                      style={{ width: "calc(100% - 160px)" }}
-                      placeholder="Phone Number"
-                      size="large"
-                    />
+                                      <Input
+                    style={{ width: "60%" }}
+                    placeholder="Phone Number"
+                    size="large"
+                  />
                   </Form.Item>
                 </Input.Group>
               </Form.Item>
@@ -994,7 +994,7 @@ const Organizationadd = () => {
                   >
                     <Select
                       showSearch
-                      style={{ width: 160 }}
+                      style={{ width: "40%" }}
                       placeholder="Code"
                       optionFilterProp="children"
                       size="large"
@@ -1028,7 +1028,7 @@ const Organizationadd = () => {
                               placeholder="Phone Number"
                               value={cm.PhoneNo}
                               size="large"
-                              style={{ width: "calc(100% - 160px)" }}
+                              style={{ width: "60%" }}
                             />
                           </Form.Item>
                         </Input.Group>

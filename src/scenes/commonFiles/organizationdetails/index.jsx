@@ -16,7 +16,7 @@ import {
   // Typography
 } from "antd";
 // import { Country, State, City } from "country-state-city";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { UpOutlined, DownOutlined, UserOutlined, PhoneOutlined, MailOutlined, IdcardOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -41,6 +41,17 @@ const { Text, Title } = Typography;
 
 // Component 2: CM Details Component
 const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit, onCmCancel, onCmSave, onCmDelete, onCmInputChange }) => {
+  const [interestList, setInterestList] = useState([]);
+  const [interestSearch, setInterestSearch] = useState("");
+  const form = useRef();
+  useEffect(() => {
+    const fetchInterest = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
+      const data = await res.json();
+      setInterestList(data.data || data.interests || []);
+    };
+    fetchInterest();
+  }, []);
   if (!selectedCm) {
     return (
       <div style={{
@@ -59,6 +70,10 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
   }
 
   const editData = isEditingCm ? cmEdits : selectedCm;
+  // Parse interests as array for Select
+  const interestsValue = isEditingCm
+    ? (Array.isArray(editData.interests || editData.extraind5) ? (editData.interests || editData.extraind5) : (typeof (editData.interests || editData.extraind5) === "string" ? (editData.interests || editData.extraind5).split(",").map(i => i.trim()).filter(Boolean) : []))
+    : (typeof (editData.interests || editData.extraind5) === "string" ? (editData.interests || editData.extraind5).split(",").map(i => i.trim()).filter(Boolean) : []);
 
   return (
     <div style={{
@@ -171,14 +186,41 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
         </Col>
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Interests</Typography.Text>
-          <Input
-            value={editData.extraind5}
-            onChange={(e) => onCmInputChange("interests", e.target.value)}
-            placeholder="Interests"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
+          {isEditingCm ? (
+            <Select
+              mode="tags"
+              allowClear
+              showSearch
+              placeholder="Select Interests"
+              className="interests-select"
+              size="large"
+              style={{ borderRadius: 8, background: "#fff", marginBottom: 12, width: "100%" }}
+              optionFilterProp="children"
+              value={interestsValue}
+              onChange={vals => onCmInputChange("interests", vals)}
+              onSearch={setInterestSearch}
+              filterOption={false}
+              dropdownRender={menu => {
+                return menu;
+              }}
+            >
+              {(() => {
+                const selected = interestsValue || [];
+                return interestList
+                  .filter(interest => !selected.includes(interest))
+                  .map((interest, idx) => (
+                    <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                  ));
+              })()}
+            </Select>
+          ) : (
+            <Input
+              value={Array.isArray(interestsValue) ? interestsValue.join(", ") : (interestsValue || "")}
+              disabled
+              size="large"
+              style={{ marginBottom: 12 }}
+            />
+          )}
         </Col>
         {/* <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">CRM</Typography.Text>
@@ -191,7 +233,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col> */}
-        <Col xs={24} md={8}>
+        <Col xs={24} md={8} style={{ display: "none"}}>
           <Typography.Text className="custom-headding-12px">Username</Typography.Text>
           <Input
             value={editData.username}
@@ -202,7 +244,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col>
-        <Col xs={24} md={8}>
+        <Col xs={24} md={8} style={{ display: "none"}}>
           <Typography.Text className="custom-headding-12px">Password</Typography.Text>
           <Input.Password
             value={editData.passwords}
@@ -213,6 +255,8 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col>
+
+         
       </Row>
 
       {/* CM Action Buttons */}
@@ -447,6 +491,10 @@ const OrganizationDetails = () => {
     setIsLoading(true);
     try {
       const payload = { ...cmEdits };
+      payload.extraind5 = Array.isArray(payload.interests)
+  ? payload.interests.join(",")
+  : (payload.interests || "");
+delete payload.interests;
       await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
         payload,

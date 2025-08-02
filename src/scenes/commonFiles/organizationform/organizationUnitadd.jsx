@@ -1288,13 +1288,13 @@ const OrganizationUnitadd = () => {
                         noStyle
                         rules={[{ required: true, message: "Code is required" }]}
                       >
-                        <Select
-                          showSearch
-                          style={{ width: 160 }}
-                          placeholder="Code"
-                          optionFilterProp="children"
-                          size="large"
-                        >
+                                              <Select
+                        showSearch
+                        style={{ width: "40%" }}
+                        placeholder="Code"
+                        optionFilterProp="children"
+                        size="large"
+                      >
                           {countries.map((c) => (
                             <Select.Option
                               key={c.isoCode}
@@ -1314,7 +1314,7 @@ const OrganizationUnitadd = () => {
                         ]}
                       >
                         <Input
-                          style={{ width: "calc(100% - 160px)" }}
+                          style={{ width: "60%" }}
                           placeholder="Phone Number"
                           size="large"
                         />
@@ -1561,7 +1561,7 @@ const OrganizationUnitadd = () => {
                                   >
                                     <Select
                                       showSearch
-                                      style={{ width: 160 }}
+                                      style={{ width: "40%" }}
                                       placeholder="Code"
                                       optionFilterProp="children"
                                       size="large"
@@ -1594,7 +1594,7 @@ const OrganizationUnitadd = () => {
                                       placeholder="Phone Number"
                                       value={cm.PhoneNo}
                                       size="large"
-                                      style={{ width: "calc(100% - 160px)" }}
+                                      style={{ width: "60%" }}
                                     />
                                   </Form.Item>
                                 </Input.Group>

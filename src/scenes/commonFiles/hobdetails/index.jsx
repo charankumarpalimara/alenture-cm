@@ -406,7 +406,7 @@ const HobDetails = () => {
                   >
                     <Select
                       showSearch
-                      style={{ width: 160 }}
+                      style={{ width: "40%" }}
                       placeholder="Code"
                       optionFilterProp="children"
                       disabled={!isEditing}
@@ -426,7 +426,7 @@ const HobDetails = () => {
                       { min: 10, message: 'At least 10 digits' },
                     ]}
                   >
-                    <Input style={{ width: 'calc(100% - 160px)' }} placeholder="Phone Number" disabled={!isEditing} size="large" />
+                    <Input  style={{ width: "60%" }} placeholder="Phone Number" disabled={!isEditing} size="large" />
                   </Form.Item>
                 </Input.Group>
               </Form.Item>

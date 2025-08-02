@@ -45,8 +45,8 @@ const CmDetails = () => {
   const theme = useTheme();
   const { createdCmId } = useParams();
   const colors = tokens(theme.palette.mode);
-    const isMobile = useMediaQuery("(max-width: 400px)");
-    const isTablet = useMediaQuery("(max-width: 700px)");
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const isTablet = useMediaQuery("(max-width: 700px)");
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +63,17 @@ const CmDetails = () => {
   const [branchNames, setBranchNames] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
   const [functionList, setFunctionList] = useState([]);
+  const [interestList, setInterestList] = useState([]);
+  const [interestSearch, setInterestSearch] = useState("");
+  // Fetch interests list for editing
+  useEffect(() => {
+    const fetchInterest = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
+      const data = await res.json();
+      setInterestList(data.data || data.interests || []);
+    };
+    fetchInterest();
+  }, []);
 
   // Defensive: ticket may be undefined after refresh, so fallback to param
   const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
@@ -109,7 +120,7 @@ const CmDetails = () => {
     organizationid: data.organizationid || "",
     organizationname: data.organizationname || "",
     function: data.extraind4 || "",
-    interests: data.extraind5 || "",
+    interests: data.extraind5 ? (Array.isArray(data.extraind5) ? data.extraind5 : (typeof data.extraind5 === "string" ? data.extraind5.split(",").map(i => i.trim()).filter(Boolean) : [])) : [],
     // customerrelationshipmanagername: data.customerrelationshipmanagername || "",
     branch: data.branch || "",
     imageUrl: data.imageUrl || "",
@@ -183,7 +194,7 @@ const CmDetails = () => {
     fetchFunctions();
   }, []);
 
-  
+
 
 
   const handleFormSubmit = async (values) => {
@@ -214,6 +225,7 @@ const CmDetails = () => {
     const createrid = getCreaterId();
     formData.append("createrrole", createrrole);
     formData.append("createrid", createrid);
+formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
 
     // Add profile image if present
     if (profileImage) {
@@ -230,7 +242,7 @@ const CmDetails = () => {
     }
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHob`,
+        `http://127.0.0.1:8080/v1/updateCmProfileByAdminHob`,
         {
           method: "POST",
           body: formData,
@@ -374,18 +386,18 @@ const CmDetails = () => {
         style={{
           background: "#fff",
           borderRadius: 8,
-       padding: isMobile ? 15 : 24,
+          padding: isMobile ? 15 : 24,
           margin: 16,
           boxShadow: "2px 2px 8px rgba(0,0,0,0.08)",
         }}
       >
-          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
+        <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", alignItems: "center", marginBottom: 16 }}>
           <Text
             className="custom-headding-16px"
             style={{
-                textAlign: isMobile ? "left" : "center",
-                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                paddingLeft: isMobile ? "0px" : "30px",
+              textAlign: isMobile ? "left" : "center",
+              fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+              paddingLeft: isMobile ? "0px" : "30px",
             }}
 
           >
@@ -487,6 +499,8 @@ const CmDetails = () => {
           {/* Main Form Fields */}
           <Row gutter={24}>
             <Col xs={24} md={8}>
+              {/* Interests Field */}
+
               <Form.Item
                 label={<Text className="custom-headding-12px">ID</Text>}
                 name="id"
@@ -547,7 +561,7 @@ const CmDetails = () => {
                   >
                     <Select
                       showSearch
-                      style={{ width: 160 }}
+                      style={{ width: "40%" }}
                       placeholder="Code"
                       optionFilterProp="children"
                       disabled={!isEditing}
@@ -571,7 +585,7 @@ const CmDetails = () => {
                     ]}
                   >
                     <Input
-                      style={{ width: "calc(100% - 160px)" }}
+                      style={{ width: "60%" }}
                       placeholder="Phone Number"
                       disabled={!isEditing}
                       size="large"
@@ -719,7 +733,7 @@ const CmDetails = () => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col xs={24} md={8} style={{ display: getCreaterRole() === "crm" ? "none": "block"}}>
+            <Col xs={24} md={8} style={{ display: getCreaterRole() === "crm" ? "none" : "block" }}>
               <Form.Item
                 label={<Text className="custom-headding-12px">Relationship Manager</Text>}
                 name="crmname"
@@ -754,6 +768,45 @@ const CmDetails = () => {
                 style={{ display: "none" }}
               >
                 <Input disabled />
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Interests</Text>}
+                name="interests"
+                className="custom-placeholder-12px"
+                rules={[{ required: true, type: 'array', message: "Interests are required" }]}
+              >
+                <Select
+                  mode="tags"
+                  allowClear
+                  showSearch
+                  placeholder="Select Interests"
+                  className="interests-select"
+                  size="large"
+                  style={{ borderRadius: 8, background: "#fff" }}
+                  optionFilterProp="children"
+                  onSearch={setInterestSearch}
+                  filterOption={false}
+                  disabled={!isEditing}
+                  dropdownRender={menu => {
+                    const search = interestSearch.trim();
+                    const lowerList = interestList.map(i => i.toLowerCase());
+                    const alreadySelected = (form.getFieldValue("interests") || []).map(i => i.toLowerCase());
+                    return menu;
+                  }}
+                >
+                  {/* Show all interests except those already selected */}
+                  {(() => {
+                    const selected = form.getFieldValue("interests") || [];
+                    return interestList
+                      .filter(interest => !selected.includes(interest))
+                      .map((interest, idx) => (
+                        <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                      ));
+                  })()}
+                </Select>
               </Form.Item>
             </Col>
           </Row>
@@ -817,8 +870,8 @@ const CmDetails = () => {
               <Col>
                 <MuiButton
                   variant="contained"
-                 className="form-button"
-                 startIcon={<EditIcon />}
+                  className="form-button"
+                  startIcon={<EditIcon />}
                   style={{
                     background: colors.blueAccent[1000],
                     color: "#fff",
