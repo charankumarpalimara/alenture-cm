@@ -538,7 +538,23 @@ const OrganizationDetails = () => {
         <Box display="flex" justifyContent="flex-start" mt="10px" gap="10px">
           <Button
             type="dashed"
-            onClick={() => Navigate("/organizationadd", { state: { ticket } })}
+            onClick={() => {
+              // Get organization name from branches data
+              const parentBranch = branchesData.find(branch => branch.branchtype === "Parent");
+              const organizationName = parentBranch?.organizationname || "Unknown Organization";
+              
+              console.log("Navigating to organizationadd with:", {
+                organizationid: ticket.id,
+                organizationname: organizationName
+              });
+              
+              Navigate("/organizationadd", { 
+                state: { 
+                  organizationid: ticket.id,
+                  organizationname: organizationName
+                } 
+              });
+            }}
             style={{ padding: "8px 16px", borderRadius: 8, fontWeight: 600 }}
           >
             + Add Branch

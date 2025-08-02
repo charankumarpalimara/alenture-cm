@@ -2270,13 +2270,16 @@ const OrganizationUnitadd = () => {
                           </Modal>
                         )}
                       </Row>
-                      {cmInstances.length > 1 && (
-                        <Row gutter={24} style={{ marginBottom: cmInstances.length > 1 ? "10px" : "0px" }}>
+                      {idx > 0 && (
+                        <Row gutter={24} style={{ marginBottom: "10px" }}>
                           <Col xs={24} md={8}>
                             <MuiButton
                               variant="outlined"
                               color="error"
-                              onClick={() => setCmInstances(cmInstances.filter((_, i) => i !== idx))}
+                              onClick={() => {
+                                const updatedInstances = cmInstances.filter((_, i) => i !== idx);
+                                setCmInstances(updatedInstances);
+                              }}
                               sx={{ width: "100%" }}
                             >
                               Remove
@@ -2334,7 +2337,14 @@ const OrganizationUnitadd = () => {
 
 
       {showSuccess && (
-        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate("/organizationdetails", { state: { ticket: firstBranch.organizationid } })} />
+        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate("/organizationdetails", { 
+          state: { 
+            ticket: { 
+              id: firstBranch.organizationid,
+              organizationid: firstBranch.organizationid 
+            } 
+          } 
+        })} />
       )}
 
 

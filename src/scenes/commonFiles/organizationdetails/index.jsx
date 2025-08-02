@@ -43,8 +43,8 @@ const { Text, Title } = Typography;
 const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit, onCmCancel, onCmSave, onCmDelete, onCmInputChange }) => {
   if (!selectedCm) {
     return (
-      <div style={{ 
-        textAlign: 'center', 
+      <div style={{
+        textAlign: 'center',
         padding: '40px',
         backgroundColor: '#fafafa',
         borderRadius: 8,
@@ -61,13 +61,22 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
   const editData = isEditingCm ? cmEdits : selectedCm;
 
   return (
-    <div style={{ 
+    <div style={{
       backgroundColor: '#ffffff',
       borderRadius: 8,
       border: '1px solid #f0f0f0',
       padding: 16
     }}>
       <Row gutter={16}>
+        <Col xs={24} md={8}>
+          <Typography.Text className="custom-headding-12px">CM ID</Typography.Text>
+          <Input
+            value={editData.cmid}
+            disabled
+            size="large"
+            style={{ marginBottom: 12 }}
+          />
+        </Col>
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">First Name</Typography.Text>
           <Input
@@ -90,15 +99,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">CM ID</Typography.Text>
-          <Input
-            value={editData.cmid}
-            disabled
-            size="large"
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
+
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Email</Typography.Text>
           <Input
@@ -132,7 +133,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col>
-        <Col xs={24} md={8}>
+        {/* <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Designation</Typography.Text>
           <Input
             value={editData.designation}
@@ -142,11 +143,11 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             disabled={!isEditingCm}
             style={{ marginBottom: 12 }}
           />
-        </Col>
+        </Col> */}
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Gender</Typography.Text>
           <Select
-            value={editData.gender}
+            value={editData.extraind2}
             onChange={(value) => onCmInputChange("gender", value)}
             size="large"
             disabled={!isEditingCm}
@@ -160,7 +161,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Function</Typography.Text>
           <Input
-            value={editData.functionValue}
+            value={editData.extraind4}
             onChange={(e) => onCmInputChange("functionValue", e.target.value)}
             placeholder="Function"
             size="large"
@@ -171,7 +172,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Interests</Typography.Text>
           <Input
-            value={editData.interests}
+            value={editData.extraind5}
             onChange={(e) => onCmInputChange("interests", e.target.value)}
             placeholder="Interests"
             size="large"
@@ -179,7 +180,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col>
-        <Col xs={24} md={8}>
+        {/* <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">CRM</Typography.Text>
           <Input
             value={editData.crmname}
@@ -189,7 +190,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             disabled={!isEditingCm}
             style={{ marginBottom: 12 }}
           />
-        </Col>
+        </Col> */}
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Username</Typography.Text>
           <Input
@@ -215,7 +216,13 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
       </Row>
 
       {/* CM Action Buttons */}
-      <div style={{ marginTop: 16 }}>
+      <div style={{
+        marginTop: 16,
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "flex-end",
+        gap: "8px"
+      }}>
         {isEditingCm ? (
           <>
             <MuiButton
@@ -251,11 +258,12 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
                 background: colors.blueAccent[1000],
                 color: "#fff",
                 marginRight: 8,
+
               }}
             >
               Edit
             </MuiButton>
-            {getCreaterRole() === "admin" && (
+            {/* {getCreaterRole() === "admin" && (
               <MuiButton
                 variant="outlined"
                 startIcon={<DeleteIcon />}
@@ -265,7 +273,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
               >
                 Delete
               </MuiButton>
-            )}
+            )} */}
           </>
         )}
       </div>
@@ -297,7 +305,8 @@ const OrganizationDetails = () => {
   const ticket = location.state?.ticket || {};
 
   // Handle different data structures passed from different pages
-  const oragnizationid = ticket.id || ticket.organizationid || ticket;
+  // Support both object format {id: "ORG_123", organizationid: "ORG_123"} and direct string format
+  const oragnizationid = ticket.id || ticket.organizationid || (typeof ticket === 'string' ? ticket : null);
 
   console.log('Location state:', location.state);
   console.log('Ticket object:', ticket);
@@ -439,17 +448,17 @@ const OrganizationDetails = () => {
     try {
       const payload = { ...cmEdits };
       await axios.post(
-        `${process.env.REACT_APP_API_URL}/v1/updateCm`,
+        `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
         payload,
         { headers: { "Content-Type": "application/json" } }
       );
-      
+
       // Update local state
-      const updatedCmData = cmData.map(cm => 
+      const updatedCmData = cmData.map(cm =>
         cm.cmid === cmEdits.cmid ? { ...cm, ...cmEdits } : cm
       );
       setCmData(updatedCmData);
-      
+
       // Update selected CM
       setSelectedCmByUnit(prev => {
         const newState = {};
@@ -462,7 +471,7 @@ const OrganizationDetails = () => {
         });
         return newState;
       });
-      
+
       setEditingCmIndex(null);
       setCmEdits({});
       message.success("Customer Manager updated successfully!");
@@ -487,19 +496,21 @@ const OrganizationDetails = () => {
       cancelText: "Cancel",
       onOk: async () => {
         try {
-          await axios.delete(
-            `${process.env.REACT_APP_API_URL}/v1/deleteCm/${selectedCm.cmid}`
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}/v1/deleteCmByAdminAndHob`,
+            { cmid: selectedCm.cmid },
+            { headers: { "Content-Type": "application/json" } }
           );
-          
+
           // Remove from local state
           const updatedCmData = cmData.filter(cm => cm.cmid !== selectedCm.cmid);
           setCmData(updatedCmData);
-          
+
           // Clear selection
           setSelectedCmByUnit({});
           setEditingCmIndex(null);
           setCmEdits({});
-          
+
           message.success("Customer Manager deleted successfully!");
         } catch (error) {
           message.error("Failed to delete Customer Manager.");
@@ -895,21 +906,133 @@ const OrganizationDetails = () => {
                   </Col>
                 </Row>
 
+                <div style={{ marginTop: 16, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", gap: "8px" }}>
+                  {isEditing ? (
+                    <>
+                      <MuiButton
+                        variant="contained"
+                        onClick={() => handleBranchSave(idx)}
+                        loading={isLoading}
+                        className="form-button"
+                        sx={{
+                          background: colors.blueAccent[1000],
+                          color: "#fff",
+                          minWidth: 80,
+                          // padding: "5px 15px",
+                          marginRight: "8px",
+                        }}
+                      >
+                        Save
+                      </MuiButton>
+                      <MuiButton
+                        variant="outlined"
+                        // startIcon={<CloseOutlined />}
+                        color="error"
+                        onClick={handleBranchCancel}
+                        // danger
+                        className="form-button"
+                      >
+                        Cancel
+                      </MuiButton>
+                    </>
+                  ) : (
+                    <>
+
+                      {getCreaterRole() === "admin" && (
+                        <MuiButton
+                          variant="outlined"
+                          // size="small"
+                          startIcon={<DeleteIcon />}
+                          color="error"
+                          className="form-button"
+                          // sx={{
+                          //   minWidth: 120,
+                          //   border: "1px solid #bb2124", // Set your desired outline color
+                          //   backgroundColor: "transparent", // Ensure no background
+                          //   color: "#bb2124", // Match outline color for text
+                          //   boxShadow: "none", // Remove any shadow
+                          // }}
+
+                          onClick={() => {
+                            Modal.confirm({
+                              title: "Are you sure you want to delete this Organization?",
+                              content: "This action cannot be undone.",
+                              okText: "Yes, Delete",
+                              okType: "danger",
+                              cancelText: "Cancel",
+                              onOk: async () => {
+                                try {
+                                  const branch = sortedBranches[idx];
+                                  await fetch(
+                                    `${process.env.REACT_APP_API_URL}/v1/OrganizationDelete/${branch.id}`,
+                                    {
+                                      method: "DELETE",
+                                      headers: { "Content-Type": "application/json" },
+                                    }
+                                  );
+                                  message.success("Organization deleted successfully!");
+                                  setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
+                                  // Navigate("/organization");
+                                } catch (error) {
+                                  message.error("Failed to delete Organization.");
+                                }
+                              },
+                            });
+                          }}
+                        >
+                          Delete
+                        </MuiButton>
+
+
+                      )}
+                      <MuiButton
+                        variant="contained"
+                        onClick={() => handleBranchEdit(idx)}
+                        className="form-button"
+                        startIcon={<EditIcon />}
+                        style={{
+                          background: colors.blueAccent[1000],
+                          color: "#fff",
+                          // minWidth: 120,
+                          marginRight: 8,
+                        }}
+                      >
+                        Edit
+                      </MuiButton>
+
+                      {/* Customer Managers Link */}
+
+                    </>
+                  )}
+
+
+                </div>
+
+                <Text className="custom-headding-16px"
+                  style={{
+                    textAlign: isMobile ? "left" : "center",
+                    fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
+                    paddingLeft: isMobile ? "0px" : "0px",
+                  }}
+                >
+                  Customer Manager(s) :
+                </Text>
+
                 {/* Customer Managers Section - Only show for non-Parent units */}
                 {editData.branchtype !== "Parent" && (
+
                   <div style={{ marginTop: 24 }}>
-                    {/* <Text className="custom-headding-16px" style={{ fontSize: 16, fontWeight: 'bold', color: colors.grey[800], marginBottom: 16, display: 'block' }}>
-                      Customer Managers ({unitCmData.length})
-                    </Text> */}
-                    
+
+
                     {unitCmData.length === 0 ? (
-                      <div style={{ 
-                        textAlign: 'center', 
-                        padding: '40px',
-                        backgroundColor: '#fafafa',
-                        borderRadius: 8,
-                        border: '1px solid #f0f0f0'
-                      }}>
+                      <div
+                        style={{
+                          textAlign: 'center',
+                          padding: '40px',
+                          backgroundColor: '#fafafa',
+                          borderRadius: 8,
+                          border: '1px solid #f0f0f0'
+                        }}>
                         <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
                         <Text style={{ fontSize: 16, color: colors.grey[600], display: 'block' }}>
                           No Customer Managers found for this unit
@@ -933,74 +1056,76 @@ const OrganizationDetails = () => {
                             isActive ? <UpOutlined /> : <DownOutlined />
                           }
                         >
-                        {unitCmData.map((cm, cmIndex) => (
-                          <React.Fragment key={cm.cmid}>
-                            <Collapse.Panel
-                              header={
-                                <span>
-                                  <Typography.Text strong style={{ fontSize: "16px" }}>
-                                    {cm.firstname} {cm.lastname}
-                                  </Typography.Text>
-                                  {/* <span style={{ fontSize: "14px", color: colors.grey[600], marginLeft: 8 }}>
+                          {unitCmData.map((cm, cmIndex) => (
+                            <React.Fragment key={cm.cmid}>
+                              <Collapse.Panel
+                                header={
+                                  <span>
+                                    <Typography.Text strong >
+                                      {cm.firstname} {cm.lastname}
+                                    </Typography.Text>
+                                    {/* <span style={{ fontSize: "14px", color: colors.grey[600], marginLeft: 8 }}>
                                     (CM ID: {cm.cmid})
                                   </span> */}
-                                </span>
-                              }
-                              key={cm.cmid}
-                              style={{
-                                border: "1px solid #f0f0f0",
-                                borderRadius: "8px",
-                                marginBottom: "8px",
-                                backgroundColor: "#f0f0f0",
-                                opacity:0.7
-                              }}
-                            >
-                              <CmDetailsComponent 
-                                selectedCm={cm}
-                                colors={colors}
-                                isEditingCm={editingCmIndex === cm.cmid}
-                                cmEdits={cmEdits}
-                                onCmEdit={() => {
-                                  setEditingCmIndex(cm.cmid);
-                                  setCmEdits({ ...cm });
+                                  </span>
+                                }
+                                key={cm.cmid}
+                                style={{
+                                  border: "1px solid #f0f0f0",
+                                  borderRadius: "8px",
+                                  marginBottom: "8px",
+                                  backgroundColor: "#f0f0f0",
+                                  // opacity:0.7
                                 }}
-                                onCmCancel={handleCmCancel}
-                                onCmSave={handleCmSave}
-                                onCmDelete={() => {
-                                  const selectedCm = cm;
-                                  Modal.confirm({
-                                    title: "Are you sure you want to delete this Customer Manager?",
-                                    content: "This action cannot be undone.",
-                                    okText: "Yes, Delete",
-                                    okType: "danger",
-                                    cancelText: "Cancel",
-                                    onOk: async () => {
-                                      try {
-                                        await axios.delete(
-                                          `${process.env.REACT_APP_API_URL}/v1/deleteCm/${selectedCm.cmid}`
-                                        );
-                                        
-                                        // Remove from local state
-                                        const updatedCmData = cmData.filter(c => c.cmid !== selectedCm.cmid);
-                                        setCmData(updatedCmData);
-                                        
-                                        // Clear selection
-                                        setSelectedCmByUnit({});
-                                        setEditingCmIndex(null);
-                                        setCmEdits({});
-                                        
-                                        message.success("Customer Manager deleted successfully!");
-                                      } catch (error) {
-                                        message.error("Failed to delete Customer Manager.");
-                                        console.error(error);
-                                      }
-                                    },
-                                  });
-                                }}
-                                onCmInputChange={handleCmInputChange}
-                              />
-                            </Collapse.Panel>
-                            {/* {cmIndex < unitCmData.length - 1 && (
+                              >
+                                <CmDetailsComponent
+                                  selectedCm={cm}
+                                  colors={colors}
+                                  isEditingCm={editingCmIndex === cm.cmid}
+                                  cmEdits={cmEdits}
+                                  onCmEdit={() => {
+                                    setEditingCmIndex(cm.cmid);
+                                    setCmEdits({ ...cm });
+                                  }}
+                                  onCmCancel={handleCmCancel}
+                                  onCmSave={handleCmSave}
+                                  // onCmDelete={() => {
+                                  //   const selectedCm = cm;
+                                  //   Modal.confirm({
+                                  //     title: "Are you sure you want to delete this Customer Manager?",
+                                  //     content: "This action cannot be undone.",
+                                  //     okText: "Yes, Delete",
+                                  //     okType: "danger",
+                                  //     cancelText: "Cancel",
+                                  //     onOk: async () => {
+                                  //       try {
+                                  //         await axios.post(
+                                  //           `${process.env.REACT_APP_API_URL}/v1/deleteCmByAdminAndHob`,
+                                  //           { cmid: selectedCm.cmid },
+                                  //           { headers: { "Content-Type": "application/json" } }
+                                  //         );
+
+                                  //         // Remove from local state
+                                  //         const updatedCmData = cmData.filter(c => c.cmid !== selectedCm.cmid);
+                                  //         setCmData(updatedCmData);
+
+                                  //         // Clear selection
+                                  //         setSelectedCmByUnit({});
+                                  //         setEditingCmIndex(null);
+                                  //         setCmEdits({});
+
+                                  //         message.success("Customer Manager deleted successfully!");
+                                  //       } catch (error) {
+                                  //         message.error("Failed to delete Customer Manager.");
+                                  //         console.error(error);
+                                  //       }
+                                  //     },
+                                  //   });
+                                  // }}
+                                  onCmInputChange={handleCmInputChange}
+                                />
+                              </Collapse.Panel>
+                              {/* {cmIndex < unitCmData.length - 1 && (
                               <hr style={{
                                 border: 'none',
                                 height: '1px',
@@ -1009,15 +1134,15 @@ const OrganizationDetails = () => {
                                 opacity: 0.6
                               }} />
                             )} */}
-                          </React.Fragment>
-                        ))}
+                            </React.Fragment>
+                          ))}
                         </Collapse>
                       </Box>
                     )}
                   </div>
                 )}
 
-        <div style={{ marginTop: 16 }}>
+                {/* <div style={{ marginTop: 16 }}>
           {isEditing ? (
             <>
               <MuiButton
@@ -1109,39 +1234,47 @@ const OrganizationDetails = () => {
 
 
               )}
-              {/* Customer Managers Link */}
 
             </>
           )}
-        </div>
-      </Collapse.Panel>
-      );
+        </div> */}
+              </Collapse.Panel>
+            );
           })}
-    </Collapse >
-      {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
-        <Button
-          type="primary"
-          onClick={() => {
-            navigate("/organizationadd", {
-              state: {
+        </Collapse >
+        {(getCreaterRole() === "admin" || getCreaterRole() === "hob") && (
+          <Button
+            type="primary"
+            onClick={() => {
+              // Get organization name from branches data
+              const parentBranch = sortedBranches.find(branch => branch.branchtype === "Parent");
+              const organizationName = parentBranch?.organizationname || "Unknown Organization";
+
+              console.log("Navigating to organizationadd with:", {
                 organizationid: ticket.id,
-                organizationname: ticket.name,
-              },
-            });
-          }}
-          className="form-button"
-          style={{
-            marginTop: 16,
-            background: colors.blueAccent[1000],
-            color: "#fff",
-            minWidth: 120,
-            marginRight: 8,
-          }}
-        >
-          Add New Unit
-        </Button>
-      )
-}
+                organizationname: organizationName
+              });
+
+              navigate("/organizationadd", {
+                state: {
+                  organizationid: ticket.id,
+                  organizationname: organizationName,
+                },
+              });
+            }}
+            className="form-button"
+            style={{
+              marginTop: 16,
+              background: colors.blueAccent[1000],
+              color: "#fff",
+              minWidth: 120,
+              marginRight: 8,
+            }}
+          >
+            Add New Unit
+          </Button>
+        )
+        }
       </Box >
     </>
   );

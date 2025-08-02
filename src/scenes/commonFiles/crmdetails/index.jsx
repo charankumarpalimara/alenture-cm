@@ -26,7 +26,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { tokens } from "../../../theme";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { getCreaterRole, getCreaterId } from "../../../config";
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, UpOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
+// import {  } from "@ant-design/icons";
 
 const { Text } = Typography;
 
@@ -710,17 +711,28 @@ const CrmDetails = () => {
             </Col>
           </Row>
           {/* Organization/Manager Pairs */}
-          <Typography.Title level={5} className="custom-headding-12px">
-            Customer Managers
+          <Typography.Title 
+           className="custom-headding-16px"
+           style={{
+ textAlign: isMobile ? "left" : "left",
+ fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
+ paddingLeft: isMobile ? "0px" : "0px",
+}}>
+            Customer Manager(s)
           </Typography.Title>
           <Col span={24}>
-            <Collapse style={{ marginTop: 24 }}>
+            <Collapse style={{ marginTop: 24 }}
+                    expandIconPosition="end"
+                    expandIcon={({ isActive }) =>
+                      isActive ? <UpOutlined /> : <DownOutlined />
+                    }>
               {Object.entries(orgGroups).map(([orgId, items]) => (
                 <Collapse.Panel
                   header={
-                    <span>
-                      <b>{items[0].organizationname}</b> ({orgId})
-                    </span>
+                    // <span>
+                    //   <b>{items[0].organizationname}</b> ({orgId})
+                    // </span>
+                    <span> <Typography.Text strong>{items[0].organizationname}</Typography.Text>({orgId}) </span>
                   }
                   key={orgId}
                 >
@@ -826,17 +838,27 @@ const CrmDetails = () => {
                             </>
                           ) : (
                             <>
-                              <Button
-                                size="small"
-                                danger
+                              <MuiButton
+                              variant="outlined"
+                              startIcon={<DeleteIcon />}
+                                color="error"
                                 onClick={() => {
-                                  RelationDelete(item.id);
-                                  setEditingRelationId(null);
-                                  setRelationEdits({});
+                                  Modal.confirm({
+                                    title: "Are you sure you want to delete this relation?",
+                                    content: "This action cannot be undone.",
+                                    okText: "Yes, Delete",
+                                    okType: "danger",
+                                    cancelText: "Cancel",
+                                    onOk: async () => {
+                                      await RelationDelete(item.id);
+                                      setEditingRelationId(null);
+                                      setRelationEdits({});
+                                    },
+                                  });
                                 }}
                               >
                                 Delete
-                              </Button>
+                              </MuiButton>
                             </>
                           )}
                         </Col>

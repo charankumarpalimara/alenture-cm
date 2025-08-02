@@ -165,6 +165,11 @@ const Organizationadd = () => {
 
   const countries = Country.getAllCountries();
   const { organizationid, organizationname } = location.state || {};
+  
+  // Debug logging for organization data
+  console.log("Location state:", location.state);
+  console.log("Organization ID from state:", organizationid);
+  console.log("Organization Name from state:", organizationname);
 
   // Multi-add Customer Manager state
   const [cmInstances, setCmInstances] = useState([
@@ -231,6 +236,12 @@ const Organizationadd = () => {
     setIsLoading(true);
     const createrrole = getCreaterRole();
     const createrid = getCreaterId();
+    
+    // Debug logging
+    console.log("Form values:", values);
+    console.log("Organization ID:", organizationid);
+    console.log("Organization Name:", organizationname);
+    
     try {
       const payload = {
         organizationid: organizationid || "",
@@ -251,6 +262,8 @@ const Organizationadd = () => {
         createrid,
         createrrole,
       };
+      
+      console.log("Organization payload:", payload);
       await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/organizationAdding`,
         payload,
@@ -262,7 +275,8 @@ const Organizationadd = () => {
       form.resetFields();
       setUnitAddForm(false);
       setCmform(false);
-      setShowSuccess(true);
+      setShowSuccess(false);
+      // Don't navigate here - let handleMultiCmSubmit handle navigation after CM submission
     } catch (error) {
       if (
         error.response &&
@@ -468,8 +482,16 @@ const Organizationadd = () => {
       //   setUnitAddForm(true); // Open the unit add form
       // }
       cmForm.resetFields();
-      setCmform(true); // <-- Fix here
+      setCmform(false); // <-- Fix here
       setShowSuccess(false); // Hide success, show add unit form
+      navigate("/organizationdetails", { 
+        state: { 
+          ticket: { 
+            id: organizationid,
+            organizationid: organizationid 
+          } 
+        } 
+    });
       // setShowSuccess(false); // Show success message
 
       // Navigate('/')
@@ -495,6 +517,7 @@ const Organizationadd = () => {
 
   const handleMultiCmSubmit = async (instances) => {
     setIsLoading(true);
+    console.log("Submitting CM instances:", instances);
     try {
       for (const cm of instances) {
         const formData = new FormData();
@@ -543,8 +566,18 @@ const Organizationadd = () => {
       message.success("All Customer Managers registered successfully!");
       setCmInstances([]);
       setCmform(false);
-      setShowSuccess(true);
+      setShowSuccess(false);
       setUnitAddForm(false);
+      
+      // Navigate to organization details page after successful submission
+      navigate("/organizationdetails", { 
+        state: { 
+          ticket: { 
+            id: organizationid,
+            organizationid: organizationid 
+          } 
+        } 
+      });
 
     } catch (error) {
       console.error("Error submitting CM forms:", error);
@@ -555,12 +588,17 @@ const Organizationadd = () => {
   };
 
 
-  const handleBack = () => {
-    // navigate("/organizationunitadd", { state: { orgid: FinalOrgid, organizationname: values.organization } });
-    setShowSuccess(true);
-    setCmform(false);
-    setUnitAddForm(false)
-  }
+      const handleBack = () => {
+      // navigate("/organizationunitadd", { state: { orgid: FinalOrgid, organizationname: values.organization } });
+      navigate("/organizationdetails", { 
+        state: { 
+          ticket: { 
+            id: organizationid,
+            organizationid: organizationid 
+          } 
+        } 
+      });
+    }
 
 
   const gender = ["Male", "Female"];
@@ -1252,13 +1290,16 @@ const Organizationadd = () => {
                       </div>
                     </Modal>
                   )}
-                  {cmInstances.length > 1 && (
-                    <Row gutter={24} style={{ marginBottom: cmInstances.length > 1 ? "10px" : "0px" }}>
+                  {idx > 0 && (
+                    <Row gutter={24} style={{ marginBottom: "10px" }}>
                       <Col xs={24} md={8}>
                         <MuiButton
                           variant="outlined"
                           color="error"
-                          onClick={() => setCmInstances(cmInstances.filter((_, i) => i !== idx))}
+                          onClick={() => {
+                            const updatedInstances = cmInstances.filter((_, i) => i !== idx);
+                            setCmInstances(updatedInstances);
+                          }}
                           sx={{ width: "100%" }}
                         >
                           Remove
@@ -1314,16 +1355,38 @@ const Organizationadd = () => {
                       <MuiButton
                         variant="contained"
                         onClick={async () => {
+                          // Check if organization data is available
+                          if (!organizationid || !organizationname) {
+                            message.error("Organization data is missing. Please go back and try again.");
+                            console.error("Missing organization data:", { organizationid, organizationname });
+                            return;
+                          }
+                          
                           setIsLoading(true);
                           try {
+                            console.log("Starting form submission...");
+                            
                             // Validate Organization Unit form
                             const orgUnitValues = await form.validateFields();
+                            console.log("Organization form validation passed:", orgUnitValues);
+                            
+                            // Submit organization unit
                             await handleFormSubmit(orgUnitValues);
-                            // Validate all Customer Manager forms (cmInstances)
-                            // (Assume cmInstances are already up to date via onValuesChange)
+                            console.log("Organization unit submitted successfully");
+                            
+                            // Submit Customer Manager forms
+                            console.log("Submitting CM forms:", cmInstances);
                             await handleMultiCmSubmit(cmInstances);
+                            console.log("All forms submitted successfully");
+                            
                           } catch (err) {
+                            console.error("Form submission error:", err);
                             // Validation errors are shown by AntD
+                            if (err.errorFields) {
+                              message.error("Please fill in all required fields");
+                            } else {
+                              message.error("Error submitting forms. Please try again.");
+                            }
                           } finally {
                             setIsLoading(false);
                           }
@@ -1366,9 +1429,16 @@ const Organizationadd = () => {
 
 
 
-      {showSuccess && (
-        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate("/organizationdetails", { state: { ticket: organizationid } })} />
-      )}
+      {/* {showSuccess && (
+        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate("/organizationdetails", { 
+          state: { 
+            ticket: { 
+              id: organizationid,
+              organizationid: organizationid 
+            } 
+          } 
+        })} />
+      )} */}
     </>
   );
 };
