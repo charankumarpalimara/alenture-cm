@@ -25,7 +25,7 @@ import { tokens } from "../../../theme";
 import { useTheme, useMediaQuery } from "@mui/material";
 
 import { CloseOutlined } from "@ant-design/icons";
-import { Country } from "country-state-city";
+import { Country, State, City } from "country-state-city";
 
 
 
@@ -89,9 +89,16 @@ const interestsValue = isEditingCm
       : (typeof editData.extraind5 === "string" && editData.extraind5.length > 0
           ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
           : []))
-  : (typeof (editData.interests || editData.extraind5) === "string"
-      ? (editData.interests || editData.extraind5).split(",").map(i => i.trim()).filter(Boolean)
-      : []);
+  : (Array.isArray(selectedCm.interests)
+      ? selectedCm.interests
+      : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
+          ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+          : []));
+
+// Debug logging for interests
+console.log('CM Details - selectedCm:', selectedCm);
+console.log('CM Details - editData:', editData);
+console.log('CM Details - interestsValue:', interestsValue);
 
   return (
     <div style={{
@@ -147,23 +154,34 @@ const interestsValue = isEditingCm
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>
           <Input.Group compact>
-            <Select
-              value={editData.phonecode}
-              onChange={val => onCmInputChange("phonecode", val)}
-              showSearch
-              style={{ width: "40%" }}
-              placeholder="Code"
-              optionFilterProp="children"
-              disabled={!isEditingCm}
-              size="large"
-            >
-              {countries.map((c) => (
-                <Select.Option
-                  key={c.isoCode}
-                  value={`+${c.phonecode}`}
-                >{`+${c.phonecode}`}</Select.Option>
-              ))}
-            </Select>
+            {isEditingCm ? (
+              <Select
+                value={editData.phonecode}
+                onChange={val => onCmInputChange("phonecode", val)}
+                showSearch
+                style={{ width: "40%" }}
+                placeholder="Code"
+                optionFilterProp="children"
+                size="large"
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                {countries.map((c) => (
+                  <Select.Option
+                    key={c.isoCode}
+                    value={`+${c.phonecode}`}
+                  >{`+${c.phonecode}`}</Select.Option>
+                ))}
+              </Select>
+            ) : (
+              <Input
+                value={editData.phonecode}
+                disabled
+                style={{ width: "40%" }}
+                size="large"
+              />
+            )}
             <Input
               value={editData.mobile}
               onChange={e => onCmInputChange("mobile", e.target.value)}
@@ -372,7 +390,100 @@ const OrganizationDetails = () => {
   const [cmEdits, setCmEdits] = useState({}); // Store CM edit data
   const navigate = useNavigate();
   const location = useLocation();
-  // const countries = Country.getAllCountries();
+  // For branch/unit form dropdowns
+  const [branchCountries] = useState(Country.getAllCountries());
+  const [branchStates, setBranchStates] = useState([]);
+  const [branchCities, setBranchCities] = useState([]);
+
+  // Update states when country changes in branch edit
+  useEffect(() => {
+    if (editingBranchIndex !== null && branchEdits.country) {
+      const countryObj = branchCountries.find(c => c.name === branchEdits.country);
+      if (countryObj) {
+        const states = State.getStatesOfCountry(countryObj.isoCode);
+        setBranchStates(states);
+        
+        // If we have an existing state value, make sure it's valid for the new country
+        if (branchEdits.state) {
+          const stateExists = states.find(s => s.name === branchEdits.state);
+          if (!stateExists) {
+            setBranchEdits(prev => ({ ...prev, state: '', district: '' }));
+          }
+        }
+      } else {
+        setBranchStates([]);
+      }
+    } else {
+      setBranchStates([]);
+    }
+  }, [editingBranchIndex, branchEdits.country, branchCountries]);
+
+  // Reset state and city when country changes
+  useEffect(() => {
+    if (editingBranchIndex !== null && branchEdits.country) {
+      // Only reset if the country actually changed
+      const currentCountry = sortedBranches[editingBranchIndex]?.country;
+      if (currentCountry !== branchEdits.country) {
+        setBranchEdits(prev => ({ ...prev, state: '', district: '' }));
+      }
+    }
+    // eslint-disable-next-line
+  }, [branchEdits.country]);
+
+  // Update cities when state changes in branch edit
+  useEffect(() => {
+    if (editingBranchIndex !== null && branchEdits.country && branchEdits.state) {
+      const countryObj = branchCountries.find(c => c.name === branchEdits.country);
+      const stateObj = branchStates.find(s => s.name === branchEdits.state);
+      if (countryObj && stateObj) {
+        const cities = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
+        setBranchCities(cities);
+        
+        // If we have an existing district value, make sure it's valid for the new state
+        if (branchEdits.district) {
+          const cityExists = cities.find(c => c.name === branchEdits.district);
+          if (!cityExists) {
+            setBranchEdits(prev => ({ ...prev, district: '' }));
+          }
+        }
+      } else {
+        setBranchCities([]);
+      }
+    } else {
+      setBranchCities([]);
+    }
+  }, [editingBranchIndex, branchEdits.country, branchEdits.state, branchCountries, branchStates]);
+
+  // Reset city when state changes
+  useEffect(() => {
+    if (editingBranchIndex !== null && branchEdits.state) {
+      // Only reset if the state actually changed
+      const currentState = sortedBranches[editingBranchIndex]?.state;
+      if (currentState !== branchEdits.state) {
+        setBranchEdits(prev => ({ ...prev, district: '' }));
+      }
+    }
+    // eslint-disable-next-line
+  }, [branchEdits.state]);
+
+  // Initialize state and city dropdowns when editing starts
+  useEffect(() => {
+    if (editingBranchIndex !== null && branchEdits.country) {
+      const countryObj = branchCountries.find(c => c.name === branchEdits.country);
+      if (countryObj) {
+        const states = State.getStatesOfCountry(countryObj.isoCode);
+        setBranchStates(states);
+        
+        if (branchEdits.state) {
+          const stateObj = states.find(s => s.name === branchEdits.state);
+          if (stateObj) {
+            const cities = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
+            setBranchCities(cities);
+          }
+        }
+      }
+    }
+  }, [editingBranchIndex, branchEdits.country, branchCountries]);
 
   // Get initial data from navigation (organization.jsx sends via state)
   const ticket = location.state?.ticket || {};
@@ -423,6 +534,7 @@ const OrganizationDetails = () => {
       console.log('Response status:', response.status);
       console.log('Response data:', response.data);
       if (response.data && response.data.data) {
+        console.log('Setting CM data:', response.data.data);
         setCmData(response.data.data);
         console.log('CM data set:', response.data.data);
         // message.success('Customer Manager data fetched successfully');
@@ -472,6 +584,22 @@ const OrganizationDetails = () => {
     fetchCmData();
   }, [oragnizationid]);
 
+  // Refresh CM data periodically to ensure consistency
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (oragnizationid && oragnizationid !== 'undefined' && oragnizationid !== 'null') {
+        fetchCmData();
+      }
+    }, 30000); // Refresh every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [oragnizationid]);
+
+  // Debug logging for cmData changes
+  useEffect(() => {
+    console.log('CM data updated:', cmData);
+  }, [cmData]);
+
   // Group CM data by branch/unit
   const groupCmByUnit = () => {
     const grouped = {};
@@ -505,7 +633,18 @@ const OrganizationDetails = () => {
     const selectedCm = selectedCmByUnit[Object.keys(selectedCmByUnit)[0]];
     if (selectedCm) {
       setEditingCmIndex(selectedCm.cmid);
-      setCmEdits({ ...selectedCm });
+      
+      // Parse interests properly for editing
+      const interestsArray = Array.isArray(selectedCm.interests)
+        ? selectedCm.interests
+        : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
+            ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+            : []);
+      
+      setCmEdits({ 
+        ...selectedCm, 
+        interests: interestsArray 
+      });
     }
   };
 
@@ -519,6 +658,10 @@ const OrganizationDetails = () => {
 const handleCmInputChange = (field, value) => {
   if (field === "interests") {
     setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
+  } else if (field === "gender") {
+    setCmEdits((prev) => ({ ...prev, extraind2: value }));
+  } else if (field === "extraind4") {
+    setCmEdits((prev) => ({ ...prev, extraind4: value }));
   } else {
     setCmEdits((prev) => ({ ...prev, [field]: value }));
   }
@@ -530,10 +673,21 @@ const handleCmSave = async () => {
   setIsLoading(true);
   try {
     const payload = { ...cmEdits };
-    payload.extraind5 = Array.isArray(cmEdits.interests)
-      ? cmEdits.interests.join(",")
-      : (cmEdits.interests || "");
+    
+    // Handle interests properly - ensure it's always a string for the API
+    if (Array.isArray(cmEdits.interests)) {
+      payload.extraind5 = cmEdits.interests.join(",");
+    } else if (typeof cmEdits.interests === "string") {
+      payload.extraind5 = cmEdits.interests;
+    } else {
+      payload.extraind5 = "";
+    }
+    
+    // Remove the interests field as it should be stored as extraind5
     delete payload.interests;
+    
+    console.log('Saving CM with payload:', payload);
+    
     await axios.post(
       `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
       payload,
@@ -575,6 +729,11 @@ const handleCmSave = async () => {
     setEditingCmIndex(null);
     setCmEdits({});
     message.success("Customer Manager updated successfully!");
+    
+    // Refresh CM data to ensure consistency
+    setTimeout(() => {
+      fetchCmData();
+    }, 1000);
   } catch (error) {
     message.error("Error updating Customer Manager");
     console.error(error);
@@ -612,6 +771,11 @@ const handleCmSave = async () => {
           setCmEdits({});
 
           message.success("Customer Manager deleted successfully!");
+          
+          // Refresh CM data to ensure consistency
+          setTimeout(() => {
+            fetchCmData();
+          }, 1000);
         } catch (error) {
           message.error("Failed to delete Customer Manager.");
           console.error(error);
@@ -662,14 +826,34 @@ const handleCmSave = async () => {
 
   // Handle edit for a branch
   const handleBranchEdit = (idx) => {
+    const branchToEdit = sortedBranches[idx];
     setEditingBranchIndex(idx);
-    setBranchEdits({ ...sortedBranches[idx] });
+    setBranchEdits({ ...branchToEdit });
+    
+    // Initialize state and city dropdowns if country exists
+    if (branchToEdit.country) {
+      const countryObj = branchCountries.find(c => c.name === branchToEdit.country);
+      if (countryObj) {
+        const states = State.getStatesOfCountry(countryObj.isoCode);
+        setBranchStates(states);
+        
+        if (branchToEdit.state) {
+          const stateObj = states.find(s => s.name === branchToEdit.state);
+          if (stateObj) {
+            const cities = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
+            setBranchCities(cities);
+          }
+        }
+      }
+    }
   };
 
   // Handle cancel for a branch
   const handleBranchCancel = () => {
     setEditingBranchIndex(null);
     setBranchEdits({});
+    setBranchStates([]);
+    setBranchCities([]);
   };
 
   // Handle save for a branch
@@ -677,6 +861,8 @@ const handleCmSave = async () => {
     setIsLoading(true);
     try {
       const payload = { ...branchEdits }; // branchEdits should include id
+      console.log('Saving branch with payload:', payload);
+      
       await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/UpdateOrganizationDetails`,
         payload,
@@ -692,7 +878,14 @@ const handleCmSave = async () => {
       setBranchesData(updated);
       setEditingBranchIndex(null);
       setBranchEdits({});
+      setBranchStates([]);
+      setBranchCities([]);
       message.success("Branch updated successfully!");
+      
+      // Refresh CM data to ensure consistency
+      setTimeout(() => {
+        fetchCmData();
+      }, 1000);
     } catch (error) {
       message.error("Error updating branch");
       console.error(error);
@@ -819,7 +1012,7 @@ const handleCmSave = async () => {
                 key={branch.id || idx}
               >
                 <Row gutter={16}>
-                  <Col xs={24} md={8} style={{ display: editingBranchIndex === idx ? "block" : "none" }}>
+                  <Col xs={24} md={8} style={{ display: editingBranchIndex === idx &&  editData.branchtype  === "Parent" && isEditing ? "block" : "none" }}>
                     <Typography.Text className="custom-headding-12px">Organization Name</Typography.Text>
                     <Input
                       value={editData.organizationname}
@@ -880,29 +1073,38 @@ const handleCmSave = async () => {
 
                   <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
                     <Typography.Text className="custom-headding-12px">Phone Code</Typography.Text>
-                    <Input
-                      value={editData.phonecode}
-                      onChange={(e) =>
-                        handleBranchInputChange("phonecode", e.target.value)
-                      }
-                      placeholder="Phone Code"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
-                    <Typography.Text className="custom-headding-12px">Mobile</Typography.Text>
-                    <Input
-                      value={editData.mobile}
-                      onChange={(e) =>
-                        handleBranchInputChange("mobile", e.target.value)
-                      }
-                      placeholder="Mobile"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
+                    <Input.Group compact>
+
+                        <Select
+                          value={editData.phonecode}
+                          onChange={val => handleBranchInputChange("phonecode", val)}
+                          showSearch
+                          style={{ width: "40%" }}
+                          placeholder="Code"
+                          optionFilterProp="children"
+                          disabled={!isEditing}
+                          size="large"
+                          filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                          }
+                        >
+                          {Country.getAllCountries().map((c) => (
+                            <Select.Option
+                              key={c.isoCode}
+                              value={`+${c.phonecode}`}
+                            >{`+${c.phonecode}`}</Select.Option>
+                          ))}
+                        </Select>
+                   
+                      <Input
+                        value={editData.mobile}
+                        onChange={e => handleBranchInputChange("mobile", e.target.value)}
+                        placeholder="Mobile"
+                        size="large"
+                        disabled={!isEditing}
+                        style={{ marginBottom: 12, width: "60%" }}
+                      />
+                    </Input.Group>
                   </Col>
                   <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
                     <Typography.Text className="custom-headding-12px">Email</Typography.Text>
@@ -919,42 +1121,74 @@ const handleCmSave = async () => {
                   </Col>
                   <Col xs={24} md={8}>
                     <Typography.Text className="custom-headding-12px">Country</Typography.Text>
-                    <Input
-                      value={editData.country}
-                      onChange={(e) =>
-                        handleBranchInputChange("country", e.target.value)
-                      }
-                      placeholder="Country"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
+                    {isEditing ? (
+                      <Select
+                        showSearch
+                        value={editData.country || undefined}
+                        onChange={val => handleBranchInputChange("country", val)}
+                        placeholder="Select Country"
+                        size="large"
+                        style={{ marginBottom: 12, width: "100%" }}
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                      >
+                        {branchCountries.map(c => (
+                          <Select.Option key={c.isoCode} value={c.name}>{c.name}</Select.Option>
+                        ))}
+                      </Select>
+                    ) : (
+                      <Input
+                        value={editData.country}
+                        disabled
+                        size="large"
+                        style={{ marginBottom: 12 }}
+                      />
+                    )}
                   </Col>
                   <Col xs={24} md={8}>
                     <Typography.Text className="custom-headding-12px">State</Typography.Text>
-                    <Input
-                      value={editData.state}
-                      onChange={(e) =>
-                        handleBranchInputChange("state", e.target.value)
-                      }
-                      placeholder="State"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
+                    {/* {isEditing ? ( */}
+                      <Select
+                        showSearch
+                        value={editData.state || undefined}
+                        onChange={val => handleBranchInputChange("state", val)}
+                        placeholder="Select State"
+                        disabled={!isEditing}
+                        size="large"
+                        style={{ marginBottom: 12, width: "100%" }}
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                      >
+                        {branchStates.map(s => (
+                          <Select.Option key={s.isoCode} value={s.name}>{s.name}</Select.Option>
+                        ))}
+                      </Select>
+          
                   </Col>
                   <Col xs={24} md={8}>
                     <Typography.Text className="custom-headding-12px">District</Typography.Text>
-                    <Input
-                      value={editData.district}
-                      onChange={(e) =>
-                        handleBranchInputChange("district", e.target.value)
-                      }
-                      placeholder="District"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
+                      <Select
+                        showSearch
+                        value={editData.district || undefined}
+                        onChange={val => handleBranchInputChange("district", val)}
+                        placeholder="Select City/District"
+                        disabled={!isEditing}
+                        size="large"
+                        style={{ marginBottom: 12, width: "100%" }}
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>
+                          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                      >
+                        {branchCities.map(city => (
+                          <Select.Option key={city.name} value={city.name}>{city.name}</Select.Option>
+                        ))}
+                      </Select>
+
                   </Col>
                   {/* <Col xs={24} md={8}>
                     <Typography.Text strong>Address</Typography.Text>
@@ -1068,6 +1302,11 @@ const handleCmSave = async () => {
                                   );
                                   message.success("Organization deleted successfully!");
                                   setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
+                                  
+                                  // Refresh CM data to ensure consistency
+                                  setTimeout(() => {
+                                    fetchCmData();
+                                  }, 1000);
                                   // Navigate("/organization");
                                 } catch (error) {
                                   message.error("Failed to delete Organization.");
@@ -1181,7 +1420,18 @@ const handleCmSave = async () => {
                                   cmEdits={cmEdits}
                                   onCmEdit={() => {
                                     setEditingCmIndex(cm.cmid);
-                                    setCmEdits({ ...cm });
+                                    
+                                    // Parse interests properly for editing
+                                    const interestsArray = Array.isArray(cm.interests)
+                                      ? cm.interests
+                                      : (typeof (cm.interests || cm.extraind5) === "string"
+                                          ? (cm.interests || cm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+                                          : []);
+                                    
+                                    setCmEdits({ 
+                                      ...cm, 
+                                      interests: interestsArray 
+                                    });
                                   }}
                                   onCmCancel={handleCmCancel}
                                   onCmSave={handleCmSave}
