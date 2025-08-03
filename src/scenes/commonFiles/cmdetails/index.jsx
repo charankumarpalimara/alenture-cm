@@ -242,7 +242,7 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
     }
     try {
       const response = await fetch(
-        `http://127.0.0.1:8080/v1/updateCmProfileByAdminHob`,
+        `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHob`,
         {
           method: "POST",
           body: formData,

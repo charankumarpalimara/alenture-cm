@@ -1277,7 +1277,7 @@ const AdminTicketDetails = () => {
                 {/* Action Buttons */}
                 <Box
                   sx={{
-                    display: "flex",
+                    display: ticket.status === "Resolved" ? "none" : "flex",
                     justifyContent: "flex-end",
                     gap: 2,
                     mt: 1,
@@ -1296,7 +1296,7 @@ const AdminTicketDetails = () => {
                       borderRadius: "8px",
                     }}
                   >
-                    Resolve
+                    Resolved
                   </Button>
                   {/* <Button
                     variant="outlined"

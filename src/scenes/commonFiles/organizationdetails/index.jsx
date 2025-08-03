@@ -25,6 +25,7 @@ import { tokens } from "../../../theme";
 import { useTheme, useMediaQuery } from "@mui/material";
 
 import { CloseOutlined } from "@ant-design/icons";
+import { Country } from "country-state-city";
 
 
 
@@ -43,7 +44,9 @@ const { Text, Title } = Typography;
 const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit, onCmCancel, onCmSave, onCmDelete, onCmInputChange }) => {
   const [interestList, setInterestList] = useState([]);
   const [interestSearch, setInterestSearch] = useState("");
+  const [functionList, setFunctionList] = useState([]);
   const form = useRef();
+  const countries = Country.getAllCountries();
   useEffect(() => {
     const fetchInterest = async () => {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
@@ -51,6 +54,15 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
       setInterestList(data.data || data.interests || []);
     };
     fetchInterest();
+  }, []);
+
+  useEffect(() => {
+    const fetchFunctions = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmFunction`);
+      const data = await res.json();
+      setFunctionList(data.functions || data.data || []);
+    };
+    fetchFunctions();
   }, []);
   if (!selectedCm) {
     return (
@@ -71,9 +83,15 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
 
   const editData = isEditingCm ? cmEdits : selectedCm;
   // Parse interests as array for Select
-  const interestsValue = isEditingCm
-    ? (Array.isArray(editData.interests || editData.extraind5) ? (editData.interests || editData.extraind5) : (typeof (editData.interests || editData.extraind5) === "string" ? (editData.interests || editData.extraind5).split(",").map(i => i.trim()).filter(Boolean) : []))
-    : (typeof (editData.interests || editData.extraind5) === "string" ? (editData.interests || editData.extraind5).split(",").map(i => i.trim()).filter(Boolean) : []);
+const interestsValue = isEditingCm
+  ? (Array.isArray(editData.interests)
+      ? editData.interests
+      : (typeof editData.extraind5 === "string" && editData.extraind5.length > 0
+          ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+          : []))
+  : (typeof (editData.interests || editData.extraind5) === "string"
+      ? (editData.interests || editData.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+      : []);
 
   return (
     <div style={{
@@ -127,26 +145,34 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
           />
         </Col>
         <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Phone Code</Typography.Text>
-          <Input
-            value={editData.phonecode}
-            onChange={(e) => onCmInputChange("phonecode", e.target.value)}
-            placeholder="Phone Code"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Mobile</Typography.Text>
-          <Input
-            value={editData.mobile}
-            onChange={(e) => onCmInputChange("mobile", e.target.value)}
-            placeholder="Mobile"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
+          <Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>
+          <Input.Group compact>
+            <Select
+              value={editData.phonecode}
+              onChange={val => onCmInputChange("phonecode", val)}
+              showSearch
+              style={{ width: "40%" }}
+              placeholder="Code"
+              optionFilterProp="children"
+              disabled={!isEditingCm}
+              size="large"
+            >
+              {countries.map((c) => (
+                <Select.Option
+                  key={c.isoCode}
+                  value={`+${c.phonecode}`}
+                >{`+${c.phonecode}`}</Select.Option>
+              ))}
+            </Select>
+            <Input
+              value={editData.mobile}
+              onChange={e => onCmInputChange("mobile", e.target.value)}
+              style={{ width: "60%" }}
+              placeholder="Phone Number"
+              disabled={!isEditingCm}
+              size="large"
+            />
+          </Input.Group>
         </Col>
         {/* <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Designation</Typography.Text>
@@ -175,34 +201,44 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
         </Col>
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Function</Typography.Text>
-          <Input
+          <Select
             value={editData.extraind4}
-            onChange={(e) => onCmInputChange("functionValue", e.target.value)}
-            placeholder="Function"
-            size="large"
+            onChange={val => onCmInputChange("extraind4", val)}
+            placeholder="Select Function"
             disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
+            size="large"
+            showSearch
+            optionFilterProp="children"
+            style={{ width: "100%", marginBottom: 12 }}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {functionList.map((fn, idx) => (
+              <Select.Option key={fn.id || idx} value={fn.name || fn.function || fn}>
+                {fn.name || fn.function || fn}
+              </Select.Option>
+            ))}
+          </Select>
         </Col>
         <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">Interests</Typography.Text>
-          {isEditingCm ? (
+
             <Select
               mode="tags"
               allowClear
               showSearch
               placeholder="Select Interests"
               className="interests-select"
+              disabled={!isEditingCm}
               size="large"
               style={{ borderRadius: 8, background: "#fff", marginBottom: 12, width: "100%" }}
               optionFilterProp="children"
               value={interestsValue}
-              onChange={vals => onCmInputChange("interests", vals)}
+              onChange={vals => onCmInputChange("interests", Array.isArray(vals) ? vals : [])}
               onSearch={setInterestSearch}
               filterOption={false}
-              dropdownRender={menu => {
-                return menu;
-              }}
+              dropdownRender={menu => menu}
             >
               {(() => {
                 const selected = interestsValue || [];
@@ -213,14 +249,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
                   ));
               })()}
             </Select>
-          ) : (
-            <Input
-              value={Array.isArray(interestsValue) ? interestsValue.join(", ") : (interestsValue || "")}
-              disabled
-              size="large"
-              style={{ marginBottom: 12 }}
-            />
-          )}
+
         </Col>
         {/* <Col xs={24} md={8}>
           <Typography.Text className="custom-headding-12px">CRM</Typography.Text>
@@ -233,7 +262,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col> */}
-        <Col xs={24} md={8} style={{ display: "none"}}>
+        <Col xs={24} md={8} style={{ display: "none" }}>
           <Typography.Text className="custom-headding-12px">Username</Typography.Text>
           <Input
             value={editData.username}
@@ -244,7 +273,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
             style={{ marginBottom: 12 }}
           />
         </Col>
-        <Col xs={24} md={8} style={{ display: "none"}}>
+        <Col xs={24} md={8} style={{ display: "none" }}>
           <Typography.Text className="custom-headding-12px">Password</Typography.Text>
           <Input.Password
             value={editData.passwords}
@@ -256,7 +285,7 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
           />
         </Col>
 
-         
+
       </Row>
 
       {/* CM Action Buttons */}
@@ -486,50 +515,73 @@ const OrganizationDetails = () => {
     setCmEdits({});
   };
 
+    // Handle CM input change
+const handleCmInputChange = (field, value) => {
+  if (field === "interests") {
+    setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
+  } else {
+    setCmEdits((prev) => ({ ...prev, [field]: value }));
+  }
+};
+
+
   // Handle CM save
-  const handleCmSave = async () => {
-    setIsLoading(true);
-    try {
-      const payload = { ...cmEdits };
-      payload.extraind5 = Array.isArray(payload.interests)
-  ? payload.interests.join(",")
-  : (payload.interests || "");
-delete payload.interests;
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
-        payload,
-        { headers: { "Content-Type": "application/json" } }
-      );
+const handleCmSave = async () => {
+  setIsLoading(true);
+  try {
+    const payload = { ...cmEdits };
+    payload.extraind5 = Array.isArray(cmEdits.interests)
+      ? cmEdits.interests.join(",")
+      : (cmEdits.interests || "");
+    delete payload.interests;
+    await axios.post(
+      `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
+      payload,
+      { headers: { "Content-Type": "application/json" } }
+    );
 
-      // Update local state
-      const updatedCmData = cmData.map(cm =>
-        cm.cmid === cmEdits.cmid ? { ...cm, ...cmEdits } : cm
-      );
-      setCmData(updatedCmData);
+    // Parse interests array from saved string for local state
+    const newInterestsArr = payload.extraind5
+      ? payload.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+      : [];
 
-      // Update selected CM
-      setSelectedCmByUnit(prev => {
-        const newState = {};
-        Object.keys(prev).forEach(unit => {
-          if (prev[unit]?.cmid === cmEdits.cmid) {
-            newState[unit] = { ...prev[unit], ...cmEdits };
-          } else {
-            newState[unit] = prev[unit];
-          }
-        });
-        return newState;
+    // Update local state with new extraind5 and interests array
+    const updatedCmData = cmData.map(cm => {
+      if (cm.cmid === cmEdits.cmid) {
+        return {
+          ...cm,
+          ...cmEdits,
+          extraind5: payload.extraind5,
+          interests: newInterestsArr
+        };
+      }
+      return cm;
+    });
+    setCmData(updatedCmData);
+
+    // Update selected CM
+    setSelectedCmByUnit(prev => {
+      const newState = {};
+      Object.keys(prev).forEach(unit => {
+        if (prev[unit]?.cmid === cmEdits.cmid) {
+          newState[unit] = { ...prev[unit], ...cmEdits, extraind5: payload.extraind5, interests: newInterestsArr };
+        } else {
+          newState[unit] = prev[unit];
+        }
       });
+      return newState;
+    });
 
-      setEditingCmIndex(null);
-      setCmEdits({});
-      message.success("Customer Manager updated successfully!");
-    } catch (error) {
-      message.error("Error updating Customer Manager");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    setEditingCmIndex(null);
+    setCmEdits({});
+    message.success("Customer Manager updated successfully!");
+  } catch (error) {
+    message.error("Error updating Customer Manager");
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Handle CM delete
   const handleCmDelete = () => {
@@ -568,10 +620,6 @@ delete payload.interests;
     });
   };
 
-  // Handle CM input change
-  const handleCmInputChange = (field, value) => {
-    setCmEdits((prev) => ({ ...prev, [field]: value }));
-  };
 
   // No longer needed since we're not using a table
   // const cmTableColumns = [];
