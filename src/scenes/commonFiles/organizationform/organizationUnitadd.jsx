@@ -1551,7 +1551,7 @@ const OrganizationUnitadd = () => {
                               </Form.Item>
                             </Col>
                             <Col xs={24} md={8}>
-                              <Form.Item label={<Typography.Text className="custom-headding-12px">Email</Typography.Text>} name="email" rules={[{ required: true, message: "Email is required" }]}>
+                              <Form.Item label={<Typography.Text className="custom-headding-12px">Email</Typography.Text>} name="email" rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}>
                                 <Input placeholder="Email" value={cm.email} size="large" />
                               </Form.Item>
                             </Col>

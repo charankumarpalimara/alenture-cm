@@ -436,34 +436,67 @@ const HobForm = () => {
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
+              <Form.Item label="First Name" name="firstName" rules={[{ required: true, message: "First Name is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
+              <Form.Item label="Last Name" name="lastName" rules={[{ required: true, message: "Last Name is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Email" name="email" rules={[{ required: true, type: "email" }]}>
+              <Form.Item label="Email" name="email" rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Code" name="phoneCode" rules={[{ required: true }]}>
-                <Input disabled={!isEditMode} />
+              <Form.Item label="Phone Number" required>
+                <Input.Group compact>
+                  <Form.Item
+                    name="phoneCode"
+                    noStyle
+                    rules={[{ required: true, message: "Code is required" }]}
+                  >
+                    <Select
+                      showSearch
+                      style={{ width: "40%" }}
+                      placeholder="Code"
+                      optionFilterProp="children"
+                      size="large"
+                      disabled={!isEditMode}
+                    >
+                      {countries.map((c) => (
+                        <Select.Option
+                          key={c.isoCode}
+                          value={`+${c.phonecode}`}
+                        >{`+${c.phonecode}`}</Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="PhoneNo"
+                    noStyle
+                    rules={[
+                      { required: true, message: "Phone number is required" },
+                      { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                      { min: 10, message: "At least 10 digits" },
+                    ]}
+                  >
+                    <Input
+                      style={{ width: "60%" }}
+                      placeholder="Phone Number"
+                      size="large"
+                      disabled={!isEditMode}
+                    />
+                  </Form.Item>
+                </Input.Group>
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Number" name="PhoneNo" rules={[{ required: true }]}>
-                <Input disabled={!isEditMode} />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item label="Gender" name="gender" rules={[{ required: true }]}>
+              <Form.Item label="Gender" name="gender" rules={[{ required: true, message: "Gender is required" }]}>
                 <Select disabled={!isEditMode}>
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
@@ -474,7 +507,7 @@ const HobForm = () => {
           <Row gutter={24}>
 
             <Col xs={24} md={8}>
-              <Form.Item label="Country" name="country" rules={[{ required: true }]}>
+              <Form.Item label="Country" name="country" rules={[{ required: true, message: "Country is required" }]}>
                 <Select
                   showSearch
                   placeholder="Select Country"
@@ -495,7 +528,7 @@ const HobForm = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="State" name="state" rules={[{ required: true }]}>
+              <Form.Item label="State" name="state" rules={[{ required: true, message: "State is required" }]}>
                 <Select
                   showSearch
                   placeholder="Select State"
@@ -520,7 +553,7 @@ const HobForm = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="City" name="city" rules={[{ required: true }]}>
+              <Form.Item label="City" name="city" rules={[{ required: true, message: "City is required" }]}>
                 <Select
                   showSearch
                   placeholder="Select City"
@@ -547,7 +580,7 @@ const HobForm = () => {
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="Postal Code" name="postcode" rules={[{ required: true }]}>
+              <Form.Item label="Postal Code" name="postcode" rules={[{ required: true, message: "Postal Code is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
@@ -754,7 +787,7 @@ const HobForm = () => {
                   className="custom-placeholder-12px"
                   label={<span className="custom-headding-12px">Email Id</span>}
                   name="email"
-                  rules={[{ required: true, message: "Email is required" }]}
+                  rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}
                 >
                   <Input
                     placeholder="Email"

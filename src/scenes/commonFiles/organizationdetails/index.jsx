@@ -1,6 +1,7 @@
 import { Box, Button as MuiButton } from "@mui/material";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import {
+  Form,
   Input,
   Button,
   Row,
@@ -41,11 +42,10 @@ const { Text, Title } = Typography;
 
 
 // Component 2: CM Details Component
-const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit, onCmCancel, onCmSave, onCmDelete, onCmInputChange }) => {
+const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit, onCmCancel, onCmSave, onCmDelete, onCmInputChange, form }) => {
   const [interestList, setInterestList] = useState([]);
   const [interestSearch, setInterestSearch] = useState("");
   const [functionList, setFunctionList] = useState([]);
-  const form = useRef();
   const countries = Country.getAllCountries();
   useEffect(() => {
     const fetchInterest = async () => {
@@ -107,210 +107,237 @@ console.log('CM Details - interestsValue:', interestsValue);
       border: '1px solid #f0f0f0',
       padding: 16
     }}>
-      <Row gutter={16}>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">CM ID</Typography.Text>
-          <Input
-            value={editData.cmid}
-            disabled
-            size="large"
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">First Name</Typography.Text>
-          <Input
-            value={editData.firstname}
-            onChange={(e) => onCmInputChange("firstname", e.target.value)}
-            placeholder="First Name"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Last Name</Typography.Text>
-          <Input
-            value={editData.lastname}
-            onChange={(e) => onCmInputChange("lastname", e.target.value)}
-            placeholder="Last Name"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
-
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Email</Typography.Text>
-          <Input
-            value={editData.email}
-            onChange={(e) => onCmInputChange("email", e.target.value)}
-            placeholder="Email"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>
-          <Input.Group compact>
-            {isEditingCm ? (
-              <Select
-                value={editData.phonecode}
-                onChange={val => onCmInputChange("phonecode", val)}
-                showSearch
-                style={{ width: "40%" }}
-                placeholder="Code"
-                optionFilterProp="children"
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={{
+          ...editData,
+          interests: interestsValue
+        }}
+        onValuesChange={(changedValues, allValues) => {
+          Object.keys(changedValues).forEach(key => {
+            onCmInputChange(key, changedValues[key]);
+          });
+        }}
+      >
+        <Row gutter={16}>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">CM ID</Typography.Text>}
+              name="cmid"
+            >
+              <Input
+                disabled
                 size="large"
+                style={{ marginBottom: 12 }}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">First Name</Typography.Text>}
+              name="firstname"
+              rules={[{ required: true, message: "First Name is required" }]}
+            >
+              <Input
+                placeholder="First Name"
+                size="large"
+                disabled={!isEditingCm}
+                style={{ marginBottom: 12 }}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Last Name</Typography.Text>}
+              name="lastname"
+              rules={[{ required: true, message: "Last Name is required" }]}
+            >
+              <Input
+                placeholder="Last Name"
+                size="large"
+                disabled={!isEditingCm}
+                style={{ marginBottom: 12 }}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Email</Typography.Text>}
+              name="email"
+              rules={[
+                { required: true, message: "Email is required" },
+                { type: "email", message: "Please enter a valid email" }
+              ]}
+            >
+              <Input
+                placeholder="Email"
+                size="large"
+                disabled={!isEditingCm}
+                style={{ marginBottom: 12 }}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>}
+            >
+              <Input.Group compact>
+                <Form.Item
+                  name="phonecode"
+                  noStyle
+                  rules={[{ required: true, message: "Phone code is required" }]}
+                >
+                  {isEditingCm ? (
+                    <Select
+                      showSearch
+                      style={{ width: "40%" }}
+                      placeholder="Code"
+                      optionFilterProp="children"
+                      size="large"
+                      filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {countries.map((c) => (
+                        <Select.Option
+                          key={c.isoCode}
+                          value={`+${c.phonecode}`}
+                        >{`+${c.phonecode}`}</Select.Option>
+                      ))}
+                    </Select>
+                  ) : (
+                    <Input
+                      disabled
+                      style={{ width: "40%" }}
+                      size="large"
+                    />
+                  )}
+                </Form.Item>
+                <Form.Item
+                  name="mobile"
+                  noStyle
+                  rules={[
+                    { required: true, message: "Phone number is required" },
+                    { pattern: /^[0-9]+$/, message: "Only numbers are allowed" },
+                    { min: 10, message: "Must be at least 10 digits" }
+                  ]}
+                >
+                  <Input
+                    style={{ width: "60%" }}
+                    placeholder="Phone Number"
+                    disabled={!isEditingCm}
+                    size="large"
+                    onChange={e => {
+                      const value = e.target.value;
+                      // Only allow numbers
+                      if (/^[0-9]*$/.test(value)) {
+                        onCmInputChange("mobile", value);
+                      }
+                    }}
+                  />
+                </Form.Item>
+              </Input.Group>
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Gender</Typography.Text>}
+              name="extraind2"
+              rules={[{ required: true, message: "Gender is required" }]}
+            >
+              <Select
+                size="large"
+                disabled={!isEditingCm}
+                style={{ width: "100%", marginBottom: 12 }}
+                placeholder="Select Gender"
+              >
+                <Select.Option value="Male">Male</Select.Option>
+                <Select.Option value="Female">Female</Select.Option>
+                <Select.Option value="Other">Other</Select.Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Function</Typography.Text>}
+              name="extraind4"
+              rules={[{ required: true, message: "Function is required" }]}
+            >
+              <Select
+                placeholder="Select Function"
+                disabled={!isEditingCm}
+                size="large"
+                showSearch
+                optionFilterProp="children"
+                style={{ width: "100%", marginBottom: 12 }}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
               >
-                {countries.map((c) => (
-                  <Select.Option
-                    key={c.isoCode}
-                    value={`+${c.phonecode}`}
-                  >{`+${c.phonecode}`}</Select.Option>
+                {functionList.map((fn, idx) => (
+                  <Select.Option key={fn.id || idx} value={fn.name || fn.function || fn}>
+                    {fn.name || fn.function || fn}
+                  </Select.Option>
                 ))}
               </Select>
-            ) : (
-              <Input
-                value={editData.phonecode}
-                disabled
-                style={{ width: "40%" }}
-                size="large"
-              />
-            )}
-            <Input
-              value={editData.mobile}
-              onChange={e => {
-                const value = e.target.value;
-                // Only allow numbers
-                if (/^[0-9]*$/.test(value)) {
-                  onCmInputChange("mobile", value);
-                }
-              }}
-              style={{ width: "60%" }}
-              placeholder="Phone Number"
-              disabled={!isEditingCm}
-              size="large"
-            />
-          </Input.Group>
-        </Col>
-        {/* <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Designation</Typography.Text>
-          <Input
-            value={editData.designation}
-            onChange={(e) => onCmInputChange("designation", e.target.value)}
-            placeholder="Designation"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col> */}
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Gender</Typography.Text>
-          <Select
-            value={editData.extraind2}
-            onChange={(value) => onCmInputChange("gender", value)}
-            size="large"
-            disabled={!isEditingCm}
-            style={{ width: "100%", marginBottom: 12 }}
-          >
-            <Select.Option value="Male">Male</Select.Option>
-            <Select.Option value="Female">Female</Select.Option>
-            <Select.Option value="Other">Other</Select.Option>
-          </Select>
-        </Col>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Function</Typography.Text>
-          <Select
-            value={editData.extraind4}
-            onChange={val => onCmInputChange("extraind4", val)}
-            placeholder="Select Function"
-            disabled={!isEditingCm}
-            size="large"
-            showSearch
-            optionFilterProp="children"
-            style={{ width: "100%", marginBottom: 12 }}
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-          >
-            {functionList.map((fn, idx) => (
-              <Select.Option key={fn.id || idx} value={fn.name || fn.function || fn}>
-                {fn.name || fn.function || fn}
-              </Select.Option>
-            ))}
-          </Select>
-        </Col>
-        <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">Interests</Typography.Text>
-
-            <Select
-              mode="tags"
-              allowClear
-              showSearch
-              placeholder="Select Interests"
-              className="interests-select"
-              disabled={!isEditingCm}
-              size="large"
-              style={{ borderRadius: 8, background: "#fff", marginBottom: 12, width: "100%" }}
-              optionFilterProp="children"
-              value={interestsValue}
-              onChange={vals => onCmInputChange("interests", Array.isArray(vals) ? vals : [])}
-              onSearch={setInterestSearch}
-              filterOption={false}
-              dropdownRender={menu => menu}
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Interests</Typography.Text>}
+              name="interests"
+              rules={[{ required: true, message: "Interests are required" }]}
             >
-              {(() => {
-                const selected = interestsValue || [];
-                return interestList
-                  .filter(interest => !selected.includes(interest))
-                  .map((interest, idx) => (
-                    <Select.Option key={interest} value={interest}>{interest}</Select.Option>
-                  ));
-              })()}
-            </Select>
-
-        </Col>
-        {/* <Col xs={24} md={8}>
-          <Typography.Text className="custom-headding-12px">CRM</Typography.Text>
-          <Input
-            value={editData.crmname}
-            onChange={(e) => onCmInputChange("crmname", e.target.value)}
-            placeholder="CRM"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col> */}
-        <Col xs={24} md={8} style={{ display: "none" }}>
-          <Typography.Text className="custom-headding-12px">Username</Typography.Text>
-          <Input
-            value={editData.username}
-            onChange={(e) => onCmInputChange("username", e.target.value)}
-            placeholder="Username"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
-        <Col xs={24} md={8} style={{ display: "none" }}>
-          <Typography.Text className="custom-headding-12px">Password</Typography.Text>
-          <Input.Password
-            value={editData.passwords}
-            onChange={(e) => onCmInputChange("passwords", e.target.value)}
-            placeholder="Password"
-            size="large"
-            disabled={!isEditingCm}
-            style={{ marginBottom: 12 }}
-          />
-        </Col>
-
-
-      </Row>
+              <Select
+                mode="tags"
+                allowClear
+                showSearch
+                placeholder="Select Interests"
+                className="interests-select"
+                disabled={!isEditingCm}
+                size="large"
+                style={{ borderRadius: 8, background: "#fff", marginBottom: 12, width: "100%" }}
+                optionFilterProp="children"
+                onChange={vals => onCmInputChange("interests", Array.isArray(vals) ? vals : [])}
+                onSearch={setInterestSearch}
+                filterOption={false}
+                dropdownRender={menu => menu}
+              >
+                {interestList.map((interest, idx) => (
+                  <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8} style={{ display: "none" }}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Username</Typography.Text>}
+              name="username"
+            >
+              <Input
+                placeholder="Username"
+                size="large"
+                disabled={!isEditingCm}
+                style={{ marginBottom: 12 }}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={8} style={{ display: "none" }}>
+            <Form.Item
+              label={<Typography.Text className="custom-headding-12px">Password</Typography.Text>}
+              name="passwords"
+            >
+              <Input.Password
+                placeholder="Password"
+                size="large"
+                disabled={!isEditingCm}
+                style={{ marginBottom: 12 }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
 
       {/* CM Action Buttons */}
       <div style={{
@@ -324,7 +351,13 @@ console.log('CM Details - interestsValue:', interestsValue);
           <>
             <MuiButton
               variant="contained"
-              onClick={onCmSave}
+              onClick={() => {
+                form.validateFields().then(() => {
+                  onCmSave();
+                }).catch(() => {
+                  // Validation failed
+                });
+              }}
               className="form-button"
               sx={{
                 background: colors.blueAccent[1000],
@@ -379,7 +412,8 @@ console.log('CM Details - interestsValue:', interestsValue);
 };
 
 const OrganizationDetails = () => {
-  // const [form] = Form.useForm();
+  const [form] = Form.useForm();
+  const [branchForm] = Form.useForm();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isMobile = useMediaQuery("(max-width: 400px)");
@@ -749,46 +783,46 @@ const handleCmSave = async () => {
 };
 
   // Handle CM delete
-  const handleCmDelete = () => {
-    const selectedCm = selectedCmByUnit[Object.keys(selectedCmByUnit)[0]];
-    if (!selectedCm) return;
+  // const handleCmDelete = () => {
+  //   const selectedCm = selectedCmByUnit[Object.keys(selectedCmByUnit)[0]];
+  //   if (!selectedCm) return;
 
-    Modal.confirm({
-      title: "Are you sure you want to delete this Customer Manager?",
-      content: "This action cannot be undone.",
-      okText: "Yes, Delete",
-      okType: "danger",
-      cancelText: "Cancel",
-      onOk: async () => {
-        try {
-          await axios.post(
-            `${process.env.REACT_APP_API_URL}/v1/deleteCmByAdminAndHob`,
-            { cmid: selectedCm.cmid },
-            { headers: { "Content-Type": "application/json" } }
-          );
+  //   Modal.confirm({
+  //     title: "Are you sure you want to delete this Customer Manager?",
+  //     content: "This action cannot be undone.",
+  //     okText: "Yes, Delete",
+  //     okType: "danger",
+  //     cancelText: "Cancel",
+  //     onOk: async () => {
+  //       try {
+  //         await axios.post(
+  //           `${process.env.REACT_APP_API_URL}/v1/deleteCmByAdminAndHob`,
+  //           { cmid: selectedCm.cmid },
+  //           { headers: { "Content-Type": "application/json" } }
+  //         );
 
-          // Remove from local state
-          const updatedCmData = cmData.filter(cm => cm.cmid !== selectedCm.cmid);
-          setCmData(updatedCmData);
+  //         // Remove from local state
+  //         const updatedCmData = cmData.filter(cm => cm.cmid !== selectedCm.cmid);
+  //         setCmData(updatedCmData);
 
-          // Clear selection
-          setSelectedCmByUnit({});
-          setEditingCmIndex(null);
-          setCmEdits({});
+  //         // Clear selection
+  //         setSelectedCmByUnit({});
+  //         setEditingCmIndex(null);
+  //         setCmEdits({});
 
-          message.success("Customer Manager deleted successfully!");
+  //         message.success("Customer Manager deleted successfully!");
           
-          // Refresh CM data to ensure consistency
-          setTimeout(() => {
-            fetchCmData();
-          }, 1000);
-        } catch (error) {
-          message.error("Failed to delete Customer Manager.");
-          console.error(error);
-        }
-      },
-    });
-  };
+  //         // Refresh CM data to ensure consistency
+  //         setTimeout(() => {
+  //           fetchCmData();
+  //         }, 1000);
+  //       } catch (error) {
+  //         message.error("Failed to delete Customer Manager.");
+  //         console.error(error);
+  //       }
+  //     },
+  //   });
+  // };
 
 
   // No longer needed since we're not using a table
@@ -1017,243 +1051,281 @@ const handleCmSave = async () => {
                 header={panelLabel}
                 key={branch.id || idx}
               >
-                <Row gutter={16}>
-                  <Col xs={24} md={8} style={{ display: editingBranchIndex === idx &&  editData.branchtype  === "Parent" && isEditing ? "block" : "none" }}>
-                    <Typography.Text className="custom-headding-12px">Organization Name</Typography.Text>
-                    <Input
-                      value={editData.organizationname}
-                      onChange={(e) =>
-                        handleBranchInputChange(
-                          "organizationname",
-                          e.target.value
-                        )
-                      }
-                      placeholder="Organization Name"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-                  <Col xs={24} md={8} style={{ display: "none" }}>
-                    <Typography.Text className="custom-headding-12px">Branch Type</Typography.Text>
-                    <Select
-                      value={editData.branchtype}
-                      onChange={(value) =>
-                        handleBranchInputChange("branchtype", value)
-                      }
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ width: "100%", marginBottom: 12 }}
-                    >
-                      <Select.Option value="Parent">Parent</Select.Option>
-                      <Select.Option value="Branch">Branch</Select.Option>
-                    </Select>
-                  </Col>
-                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
-                    <Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>
-                    <Input
-                      value={editData.branch}
-                      onChange={(e) =>
-                        handleBranchInputChange("branch", e.target.value)
-                      }
-                      placeholder="Organization Unit"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-
-                  <Col xs={24} md={8}>
-                    <Typography.Text className="custom-headding-12px">Industry</Typography.Text>
-                    <Input
-                      value={editData.extraind1}
-                      onChange={(e) =>
-                        handleBranchInputChange("extraind1", e.target.value)
-                      }
-                      placeholder="Industry"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-
-                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
-                    <Typography.Text className="custom-headding-12px">Phone Code</Typography.Text>
-                    <Input.Group compact>
-
+                <Form
+                  form={branchForm}
+                  layout="vertical"
+                  initialValues={editData}
+                  onValuesChange={(changedValues, allValues) => {
+                    Object.keys(changedValues).forEach(key => {
+                      handleBranchInputChange(key, changedValues[key]);
+                    });
+                  }}
+                >
+                  <Row gutter={16}>
+                    <Col xs={24} md={8} style={{ display: editingBranchIndex === idx &&  editData.branchtype  === "Parent" && isEditing ? "block" : "none" }}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Organization Name</Typography.Text>}
+                        name="organizationname"
+                        rules={[{ required: true, message: "Organization Name is required" }]}
+                      >
+                        <Input
+                          placeholder="Organization Name"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8} style={{ display: "none" }}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Branch Type</Typography.Text>}
+                        name="branchtype"
+                      >
                         <Select
-                          value={editData.phonecode}
-                          onChange={val => handleBranchInputChange("phonecode", val)}
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ width: "100%", marginBottom: 12 }}
+                        >
+                          <Select.Option value="Parent">Parent</Select.Option>
+                          <Select.Option value="Branch">Branch</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>}
+                        name="branch"
+                        rules={[{ 
+                          required: editData.branchtype !== "Parent", 
+                          message: "Organization Unit is required" 
+                        }]}
+                      >
+                        <Input
+                          placeholder="Organization Unit"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Industry</Typography.Text>}
+                        name="extraind1"
+                        rules={[{ required: true, message: "Industry is required" }]}
+                      >
+                        <Input
+                          placeholder="Industry"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Phone Number</Typography.Text>}
+                      >
+                        <Input.Group compact>
+                          <Form.Item
+                            name="phonecode"
+                            noStyle
+                            rules={[{ 
+                              required: editData.branchtype !== "Parent", 
+                              message: "Phone code is required" 
+                            }]}
+                          >
+                            <Select
+                              showSearch
+                              style={{ width: "40%" }}
+                              placeholder="Code"
+                              optionFilterProp="children"
+                              disabled={!isEditing}
+                              size="large"
+                              filterOption={(input, option) =>
+                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                              }
+                            >
+                              {Country.getAllCountries().map((c) => (
+                                <Select.Option
+                                  key={c.isoCode}
+                                  value={`+${c.phonecode}`}
+                                >{`+${c.phonecode}`}</Select.Option>
+                              ))}
+                            </Select>
+                          </Form.Item>
+                          <Form.Item
+                            name="mobile"
+                            noStyle
+                            rules={[
+                              { required: editData.branchtype !== "Parent", message: "Phone number is required" },
+                              { pattern: /^[0-9]+$/, message: "Only numbers are allowed" },
+                              { min: 10, message: "Must be at least 10 digits" }
+                            ]}
+                          >
+                            <Input
+                              placeholder="Mobile"
+                              size="large"
+                              disabled={!isEditing}
+                              style={{ marginBottom: 12, width: "60%" }}
+                              onChange={e => {
+                                const value = e.target.value;
+                                // Only allow numbers
+                                if (/^[0-9]*$/.test(value)) {
+                                  handleBranchInputChange("mobile", value);
+                                }
+                              }}
+                            />
+                          </Form.Item>
+                        </Input.Group>
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Email</Typography.Text>}
+                        name="email"
+                        rules={[
+                          { required: editData.branchtype !== "Parent", message: "Email is required" },
+                          { type: "email", message: "Please enter a valid email" }
+                        ]}
+                      >
+                        <Input
+                          placeholder="Email"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Country</Typography.Text>}
+                        name="country"
+                        rules={[{ required: true, message: "Country is required" }]}
+                      >
+                        {isEditing ? (
+                          <Select
+                            showSearch
+                            placeholder="Select Country"
+                            size="large"
+                            style={{ marginBottom: 12, width: "100%" }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                          >
+                            {branchCountries.map(c => (
+                              <Select.Option key={c.isoCode} value={c.name}>{c.name}</Select.Option>
+                            ))}
+                          </Select>
+                        ) : (
+                          <Input
+                            disabled
+                            size="large"
+                            style={{ marginBottom: 12 }}
+                          />
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">State</Typography.Text>}
+                        name="state"
+                        rules={[{ required: true, message: "State is required" }]}
+                      >
+                        <Select
                           showSearch
-                          style={{ width: "40%" }}
-                          placeholder="Code"
-                          optionFilterProp="children"
+                          placeholder="Select State"
                           disabled={!isEditing}
                           size="large"
+                          style={{ marginBottom: 12, width: "100%" }}
+                          optionFilterProp="children"
                           filterOption={(input, option) =>
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                           }
                         >
-                          {Country.getAllCountries().map((c) => (
-                            <Select.Option
-                              key={c.isoCode}
-                              value={`+${c.phonecode}`}
-                            >{`+${c.phonecode}`}</Select.Option>
+                          {branchStates.map(s => (
+                            <Select.Option key={s.isoCode} value={s.name}>{s.name}</Select.Option>
                           ))}
                         </Select>
-                   
-                      <Input
-                        value={editData.mobile}
-                        onChange={e => {
-                          const value = e.target.value;
-                          // Only allow numbers
-                          if (/^[0-9]*$/.test(value)) {
-                            handleBranchInputChange("mobile", value);
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">District</Typography.Text>}
+                        name="district"
+                        rules={[{ required: true, message: "District is required" }]}
+                      >
+                        <Select
+                          showSearch
+                          placeholder="Select City/District"
+                          disabled={!isEditing}
+                          size="large"
+                          style={{ marginBottom: 12, width: "100%" }}
+                          optionFilterProp="children"
+                          filterOption={(input, option) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                           }
-                        }}
-                        placeholder="Mobile"
-                        size="large"
-                        disabled={!isEditing}
-                        style={{ marginBottom: 12, width: "60%" }}
-                      />
-                    </Input.Group>
-                  </Col>
-                  <Col xs={24} md={8} style={{ display: editData.branchtype === "Parent" ? "none" : "block" }}>
-                    <Typography.Text className="custom-headding-12px">Email</Typography.Text>
-                    <Input
-                      value={editData.email}
-                      onChange={(e) =>
-                        handleBranchInputChange("email", e.target.value)
-                      }
-                      placeholder="Email"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <Typography.Text className="custom-headding-12px">Country</Typography.Text>
-                    {isEditing ? (
-                      <Select
-                        showSearch
-                        value={editData.country || undefined}
-                        onChange={val => handleBranchInputChange("country", val)}
-                        placeholder="Select Country"
-                        size="large"
-                        style={{ marginBottom: 12, width: "100%" }}
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
+                        >
+                          {branchCities.map(city => (
+                            <Select.Option key={city.name} value={city.name}>{city.name}</Select.Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Postal Code</Typography.Text>}
+                        name="postalcode"
+                        rules={[{ required: true, message: "Postal Code is required" }]}
                       >
-                        {branchCountries.map(c => (
-                          <Select.Option key={c.isoCode} value={c.name}>{c.name}</Select.Option>
-                        ))}
-                      </Select>
-                    ) : (
-                      <Input
-                        value={editData.country}
-                        disabled
-                        size="large"
-                        style={{ marginBottom: 12 }}
-                      />
-                    )}
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <Typography.Text className="custom-headding-12px">State</Typography.Text>
-                    {/* {isEditing ? ( */}
-                      <Select
-                        showSearch
-                        value={editData.state || undefined}
-                        onChange={val => handleBranchInputChange("state", val)}
-                        placeholder="Select State"
-                        disabled={!isEditing}
-                        size="large"
-                        style={{ marginBottom: 12, width: "100%" }}
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
+                        <Input
+                          placeholder="Postal Code"
+                          size="large"
+                          disabled={!isEditing}
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Date</Typography.Text>}
+                        name="date"
                       >
-                        {branchStates.map(s => (
-                          <Select.Option key={s.isoCode} value={s.name}>{s.name}</Select.Option>
-                        ))}
-                      </Select>
-          
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <Typography.Text className="custom-headding-12px">District</Typography.Text>
-                      <Select
-                        showSearch
-                        value={editData.district || undefined}
-                        onChange={val => handleBranchInputChange("district", val)}
-                        placeholder="Select City/District"
-                        disabled={!isEditing}
-                        size="large"
-                        style={{ marginBottom: 12, width: "100%" }}
-                        optionFilterProp="children"
-                        filterOption={(input, option) =>
-                          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
+                        <Input
+                          disabled
+                          size="large"
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Form.Item
+                        label={<Typography.Text className="custom-headding-12px">Time</Typography.Text>}
+                        name="time"
                       >
-                        {branchCities.map(city => (
-                          <Select.Option key={city.name} value={city.name}>{city.name}</Select.Option>
-                        ))}
-                      </Select>
-
-                  </Col>
-                  {/* <Col xs={24} md={8}>
-                    <Typography.Text strong>Address</Typography.Text>
-                    <Input
-                      value={editData.address}
-                      onChange={(e) =>
-                        handleBranchInputChange("address", e.target.value)
-                      }
-                      placeholder="Address"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col> */}
-                  <Col xs={24} md={8}>
-                    <Typography.Text className="custom-headding-12px">Postal Code</Typography.Text>
-                    <Input
-                      value={editData.postalcode}
-                      onChange={(e) =>
-                        handleBranchInputChange("postalcode", e.target.value)
-                      }
-                      placeholder="Postal Code"
-                      size="large"
-                      disabled={!isEditing}
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <Typography.Text className="custom-headding-12px">Date</Typography.Text>
-                    <Input
-                      value={editData.date}
-                      disabled
-                      size="large"
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-                  <Col xs={24} md={8}>
-                    <Typography.Text className="custom-headding-12px">Time</Typography.Text>
-                    <Input
-                      value={editData.time}
-                      disabled
-                      size="large"
-                      style={{ marginBottom: 12 }}
-                    />
-                  </Col>
-                </Row>
+                        <Input
+                          disabled
+                          size="large"
+                          style={{ marginBottom: 12 }}
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
 
                 <div style={{ marginTop: 16, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", gap: "8px" }}>
                   {isEditing ? (
                     <>
                       <MuiButton
                         variant="contained"
-                        onClick={() => handleBranchSave(idx)}
+                        onClick={() => {
+                          branchForm.validateFields().then(() => {
+                            handleBranchSave(idx);
+                          }).catch(() => {
+                            // Validation failed
+                          });
+                        }}
                         loading={isLoading}
                         className="form-button"
                         sx={{
@@ -1430,6 +1502,7 @@ const handleCmSave = async () => {
                                   colors={colors}
                                   isEditingCm={editingCmIndex === cm.cmid}
                                   cmEdits={cmEdits}
+                                  form={form}
                                   onCmEdit={() => {
                                     setEditingCmIndex(cm.cmid);
                                     
@@ -1447,39 +1520,6 @@ const handleCmSave = async () => {
                                   }}
                                   onCmCancel={handleCmCancel}
                                   onCmSave={handleCmSave}
-                                  // onCmDelete={() => {
-                                  //   const selectedCm = cm;
-                                  //   Modal.confirm({
-                                  //     title: "Are you sure you want to delete this Customer Manager?",
-                                  //     content: "This action cannot be undone.",
-                                  //     okText: "Yes, Delete",
-                                  //     okType: "danger",
-                                  //     cancelText: "Cancel",
-                                  //     onOk: async () => {
-                                  //       try {
-                                  //         await axios.post(
-                                  //           `${process.env.REACT_APP_API_URL}/v1/deleteCmByAdminAndHob`,
-                                  //           { cmid: selectedCm.cmid },
-                                  //           { headers: { "Content-Type": "application/json" } }
-                                  //         );
-
-                                  //         // Remove from local state
-                                  //         const updatedCmData = cmData.filter(c => c.cmid !== selectedCm.cmid);
-                                  //         setCmData(updatedCmData);
-
-                                  //         // Clear selection
-                                  //         setSelectedCmByUnit({});
-                                  //         setEditingCmIndex(null);
-                                  //         setCmEdits({});
-
-                                  //         message.success("Customer Manager deleted successfully!");
-                                  //       } catch (error) {
-                                  //         message.error("Failed to delete Customer Manager.");
-                                  //         console.error(error);
-                                  //       }
-                                  //     },
-                                  //   });
-                                  // }}
                                   onCmInputChange={handleCmInputChange}
                                 />
                               </Collapse.Panel>

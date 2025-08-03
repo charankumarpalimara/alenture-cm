@@ -275,6 +275,7 @@ const CrmForm = () => {
 
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
+    
     const formData = new FormData();
     const createrrole = getCreaterRole() ;
     const createrid = getCreaterId() || "";
@@ -357,6 +358,7 @@ const CrmForm = () => {
   const handleUpdate = async () => {
     const values = editValues;
     setIsLoading(true);
+    
     const formData = new FormData();
     const createrrole = getCreaterRole() || "";
     const createrid =  getCreaterId() || "";
@@ -511,34 +513,67 @@ const CrmForm = () => {
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item className="custom-placeholder-12px" label="First Name" name="firstName" rules={[{ required: true }]}>
+              <Form.Item className="custom-placeholder-12px" label="First Name" name="firstName" rules={[{ required: true, message: "First Name is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item className="custom-placeholder-12px" label="Last Name" name="lastName" rules={[{ required: true }]}>
+              <Form.Item className="custom-placeholder-12px" label="Last Name" name="lastName" rules={[{ required: true, message: "Last Name is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item className="custom-placeholder-12px" label="Email" name="email" rules={[{ required: true, type: "email" }]}>
+              <Form.Item className="custom-placeholder-12px" label="Email" name="email" rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item className="custom-placeholder-12px" label="Phone Code" name="phoneCode" rules={[{ required: true }]}>
-                <Input disabled={!isEditMode} />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item className="custom-placeholder-12px" label="Phone Number" name="PhoneNo" rules={[{ required: true }]}>
-                <Input disabled={!isEditMode} />
+              <Form.Item className="custom-placeholder-12px" label="Phone Number" required>
+                <Input.Group compact>
+                  <Form.Item
+                    name="phoneCode"
+                    noStyle
+                    rules={[{ required: true, message: "Code is required" }]}
+                  >
+                    <Select
+                      showSearch
+                      style={{ width: "40%" }}
+                      placeholder="Code"
+                      optionFilterProp="children"
+                      size="large"
+                      disabled={!isEditMode}
+                    >
+                      {countries.map((c) => (
+                        <Select.Option
+                          key={c.isoCode}
+                          value={`+${c.phonecode}`}
+                        >{`+${c.phonecode}`}</Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="PhoneNo"
+                    noStyle
+                    rules={[
+                      { required: true, message: "Phone number is required" },
+                      { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                      { min: 10, message: "At least 10 digits" },
+                    ]}
+                  >
+                    <Input
+                      style={{ width: "60%" }}
+                      placeholder="Phone Number"
+                      size="large"
+                      disabled={!isEditMode}
+                    />
+                  </Form.Item>
+                </Input.Group>
               </Form.Item>
             </Col>
             {/* <Col xs={24} md={8}>
-              <Form.Item label="Gender" name="gender" rules={[{ required: true }]}>
+              <Form.Item label="Gender" name="gender" rules={[{ required: true, message: "Gender is required" }]}>
                 <Select disabled={!isEditMode}>
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
@@ -872,7 +907,7 @@ const CrmForm = () => {
                 className="custom-placeholder-12px"
                 label={<span className="custom-headding-12px">Email Id</span>}
                 name="email"
-                rules={[{ required: true, message: "Email is required" }]}
+                rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}
               >
                 <Input
                   placeholder="Email"

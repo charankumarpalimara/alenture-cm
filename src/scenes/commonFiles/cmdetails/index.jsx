@@ -797,15 +797,10 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
                     return menu;
                   }}
                 >
-                  {/* Show all interests except those already selected */}
-                  {(() => {
-                    const selected = form.getFieldValue("interests") || [];
-                    return interestList
-                      .filter(interest => !selected.includes(interest))
-                      .map((interest, idx) => (
-                        <Select.Option key={interest} value={interest}>{interest}</Select.Option>
-                      ));
-                  })()}
+                  {/* Show all interests */}
+                  {interestList.map((interest, idx) => (
+                    <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>

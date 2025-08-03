@@ -638,7 +638,7 @@ const CrmDetails = () => {
                   >
                     <Select
                       showSearch
-                      style={{ width: "calc(100% - 40%)" }}
+                      style={{ width: "40%" }}
                       placeholder="Code"
                       optionFilterProp="children"
                       disabled={!isEditing} 
@@ -654,6 +654,7 @@ const CrmDetails = () => {
                   </Form.Item>
                   <Form.Item
                     name="PhoneNo"
+                  
                     noStyle
                     rules={[
                       { required: true, message: "Phone number is required" },
@@ -662,7 +663,7 @@ const CrmDetails = () => {
                     ]}
                   >
                     <Input
-                      style={{ width: "calc(100% - 60%)" }}
+                    style={{ width: "60%" }}
                       placeholder="Phone Number"
                       disabled={!isEditing}
                       size="large"

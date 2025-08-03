@@ -535,34 +535,34 @@ const CmForm = () => {
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="First Name" className="custom-placeholder-12px" name="firstName" rules={[{ required: true }]}>
+              <Form.Item label="First Name" className="custom-placeholder-12px" name="firstName" rules={[{ required: true, message: "First Name is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Last Name" className="custom-placeholder-12px" name="lastName" rules={[{ required: true }]}>
+              <Form.Item label="Last Name" className="custom-placeholder-12px" name="lastName" rules={[{ required: true, message: "Last Name is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Email" className="custom-placeholder-12px" name="email" rules={[{ required: true, type: "email" }]}>
+              <Form.Item label="Email" className="custom-placeholder-12px" name="email" rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Code" className="custom-placeholder-12px" name="phoneCode" rules={[{ required: true }]}>
+              <Form.Item label="Phone Code" className="custom-placeholder-12px" name="phoneCode" rules={[{ required: true, message: "Phone Code is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Number" className="custom-placeholder-12px" name="PhoneNo" rules={[{ required: true }]}>
+              <Form.Item label="Phone Number" className="custom-placeholder-12px" name="PhoneNo" rules={[{ required: true, message: "Phone Number is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Gender" className="custom-placeholder-12px" name="gender" rules={[{ required: true }]}>
+              <Form.Item label="Gender" className="custom-placeholder-12px" name="gender" rules={[{ required: true, message: "Gender is required" }]}>
                 <Select disabled={!isEditMode}>
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
@@ -572,7 +572,7 @@ const CmForm = () => {
           </Row>
           <Row gutter={24}>
             {/* <Col xs={24} md={8}>
-              <Form.Item label="Designation" name="designation" rules={[{ required: true }]}>
+              <Form.Item label="Designation" name="designation" rules={[{ required: true, message: "Designation is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col> */}
@@ -865,7 +865,7 @@ const CmForm = () => {
                   label={<Text className="custom-headding-12px">Email Id</Text>}
                   className="custom-placeholder-12px"
                   name="email"
-                  rules={[{ required: true, message: "Email is required" }]}
+                  rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}
                 >
                   <Input
                     placeholder="Email"
@@ -1001,15 +1001,10 @@ const CmForm = () => {
                       return menu;
                     }}
                   >
-                    {/* Show all interests except those already selected */}
-                    {(() => {
-                      const selected = form.getFieldValue("interests") || [];
-                      return interestList
-                        .filter(interest => !selected.includes(interest))
-                        .map((interest, idx) => (
-                          <Select.Option key={interest} value={interest}>{interest}</Select.Option>
-                        ));
-                    })()}
+                    {/* Show all interests */}
+                    {interestList.map((interest, idx) => (
+                      <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </Col>
