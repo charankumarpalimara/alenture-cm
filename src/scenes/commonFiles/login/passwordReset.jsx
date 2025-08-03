@@ -165,6 +165,7 @@ const PasswordReset = () => {
                   fullWidth
                   variant="contained"
                   className="form-button"
+                  disabled={loading}
                   sx={{
                     mt: 3,
                     mb: 2,
@@ -174,7 +175,7 @@ const PasswordReset = () => {
                     textTransform: "none",
                   }}
                 >
-                  Reset Password
+                  {loading ? "Resetting..." : "Reset Password"}
                 </Button>
               </Box>
             </Form>

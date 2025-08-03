@@ -897,8 +897,9 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
                   }}
                   onClick={() => form.submit()}
                   type="submit"
+                  disabled={isLoading}
                 >
-                  Save
+                  {isLoading ? "Saving..." : "Save"}
                 </MuiButton>
               </Col>
               <Col>

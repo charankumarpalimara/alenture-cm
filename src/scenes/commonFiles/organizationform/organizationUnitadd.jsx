@@ -758,7 +758,7 @@ const OrganizationUnitadd = () => {
   const gender = ["Male", "Female"];
   return (
     <>
-      {isLoading && (
+      {/* {isLoading && (
         <div
           style={{
             position: "fixed",
@@ -776,11 +776,11 @@ const OrganizationUnitadd = () => {
           }}
         >
           <Spin size="large" fullscreen />
-          {/* <div style={{ position: 'absolute', top: '60%', width: '100%', textAlign: 'center', color: '#fff', fontSize: 18 }}>
+          <div style={{ position: 'absolute', top: '60%', width: '100%', textAlign: 'center', color: '#fff', fontSize: 18 }}>
                 Loading... Please wait while we process your request.
-              </div> */}
+              </div>
         </div>
-      )}
+      )} */}
       {/* ...your main organization form here... */}
 
       {/* Branches Accordion */}

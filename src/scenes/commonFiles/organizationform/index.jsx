@@ -25,6 +25,11 @@ const OrganizationForm = () => {
   const [industryList, setIndustryList] = useState([]);
   // const [interestList, setInterestList] = useState([]);
 
+  // Debug loading state changes
+  useEffect(() => {
+    console.log('Loading state changed:', isLoading);
+  }, [isLoading]);
+
   useEffect(() => {
     const getallOrganizations = async () => {
       try {
@@ -52,7 +57,8 @@ const OrganizationForm = () => {
   }, []);
 
   const handleFormSubmit = async (values) => {
-    // setIsLoading(true);
+    console.log('Form submission started, setting loading to true');
+    setIsLoading(true);
     const createrrole = getCreaterRole();
     const createrid = getCreaterId() || "";
     try {
@@ -73,6 +79,9 @@ const OrganizationForm = () => {
       formData.append("createrid", createrid);
       formData.append("createrrole", createrrole);
 
+      // Add a small delay to make loading state visible (for testing)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/createOrganization`,
         formData,
@@ -101,7 +110,8 @@ const OrganizationForm = () => {
       console.error("Error submitting form data:", error);
       message.error("Submission failed");
     } finally {
-      // setIsLoading(false);
+      console.log('Form submission finished, setting loading to false');
+      setIsLoading(false);
     }
   };
 
@@ -119,7 +129,7 @@ const OrganizationForm = () => {
 
   return (
     <>
-      {isLoading && (
+      {/* {isLoading && (
         <div
           style={{
             position: "fixed",
@@ -138,7 +148,7 @@ const OrganizationForm = () => {
         >
           <Spin size="large" fullscreen />
         </div>
-      )}
+      )} */}
 
 
       <Box m="15px" sx={{ backgroundColor: "#ffffff", padding: isMobile ? "15px" : "24px" }}>
@@ -421,20 +431,38 @@ const OrganizationForm = () => {
             {/* Add more fields as needed */}
           </Row>
           <Box display="flex" justifyContent="flex-end" mt="10px" gap="10px">
+            {console.log('Rendering button with loading state:', isLoading)}
             <Button
               type="primary"
               className="form-button"
               htmlType="submit"
+              disabled={isLoading}
               style={{
                 padding: "12px 24px",
-                // fontSize: "14px",
-                // fontWeight: "600",
                 borderRadius: "8px",
-                background: colors.blueAccent[1000],
+                background: isLoading ? "#ccc" : colors.blueAccent[1000],
                 color: "#fff",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                opacity: isLoading ? 0.7 : 1,
+                position: "relative",
+                minWidth: "100px",
               }}
             >
-              Save
+              {isLoading ? (
+                <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div style={{ 
+                    width: "16px", 
+                    height: "16px", 
+                    border: "2px solid #fff", 
+                    borderTop: "2px solid transparent", 
+                    borderRadius: "50%", 
+                    animation: "spin 1s linear infinite" 
+                  }}></div>
+                  Saving...
+                </span>
+              ) : (
+                "Save"
+              )}
             </Button>
           </Box>
         </Form>

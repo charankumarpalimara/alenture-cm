@@ -1105,6 +1105,7 @@ const CmForm = () => {
                   type="primary"
                   htmlType="submit"
                   className="form-button"
+                  loading={isLoading}
                   // size="large"
                   style={{
                     background: colors.blueAccent[1000],
