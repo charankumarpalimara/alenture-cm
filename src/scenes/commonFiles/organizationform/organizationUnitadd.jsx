@@ -489,7 +489,7 @@ const OrganizationUnitadd = () => {
   //     );
   //     // Remove from local state
   //     setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-  //     message.success("Oganization Unit deleted successfully!");
+  //     message.success("Organization Unit deleted successfully!");
   //   } catch (error) {
   //     message.error("Error deleting branch");
   //     console.error(error);
@@ -536,7 +536,7 @@ const OrganizationUnitadd = () => {
       fetchGetAllData();
 
       form.resetFields();
- 
+
       setUnitAddForm(false);
       setCmform(false);
       setShowSuccess(false);
@@ -850,7 +850,7 @@ const OrganizationUnitadd = () => {
                     key={branch.id || idx}
                   >
                     <Row gutter={16}>
-                      <Col xs={24} md={8} style={{ display: "none" }}>
+                      <Col xs={24} md={8} style={{display:isEditing ? "block" : "none"}}>
                         <Typography.Text className="custom-placeholder-12px">Organization Name</Typography.Text>
                         <Input
                           value={editData.organizationname}
@@ -908,7 +908,7 @@ const OrganizationUnitadd = () => {
                           style={{ marginBottom: 12 }}
                         />
                       </Col>
-                      <Col xs={24} md={8}>
+                      <Col xs={24} md={8} style={{ display: "none" }}>
                         <Typography.Text className="custom-headding-12px" >Phone Code</Typography.Text>
                         <Input
                           value={editData.phonecode}
@@ -921,20 +921,24 @@ const OrganizationUnitadd = () => {
                           style={{ marginBottom: 12 }}
                         />
                       </Col>
-                      <Col xs={24} md={8}>
+                      <Col xs={24} md={8} style={{ display: "none" }}>
                         <Typography.Text className="custom-headding-12px">Mobile</Typography.Text>
                         <Input
                           value={editData.mobile}
-                          onChange={(e) =>
-                            handleBranchInputChange("mobile", e.target.value)
-                          }
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            // Only allow numbers
+                            if (/^[0-9]*$/.test(value)) {
+                              handleBranchInputChange("mobile", value);
+                            }
+                          }}
                           placeholder="Mobile"
                           size="large"
                           disabled={!isEditing}
                           style={{ marginBottom: 12 }}
                         />
                       </Col>
-                      <Col xs={24} md={8}>
+                      <Col xs={24} md={8} style={{ display: "none" }}>
                         <Typography.Text className="custom-headding-12px">Email</Typography.Text>
                         <Input
                           value={editData.email}
@@ -1034,27 +1038,29 @@ const OrganizationUnitadd = () => {
                     <div style={{ marginTop: 16 }}>
                       {isEditing ? (
                         <>
-                          <Button
-                            type="primary"
+                          < MuiButton
+                            variant="contained"
                             onClick={() => handleBranchSave(idx)}
                             loading={isLoading}
                             className="form-button"
-                            style={{
+                            sx={{
                               background: colors.blueAccent[1000],
                               color: "#fff",
-                              borderRadius: 8,
-                              marginRight: 8,
+                              borderRadius: "8px",
+                              marginRight: "8px",
                             }}
                           >
                             Save
-                          </Button>
-                          <Button
-                            danger
+                          </MuiButton>
+                          <MuiButton
+                            variant="outlined"
+                            color="error"
+
                             onClick={handleBranchCancel}
                             className="form-button"
                           >
                             Cancel
-                          </Button>
+                          </MuiButton>
                         </>
                       ) : (
                         <>
@@ -1080,10 +1086,10 @@ const OrganizationUnitadd = () => {
                               // size="small"
                               color="error"
                               className="form-button"
-                              style={{
+                              sx={{
                                 // backgroundColor: "#3e4396",
                                 // color: "#fff",
-                                borderRadius: 8,
+                                borderRadius: "8px",
                                 // borderColor: "#f8dcdb",
 
                               }}
@@ -1288,13 +1294,13 @@ const OrganizationUnitadd = () => {
                         noStyle
                         rules={[{ required: true, message: "Code is required" }]}
                       >
-                                              <Select
-                        showSearch
-                        style={{ width: "40%" }}
-                        placeholder="Code"
-                        optionFilterProp="children"
-                        size="large"
-                      >
+                        <Select
+                          showSearch
+                          style={{ width: "40%" }}
+                          placeholder="Code"
+                          optionFilterProp="children"
+                          size="large"
+                        >
                           {countries.map((c) => (
                             <Select.Option
                               key={c.isoCode}
@@ -1979,10 +1985,10 @@ const OrganizationUnitadd = () => {
 
 
       {showSuccess && (
-        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate("/organizationdetails", { 
-          state: { 
+        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate("/organizationdetails", {
+          state: {
             ticket: organizationid || firstBranch?.organizationid
-          } 
+          }
         })} />
       )}
 

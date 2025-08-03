@@ -10,15 +10,15 @@ import {
   message,
   Collapse,
   Spin,
-  Divider,
-  Avatar,
+  // Divider,
+  // Avatar,
   Modal
   // Typography
 } from "antd";
 // import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { UpOutlined, DownOutlined, UserOutlined, PhoneOutlined, MailOutlined, IdcardOutlined } from "@ant-design/icons";
+import { UpOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { tokens } from "../../../theme";
@@ -184,7 +184,13 @@ console.log('CM Details - interestsValue:', interestsValue);
             )}
             <Input
               value={editData.mobile}
-              onChange={e => onCmInputChange("mobile", e.target.value)}
+              onChange={e => {
+                const value = e.target.value;
+                // Only allow numbers
+                if (/^[0-9]*$/.test(value)) {
+                  onCmInputChange("mobile", value);
+                }
+              }}
               style={{ width: "60%" }}
               placeholder="Phone Number"
               disabled={!isEditingCm}
@@ -880,7 +886,7 @@ const handleCmSave = async () => {
       setBranchEdits({});
       setBranchStates([]);
       setBranchCities([]);
-      message.success("Branch updated successfully!");
+      message.success("Unit updated successfully!");
       
       // Refresh CM data to ensure consistency
       setTimeout(() => {
@@ -909,7 +915,7 @@ const handleCmSave = async () => {
   //     );
   //     // Remove from local state
   //     setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-  //     message.success("Oganization Unit deleted successfully!");
+  //     message.success("Organization Unit deleted successfully!");
   //   } catch (error) {
   //     message.error("Error deleting branch");
   //     console.error(error);
@@ -1098,7 +1104,13 @@ const handleCmSave = async () => {
                    
                       <Input
                         value={editData.mobile}
-                        onChange={e => handleBranchInputChange("mobile", e.target.value)}
+                        onChange={e => {
+                          const value = e.target.value;
+                          // Only allow numbers
+                          if (/^[0-9]*$/.test(value)) {
+                            handleBranchInputChange("mobile", value);
+                          }
+                        }}
                         placeholder="Mobile"
                         size="large"
                         disabled={!isEditing}

@@ -312,9 +312,13 @@ const OrganizationDetails = () => {
                         placeholder="Phone Number"
                         size="large"
                         value={branch.phoneno}
-                        onChange={(e) =>
-                          setBranch({ ...branch, phoneno: e.target.value })
-                        }
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Only allow numbers
+                          if (/^[0-9]*$/.test(value)) {
+                            setBranch({ ...branch, phoneno: value });
+                          }
+                        }}
                         disabled={!editMode}
                       />
                     </Form.Item>

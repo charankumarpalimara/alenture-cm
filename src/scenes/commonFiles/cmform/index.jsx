@@ -368,7 +368,7 @@ const CmForm = () => {
       }
     }
     try {
-      const responce = await axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/createCm`,
         // `http://127.0.0.1:8080/v1/createCm`,
         formData,
@@ -376,8 +376,8 @@ const CmForm = () => {
       );
       // Modal.success({ content: "CM Registered Successfully!" });
       // message.success("CM Registered Successfully!");
-      const cmData = responce.data.data || {};
-      const FinalCmid = responce.data.cmid || cmData.cmid;
+      const cmData = response.data.data || {};
+      const FinalCmid = response.data.cmid || cmData.cmid;
 
       // message.success("CM Registered Successfully!");
       setEditValues({ ...values, profileImage, cmid: FinalCmid }); // <-- set modal values
