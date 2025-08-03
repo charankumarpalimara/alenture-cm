@@ -355,7 +355,13 @@ const CrmProfile = ({ apiUrl }) => {
                     <Input
                       name="PhoneNo"
                       value={values.PhoneNo}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        // Only allow numbers
+                        if (/^[0-9]*$/.test(value)) {
+                          handleChange(e);
+                        }
+                      }}
                       onBlur={handleBlur}
                       disabled={true}
                       size="large"

@@ -159,7 +159,13 @@ const CrmDetails = () => {
                 label="Phone No"
                 name="PhoneNo"
                 value={values.PhoneNo}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Only allow numbers
+                  if (/^[0-9]*$/.test(value)) {
+                    handleChange(e);
+                  }
+                }}
                 onBlur={handleBlur}
                 error={!!touched.PhoneNo && !!errors.PhoneNo}
                 helperText={touched.PhoneNo && errors.PhoneNo}
