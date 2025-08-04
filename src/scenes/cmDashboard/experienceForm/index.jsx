@@ -7,6 +7,36 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
+
+// Add CSS for validation styling
+const validationStyles = `
+  /* Default styling for all inputs */
+  .ant-input, .ant-select-selector {
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 6px !important;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1) !important;
+  }
+  
+  /* Error styling for all form items */
+  .ant-form-item-has-error .ant-input,
+  .ant-form-item-has-error .ant-select-selector {
+    border-color: #ff4d4f !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2) !important;
+  }
+  
+  /* Focus states */
+  .ant-form-item-has-error .ant-input:focus,
+  .ant-form-item-has-error .ant-select-selector:focus {
+    border-color: #ff4d4f !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2) !important;
+  }
+  
+  /* Hover states */
+  .ant-form-item-has-error .ant-input:hover,
+  .ant-form-item-has-error .ant-select-selector:hover {
+    border-color: #ff4d4f !important;
+  }
+`;
 const { Option } = AntdSelect;
 const { TextArea } = Input;
 // Adjust the import path as
@@ -271,6 +301,7 @@ const CmExperienceRegistrationForm = () => {
 
   return (
     <>
+      <style>{validationStyles}</style>
       {isLoading && (
         <div style={{
           position: 'fixed',
@@ -322,6 +353,7 @@ const CmExperienceRegistrationForm = () => {
             form={form}
             layout="vertical"
             onFinish={handleFormSubmit}
+            validateTrigger={["onBlur", "onChange", "onSubmit"]}
             initialValues={{ experience: "", subject: "", experienceDetails: "", impact: "" }}
           >
             <AntdTypography.Text className="custom-headding-12px">How was your experience?</AntdTypography.Text>
@@ -353,6 +385,7 @@ const CmExperienceRegistrationForm = () => {
             </div>
             <Form.Item
               name="experience"
+              validateTrigger={["onBlur", "onChange"]}
               rules={[{ required: true, message: 'Experience selection is required' }]}
               style={{ marginBottom: 8 }}
             >
@@ -362,28 +395,52 @@ const CmExperienceRegistrationForm = () => {
             <AntdTypography.Text className="custom-headding-12px">Subject</AntdTypography.Text>
             <Form.Item
               name="subject"
+              validateTrigger={["onBlur", "onChange"]}
               rules={[{ required: true, message: 'Subject is required' }]}
               style={{ marginBottom: 8 }}
             >
-              <Input placeholder="Enter subject" style={{ height: 45, background: '#fff', border: '1px solid #ccc', boxShadow: '2px 2px 5px rgba(0,0,0,0.1)' }} />
+              <Input 
+                placeholder="Enter subject" 
+                style={{ 
+                  height: 45, 
+                  background: '#fff', 
+                  borderRadius: '6px'
+                }} 
+              />
             </Form.Item>
 
             <AntdTypography.Text className="custom-headding-12px">Details of your experience</AntdTypography.Text>
             <Form.Item
               name="experienceDetails"
+              validateTrigger={["onBlur", "onChange"]}
               rules={[{ required: true, message: 'Details are required' }, { max: 500, message: 'Maximum 500 characters' }]}
               style={{ marginBottom: 8 }}
             >
-              <TextArea rows={4} placeholder="Describe your experience" style={{ background: '#fff', border: '1px solid #ccc', boxShadow: '2px 2px 5px rgba(0,0,0,0.1)' }} />
+              <TextArea 
+                rows={4} 
+                placeholder="Describe your experience" 
+                style={{ 
+                  background: '#fff', 
+                  borderRadius: '6px'
+                }} 
+              />
             </Form.Item>
 
             <AntdTypography.Text className="custom-headding-12px">Impact</AntdTypography.Text>
             <Form.Item
               name="impact"
+              validateTrigger={["onBlur", "onChange"]}
               rules={[{ required: true, message: 'Impact selection is required' }]}
               style={{ marginBottom: 8 }}
             >
-              <AntdSelect placeholder="Select an impact" style={{ height: 45, background: '#fff', boxShadow: '2px 2px 5px rgba(0,0,0,0.1)' }}>
+              <AntdSelect 
+                placeholder="Select an impact" 
+                style={{ 
+                  height: 45, 
+                  background: '#fff', 
+                  borderRadius: '6px'
+                }}
+              >
                 {impactOptions.map((option) => (
                   <Option key={option.value} value={option.value}>{option.label}</Option>
                 ))}

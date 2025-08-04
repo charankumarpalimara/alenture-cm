@@ -1426,19 +1426,21 @@ const handleCmSave = async () => {
 
 
                 </div>
-
+                {editData.branchtype !== "Parent" && (
+                  <>
                 <Text className="custom-headding-16px"
                   style={{
                     textAlign: isMobile ? "left" : "center",
                     fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
                     paddingLeft: isMobile ? "0px" : "0px",
+            
                   }}
                 >
                   Customer Manager(s) :
                 </Text>
 
                 {/* Customer Managers Section - Only show for non-Parent units */}
-                {editData.branchtype !== "Parent" && (
+
 
                   <div style={{ marginTop: 24 }}>
 
@@ -1538,6 +1540,7 @@ const handleCmSave = async () => {
                       </Box>
                     )}
                   </div>
+                  </>
                 )}
 
                 {/* <div style={{ marginTop: 16 }}>

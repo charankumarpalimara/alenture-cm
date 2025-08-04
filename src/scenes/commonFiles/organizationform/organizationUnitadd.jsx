@@ -1202,7 +1202,12 @@ const OrganizationUnitadd = () => {
                       /> */}
             </div>
 
-            <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
+            <Form 
+              form={form} 
+              layout="vertical" 
+              onFinish={handleFormSubmit}
+              validateTrigger={["onBlur", "onChange", "onSubmit"]}
+            >
               <Row gutter={16}>
                 <Col xs={24} md={8} style={{ display: "none" }}>
                   <Form.Item label="Organization Id" className="custom-placeholder-12px">
@@ -1243,6 +1248,7 @@ const OrganizationUnitadd = () => {
                   <Form.Item
                     label={<span className="custom-headding-12px">Organization Unit</span>}
                     name="branch"
+                    validateTrigger={["onBlur", "onChange"]}
                     rules={[{ required: true, message: "Organization Unit is required" }]}
                     className="custom-placeholder-12px"
                   >
@@ -1266,19 +1272,19 @@ const OrganizationUnitadd = () => {
                   <Form.Item
                     label={<Typography.Text className="custom-headding-12px" >Email</Typography.Text>}
                     name="email"
+                    validateTrigger={["onBlur", "onChange"]}
                     className="custom-placeholder-12px"
-                    rules={[{ required: true, message: "Organization Unit is required" }]}
+                    rules={[
+                      { required: true, message: "Email is required" },
+                      { type: "email", message: "Please enter a valid email" }
+                    ]}
                   >
                     <Input
-                      value={firstBranch.email || ""}
-                      // disabled 
+                      placeholder="Email"
                       size="large"
                       style={{
                         borderRadius: 8,
-                        // background: "#f5f5f5",
                         fontSize: 16,
-                        // color: "#888",
-                        // cursor: "not-allowed",
                       }}
                     />
                   </Form.Item>
@@ -1286,12 +1292,17 @@ const OrganizationUnitadd = () => {
 
 
                 <Col xs={24} md={8}>
-                  <Form.Item label={<span className="custom-headding-12px">Phone Number</span>} className="custom-placeholder-12px" required>
+                  <Form.Item 
+                    label={<span className="custom-headding-12px">Phone Number</span>} 
+                    className="custom-placeholder-12px" 
+                    required
+                  >
                     <Input.Group compact>
                       <Form.Item
                         name="phoneCode"
                         className="custom-placeholder-12px"
                         noStyle
+                        validateTrigger={["onBlur", "onChange"]}
                         rules={[{ required: true, message: "Code is required" }]}
                       >
                         <Select
@@ -1313,6 +1324,7 @@ const OrganizationUnitadd = () => {
                         name="PhoneNo"
                         className="custom-placeholder-12px"
                         noStyle
+                        validateTrigger={["onBlur", "onChange"]}
                         rules={[
                           { required: true, message: "Phone number is required" },
                           { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
@@ -1334,6 +1346,7 @@ const OrganizationUnitadd = () => {
                   <Form.Item
                     label={<Typography.Text className="custom-headding-12px" >Country</Typography.Text>}
                     name="country"
+                    validateTrigger={["onBlur", "onChange"]}
                     rules={[{ required: true, message: "Country is required" }]}
                     className="custom-placeholder-12px"
                   >
@@ -1364,6 +1377,7 @@ const OrganizationUnitadd = () => {
                   <Form.Item
                     label={<Typography.Text className="custom-headding-12px">State/Province</Typography.Text>}
                     name="province"
+                    validateTrigger={["onBlur", "onChange"]}
                     rules={[{ required: true, message: "State/Province is required" }]}
                     className="custom-placeholder-12px"
                   >
@@ -1399,6 +1413,7 @@ const OrganizationUnitadd = () => {
                   <Form.Item
                     label={<Typography.Text className="custom-headding-12px">City</Typography.Text>}
                     name="city"
+                    validateTrigger={["onBlur", "onChange"]}
                     rules={[{ required: true, message: "City is required" }]}
                     className="custom-placeholder-12px"
                   >
@@ -1435,8 +1450,9 @@ const OrganizationUnitadd = () => {
                     label={<span className="custom-headding-12px">Address</span>}
                     className="custom-placeholder-12px"
                     name="address"
+                    validateTrigger={["onBlur", "onChange"]}
                     rules={[
-                      { required: true, message: " Address is required" },
+                      { required: true, message: "Address is required" },
                     ]}
                   >
                     <Input
@@ -1450,6 +1466,7 @@ const OrganizationUnitadd = () => {
                   <Form.Item
                     label={<Typography.Text className="custom-headding-12px" >Postal Code</Typography.Text>}
                     name="postcode"
+                    validateTrigger={["onBlur", "onChange"]}
                     rules={[{ required: true, message: "Postal Code is required" }]}
                     className="custom-placeholder-12px"
                   >
@@ -1638,7 +1655,7 @@ const OrganizationUnitadd = () => {
                               </Form.Item>
                             </Col>
                             <Col xs={24} md={8}>
-                              <Form.Item label={<Typography.Text className="custom-headding-12px">Relationship Manager</Typography.Text>} name="crmname" >
+                              <Form.Item label={<Typography.Text className="custom-headding-12px">Relationship Manager</Typography.Text>} name="crmname" rules={[{ required: true, message: "Relationship Manager is required" }]} >
                                 <Select
                                   showSearch
                                   placeholder="Select Relationship Manager"

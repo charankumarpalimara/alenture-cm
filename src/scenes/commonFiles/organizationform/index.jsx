@@ -180,6 +180,7 @@ const OrganizationForm = () => {
           form={form}
           layout="vertical"
           onFinish={handleFormSubmit}
+          validateTrigger={["onBlur", "onChange", "onSubmit"]}
           initialValues={{
             organization: "",
             branch: "",
@@ -200,6 +201,7 @@ const OrganizationForm = () => {
                 label={<span className="custom-headding-12px">Organization Name</span>}
                 className="custom-placeholder-12px"
                 name="organization"
+                validateTrigger={["onBlur", "onChange"]}
                 rules={[
                   { required: true, message: "Organization Name is required" },
                   {
@@ -230,6 +232,7 @@ const OrganizationForm = () => {
                 label={<Text className="custom-headding-12px">Industry</Text>}
                 className="custom-placeholder-12px"
                 name="industry"
+                validateTrigger={["onBlur", "onChange"]}
                 rules={[{ required: true, message: "Industry is required" }]}
               >
                 <Select
@@ -328,6 +331,7 @@ const OrganizationForm = () => {
               <Form.Item
                 label={<span className="custom-headding-12px">Country</span>}
                 name="country"
+                validateTrigger={["onBlur", "onChange"]}
                 rules={[{ required: true, message: "Country is required" }]}
               >
                 <Select
@@ -354,6 +358,7 @@ const OrganizationForm = () => {
                 label={<span className="custom-headding-12px">State/Province</span>}
                 className="custom-placeholder-12px"
                 name="province"
+                validateTrigger={["onBlur", "onChange"]}
                 rules={[{ required: true, message: "State/Province is required" }]}
               >
                 <Select
@@ -381,6 +386,7 @@ const OrganizationForm = () => {
                 label={<span className="custom-headding-12px">City</span>}
                 className="custom-placeholder-12px"
                 name="city"
+                validateTrigger={["onBlur", "onChange"]}
                 rules={[{ required: true, message: "City is required" }]}
               >
                 <Select
@@ -403,6 +409,7 @@ const OrganizationForm = () => {
                 label={<span className="custom-headding-12px">Address</span>}
                 className="custom-placeholder-12px"
                 name="address"
+                validateTrigger={["onBlur", "onChange"]}
                 rules={[
                   { required: true, message: " Address is required" },
                  ]}
@@ -419,6 +426,7 @@ const OrganizationForm = () => {
                 label={<span className="custom-headding-12px">Postal Code</span>}
                 className="custom-placeholder-12px"
                 name="postcode"
+                validateTrigger={["onBlur", "onChange"]}
                 rules={[{ required: true, message: "Postal Code is required" }]}
               >
                 <Input
