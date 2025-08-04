@@ -144,7 +144,7 @@ const HobDetails = () => {
       const data = await response.json();
       if (response.ok) {
         setIsLoading(false);
-        message.success('Hob details updated successfully');
+        message.success('HOB Details Updated Successfully');
         setIsEditing(false);
       } else {
         message.error('Update failed: ' + (data?.error || response.statusText));

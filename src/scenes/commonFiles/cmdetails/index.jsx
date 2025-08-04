@@ -11,6 +11,7 @@ import {
   Typography,
   message,
   Spin,
+  Space,
 } from "antd";
 import {
   Button as MuiButton,
@@ -254,7 +255,7 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
       );
       const data = await response.json();
       if (response.ok) {
-        message.success("Customer Manager details updated successfully");
+        message.success("Customer Manager Details Updated Successfully");
         setIsLoading(false);
         setIsEditing(false);
         // navigate("/cm");
@@ -480,7 +481,7 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
             okText="Save Photo"
             cancelText="Cancel"
             width={400}
-            bodyStyle={{ height: 350 }}
+            styles={{ body: { height: 350 } }}
           >
             {originalImage && (
               <ReactCrop
@@ -557,7 +558,7 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
             </Col>
             <Col xs={24} md={8}>
               <Form.Item label={<Text className="custom-headding-12px">Phone Number</Text>} required>
-                <Input.Group compact>
+                <Space.Compact style={{ width: '100%' }}>
                   <Form.Item
                     name="phoneCode"
                     noStyle
@@ -595,7 +596,7 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
                       size="large"
                     />
                   </Form.Item>
-                </Input.Group>
+                </Space.Compact>
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>

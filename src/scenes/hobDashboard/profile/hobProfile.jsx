@@ -65,6 +65,7 @@ const HobProfile = () => {
     email: email || "",
     PhoneNo: phoneNo || "",
     gender: userGender || "",
+    profileImageFile: null,
   };
 
   const handleSubmit = async (values) => {
@@ -176,7 +177,23 @@ const HobProfile = () => {
   };
 
   const handleSaveCroppedImage = async () => {
-    await handleCropImage();
+    const croppedImageData = await handleCropImage();
+    if (croppedImageData) {
+      // Convert base64 to blob for file upload
+      const arr = croppedImageData.split(",");
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      const file = new Blob([u8arr], { type: mime });
+      const profileImageFile = new File([file], "profile.jpg", { type: mime });
+      
+      // Set the file in form values
+      form.setFieldsValue({ profileImageFile });
+    }
     setCropModalVisible(false);
   };
 

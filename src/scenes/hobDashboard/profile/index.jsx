@@ -44,6 +44,7 @@ const AdminProfile = () => {
   const [completedCrop, setCompletedCrop] = useState();
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
+  const setFieldValueRef = useRef(null);
 
   const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {};
   const firstName = userDetails.firstname;
@@ -69,6 +70,7 @@ const AdminProfile = () => {
     email: email || "",
     PhoneNo: phoneNo || "",
     gender: userGender || "",
+    profileImageFile: null,
   };
 
   const checkoutSchema = yup.object().shape({
@@ -197,7 +199,25 @@ const AdminProfile = () => {
   };
 
   const handleSaveCroppedImage = async () => {
-    await handleCropImage();
+    const croppedImageData = await handleCropImage();
+    if (croppedImageData) {
+      // Convert base64 to blob for file upload
+      const arr = croppedImageData.split(",");
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      const file = new Blob([u8arr], { type: mime });
+      const profileImageFile = new File([file], "profile.jpg", { type: mime });
+      
+      // Set the file in form values using setFieldValue from Formik
+      if (setFieldValueRef.current) {
+        setFieldValueRef.current("profileImageFile", profileImageFile);
+      }
+    }
     setCropModalVisible(false);
   };
 
@@ -282,7 +302,9 @@ const AdminProfile = () => {
             handleSubmit,
             setFieldValue,
             resetForm,
-          }) => (
+          }) => {
+            setFieldValueRef.current = setFieldValue;
+            return (
             <>
               <form onSubmit={handleSubmit}>
 
@@ -561,7 +583,8 @@ const AdminProfile = () => {
                 )}
               </Modal>
             </>
-          )}
+          );
+        }}
         </Formik>
       </div>
     </>

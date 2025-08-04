@@ -73,6 +73,7 @@ const CrmDetails = () => {
   const [crmDetails, setcrmDetails] = useState(null);
 
   const [form] = Form.useForm();
+  const [assignFormInstance] = Form.useForm();
   const { createdCrmId } = useParams();
 
   // Defensive: ticket may be undefined after refresh, so fallback to param
@@ -236,7 +237,7 @@ const CrmDetails = () => {
       if (response.ok) {
         setIsLoading(false);
         message.success(
-          "Customer Relationship Manager details updated successfully"
+          "Relationship Manager Details Updated Successfully"
         );
         setIsEditing(false);
       } else {
@@ -267,6 +268,9 @@ const CrmDetails = () => {
 
   const fetchBranch = async (orgName) => {
     try {
+      // Clear branch names first
+      setBranchNames([]);
+      
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/getBranchbyOrganizationname/${orgName}`
       );
@@ -280,11 +284,17 @@ const CrmDetails = () => {
           setBranchNames([]);
         }
       }
-    } catch (error) { }
+    } catch (error) {
+      console.error("Error fetching branches:", error);
+      setBranchNames([]);
+    }
   };
 
   const fetchCmNames = async (orgName, branch) => {
     try {
+      // Clear CM names first
+      setCmNames([]);
+      
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/GetCmNames`,
         {
@@ -302,6 +312,7 @@ const CrmDetails = () => {
         }
       }
     } catch (error) {
+      console.error("Error fetching CM names:", error);
       setCmNames([]);
     }
   };
@@ -341,7 +352,7 @@ const CrmDetails = () => {
           setRelationsData(relData.data);
         }
         setAssingForm(false);
-        form.resetFields(["organization", "branch", "cmname"]);
+        assignFormInstance.resetFields(["organization", "branch", "cmname", "cmid"]);
       } else {
         message.error(data?.error || "Assignment failed");
       }
@@ -554,7 +565,7 @@ const CrmDetails = () => {
                 okText="Save Photo"
                 cancelText="Cancel"
                 width={400}
-                bodyStyle={{ height: 350 }}
+                styles={{ body: { height: 350 } }}
               >
                 {originalImage && (
                   <ReactCrop
@@ -630,7 +641,7 @@ const CrmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item label={<Text className="custom-headding-12px">Phone Number</Text>} required>
-                <Input.Group compact>
+                <Space.Compact style={{ width: '100%' }}>
                   <Form.Item
                     name="phoneCode"
                     noStyle
@@ -669,7 +680,7 @@ const CrmDetails = () => {
                       size="large"
                     />
                   </Form.Item>
-                </Input.Group>
+                </Space.Compact>
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
@@ -719,7 +730,7 @@ const CrmDetails = () => {
               fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
               paddingLeft: isMobile ? "0px" : "0px",
             }}>
-            Customer Manager(s)
+            Customer Manager(s) :
           </Typography.Title>
           <Col span={24}>
             <Collapse style={{ marginTop: 24 }}
@@ -841,13 +852,13 @@ const CrmDetails = () => {
                             <>
                               <MuiButton
                                 variant="outlined"
-                                startIcon={<DeleteIcon />}
+                                // startIcon={<DeleteIcon />}
                                 color="error"
                                 onClick={() => {
                                   Modal.confirm({
-                                    title: "Are you sure you want to delete this relation?",
+                                    title: "Are you sure you want to Remove this relation?",
                                     content: "This action cannot be undone.",
-                                    okText: "Yes, Delete",
+                                    okText: "Yes, Remove",
                                     okType: "danger",
                                     cancelText: "Cancel",
                                     onOk: async () => {
@@ -858,7 +869,7 @@ const CrmDetails = () => {
                                   });
                                 }}
                               >
-                                Delete
+                                Remove
                               </MuiButton>
                             </>
                           )}
@@ -872,7 +883,7 @@ const CrmDetails = () => {
           </Col>
         </Form>
         {assignForm && (
-          <Form layout="vertical" form={form} onFinish={handleAssign}>
+          <Form layout="vertical" form={assignFormInstance} onFinish={handleAssign}>
             <Row gutter={16} style={{ marginTop: 24, alignItems: "center" }}>
               <Col xs={24} md={8}>
                 <Form.Item
@@ -885,9 +896,14 @@ const CrmDetails = () => {
                     placeholder="Select Organization"
                     size="large"
                     style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
-                    onChange={async (value) => {
-                      form.setFieldsValue({ organization: value, branch: "" });
-                      await fetchBranch(value);
+                    onChange={async (value, option) => {
+                      assignFormInstance.setFieldsValue({ 
+                        organization: option.children, 
+                        branch: undefined,
+                        cmname: undefined,
+                        cmid: undefined
+                      });
+                      await fetchBranch(option.children);
                     }}
                   >
                     {organizationNames.map((org) => (
@@ -910,8 +926,12 @@ const CrmDetails = () => {
                     size="large"
                     style={{ borderRadius: 8, background: "#fff", fontSize: 16 }}
                     onChange={async (value) => {
-                      form.setFieldsValue({ branch: value, cmname: "" });
-                      await fetchCmNames(form.getFieldValue("organization"), value);
+                      assignFormInstance.setFieldsValue({ 
+                        branch: value, 
+                        cmname: undefined,
+                        cmid: undefined
+                      });
+                      await fetchCmNames(assignFormInstance.getFieldValue("organization"), value);
                     }}
                   >
                     {branchNames.map((item, idx) => (
@@ -924,7 +944,7 @@ const CrmDetails = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label="CM Name"
+                  label="Customer Manager"
                   name="cmname"
                   rules={[{ required: true, message: "CM Name is required" }]}
                 >
@@ -935,7 +955,7 @@ const CrmDetails = () => {
                     size="large"
                     onChange={(value) => {
                       const selected = cmNames.find(cm => cm.cmid === value);
-                      form.setFieldsValue({
+                      assignFormInstance.setFieldsValue({
                         cmname: selected ? selected.name : "",
                         cmid: value
                       });
@@ -954,34 +974,33 @@ const CrmDetails = () => {
                   <Input disabled />
                 </Form.Item>
               </Col>
-              <Row gutter={16} style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Col>
-                  <Space>
-                    <MuiButton
-                      variant="contained"
-                      htmlType="submit"
-                      // size="large"
-                      className="form-button"
-                      style={{
-                        background: colors.blueAccent[1000],
-                        borderColor: colors.blueAccent[1000],
-                        color: "#fff",
-                        // minWidth: 120,
-                      }}
-                    >
-                      Assign
-                    </MuiButton>
-                    <MuiButton
-                      variant="outlined"
-                      color="error"
-                      className="form-button"
-                      //  danger 
-                      onClick={() => setAssingForm(false)}>
-                      Cancel
-                    </MuiButton>
-                  </Space>
-                </Col>
-              </Row>
+
+            </Row>
+            <Row gutter={16} style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
+              <Col>
+                <Space>
+                  <MuiButton
+                    variant="contained"
+                    disabled={isLoading}
+                    className="form-button"
+                    style={{
+                      background: colors.blueAccent[1000],
+                      borderColor: colors.blueAccent[1000],
+                      color: "#fff",
+                    }}
+                    onClick={() => assignFormInstance.submit()}
+                  >
+                    {isLoading ? "Assigning..." : "Assign"}
+                  </MuiButton>
+                  <MuiButton
+                    variant="outlined"
+                    color="error"
+                    className="form-button"
+                    onClick={() => setAssingForm(false)}>
+                    Cancel
+                  </MuiButton>
+                </Space>
+              </Col>
             </Row>
           </Form>
         )}
