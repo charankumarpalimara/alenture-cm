@@ -167,6 +167,9 @@ const CmDetails = () => {
 
   const fetchBranch = async (orgName) => {
     try {
+      // Clear branch names first
+      setBranchNames([]);
+      
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/getBranchbyOrganizationname/${orgName}`
       );
@@ -181,6 +184,7 @@ const CmDetails = () => {
         }
       }
     } catch (error) {
+      console.error("Error fetching branches:", error);
       setBranchNames([]);
     }
   };
@@ -661,6 +665,7 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
                     form.setFieldsValue({
                       organizationname: option.children,
                       organizationid: value,
+                      branch: undefined, // Clear the branch field when organization changes
                     });
                     fetchBranch(option.children);
                   }}

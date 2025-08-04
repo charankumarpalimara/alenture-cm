@@ -1012,7 +1012,7 @@ const handleCmSave = async () => {
           <Button
             type="text"
             icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/organization")}
             style={{
               color: "#3e4396",
               fontWeight: 600,
