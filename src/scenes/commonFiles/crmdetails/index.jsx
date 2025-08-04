@@ -21,7 +21,7 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { CameraOutlined } from "@ant-design/icons";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { Country, State } from "country-state-city";
+import { Country, State, City } from "country-state-city";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { tokens } from "../../../theme";
 import { useTheme, useMediaQuery } from "@mui/material";
@@ -53,6 +53,8 @@ const CrmDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [cropModalVisible, setCropModalVisible] = useState(false);
@@ -90,6 +92,8 @@ const CrmDetails = () => {
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         if (data && Array.isArray(data.data) && data.data.length > 0) {
+          console.log("CRM Details received:", data.data[0]);
+          console.log("Postal code (extraind6):", data.data[0].extraind6);
           setcrmDetails(data.data[0]);
         } else {
           setcrmDetails({});
@@ -106,25 +110,30 @@ const CrmDetails = () => {
   }, [crmid]);
 
   // Build initial values for the form
-  const buildInitialValues = (data = {}) => ({
-    crmid: data.crmid || "",
-    firstName: data.firstname || "",
-    lastName: data.lastname || "",
-    phoneCode: data.phonecode || "",
-    PhoneNo: data.mobile || "",
-    gender: data.extraind2 || "",
-    email: data.email || "",
-    status: data.extraind7 || "",
-    country: data.extraind3 || "",
-    state: data.state || "",
-    city: data.city || "",
-    street: data.street || "",
-    passwords: data.passwords || "",
-    postalcode: data.postalcode || "",
-    organization0: data.organization || "",
-    customerManager0: data.customermanager || "",
-    imageUrl: data.imageUrl || "",
-  });
+  const buildInitialValues = (data = {}) => {
+    const values = {
+      crmid: data.crmid || "",
+      firstName: data.firstname || "",
+      lastName: data.lastname || "",
+      phoneCode: data.phonecode || "",
+      PhoneNo: data.mobile || "",
+      gender: data.extraind2 || "",
+      email: data.email || "",
+      status: data.extraind7 || "",
+      country: data.extraind3 || "",
+      state: data.extraind4 || "",
+      city: data.extraind5 || "",
+      street: data.street || "",
+      passwords: data.passwords || "",
+      postalcode: data.extraind6 || "",
+      organization0: data.organization || "",
+      customerManager0: data.customermanager || "",
+      imageUrl: data.imageUrl || "",
+    };
+    console.log("Build initial values:", values);
+    console.log("Postal code in initial values:", values.postalcode);
+    return values;
+  };
 
   // Fetch relations
   useEffect(() => {
@@ -181,17 +190,28 @@ const CrmDetails = () => {
   };
 
   useEffect(() => {
-    if (crmDetails?.country) {
+    if (crmDetails?.extraind3) {
       const country = Country.getAllCountries().find(
-        (c) => c.name === crmDetails.country
+        (c) => c.name === crmDetails.extraind3
       );
       setSelectedCountry(country || null);
+      if (country) {
+        const countryStates = State.getStatesOfCountry(country.isoCode);
+        setStates(countryStates);
+      }
     }
-    if (crmDetails?.state && selectedCountry) {
+  }, [crmDetails]);
+
+  useEffect(() => {
+    if (crmDetails?.extraind4 && selectedCountry) {
       const state = State.getStatesOfCountry(selectedCountry.isoCode).find(
-        (s) => s.name === crmDetails.state
+        (s) => s.name === crmDetails.extraind4
       );
       setSelectedState(state || null);
+      if (state) {
+        const stateCities = City.getCitiesOfState(selectedCountry.isoCode, state.isoCode);
+        setCities(stateCities);
+      }
     }
   }, [crmDetails, selectedCountry]);
 
@@ -207,6 +227,10 @@ const CrmDetails = () => {
     formData.append("gender", values.gender);
     formData.append("status", values.status);
     formData.append("passwords", values.passwords || "");
+    formData.append("extraind3", values.country || "");
+    formData.append("extraind4", values.state || "");
+    formData.append("extraind5", values.city || "");
+    formData.append("extraind6", values.postalcode || "");
     const createrrole = getCreaterRole();
     const createrid = getCreaterId() || "";
     formData.append("createrrole", createrrole);
@@ -704,6 +728,112 @@ const CrmDetails = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
+                label={<Text className="custom-headding-12px">Country</Text>}
+                name="country"
+                rules={[{ required: true, message: "Country is required" }]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select Country"
+                  disabled={!isEditing}
+                  size="large"
+                  onChange={(value, option) => {
+                    const selectedCountry = Country.getAllCountries().find(c => c.name === option.children);
+                    setSelectedCountry(selectedCountry);
+                    if (selectedCountry) {
+                      const countryStates = State.getStatesOfCountry(selectedCountry.isoCode);
+                      setStates(countryStates);
+                      setCities([]);
+                      form.setFieldsValue({ state: undefined, city: undefined });
+                    }
+                  }}
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {Country.getAllCountries().map((country) => (
+                    <Select.Option key={country.isoCode} value={country.name}>
+                      {country.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">State</Text>}
+                name="state"
+                rules={[{ required: true, message: "State is required" }]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select State"
+                  disabled={!isEditing || !selectedCountry}
+                  size="large"
+                  onChange={(value, option) => {
+                    const selectedState = states.find(s => s.name === option.children);
+                    setSelectedState(selectedState);
+                    if (selectedState && selectedCountry) {
+                      const stateCities = City.getCitiesOfState(selectedCountry.isoCode, selectedState.isoCode);
+                      setCities(stateCities);
+                      form.setFieldsValue({ city: undefined });
+                    }
+                  }}
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {states.map((state) => (
+                    <Select.Option key={state.isoCode} value={state.name}>
+                      {state.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">City</Text>}
+                name="city"
+                rules={[{ required: true, message: "City is required" }]}
+              >
+                <Select
+                  showSearch
+                  placeholder="Select City"
+                  disabled={!isEditing || !selectedState}
+                  size="large"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                >
+                  {cities.map((city) => (
+                    <Select.Option key={city.name} value={city.name}>
+                      {city.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Postal Code</Text>}
+                name="postalcode"
+                rules={[
+                  { required: true, message: "Postal Code is required" }
+                ]}
+              >
+                <Input
+                  placeholder="Postal Code"
+                  disabled={!isEditing}
+                  size="large"
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
                 label={<Text className="custom-headding-12px">Status</Text>}
                 name="status"
                 rules={[{ required: true, message: "Status is required" }]}
@@ -759,7 +889,7 @@ const CrmDetails = () => {
                       >
                         <Col xs={24} md={8}>
                           <Form.Item
-                            label={<Text className="custom-headding-12px">Organization</Text>}
+                            label={<Text className="custom-headding-12px">Organization Name</Text>}
                             style={{ marginBottom: 0 }}
                           >
                             <Input
@@ -777,7 +907,7 @@ const CrmDetails = () => {
                         </Col>
                         <Col xs={24} md={8}>
                           <Form.Item
-                            label={<Text className="custom-headding-12px">Branch</Text>}
+                            label={<Text className="custom-headding-12px">Oraganization Unit</Text>}
                             style={{ marginBottom: 0 }}
                           >
                             <Input
@@ -887,7 +1017,7 @@ const CrmDetails = () => {
             <Row gutter={16} style={{ marginTop: 24, alignItems: "center" }}>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Organization</Text>}
+                  label={<Text className="custom-headding-12px">Organization Name</Text>}
                   name="organization"
                   rules={[{ required: true, message: "Organization is required" }]}
                 >
@@ -916,7 +1046,7 @@ const CrmDetails = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<Text strong>Organization Unit</Text>}
+                  label={<Text className="custom-headding-12px">Organization Unit</Text>}
                   name="branch"
                   rules={[{ required: true, message: " Organization Unit is required" }]}
                 >
@@ -944,7 +1074,7 @@ const CrmDetails = () => {
               </Col>
               <Col xs={24} md={8}>
                 <Form.Item
-                  label="Customer Manager"
+                  label={<Text className="custom-headding-12px">Customer Manager</Text>}
                   name="cmname"
                   rules={[{ required: true, message: "CM Name is required" }]}
                 >

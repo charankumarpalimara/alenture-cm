@@ -243,6 +243,7 @@ const HobForm = () => {
     formData.append("mobile", values.PhoneNo || "");
     formData.append("username", values.email || "");
     formData.append("passwords", values.firstName + values.PhoneNo);
+    formData.append("extraind7", values.postalcode || "");
 
     if (profileImage) {
       try {
@@ -580,8 +581,16 @@ const HobForm = () => {
           </Row>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="Postal Code" name="postcode" rules={[{ required: true, message: "Postal Code is required" }]}>
-                <Input disabled={!isEditMode} />
+              <Form.Item 
+                label="Postal Code" 
+                name="postcode" 
+                rules={[
+                  { required: true, message: "Postal Code is required" }
+                ]}
+              >
+                <Input 
+                  disabled={!isEditMode} 
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -934,6 +943,20 @@ const HobForm = () => {
                       </Option>
                     ))}
                   </Select>
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  className="custom-placeholder-12px"
+                  label={<span className="custom-headding-12px">Postal Code</span>}
+                  name="postalcode"
+                  rules={[{ required: true, message: "Postal Code is required" }]}
+                >
+                  <Input
+                    placeholder="Postal Code"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff" }}
+                  />
                 </Form.Item>
               </Col>
             </Row>

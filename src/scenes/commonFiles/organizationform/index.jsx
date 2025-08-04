@@ -427,7 +427,9 @@ const OrganizationForm = () => {
                 className="custom-placeholder-12px"
                 name="postcode"
                 validateTrigger={["onBlur", "onChange"]}
-                rules={[{ required: true, message: "Postal Code is required" }]}
+                rules={[
+                  { required: true, message: "Postal Code is required" }
+                ]}
               >
                 <Input
                   placeholder="Postal Code"

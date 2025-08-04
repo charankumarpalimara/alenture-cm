@@ -1277,7 +1277,9 @@ const handleCmSave = async () => {
                       <Form.Item
                         label={<Typography.Text className="custom-headding-12px">Postal Code</Typography.Text>}
                         name="postalcode"
-                        rules={[{ required: true, message: "Postal Code is required" }]}
+                        rules={[
+                          { required: true, message: "Postal Code is required" }
+                        ]}
                       >
                         <Input
                           placeholder="Postal Code"

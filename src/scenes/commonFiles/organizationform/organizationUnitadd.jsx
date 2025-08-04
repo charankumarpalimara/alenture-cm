@@ -1467,7 +1467,9 @@ const OrganizationUnitadd = () => {
                     label={<Typography.Text className="custom-headding-12px" >Postal Code</Typography.Text>}
                     name="postcode"
                     validateTrigger={["onBlur", "onChange"]}
-                    rules={[{ required: true, message: "Postal Code is required" }]}
+                    rules={[
+                      { required: true, message: "Postal Code is required" }
+                    ]}
                     className="custom-placeholder-12px"
                   >
                     <Input

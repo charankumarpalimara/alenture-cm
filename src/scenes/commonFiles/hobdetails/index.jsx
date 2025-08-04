@@ -7,7 +7,7 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { CameraOutlined } from '@ant-design/icons';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { Country, State } from 'country-state-city';
+import { Country, State, City } from 'country-state-city';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { tokens } from '../../../theme';
@@ -38,6 +38,8 @@ const HobDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [cropModalVisible, setCropModalVisible] = useState(false);
@@ -81,15 +83,26 @@ const HobDetails = () => {
     if (hobid) fetchHobData();
   }, [hobid]);
 
-  // Handle country/state selection (for future use)
+  // Handle country/state/city selection
   useEffect(() => {
     if (hobDetails?.extraind3) {
       const country = Country.getAllCountries().find((c) => c.name === hobDetails.extraind3);
       setSelectedCountry(country || null);
+      if (country) {
+        const countryStates = State.getStatesOfCountry(country.isoCode);
+        setStates(countryStates);
+      }
     }
+  }, [hobDetails]);
+
+  useEffect(() => {
     if (hobDetails?.extraind4 && selectedCountry) {
       const state = State.getStatesOfCountry(selectedCountry.isoCode).find((s) => s.name === hobDetails.extraind4);
       setSelectedState(state || null);
+      if (state) {
+        const stateCities = City.getCitiesOfState(selectedCountry.isoCode, state.isoCode);
+        setCities(stateCities);
+      }
     }
   }, [hobDetails, selectedCountry]);
 
@@ -104,6 +117,10 @@ const HobDetails = () => {
     PhoneNo: data.mobile || '',
     phoneCode: data.phonecode || '',
     gender: data.extraind2 || '',
+    country: data.extraind3 || '',
+    state: data.extraind4 || '',
+    city: data.extraind5 || '',
+    postalcode: data.extraind7 || '',
     imageUrl: data.imageUrl || '',
   });
 
@@ -118,6 +135,10 @@ const HobDetails = () => {
     formData.append('mobile', values.PhoneNo);
     formData.append('gender', values.gender);
     formData.append('status', values.status);
+    formData.append('extraind3', values.country);
+    formData.append('extraind4', values.state);
+    formData.append('extraind5', values.city);
+    formData.append('extraind7', values.postalcode);
 
     const createrrole = getCreaterRole() || "";
     const createrid = getCreaterId() || "";
@@ -442,6 +463,105 @@ const HobDetails = () => {
                     <Select.Option key={g} value={g}>{g}</Select.Option>
                   ))}
                 </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Country</Text>}
+                name="country"
+                rules={[{ required: true, message: 'Country is required' }]}
+              >
+                <Select
+                  placeholder="Select Country"
+                  disabled={!isEditing}
+                  size="large"
+                  showSearch
+                  optionFilterProp="children"
+                  onChange={(value) => {
+                    if (!isEditing) return;
+                    const country = Country.getAllCountries().find(c => c.name === value);
+                    setSelectedCountry(country);
+                    setSelectedState(null);
+                    setCities([]);
+                    form.setFieldsValue({ state: undefined, city: undefined });
+                    if (country) {
+                      const countryStates = State.getStatesOfCountry(country.isoCode);
+                      setStates(countryStates);
+                    } else {
+                      setStates([]);
+                    }
+                  }}
+                >
+                  {countries.map((country) => (
+                    <Select.Option key={country.isoCode} value={country.name}>
+                      {country.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">State</Text>}
+                name="state"
+                rules={[{ required: true, message: 'State is required' }]}
+              >
+                <Select
+                  placeholder="Select State"
+                  disabled={!isEditing || !selectedCountry}
+                  size="large"
+                  showSearch
+                  optionFilterProp="children"
+                  onChange={(value) => {
+                    if (!isEditing) return;
+                    const state = states.find(s => s.name === value);
+                    setSelectedState(state);
+                    setCities([]);
+                    form.setFieldsValue({ city: undefined });
+                    if (state) {
+                      const stateCities = City.getCitiesOfState(selectedCountry.isoCode, state.isoCode);
+                      setCities(stateCities);
+                    } else {
+                      setCities([]);
+                    }
+                  }}
+                >
+                  {states.map((state) => (
+                    <Select.Option key={state.isoCode} value={state.name}>
+                      {state.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">City</Text>}
+                name="city"
+                rules={[{ required: true, message: 'City is required' }]}
+              >
+                <Select
+                  placeholder="Select City"
+                  disabled={!isEditing || !selectedState}
+                  size="large"
+                  showSearch
+                  optionFilterProp="children"
+                >
+                  {cities.map((city) => (
+                    <Select.Option key={city.name} value={city.name}>
+                      {city.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item
+                label={<Text className="custom-headding-12px">Postal Code</Text>}
+                name="postalcode"
+                rules={[{ required: true, message: 'Postal Code is required' }]}
+              >
+                <Input placeholder="Postal Code" disabled={!isEditing} size="large" />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
