@@ -478,7 +478,7 @@ const Notes = () => {
           footer={null}
           centered
         >
-          <AntdTypography.Title level={5} style={{ marginBottom: 16 }}>
+          <AntdTypography.Title className="custom-headding-12px" style={{ marginBottom: 7 }}>
             Enter Name
           </AntdTypography.Title>
           <Input
@@ -488,7 +488,7 @@ const Notes = () => {
             style={{ marginBottom: 16 }}
             size="large"
           />
-          <AntdTypography.Title level={5} style={{ marginBottom: 16 }}>
+          <AntdTypography.Title className="custom-headding-12px" style={{ marginBottom: 7 }}>
             Description
           </AntdTypography.Title>
           <TextArea
@@ -499,12 +499,12 @@ const Notes = () => {
             style={{ marginBottom: 24 }}
           />
           <div style={{ display: "flex", gap: 12 }}>
-            <Button
-              type="primary"
+            <MuiButton
+              variant="contained"
               onClick={handleSubmit}
               className="form-button"
-              style={{
-                padding: "8px 32px",
+              sx={{
+                // padding: "8px 32px",
 
                 background: colors.blueAccent[1000],
                 color: "#fff",
@@ -512,7 +512,7 @@ const Notes = () => {
               }}
             >
               Submit
-            </Button>
+            </MuiButton>
             <MuiButton
               variant="outlined"
               color="error"

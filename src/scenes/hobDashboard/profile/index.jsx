@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import {
@@ -12,7 +12,9 @@ import {
   Modal,
   Spin,
   Typography,
+  Select,
 } from "antd";
+import { Country, State, City } from 'country-state-city';
 import {
   // EditOutlined,
   SaveOutlined,
@@ -42,6 +44,10 @@ const AdminProfile = () => {
   const [originalImage, setOriginalImage] = useState(null);
   const [crop, setCrop] = useState();
   const [completedCrop, setCompletedCrop] = useState();
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
   const setFieldValueRef = useRef(null);
@@ -49,6 +55,52 @@ const AdminProfile = () => {
   const userDetails = JSON.parse(sessionStorage.getItem("userDetails")) || {};
   const firstName = userDetails.firstname;
   const middleName = userDetails.middlename;
+
+  // Handle country/state/city selection
+  useEffect(() => {
+    if (userDetails?.extraind3) {
+      console.log("User country:", userDetails.extraind3);
+      console.log("All countries:", Country.getAllCountries().map(c => c.name).slice(0, 10));
+      
+      // Try exact match first
+      let country = Country.getAllCountries().find((c) => c.name === userDetails.extraind3);
+      
+      // If not found, try case-insensitive match
+      if (!country) {
+        country = Country.getAllCountries().find((c) => 
+          c.name.toLowerCase() === userDetails.extraind3.toLowerCase()
+        );
+      }
+      
+      // If still not found, try partial match
+      if (!country) {
+        country = Country.getAllCountries().find((c) => 
+          c.name.toLowerCase().includes(userDetails.extraind3.toLowerCase()) ||
+          userDetails.extraind3.toLowerCase().includes(c.name.toLowerCase())
+        );
+      }
+      
+      console.log("Found country:", country);
+      setSelectedCountry(country || null);
+      if (country) {
+        const countryStates = State.getStatesOfCountry(country.isoCode);
+        console.log("States for", country.name, ":", countryStates.length);
+        console.log("First few states:", countryStates.slice(0, 5).map(s => s.name));
+        setStates(countryStates);
+      }
+    }
+  }, [userDetails]);
+
+  useEffect(() => {
+    if (userDetails?.extraind4 && selectedCountry) {
+      const state = State.getStatesOfCountry(selectedCountry.isoCode).find((s) => s.name === userDetails.extraind4);
+      setSelectedState(state || null);
+      if (state) {
+        const stateCities = City.getCitiesOfState(selectedCountry.isoCode, state.isoCode);
+        setCities(stateCities);
+      }
+    }
+  }, [userDetails, selectedCountry]);
   const lastName = userDetails.lastname;
   const email = userDetails.email;
   const phoneNo = userDetails.mobile;
@@ -74,20 +126,20 @@ const AdminProfile = () => {
   };
 
   const checkoutSchema = yup.object().shape({
-    firstName: yup.string().required("Required"),
+    firstName: yup.string().required("First Name is required"),
     middleName: yup.string(),
-    lastName: yup.string().required("Required"),
-    password: yup.string().required("Required"),
-    city: yup.string().required("Required"),
-    state: yup.string().required("Required"),
-    country: yup.string().required("Required"),
-    email: yup.string().email("Invalid email").required("Required"),
+    lastName: yup.string().required("Last Name is required"),
+    password: yup.string().required("Password is required"),
+    city: yup.string().required("City is required"),
+    state: yup.string().required("State is required"),
+    country: yup.string().required("Country is required"),
+    email: yup.string().email("Invalid email").required("Email is required"),
     PhoneNo: yup
       .string()
       .matches(/^[0-9]+$/, "Only numbers are allowed")
       .min(10, "Must be at least 10 digits")
-      .required("Required"),
-    gender: yup.string().required("Required"),
+      .required("Phone number is required"),
+    gender: yup.string().required("Gender is required"),
   });
 
   const handleSubmit = async (values) => {
@@ -119,7 +171,18 @@ const AdminProfile = () => {
       );
 
       message.success("Profile updated successfully!");
-      let updatedUserDetails = { ...sessionData, password: password, firstname: values.firstName, lastname: values.lastName, email: values.email, mobile: values.PhoneNo, extraind2: values.gender };
+      let updatedUserDetails = { 
+        ...sessionData, 
+        passwords: password, 
+        firstname: values.firstName, 
+        lastname: values.lastName, 
+        email: values.email, 
+        mobile: values.PhoneNo, 
+        extraind2: values.gender,
+        extraind3: values.country || sessionData.extraind3,
+        extraind4: values.state || sessionData.extraind4,
+        extraind5: values.city || sessionData.extraind5
+      };
       if (response.data && response.data.imageUrl) {
         updatedUserDetails.imageUrl = response.data.imageUrl;
       }
@@ -482,6 +545,114 @@ const AdminProfile = () => {
                     </Form.Item>
                   </Col>
                 </Row>
+                {/* <Row gutter={16}>
+                  <Col xs={24} md={8}>
+                    <Typography.Text className="custom-headding-12px">Country</Typography.Text>
+                    <Form.Item
+                      validateStatus={
+                        touched.country && errors.country ? "error" : ""
+                      }
+                      help={touched.country && errors.country}
+                    >
+                      <Select
+                        placeholder="Select Country"
+                        disabled={!isEditing}
+                        showSearch
+                        optionFilterProp="children"
+                        value={values.country}
+                        onChange={(value) => {
+                          console.log("Selected country value:", value);
+                          setFieldValue("country", value);
+                          const country = Country.getAllCountries().find(c => c.name === value);
+                          console.log("Found country object:", country);
+                          setSelectedCountry(country);
+                          setSelectedState(null);
+                          setCities([]);
+                          setFieldValue("state", "");
+                          setFieldValue("city", "");
+                          if (country) {
+                            const countryStates = State.getStatesOfCountry(country.isoCode);
+                            console.log("States for", country.name, ":", countryStates.length);
+                            setStates(countryStates);
+                          } else {
+                            setStates([]);
+                          }
+                        }}
+                        onBlur={handleBlur}
+                      >
+                        {Country.getAllCountries().map((country) => (
+                          <Select.Option key={country.isoCode} value={country.name}>
+                            {country.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Typography.Text className="custom-headding-12px">State</Typography.Text>
+                    <Form.Item
+                      validateStatus={
+                        touched.state && errors.state ? "error" : ""
+                      }
+                      help={touched.state && errors.state}
+                    >
+                      <Select
+                        placeholder="Select State"
+                        disabled={!isEditing || !selectedCountry}
+                        showSearch
+                        optionFilterProp="children"
+                        value={values.state}
+                        onChange={(value) => {
+                          setFieldValue("state", value);
+                          const state = states.find(s => s.name === value);
+                          setSelectedState(state);
+                          setCities([]);
+                          setFieldValue("city", "");
+                          if (state) {
+                            const stateCities = City.getCitiesOfState(selectedCountry.isoCode, state.isoCode);
+                            setCities(stateCities);
+                          } else {
+                            setCities([]);
+                          }
+                        }}
+                        onBlur={handleBlur}
+                      >
+                        {states.map((state) => (
+                          <Select.Option key={state.isoCode} value={state.name}>
+                            {state.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={8}>
+                    <Typography.Text className="custom-headding-12px">City</Typography.Text>
+                    <Form.Item
+                      validateStatus={
+                        touched.city && errors.city ? "error" : ""
+                      }
+                      help={touched.city && errors.city}
+                    >
+                      <Select
+                        placeholder="Select City"
+                        disabled={!isEditing || !selectedState}
+                        showSearch
+                        optionFilterProp="children"
+                        value={values.city}
+                        onChange={(value) => {
+                          setFieldValue("city", value);
+                        }}
+                        onBlur={handleBlur}
+                      >
+                        {cities.map((city) => (
+                          <Select.Option key={city.name} value={city.name}>
+                            {city.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row> */}
                 <Row justify="end" gutter={16} style={{ marginTop: 24 }}>
                   {isEditing && (
                     <>
@@ -512,7 +683,7 @@ const AdminProfile = () => {
                           // size="large"
                           className="form-button"
                           sx={{
-                            marginLeft: "8px",
+                            // marginLeft: "8px",
                             borderRadius: "8px",
                             // borderColor: colors.blueAccent[500],
                             // color: colors.blueAccent[500],

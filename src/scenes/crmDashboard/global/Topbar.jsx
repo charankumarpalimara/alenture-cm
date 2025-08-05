@@ -987,8 +987,8 @@ const notifClick = (data) => {
                 primary="Logout"
                 sx={{
                   "& .MuiTypography-root": {
-                    fontWeight: "bold !important",
-                    fontSize: "15px",
+                    fontWeight: "500 !important",
+                    fontSize: "13px",
                   },
                 }}
               />

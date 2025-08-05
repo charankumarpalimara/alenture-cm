@@ -10,18 +10,29 @@ import {
 } from "@mui/material";
 import { Form, Input, message } from "antd";
 import Logo from "./alentur-logo.avif";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { tokens } from "../../../theme";
 
 const PasswordReset = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { email: emailParam } = useParams();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [loading, setLoading] = useState(false);
-  const email = searchParams.get('email');
+  
+  // Try to get email from different sources
+  const emailFromQuery = searchParams.get('email');
+  const email = emailParam || emailFromQuery;
+  
+  const [emailInput, setEmailInput] = useState(email || '');
+  
+  console.log("Current URL:", window.location.href);
+  console.log("Email from URL params:", emailParam);
+  console.log("Email from query params:", emailFromQuery);
+  console.log("Final email:", email);
 
   // Extract token from query params (e.g., /reset-password?token=abc)
   // const params = new URLSearchParams(location.search);
@@ -32,20 +43,37 @@ const PasswordReset = () => {
       message.error("Passwords do not match");
       return;
     }
+    
+      const emailToUse = email || emailInput;
+  console.log("Email from URL:", email);
+  console.log("Email from input:", emailInput);
+  console.log("Email to use:", emailToUse);
+  console.log("Current URL:", window.location.href);
+    
+    if (!emailToUse) {
+      message.error("Email is required");
+      return;
+    }
+    
     setLoading(true);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/resetPassword`,
-                // `http://127.0.0.1:8080/v1/cmPasswordReset`,
+        `http://127.0.0.1:8080/v1/resetPassword`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            email: email,
+            email: emailToUse,
             password: values.password,
           }),
         }
       );
+      
+      console.log("Sending request with:", {
+        email: emailToUse,
+        password: values.password,
+      });
+      
       const data = await response.json();
       if (response.ok) {
         message.success("Password reset successful! Please log in.");
@@ -105,6 +133,28 @@ const PasswordReset = () => {
             <Typography variant="h6" mb={2} textAlign="center">
               Reset Your Password
             </Typography>
+            {!email && (
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Please enter a valid email" },
+                ]}
+              >
+                <Input
+                  size="large"
+                  placeholder="Enter your email"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  style={{
+                    borderRadius: 8,
+                    fontSize: 16,
+                    padding: "10px 14px",
+                  }}
+                />
+              </Form.Item>
+            )}
             <Form
               form={form}
               layout="vertical"
