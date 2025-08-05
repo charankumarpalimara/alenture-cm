@@ -211,6 +211,7 @@ const CmProfile = () => {
   console.log("CM Profile - userDetails:", userDetails);
   console.log("CM Profile - isLoadingProfile:", isLoadingProfile);
   console.log("CM Profile - form instance:", form);
+  console.log("CM Profile - isEditing:", isEditing);
 
   // Handle image upload and cropping
   const handleImageUpload = (event) => {
@@ -377,12 +378,7 @@ const CmProfile = () => {
     }
   };
 
-  // Handle cancel
-  const handleCancel = () => {
-    setIsEditing(false);
-    form.resetFields();
-    setProfileImage(null);
-  };
+
 
   if (isLoadingProfile) {
     return (
@@ -657,14 +653,14 @@ const CmProfile = () => {
                     variant="contained"
                     startIcon={<SaveOutlined />}
                     disabled={isLoading}
-                    size="large"
+                    // size="large"
                     sx={{
                       borderRadius: "8px",
                       background: colors.blueAccent[1000],
                       color:"#fff",
-                      "&:hover": {
-                        background: colors.blueAccent[900],
-                      },
+                      // "&:hover": {
+                      //   background: colors.blueAccent[900],
+                      // },
                     }}
                     type="submit"
                     className="form-button"
@@ -674,22 +670,18 @@ const CmProfile = () => {
                 </Col>
                 <Col>
                   <MuiButton
-                    variant="outlined"
-                    color="error"
-                    startIcon={<CloseOutlined />}
-                    size="large"
-                    sx={{
-                      marginLeft: "8px",
-                      borderRadius: "8px",
-                      color: colors.grey[100],
-                      borderColor: colors.grey[400],
-                      "&:hover": {
-                        borderColor: colors.grey[600],
-                        backgroundColor: colors.grey[900],
-                      },
-                    }}
-                    onClick={handleCancel}
-                    className="form-button"
+                      type="button"
+                      variant="outlined"
+                      // starticon={<CloseOutlined />}
+                      // size="large"
+                      color="error"
+                      style={{ marginLeft: "8px", fontWeight: '600', borderRadius: "8px", }}
+                      onClick={() => {
+                        setIsEditing(false);
+                        // form.resetFields();
+                        setProfileImage(null);
+                      }}
+                      className="form-button"
                   >
                     Cancel
                   </MuiButton>
@@ -729,29 +721,87 @@ const CmProfile = () => {
         </Form>
 
 
-        {!isEditing && (
-          <Row justify="end" gutter={16} style={{ marginTop: 24 }}>
-            <Col>
-              <MuiButton
-                variant="contained"
-                startIcon={<EditIcon />}
-                size="large"
-                sx={{
-                  backgroundColor: colors.blueAccent[1000],
-                  color: "#fff",
-                  borderRadius: "8px",
-                  "&:hover": {
-                    backgroundColor: colors.blueAccent[900],
-                  },
-                }}
-                onClick={() => setIsEditing(true)}
-                className="form-button"
-              >
-                Edit
-              </MuiButton>
-            </Col>
-          </Row>
-        )}
+        {/* Debug info */}
+        {/* <div style={{ 
+          position: 'fixed', 
+          top: 10, 
+          right: 10, 
+          background: 'black', 
+          color: 'white', 
+          padding: '10px', 
+          zIndex: 9999,
+          borderRadius: '4px'
+        }}>
+          isEditing: {isEditing ? 'true' : 'false'}
+        </div> */}
+
+        {/* Force show all buttons for testing */}
+        <Row justify="end" gutter={16} style={{ padding: '10px' }}>
+          <Col style={{display: isEditing ? "none" : "block"}}>
+            <MuiButton
+              variant="contained"
+              startIcon={<EditIcon />}
+              // size="large"
+              sx={{
+                background: colors.blueAccent[1000],
+                color: "#fff",
+                borderRadius: "8px",
+                // "&:hover": {
+                //   background: colors.blueAccent[900],
+                // },
+              }}
+              onClick={() => {
+                console.log("Edit button clicked! Setting isEditing to true");
+                setIsEditing(true);
+              }}
+              className="form-button"
+            >
+              Edit
+            </MuiButton>
+          </Col>
+          {/* <Col>
+            <MuiButton
+              variant="contained"
+              startIcon={<SaveOutlined />}
+              size="large"
+              sx={{
+                backgroundColor: colors.blueAccent[1000],
+                color: "#fff",
+                borderRadius: "8px",
+                "&:hover": {
+                  backgroundColor: colors.blueAccent[900],
+                },
+                marginLeft: "8px",
+              }}
+              onClick={() => {
+                console.log("Save button clicked!");
+              }}
+              type="submit"
+            >
+              Save
+            </MuiButton>
+          </Col>
+          <Col>
+            <MuiButton
+              variant="outlined"
+              color="error"
+              startIcon={<CloseOutlined />}
+              size="large"
+              sx={{
+                marginLeft: "8px",
+                borderRadius: "8px",
+              }}
+              onClick={() => {
+                console.log("Cancel button clicked!");
+                setIsEditing(false);
+                form.resetFields();
+                setProfileImage(null);
+              }}
+            >
+              Cancel
+            </MuiButton>
+          </Col> */}
+        </Row>
       </div>
     </>
   );
