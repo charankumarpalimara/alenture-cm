@@ -222,7 +222,7 @@ const CrmDetails = () => {
     formData.append("firstname", values.firstName);
     formData.append("lastname", values.lastName);
     formData.append("email", values.email);
-    formData.append("phoneCode", values.phoneCode);
+    formData.append("phonecode", values.phoneCode);
     formData.append("PhoneNo", values.PhoneNo);
     formData.append("gender", values.gender);
     formData.append("status", values.status);
