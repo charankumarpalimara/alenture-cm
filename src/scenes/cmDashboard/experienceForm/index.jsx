@@ -204,9 +204,11 @@ const CmExperienceRegistrationForm = () => {
     const organizationname = userDetails.organizationname;
     const branch = userDetails.branch;
 
-    // Always store UTC date and time
+    // Always store UTC date and time in US format (MM-DD-YYYY)
     const now = new Date();
-    const utcDate = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const [year, month, day] = utcDateISO.split('-');
+    const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
     const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
 
     formData.append("cmid", cmid);

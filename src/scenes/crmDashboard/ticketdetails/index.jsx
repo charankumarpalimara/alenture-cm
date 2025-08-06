@@ -576,7 +576,9 @@ const CrmTicketDetails = () => {
   useEffect(() => {
     const sendProcessingStatus = async () => {
       const now = new Date();
-      const utcDate = now.toISOString().slice(0, 10);
+      const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const [year, month, day] = utcDateISO.split('-');
+      const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
       const utcTime = now.toISOString().slice(11, 19);
       const msgData = {
         experienceid: ExperienceId,
@@ -613,7 +615,9 @@ const CrmTicketDetails = () => {
   const handleCloseExperience = async () => {
     try {
       const now = new Date();
-      const utcDate = now.toISOString().slice(0, 10);
+      const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const [year, month, day] = utcDateISO.split('-');
+      const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
       const utcTime = now.toISOString().slice(11, 19);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,

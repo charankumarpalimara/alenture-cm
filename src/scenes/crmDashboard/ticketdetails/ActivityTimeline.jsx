@@ -18,8 +18,19 @@ import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 const getLocalDateTimeString = (date, time) => {
   // Check for empty, null, undefined, or whitespace
   if (!date || !time || !date.trim() || !time.trim()) return "N/A";
+  
+  // Handle US format (MM-DD-YYYY) by converting to ISO format
+  let isoDate = date;
+  if (date.includes('-') && date.split('-').length === 3) {
+    const parts = date.split('-');
+    if (parts[0].length === 2) {
+      // This is MM-DD-YYYY format, convert to YYYY-MM-DD
+      isoDate = `${parts[2]}-${parts[0]}-${parts[1]}`;
+    }
+  }
+  
   // Combine as UTC
-  const utcIso = `${date}T${time}Z`;
+  const utcIso = `${isoDate}T${time}Z`;
   const d = new Date(utcIso);
   if (isNaN(d.getTime())) return "N/A"; // Invalid date
   return d.toLocaleString();
