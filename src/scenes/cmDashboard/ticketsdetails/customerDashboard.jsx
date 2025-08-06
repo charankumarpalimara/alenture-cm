@@ -288,7 +288,7 @@ const TicketDetails = () => {
 
     // Save message to DB via REST API
     try {
-      await fetch("http://161.35.54.196/api/v1/chatInsert", {
+      await fetch(`${process.env.REACT_APP_API_URL}/v1/chatInsert`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(msgData),

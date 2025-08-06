@@ -14,22 +14,43 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
-// Helper to convert date and time to display string, fallback to N/A if missing or invalid
-const getLocalDateTimeString = (date, time) => {
+// Helper to convert timestamp to user's local timezone, fallback to N/A if missing or invalid
+const getLocalDateTimeString = (dateOrTimestamp, time) => {
   // Check for empty, null, undefined, or whitespace
-  if (!date || !time || !date.trim() || !time.trim()) return "N/A";
+  if (!dateOrTimestamp || (typeof dateOrTimestamp === 'string' && !dateOrTimestamp.trim())) return "N/A";
+  
+  let date;
+  
+  // If it's a full ISO timestamp (new format)
+  if (typeof dateOrTimestamp === 'string' && dateOrTimestamp.includes('T') && dateOrTimestamp.includes('Z')) {
+    date = new Date(dateOrTimestamp);
+    if (isNaN(date.getTime())) return "N/A";
+    
+    // Convert to user's local timezone and format
+    return date.toLocaleString(undefined, {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+  
+  // Legacy format handling
+  if (!time || !time.trim()) return "N/A";
   
   // If time is already in readable format (like "8:35 AM"), just combine with date
   if (time.includes('AM') || time.includes('PM')) {
-    return `${date} ${time}`;
+    return `${dateOrTimestamp} ${time}`;
   }
   
   // Handle legacy UTC time format (HH:MM:SS) - convert to readable format
   if (time.includes(':') && time.split(':').length === 3) {
     // Handle US format (MM-DD-YYYY) by converting to ISO format for Date parsing
-    let isoDate = date;
-    if (date.includes('-') && date.split('-').length === 3) {
-      const parts = date.split('-');
+    let isoDate = dateOrTimestamp;
+    if (dateOrTimestamp.includes('-') && dateOrTimestamp.split('-').length === 3) {
+      const parts = dateOrTimestamp.split('-');
       if (parts[0].length === 2) {
         // This is MM-DD-YYYY format, convert to YYYY-MM-DD
         isoDate = `${parts[2]}-${parts[0]}-${parts[1]}`;
@@ -44,16 +65,21 @@ const getLocalDateTimeString = (date, time) => {
   }
   
   // Fallback: just combine date and time as is
-  return `${date} ${time}`;
+  return `${dateOrTimestamp} ${time}`;
 };
 
 const ActivityTimeline = ({
+  // Legacy props
   date,
   time,
   processtime,
   processdate,
   resolvedtime,
   resolveddate,
+  // New timestamp props
+  timestamp,
+  processTimestamp,
+  resolvedTimestamp,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -61,22 +87,22 @@ const ActivityTimeline = ({
     {
       key: "registered",
       label: "Registered",
-      date: date,
-      time: time,
+      dateTime: timestamp || date, // Use timestamp if available, fallback to legacy date
+      time: time, // For legacy support
       icon: <AccessTimeIcon color="primary" />,
     },
     {
       key: "processed",
       label: "Processed",
-      date: processdate,
-      time: processtime,
+      dateTime: processTimestamp || processdate, // Use timestamp if available, fallback to legacy date
+      time: processtime, // For legacy support
       icon: <HourglassBottomIcon color="info" />,
     },
     {
       key: "resolved",
       label: "Resolved",
-      date: resolveddate,
-      time: resolvedtime,
+      dateTime: resolvedTimestamp || resolveddate, // Use timestamp if available, fallback to legacy date
+      time: resolvedtime, // For legacy support
       icon: <CheckCircleIcon color="success" />,
     },
   ];
@@ -142,7 +168,7 @@ const ActivityTimeline = ({
                       <Typography variant="subtitle2" sx={{ fontWeight: "600", color: "#000" }}>
                         {item.label}:
                       </Typography>{" "}
-                      <Typography variant="subtitle2">{getLocalDateTimeString(item.date, item.time)}</Typography>
+                      <Typography variant="subtitle2">{getLocalDateTimeString(item.dateTime, item.time)}</Typography>
                     </>
                   }
                 />

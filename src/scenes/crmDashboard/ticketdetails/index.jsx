@@ -576,21 +576,14 @@ const CrmTicketDetails = () => {
   useEffect(() => {
     const sendProcessingStatus = async () => {
       const now = new Date();
-      const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
-      const [year, month, day] = utcDateISO.split('-');
-      const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
+      const utcTimestamp = now.toISOString(); // Store full UTC timestamp
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       
-      // Get local time in 12-hour format (e.g., 8:35 AM)
-      const localTime = now.toLocaleTimeString('en-US', {
-        hour12: true,
-        hour: 'numeric',
-        minute: '2-digit'
-      });
       const msgData = {
         experienceid: ExperienceId,
         status: "Processing",
-        date: utcDate,
-        time: localTime
+        timestamp: utcTimestamp,
+        timezone: timezone
       };
 
       try {
@@ -621,16 +614,9 @@ const CrmTicketDetails = () => {
   const handleCloseExperience = async () => {
     try {
       const now = new Date();
-      const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
-      const [year, month, day] = utcDateISO.split('-');
-      const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
+      const utcTimestamp = now.toISOString(); // Store full UTC timestamp
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       
-      // Get local time in 12-hour format (e.g., 8:35 AM)
-      const localTime = now.toLocaleTimeString('en-US', {
-        hour12: true,
-        hour: 'numeric',
-        minute: '2-digit'
-      });
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
         {
@@ -639,8 +625,8 @@ const CrmTicketDetails = () => {
           body: JSON.stringify({
             experienceid: experienceid,
             status: "Resolved",
-            date: utcDate,
-            time: localTime
+            timestamp: utcTimestamp,
+            timezone: timezone
           }),
         }
       );
