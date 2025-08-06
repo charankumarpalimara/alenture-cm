@@ -154,6 +154,8 @@ const CmExperienceRegistrationForm = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [experience, setExperience] = useState("");
+  const [experienceDetails, setExperienceDetails] = useState("");
+  const [characterCount, setCharacterCount] = useState(0);
   const isFirstMobile = useMediaQuery("(max-width: 600px)");
     const isMobile = useMediaQuery("(max-width: 400px)");
     const isTablet = useMediaQuery("(max-width: 700px)");
@@ -179,6 +181,13 @@ const CmExperienceRegistrationForm = () => {
   const handleExperienceClick = (value) => {
     setExperience(value);
     form.setFieldsValue({ experience: value });
+  };
+
+  const handleExperienceDetailsChange = (e) => {
+    const value = e.target.value;
+    setExperienceDetails(value);
+    setCharacterCount(value.length);
+    form.setFieldsValue({ experienceDetails: value });
   };
 
   // Submit form and open modal with submitted details
@@ -248,6 +257,8 @@ const CmExperienceRegistrationForm = () => {
       form.resetFields();
       setSelectedFile(null);
       setExperience("");
+      setExperienceDetails("");
+      setCharacterCount(0);
     } catch (error) {
       if (error.response && error.response.status === 407) {
         alert('You are not assigned to any Relationship Manager');
@@ -425,19 +436,45 @@ const CmExperienceRegistrationForm = () => {
               />
             </Form.Item>
 
-            <AntdTypography.Text className="custom-headding-12px">Details of your experience</AntdTypography.Text>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+              <AntdTypography.Text className="custom-headding-12px">Details of your experience</AntdTypography.Text>
+              <AntdTypography.Text 
+                style={{ 
+                  fontSize: 12, 
+                  color: characterCount > 500 ? '#ff4d4f' : characterCount > 450 ? '#faad14' : '#666',
+                  fontWeight: characterCount > 450 ? '600' : '400'
+                }}
+              >
+                {characterCount}/500
+              </AntdTypography.Text>
+            </div>
             <Form.Item
               name="experienceDetails"
               validateTrigger={["onBlur", "onChange"]}
-              rules={[{ required: true, message: 'Details are required' }, { max: 500, message: 'Maximum 500 characters' }]}
+              rules={[
+                { required: true, message: 'Details are required' }, 
+                { max: 500, message: 'Maximum 500 characters allowed' },
+                { validator: (_, value) => {
+                    if (value && value.length > 500) {
+                      return Promise.reject('Maximum 500 characters allowed');
+                    }
+                    return Promise.resolve();
+                  }
+                }
+              ]}
               style={{ marginBottom: 8 }}
             >
               <TextArea 
                 rows={4} 
-                placeholder="Describe your experience" 
+                value={experienceDetails}
+                onChange={handleExperienceDetailsChange}
+                placeholder="Describe your experience (max 500 characters)" 
+                maxLength={500}
+                showCount={false}
                 style={{ 
                   background: '#fff', 
-                  borderRadius: '6px'
+                  borderRadius: '6px',
+                  borderColor: characterCount > 500 ? '#ff4d4f' : characterCount > 450 ? '#faad14' : '#d9d9d9'
                 }} 
               />
             </Form.Item>
