@@ -204,12 +204,20 @@ const CmExperienceRegistrationForm = () => {
     const organizationname = userDetails.organizationname;
     const branch = userDetails.branch;
 
-    // Store UTC timestamp for timezone conversion
+    // Store both new timestamp format AND legacy date/time for backward compatibility
     const now = new Date();
     const utcTimestamp = now.toISOString(); // Store full UTC timestamp
-    
-    // For display purposes, also store timezone info
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    
+    // Legacy format for database compatibility
+    const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const [year, month, day] = utcDateISO.split('-');
+    const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
+    const localTime = now.toLocaleTimeString('en-US', {
+      hour12: true,
+      hour: 'numeric',
+      minute: '2-digit'
+    });
 
     formData.append("cmid", cmid);
     formData.append("cmname", cmname);
@@ -217,8 +225,14 @@ const CmExperienceRegistrationForm = () => {
     formData.append("organizationid", organizationid);
     formData.append("branch", branch);
     formData.append("priority", "Medium");
-    formData.append("timestamp", utcTimestamp); // Store UTC timestamp
-    formData.append("timezone", timezone); // Store creator's timezone
+    
+    // Legacy format (required by backend)
+    formData.append("date", utcDate);
+    formData.append("time", localTime);
+    
+    // New format (for future timezone support)
+    formData.append("timestamp", utcTimestamp);
+    formData.append("timezone", timezone);
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/v1/createTicket`, formData, {

@@ -579,9 +579,23 @@ const CrmTicketDetails = () => {
       const utcTimestamp = now.toISOString(); // Store full UTC timestamp
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       
+      // Legacy format for database compatibility
+      const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const [year, month, day] = utcDateISO.split('-');
+      const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
+      const localTime = now.toLocaleTimeString('en-US', {
+        hour12: true,
+        hour: 'numeric',
+        minute: '2-digit'
+      });
+      
       const msgData = {
         experienceid: ExperienceId,
         status: "Processing",
+        // Legacy format (required by backend)
+        date: utcDate,
+        time: localTime,
+        // New format (for future timezone support)
         timestamp: utcTimestamp,
         timezone: timezone
       };
@@ -617,6 +631,16 @@ const CrmTicketDetails = () => {
       const utcTimestamp = now.toISOString(); // Store full UTC timestamp
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       
+      // Legacy format for database compatibility
+      const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const [year, month, day] = utcDateISO.split('-');
+      const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
+      const localTime = now.toLocaleTimeString('en-US', {
+        hour12: true,
+        hour: 'numeric',
+        minute: '2-digit'
+      });
+      
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
         {
@@ -625,6 +649,10 @@ const CrmTicketDetails = () => {
           body: JSON.stringify({
             experienceid: experienceid,
             status: "Resolved",
+            // Legacy format (required by backend)
+            date: utcDate,
+            time: localTime,
+            // New format (for future timezone support)
             timestamp: utcTimestamp,
             timezone: timezone
           }),
