@@ -223,7 +223,12 @@ function KanbanBoard() {
           Task Management Board
         </Typography> */}
       </Box>
-      <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Box sx={{ 
+        width: "100%", 
+        display: "flex", 
+        justifyContent: { xs: "center", sm: "flex-end" }, 
+        mb: 2 
+      }}>
         <Button
           variant="contained"
           onClick={() => setAddOpen(true)}

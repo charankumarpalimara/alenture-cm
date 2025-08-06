@@ -921,24 +921,32 @@ const AdminTicketDetails = () => {
         gridTemplateColumns: {
           xs: "1fr",
           sm: "1fr",
-          md: "60% 40%",
+          md: "1fr 1fr",
+          lg: "60% 40%",
         },
-        gap: { xs: 2, sm: 3 },
-        p: { xs: 1, sm: 2 },
-        maxWidth: "100%",
+        gap: { xs: 1, sm: 2, md: 3 },
+        p: { xs: 0.5, sm: 1, md: 2 },
+        maxWidth: "100vw",
+        minHeight: "100vh",
         overflow: "hidden",
+        boxSizing: "border-box",
       }}
     >
       {/* First Column - Ticket Details */}
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          p: isDesktop ? 3 : 2,
+          p: { xs: 1, sm: 2, md: 3 },
           borderRadius: "8px",
           gridColumn: {
             xs: "1 / -1",
             md: "1 / 2",
           },
+          width: "100%",
+          maxWidth: "100%",
+          minWidth: 0,
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
 
@@ -982,11 +990,17 @@ const AdminTicketDetails = () => {
             <form>
               <Box
                 display="grid"
-                gap={2}
+                gap={{ xs: 1, sm: 2 }}
                 gridTemplateColumns={{
                   xs: "1fr",
                   sm: "repeat(2, 1fr)",
-                  md: "repeat(3, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(3, 1fr)",
+                }}
+                sx={{
+                  width: "100%",
+                  maxWidth: "100%",
+                  overflow: "hidden",
                 }}
               >
                 {/* Ticket Details Fields */}
@@ -1187,7 +1201,11 @@ const AdminTicketDetails = () => {
 
                 <Box
                   sx={{
-                    gridColumn: { xs: "auto", sm: "span 2", md: "span 3" },
+                    gridColumn: { xs: "1 / -1", sm: "1 / -1", md: "1 / -1", lg: "1 / -1" },
+                    width: "100%",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                    wordBreak: "break-word",
                   }}
                 >
                   <Typography
@@ -1225,7 +1243,16 @@ const AdminTicketDetails = () => {
                       Request Details
                     </Typography>
                   </Box>
-                  <Typography sx={{ mt: 1, whiteSpace: "pre-wrap" }} variant="subtitle2">
+                  <Typography 
+                    sx={{ 
+                      mt: 1, 
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-word",
+                      overflowWrap: "break-word",
+                      maxWidth: "100%"
+                    }} 
+                    variant="subtitle2"
+                  >
                     {values.requestdetails}
                   </Typography>
 
@@ -1413,16 +1440,20 @@ const AdminTicketDetails = () => {
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          p: isDesktop ? 3 : 2,
+          p: { xs: 1, sm: 2, md: 3 },
           borderRadius: "8px",
           gridColumn: {
             xs: "1 / -1",
-            md: "2 / 3",
+            md: "2 / -1",
           },
           display: "flex",
           flexDirection: "column",
           width: "100%",
-          gap: 3,
+          minWidth: 0,
+          maxWidth: "100%",
+          overflow: "hidden",
+          boxSizing: "border-box",
+          gap: { xs: 2, sm: 3 },
         }}
       >
         {/* <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
@@ -1626,12 +1657,15 @@ const AdminTicketDetails = () => {
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          p: { xs: 1, sm: isDesktop ? 3 : 2 },
+          p: { xs: 1, sm: 2, md: 3 },
           borderRadius: "8px",
           gridColumn: { xs: "1 / -1", md: "1 / -1" },
           mt: { xs: 2, md: 0 },
           width: "100%",
           minWidth: 0,
+          maxWidth: "100%",
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
 
@@ -1681,12 +1715,15 @@ const AdminTicketDetails = () => {
         <Box
           sx={{
             backgroundColor: "#ffffff",
-            p: { xs: 1, sm: 3 },
+            p: { xs: 1, sm: 2, md: 3 },
             borderRadius: "8px",
             gridColumn: { xs: "1 / -1", md: "1 / -1" },
             mt: { xs: 2, md: 0 },
             width: "100%",
             minWidth: 0,
+            maxWidth: "100%",
+            overflow: "hidden",
+            boxSizing: "border-box",
           }}
         >
 

@@ -111,14 +111,14 @@ const CrmTicketDetails = () => {
         `${process.env.REACT_APP_API_URL}/v1/experienceDetailsGet/${experienceid}`
       );
       console.log("Response status:", response.status);
-      
+
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log("Raw API response:", data);
-      
+
       if (data && Array.isArray(data.data) && data.data.length > 0) {
         setExperienceData(data.data[0]);
         console.log("Experience Data:", data.data[0]);
@@ -578,7 +578,7 @@ const CrmTicketDetails = () => {
       const now = new Date();
       const utcTimestamp = now.toISOString(); // Store full UTC timestamp
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      
+
       // Legacy format for database compatibility
       const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
       const [year, month, day] = utcDateISO.split('-');
@@ -588,7 +588,7 @@ const CrmTicketDetails = () => {
         hour: 'numeric',
         minute: '2-digit'
       });
-      
+
       const msgData = {
         experienceid: ExperienceId,
         status: "Processing",
@@ -630,7 +630,7 @@ const CrmTicketDetails = () => {
       const now = new Date();
       const utcTimestamp = now.toISOString(); // Store full UTC timestamp
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      
+
       // Legacy format for database compatibility
       const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
       const [year, month, day] = utcDateISO.split('-');
@@ -640,7 +640,7 @@ const CrmTicketDetails = () => {
         hour: 'numeric',
         minute: '2-digit'
       });
-      
+
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
         {
@@ -1025,24 +1025,32 @@ const CrmTicketDetails = () => {
         gridTemplateColumns: {
           xs: "1fr",
           sm: "1fr",
-          md: "60% 40%",
+          md: "1fr 1fr",
+          lg: "60% 40%",
         },
-        gap: { xs: 2, sm: 3 },
-        p: { xs: 1, sm: 2 },
-        maxWidth: "100%",
+        gap: { xs: 1, sm: 2, md: 3 },
+        p: { xs: 0.5, sm: 1, md: 2 },
+        maxWidth: "100vw",
+        minHeight: "100vh",
         overflow: "hidden",
+        boxSizing: "border-box",
       }}
     >
       {/* First Column - Ticket Details */}
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          p: isDesktop ? 3 : 2,
+          p: { xs: 1, sm: 2, md: 3 },
           borderRadius: "8px",
           gridColumn: {
             xs: "1 / -1",
             md: "1 / 2",
           },
+          width: "100%",
+          maxWidth: "100%",
+          minWidth: 0,
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
 
@@ -1058,17 +1066,17 @@ const CrmTicketDetails = () => {
             Experience
           </Typography>
           <Button
-                      type="text"
-                      startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
-                      onClick={() => navigate(-1)}
-                      style={{
-                        color: "#3e4396",
-                        fontWeight: 600,
-                        fontSize: 16,
-                        alignSelf: "flex-end",
-                        marginLeft: 8,
-                      }}
-                    />
+            type="text"
+            startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
+            onClick={() => navigate(-1)}
+            style={{
+              color: "#3e4396",
+              fontWeight: 600,
+              fontSize: 16,
+              alignSelf: "flex-end",
+              marginLeft: 8,
+            }}
+          />
         </div>
         <Formik
           enableReinitialize
@@ -1087,11 +1095,17 @@ const CrmTicketDetails = () => {
             <form>
               <Box
                 display="grid"
-                gap={2}
+                gap={{ xs: 1, sm: 2 }}
                 gridTemplateColumns={{
                   xs: "1fr",
                   sm: "repeat(2, 1fr)",
-                  md: "repeat(3, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(3, 1fr)",
+                }}
+                sx={{
+                  width: "100%",
+                  maxWidth: "100%",
+                  overflow: "hidden",
                 }}
               >
                 {/* Ticket Details Fields */}
@@ -1256,11 +1270,15 @@ const CrmTicketDetails = () => {
                   >
                     Impact
                   </Typography>
-                  <Typography>{values.impact}</Typography>
+                  <Typography   variant="subtitle2">{values.impact}</Typography>
                 </Box>
                 <Box
                   sx={{
-                    gridColumn: { xs: "auto", sm: "span 2", md: "span 3" },
+                    gridColumn: { xs: "1 / -1", sm: "1 / -1", md: "1 / -1", lg: "1 / -1" },
+                    width: "100%",
+                    maxWidth: "100%",
+                    overflow: "hidden",
+                    wordBreak: "break-word",
                   }}
                 >
                   <Typography
@@ -1292,7 +1310,14 @@ const CrmTicketDetails = () => {
                       Request Details
                     </Typography>
                   </Box>
-                  <Typography variant="subtitle2" sx={{ mt: 1, whiteSpace: "pre-wrap" }}>
+                  <Typography variant="subtitle2" 
+                  sx={{
+                    mt: 1,
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-word",
+                    overflowWrap: "break-word",
+                    maxWidth: "100%"
+                  }} >
                     {values.requestdetails}
                   </Typography>
                 </Box>
@@ -1453,14 +1478,17 @@ const CrmTicketDetails = () => {
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          p: { xs: 1, sm: isDesktop ? 3 : 2 },
+          p: { xs: 1, sm: 2, md: 3 },
           borderRadius: "8px",
-          gridColumn: { xs: "1 / -1", md: "2 / 3" },
+          gridColumn: { xs: "1 / -1", md: "2 / -1" },
           display: "flex",
           flexDirection: "column",
-          gap: 3,
+          gap: { xs: 2, sm: 3 },
           width: "100%",
           minWidth: 0,
+          maxWidth: "100%",
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
 
@@ -1486,12 +1514,14 @@ const CrmTicketDetails = () => {
       <Box
         sx={{
           backgroundColor: "#ffffff",
-          p: { xs: 1, sm: isDesktop ? 1 : 2 },
+          p: { xs: 1, sm: 2, md: 3 },
           borderRadius: "8px",
           gridColumn: { xs: "1 / -1", md: "1 / -1" },
-          // mt: { xs: 2, md: 0 },
           width: "100%",
           minWidth: 0,
+          maxWidth: "100%",
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
 
@@ -1499,12 +1529,14 @@ const CrmTicketDetails = () => {
         <Box
           sx={{
             backgroundColor: "#ffffff",
-            p: { xs: 1, sm: 3 },
+            p: { xs: 1, sm: 2, md: 3 },
             borderRadius: "8px",
             gridColumn: { xs: "1 / -1", md: "1 / -1" },
-            // mt: { xs: 2, md: 0 },
             width: "100%",
             minWidth: 0,
+            maxWidth: "100%",
+            overflow: "hidden",
+            boxSizing: "border-box",
           }}
         >
 
