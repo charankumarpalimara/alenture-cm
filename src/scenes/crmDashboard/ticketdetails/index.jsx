@@ -579,12 +579,18 @@ const CrmTicketDetails = () => {
       const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
       const [year, month, day] = utcDateISO.split('-');
       const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
-      const utcTime = now.toISOString().slice(11, 19);
+      
+      // Get local time in 12-hour format (e.g., 8:35 AM)
+      const localTime = now.toLocaleTimeString('en-US', {
+        hour12: true,
+        hour: 'numeric',
+        minute: '2-digit'
+      });
       const msgData = {
         experienceid: ExperienceId,
         status: "Processing",
         date: utcDate,
-        time: utcTime
+        time: localTime
       };
 
       try {
@@ -618,7 +624,13 @@ const CrmTicketDetails = () => {
       const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
       const [year, month, day] = utcDateISO.split('-');
       const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
-      const utcTime = now.toISOString().slice(11, 19);
+      
+      // Get local time in 12-hour format (e.g., 8:35 AM)
+      const localTime = now.toLocaleTimeString('en-US', {
+        hour12: true,
+        hour: 'numeric',
+        minute: '2-digit'
+      });
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
         {
@@ -628,7 +640,7 @@ const CrmTicketDetails = () => {
             experienceid: experienceid,
             status: "Resolved",
             date: utcDate,
-            time: utcTime
+            time: localTime
           }),
         }
       );

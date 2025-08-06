@@ -204,12 +204,18 @@ const CmExperienceRegistrationForm = () => {
     const organizationname = userDetails.organizationname;
     const branch = userDetails.branch;
 
-    // Always store UTC date and time in US format (MM-DD-YYYY)
+    // Always store local date and time in US format (MM-DD-YYYY)
     const now = new Date();
     const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
     const [year, month, day] = utcDateISO.split('-');
     const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
-    const utcTime = now.toISOString().slice(11, 19); // HH:MM:SS
+    
+    // Get local time in 12-hour format (e.g., 8:35 AM)
+    const localTime = now.toLocaleTimeString('en-US', {
+      hour12: true,
+      hour: 'numeric',
+      minute: '2-digit'
+    });
 
     formData.append("cmid", cmid);
     formData.append("cmname", cmname);
@@ -218,7 +224,7 @@ const CmExperienceRegistrationForm = () => {
     formData.append("branch", branch);
     formData.append("priority", "Medium");
     formData.append("date", utcDate);
-    formData.append("time", utcTime);
+    formData.append("time", localTime);
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/v1/createTicket`, formData, {

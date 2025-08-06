@@ -14,26 +14,37 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
-// Helper to convert UTC date and time to local string, fallback to N/A if missing or invalid
+// Helper to convert date and time to display string, fallback to N/A if missing or invalid
 const getLocalDateTimeString = (date, time) => {
   // Check for empty, null, undefined, or whitespace
   if (!date || !time || !date.trim() || !time.trim()) return "N/A";
   
-  // Handle US format (MM-DD-YYYY) by converting to ISO format
-  let isoDate = date;
-  if (date.includes('-') && date.split('-').length === 3) {
-    const parts = date.split('-');
-    if (parts[0].length === 2) {
-      // This is MM-DD-YYYY format, convert to YYYY-MM-DD
-      isoDate = `${parts[2]}-${parts[0]}-${parts[1]}`;
-    }
+  // If time is already in readable format (like "8:35 AM"), just combine with date
+  if (time.includes('AM') || time.includes('PM')) {
+    return `${date} ${time}`;
   }
   
-  // Combine as UTC
-  const utcIso = `${isoDate}T${time}Z`;
-  const d = new Date(utcIso);
-  if (isNaN(d.getTime())) return "N/A"; // Invalid date
-  return d.toLocaleString();
+  // Handle legacy UTC time format (HH:MM:SS) - convert to readable format
+  if (time.includes(':') && time.split(':').length === 3) {
+    // Handle US format (MM-DD-YYYY) by converting to ISO format for Date parsing
+    let isoDate = date;
+    if (date.includes('-') && date.split('-').length === 3) {
+      const parts = date.split('-');
+      if (parts[0].length === 2) {
+        // This is MM-DD-YYYY format, convert to YYYY-MM-DD
+        isoDate = `${parts[2]}-${parts[0]}-${parts[1]}`;
+      }
+    }
+    
+    // Combine as UTC and convert to local readable format
+    const utcIso = `${isoDate}T${time}Z`;
+    const d = new Date(utcIso);
+    if (isNaN(d.getTime())) return "N/A"; // Invalid date
+    return d.toLocaleString();
+  }
+  
+  // Fallback: just combine date and time as is
+  return `${date} ${time}`;
 };
 
 const ActivityTimeline = ({
