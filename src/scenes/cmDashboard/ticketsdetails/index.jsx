@@ -556,7 +556,7 @@ const CmTicketDetails = () => {
                   </Typography>
                 </Box>
 
-                <Box>
+                <Box sx={{display:"none"}}>
                   <Typography
                     variant="subtitle2"
                     sx={{ color: "#000", fontWeight: "600" }}
@@ -566,7 +566,7 @@ const CmTicketDetails = () => {
                   <Typography variant="subtitle2">{values.date}</Typography>
                 </Box>
 
-                <Box>
+                <Box sx={{display:"none"}}>
                   <Typography
                     variant="subtitle2"
                     sx={{ color: "#000", fontWeight: "600" }}

@@ -30,6 +30,7 @@ import React, {
   // useCallback,
 } from "react";
 import { useLocation } from "react-router-dom";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 // import download from "downloadjs";
 import {
   // Check as CheckIcon,
@@ -47,6 +48,7 @@ import KanbanBoard from "../../../components/KanbanTasks";
 import { CloseOutlined } from "@ant-design/icons";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { getCreaterRole } from "../../../config";
 // const { Option } = Select;
 
 const AdminTicketDetails = () => {
@@ -612,6 +614,19 @@ const AdminTicketDetails = () => {
 
   const handleCloseExperience = async () => {
     try {
+      const now = new Date();
+      const utcTimestamp = now.toISOString(); // Store full UTC timestamp
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      // Legacy format for database compatibility
+      const utcDateISO = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const [year, month, day] = utcDateISO.split('-');
+      const utcDate = `${month}-${day}-${year}`; // MM-DD-YYYY (US format)
+      const localTime = now.toLocaleTimeString('en-US', {
+        hour12: true,
+        hour: 'numeric',
+        minute: '2-digit'
+      });
       await fetch(
         `${process.env.REACT_APP_API_URL}/v1/updateExperienceStatusToResolve`,
         //  `http://127.0.0.1:8080/v1/updateExperienceStatusToResolve`,
@@ -621,6 +636,11 @@ const AdminTicketDetails = () => {
           body: JSON.stringify({
             experienceid: ticket.experienceid,
             status: "Resolved",
+            date: utcDate,
+            time: localTime,
+            // New format (for future timezone support)
+            timestamp: utcTimestamp,
+            timezone: timezone
           }),
         }
       );
@@ -1304,7 +1324,7 @@ const AdminTicketDetails = () => {
                 {/* Action Buttons */}
                 <Box
                   sx={{
-                    display: ticket.status === "Resolved" ? "none" : "flex",
+                    display: ticket.status === "Resolved" || getCreaterRole() === "admin" ? "none" : "flex",
                     justifyContent: "flex-end",
                     gap: 2,
                     mt: 1,
@@ -1391,7 +1411,7 @@ const AdminTicketDetails = () => {
                         className="form-button"
                         onClick={() => setIsEditing(false)}
                         sx={{
-                          padding: "12px 24px",
+                          // padding: "12px 24px",
                           borderRadius: "8px",
                           boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                           transition: "0.3s",
@@ -1410,15 +1430,17 @@ const AdminTicketDetails = () => {
                   ) : (
                     <Button
                       variant="contained"
+                      startIcon={<EditIcon />}
                       onClick={() => setIsEditing(true)}
                       className="form-button"
                       sx={{
-                        padding: "12px 24px",
+                        display: ticket.status === "Resolved" || getCreaterRole() === "admin" ? "none" : "flex",
+                        // padding: "12px 24px",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
                         background: colors.blueAccent[1000],
-                        display: ticket.status === "Resolved" ? "none" : "block",
+                        // display: ticket.status === "Resolved" ? "none" : "block",
                         color: "#ffffff",
                         textTransform: "none",
                         "&:hover": {

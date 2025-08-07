@@ -32,6 +32,7 @@ import React, {
   useCallback,
 } from "react";
 import { useParams } from "react-router-dom";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import {
   // FormatBold,
   // FormatItalic,
@@ -1450,9 +1451,10 @@ const CrmTicketDetails = () => {
                     <Button
                       variant="contained"
                       onClick={() => setIsEditing(true)}
+                      startIcon={<EditIcon />}
                       className="form-button"
                       sx={{
-                        padding: "12px 24px",
+                        // padding: "12px 24px",
                         borderRadius: "8px",
                         boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
                         transition: "0.3s",
