@@ -826,7 +826,7 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
                     // size="large"
                     color="error"
                     startIcon={<DeleteIcon />}
-                    style={{
+                    sx={{
                       // padding: "12px 24px",
                       borderRadius: "8px",
                       boxShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
