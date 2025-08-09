@@ -38,7 +38,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCreaterFirstName, getCreaterRole } from "../../../config";
 import {
   getAdminNotifications,
+  getHobNotifications,
   markNotificationRead,
+  getNotificationsDetails,
 } from "../../../utils/http";
 
 
@@ -151,13 +153,18 @@ const Topbar = ({ onLogout }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["admin-notifications"],
-    queryFn: () => getAdminNotifications(),
+    queryKey: getCreaterRole() === 'admin' ? ["admin-notifications"] : ["hob-notifications"],
+    queryFn: () => getCreaterRole() === 'admin' ? getAdminNotifications() : getHobNotifications(),
   });
   const { mutate: markNotificationReadMutate } = useMutation({
     mutationFn: markNotificationRead,
     onSuccess: (data) => {
-      queryClient.invalidateQueries("admin-notifications");
+      const role = getCreaterRole();
+      if (role === 'admin') {
+        queryClient.invalidateQueries(["admin-notifications"]);
+      } else {
+        queryClient.invalidateQueries(["hob-notifications"]);
+      }
       console.log("updated");
     },
     onError: (error) => {
@@ -165,11 +172,16 @@ const Topbar = ({ onLogout }) => {
     },
   });
   const { mutate, isPending: loading } = useMutation({
-    mutationFn: "getNotificationsDetails",
+    mutationFn: getNotificationsDetails,
     onSuccess: (data) => {
       navigate("/ticketdetails", { state: { ticket: data.data } });
 
-      queryClient.invalidateQueries("admin-notifications");
+      const role = getCreaterRole();
+      if (role === 'admin') {
+        queryClient.invalidateQueries(["admin-notifications"]);
+      } else {
+        queryClient.invalidateQueries(["hob-notifications"]);
+      }
     },
     onError: (error) => { },
   });
@@ -196,7 +208,12 @@ const Topbar = ({ onLogout }) => {
         if (data.type === "notification") {
           // setNotifications((prev) => [data, ...prev]);
           // setUnreadCount((prev) => prev + 1);
-          queryClient.invalidateQueries("admin-notifications");
+          const role = getCreaterRole();
+          if (role === 'admin') {
+            queryClient.invalidateQueries(["admin-notifications"]);
+          } else {
+            queryClient.invalidateQueries(["hob-notifications"]);
+          }
           setSnackbarMsg(data.message);
           setSnackbarOpen(true);
         }
@@ -214,15 +231,30 @@ const Topbar = ({ onLogout }) => {
   };
   const notifClick = (data) => {
     setDrawerOpen(false);
-    console.log(window.location.pathname);
+    console.log("Clicked notification:", data);
+    
     if (window.location.pathname === "/ticketdetails") {
       navigate("/");
     }
-    if (data.type === "experience_resolved") {
-      mutate({
-        id: data.finalExperienceid,
+    
+    // Handle different notification types for admin and HOB
+    if (data.type === "cm_registration") {
+      // Navigate to CM details
+      navigate(`/cmdetails/${data.finalExperienceid}`, { 
+        state: { ticket: { id: data.finalExperienceid } } 
+      });
+    } else if (data.type === "crm_registration") {
+      // Navigate to CRM details
+      navigate(`/crmdetails/${data.finalExperienceid}`, { 
+        state: { ticket: { crmid: data.finalExperienceid } } 
+      });
+    } else if (data.type === "hob_registration") {
+      // Navigate to HOB details
+      navigate(`/hobdetails/${data.finalExperienceid}`, { 
+        state: { ticket: { hobid: data.finalExperienceid } } 
       });
     }
+    
     markNotificationReadMutate({
       id: data.id,
     });

@@ -493,7 +493,15 @@ const CrmTicketDetails = () => {
 
   // Socket.IO for chat messages
   useEffect(() => {
-    socketRef.current = io(process.env.REACT_APP_SOCKET_URL);
+    socketRef.current = io(process.env.REACT_APP_SOCKET_URL, {
+      path: "/socket.io",
+      transports: ["websocket", "polling"],
+      withCredentials: true,
+      reconnection: true,
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 500,
+      reconnectionDelayMax: 5000,
+    });
     if (ExperienceId && crmId) {
       socketRef.current.emit("joinRoom", {
         experienceid: ExperienceId,
@@ -501,6 +509,7 @@ const CrmTicketDetails = () => {
       });
     }
     socketRef.current.on("receiveMessage", (msg) => {
+      console.log("Received message:", msg);
       setMessages((prev) => [
         ...prev,
         {
@@ -511,8 +520,45 @@ const CrmTicketDetails = () => {
         },
       ]);
     });
+
+    socketRef.current.on("connect", () => {
+      console.log("Socket.IO connected successfully");
+      // Rejoin room on reconnect
+      if (ExperienceId && crmId) {
+        socketRef.current.emit("joinRoom", {
+          experienceid: ExperienceId,
+          crmid: crmId,
+        });
+      }
+    });
+
+    socketRef.current.on("connect_error", (err) => {
+      console.error("Socket connect error:", err);
+      message.error("Connection error. Please check your network.");
+    });
+
+    socketRef.current.on("disconnect", (reason) => {
+      console.warn("Socket disconnected:", reason);
+      if (reason === "io server disconnect") {
+        // Server disconnected, try to reconnect
+        socketRef.current.connect();
+      }
+    });
+
+    socketRef.current.on("reconnect", (attemptNumber) => {
+      console.log("Socket reconnected after", attemptNumber, "attempts");
+      message.success("Connection restored");
+    });
+
     return () => {
-      if (socketRef.current) socketRef.current.disconnect();
+      if (socketRef.current) {
+        socketRef.current.off("receiveMessage");
+        socketRef.current.off("connect");
+        socketRef.current.off("connect_error");
+        socketRef.current.off("disconnect");
+        socketRef.current.off("reconnect");
+        socketRef.current.disconnect();
+      }
     };
   }, [ExperienceId, crmId]);
 

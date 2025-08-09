@@ -216,15 +216,28 @@ const Topbar = ({ onLogout }) => {
 const notifClick = (data) => {
   setDrawerOpen(false);
   const experienceid = data.finalExperienceid;
-  console.log("Clicked notification, experienceid:", experienceid);
+  console.log("Clicked notification:", data);
 
   if (window.location.pathname === `/ticketdetails/${experienceid}`) {
     navigate("/");
   }
+  
+  // Handle different notification types
   if (data.type === "experience_registration") {
+    // Navigate to experience details
     navigate(`/ticketdetails/${experienceid}`);
-    // You can fetch details in the destination component using useParams
+  } else if (data.type === "cm_registration") {
+    // Navigate to CM details
+    navigate(`/cmdetails/${data.finalExperienceid}`, { 
+      state: { ticket: { id: data.finalExperienceid } } 
+    });
+  } else if (data.type === "crm_registration") {
+    // Navigate to CRM details
+    navigate(`/crmdetails/${data.finalExperienceid}`, { 
+      state: { ticket: { crmid: data.finalExperienceid } } 
+    });
   }
+  
   markNotificationReadMutate({ id: data.id });
 };
 

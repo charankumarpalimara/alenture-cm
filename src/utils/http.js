@@ -59,6 +59,27 @@ export async function getCrmNotificationsDetails({ id }) {
     throw new Error("something went wrong");
   }
 }
+
+export async function getCrmDetailsById({ crmId }) {
+  try {
+    const response = await fetch(`${api_url}get-crm-details/${crmId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("something went wrong");
+    }
+
+    const res = await response.json();
+
+    return res;
+  } catch (e) {
+    throw new Error("something went wrong");
+  }
+}
+
 export async function markNotificationRead({ id }) {
   try {
     const response = await fetch(`${api_url}mark-notification-read/${id}`, {
@@ -98,6 +119,27 @@ export async function getCmNotifications({ cmId }) {
     throw new Error("something went wrong");
   }
 }
+
+export async function getCmDetailsById({ cmId }) {
+  try {
+    const response = await fetch(`${api_url}get-cm-details/${cmId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("something went wrong");
+    }
+
+    const res = await response.json();
+
+    return res;
+  } catch (e) {
+    throw new Error("something went wrong");
+  }
+}
+
 export async function getNotificationsDetails({ id }) {
   try {
     const response = await fetch(`${api_url}get-experience-details/${id}`, {
