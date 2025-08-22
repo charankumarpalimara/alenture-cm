@@ -99,7 +99,7 @@ const B2bScreen = () => {
                     Build and nurture deep, lasting relationships with your business customers
                 </Typography>
             </div>
-            <Button
+            {/* <Button
                 type="text"
                 startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
                 onClick={() => navigate(-1)}
@@ -110,7 +110,7 @@ const B2bScreen = () => {
                     alignSelf: "flex-start",
                     marginLeft: 8,
                 }}
-            />
+            /> */}
         </div>
 
             <Box
