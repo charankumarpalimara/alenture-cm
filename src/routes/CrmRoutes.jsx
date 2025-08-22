@@ -17,6 +17,8 @@ import OrganizationDetails from "../scenes/commonFiles/organizationdetails";
 import CmDataByOrganization from "../scenes/commonFiles/organizationdetails/CmDataByOrganization";
 import TaskDetails from "../scenes/commonFiles/taskdetails";
 import CrmProfile from "../scenes/crmDashboard/profile";
+import B2bScreen from "../scenes/commonFiles/b2bscreen";
+import B2bDetails from "../scenes/commonFiles/b2bscreen/b2bdetails";
 
 const crmRoutes = [
   <Route key="dashboard" path="/" element={<Dashboard />} />,
@@ -36,6 +38,8 @@ const crmRoutes = [
   <Route key="cmDataByOrganization" path="/cmDataByOrganization" element={<CmDataByOrganization />} />,
   <Route key="taskdetails" path="/taskdetails" element={<TaskDetails />} />,
   <Route key="profile" path="/profile" element={<CrmProfile />} />,
+  <Route key="b2bscreen" path="/b2bscreen" element={<B2bScreen />} />,
+  <Route key="b2bdetails" path="/b2bdetails" element={<B2bDetails />} />,
 ];
 
 export default crmRoutes; 

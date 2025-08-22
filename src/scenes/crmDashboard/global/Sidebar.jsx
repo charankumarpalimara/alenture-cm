@@ -19,6 +19,7 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -30,7 +31,7 @@ const getActivePage = (pathname) => {
     return "/calendar";
   } else if (
     pathname.includes("/profile") ||
-    pathname === "/" 
+    pathname === "/"
   ) {
     return "/"; // Ensure this matches the `to` prop of the Experiences Item
   } else if (
@@ -60,6 +61,11 @@ const getActivePage = (pathname) => {
     pathname.includes("/organizationdetails")
   ) {
     return "/organization"; // Ensure this matches the `to` prop of the Experiences Item
+  } else if (
+    pathname.includes("/b2bscreen") ||
+    pathname.includes("/b2bdetails")
+  ) {
+    return "/b2bscreen"; // Ensure this matches the `to` prop of the B2B Screen Item
   } else {
     return pathname;
   }
@@ -98,7 +104,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontWeight: "500 !important", // Ensure text is bold for selected item
             fontSize: "13px",
           },
         }}
@@ -191,6 +197,14 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           selected={selected}
           setSelected={setSelected}
         />
+
+        <Item
+          title="Account Playbook"
+          to="/b2bscreen"
+          icon={<MenuBookOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
         {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
         <Item
           title="Notes"
@@ -199,6 +213,8 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           selected={selected}
           setSelected={setSelected}
         />
+
+
         <Item
           title="Calendar"
           to="/calendar"
@@ -222,8 +238,8 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
             primary="Logout"
             sx={{
               "& .MuiTypography-root": {
-                  fontWeight: "600 !important", // Ensure text is bold for selected item
-                  fontSize: "12px",
+                fontWeight: "600 !important", // Ensure text is bold for selected item
+                fontSize: "12px",
               },
             }}
           />

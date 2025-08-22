@@ -263,7 +263,7 @@ button,
   font-size: 18px ;
   font-weight: 600 !important;
   /* text-align: center !important; */
-  padding-left: 30px ;
+  padding-left: 30px !important ;
   /* margin-bottom: 10px !important; */
   width: 100% !important;
   flex: 1 !important;

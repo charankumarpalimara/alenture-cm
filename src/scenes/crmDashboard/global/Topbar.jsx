@@ -23,7 +23,8 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { useNavigate } from "react-router-dom";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
+// import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -120,7 +121,7 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontWeight: "500 !important", // Ensure text is bold for selected item
             fontSize: "13px",
           },
         }}
@@ -167,13 +168,13 @@ const Topbar = ({ onLogout }) => {
   const { mutate, isPending: loading } = useMutation({
     mutationFn: getCrmNotificationsDetails,
     onSuccess: (data) => {
-        const experienceid = data.finalExperienceid;
-  console.log("Clicked notification, experienceid:", experienceid);
+      const experienceid = data.finalExperienceid;
+      console.log("Clicked notification, experienceid:", experienceid);
       navigate(`/ticketdetails/${data.finalExperienceid}`);
 
       queryClient.invalidateQueries("crm-notifications");
     },
-    onError: (error) => {},
+    onError: (error) => { },
   });
 
   useEffect(() => {
@@ -202,7 +203,7 @@ const Topbar = ({ onLogout }) => {
           setSnackbarMsg(data.message);
           setSnackbarOpen(true);
         }
-      } catch (e) {}
+      } catch (e) { }
     };
     return () => ws.close();
   }, [queryClient]);
@@ -213,33 +214,33 @@ const Topbar = ({ onLogout }) => {
   };
 
 
-const notifClick = (data) => {
-  setDrawerOpen(false);
-  const experienceid = data.finalExperienceid;
-  console.log("Clicked notification:", data);
+  const notifClick = (data) => {
+    setDrawerOpen(false);
+    const experienceid = data.finalExperienceid;
+    console.log("Clicked notification:", data);
 
-  if (window.location.pathname === `/ticketdetails/${experienceid}`) {
-    navigate("/");
-  }
-  
-  // Handle different notification types
-  if (data.type === "experience_registration") {
-    // Navigate to experience details
-    navigate(`/ticketdetails/${experienceid}`);
-  } else if (data.type === "cm_registration") {
-    // Navigate to CM details
-    navigate(`/cmdetails/${data.finalExperienceid}`, { 
-      state: { ticket: { id: data.finalExperienceid } } 
-    });
-  } else if (data.type === "crm_registration") {
-    // Navigate to CRM details
-    navigate(`/crmdetails/${data.finalExperienceid}`, { 
-      state: { ticket: { crmid: data.finalExperienceid } } 
-    });
-  }
-  
-  markNotificationReadMutate({ id: data.id });
-};
+    if (window.location.pathname === `/ticketdetails/${experienceid}`) {
+      navigate("/");
+    }
+
+    // Handle different notification types
+    if (data.type === "experience_registration") {
+      // Navigate to experience details
+      navigate(`/ticketdetails/${experienceid}`);
+    } else if (data.type === "cm_registration") {
+      // Navigate to CM details
+      navigate(`/cmdetails/${data.finalExperienceid}`, {
+        state: { ticket: { id: data.finalExperienceid } }
+      });
+    } else if (data.type === "crm_registration") {
+      // Navigate to CRM details
+      navigate(`/crmdetails/${data.finalExperienceid}`, {
+        state: { ticket: { crmid: data.finalExperienceid } }
+      });
+    }
+
+    markNotificationReadMutate({ id: data.id });
+  };
 
 
 
@@ -767,7 +768,7 @@ const notifClick = (data) => {
         )}
 
         {/* Page Title Section */}
- {/* {isMobile ? (
+        {/* {isMobile ? (
   <Box
     display="flex"
     flexDirection="row"
@@ -888,7 +889,7 @@ const notifClick = (data) => {
     </Box>
   </Box>
  )} */}
-       </Box>
+      </Box>
       <Box sx={{ alignItems: "center" }}>
         {/* Mobile Sidebar Modal */}
         <Modal
@@ -946,19 +947,27 @@ const notifClick = (data) => {
               handleClose={() => setIsModalOpen(false)}
             /> */}
             {getCreaterRole() === "admin" && (
-            <Item
-              title="Head of the Business"
-              to="/hob"
-              icon={<StorefrontOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              handleClose={() => setIsModalOpen(false)}
-            />
+              <Item
+                title="Head of the Business"
+                to="/hob"
+                icon={<StorefrontOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+                handleClose={() => setIsModalOpen(false)}
+              />
             )}
             <Item
               title="Organization"
               to="/organization"
               icon={<BusinessOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Account Playbook"
+              to="/b2bscreen"
+              icon={<MenuBookOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
