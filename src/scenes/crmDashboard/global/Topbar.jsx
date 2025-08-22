@@ -71,7 +71,12 @@ const getActivePage = (pathname) => {
     return "/tasks";
   } else if (pathname.includes("/organization")) {
     return "/organization";
-  } else if (
+  }else if (
+    pathname.includes("/b2bdetails") ||
+    pathname.includes("/b2bscreen")) {
+     return "/b2bscreen"
+  }
+   else if (
     pathname === "/" ||
     pathname.includes("/ticketdetails") ||
     pathname.includes("/allExperiences") ||
