@@ -24,6 +24,7 @@ import {
     CloseOutlined
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { Divider } from 'antd';
 
 const B2bDetails = () => {
     const theme = useTheme();
@@ -136,8 +137,8 @@ const B2bDetails = () => {
                 <Container maxWidth="xl">
                     {/* Top Row - Selected Customer and Relationship Health */}
                     <Grid container spacing={3} sx={{ mb: 3 }}>
-                        {/* Selected Customer Card */}
-                        <Grid item xs={12} lg={6}>
+                        {/* Selected Customer Card - Wider */}
+                        <Grid item xs={12} lg={7}>
                             <Card
                                 sx={{
                                     background: '#ffffff',
@@ -176,46 +177,60 @@ const B2bDetails = () => {
                                         >
                                             TC
                                         </Avatar>
-                                        <Box>
-                                            <Typography
-                                                className='custom-headding-16px'
-                                                sx={{
-                                                    fontWeight: '600 !important',
-                                                    //   fontSize: '18px',
-                                                    color: '#1a1a1a',
-                                                    paddingLeft: "0px !important",
-                                                    // mb: 0.5
-                                                }}
-                                            >
-                                                TechCorp Solutions
-                                            </Typography>
-                                            <Typography
-                                                className='custom-headding-16px'
-                                                sx={{
-                                                    color: '#666666',
-                                                    paddingLeft: "0px !important",
-                                                    //   fontSize: '14px',
-                                                    mb: 0.5
-                                                }}
-                                            >
-                                                Enterprise Software Development
-                                            </Typography>
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                <Star sx={{ color: '#ffd700', fontSize: 16 }} />
+                                        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start" }}>
+                                            <Box>
                                                 <Typography
-                                                    className='custom-headding-16px'
                                                     sx={{
+                                                        fontWeight: 'bold',
+                                                        fontSize: '18px',
                                                         color: '#1a1a1a',
-                                                        fontSize: '14px',
-                                                        fontWeight: 'bold !important',
-                                                        paddingLeft: "0px !important"
+                                                        mb: 0.5
                                                     }}
                                                 >
-                                                    7.5/10
+                                                    TechCorp Solutions
+                                                </Typography>
+                                                <Typography
+                                                    sx={{
+                                                        color: '#666666',
+                                                        fontSize: '14px',
+                                                        mb: 1
+                                                    }}
+                                                >
+                                                    Enterprise Software Development
                                                 </Typography>
                                             </Box>
+                                            <Box sx={{ display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", alignItems: "center", gap: 2, mt: 2 }}>
+
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, }}>
+                                                    <Star sx={{ color: '#666666', fontSize: 16 }} />
+                                                    <Typography
+                                                        sx={{
+                                                            color: '#666666',
+                                                            fontSize: '14px',
+                                                            // fontWeight: 'bold'
+                                                        }}
+                                                    >
+                                                        Relationship Score: 7.5/10
+                                                    </Typography>
+                                                </Box>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                    <CalendarToday sx={{ color: '#666666', fontSize: 16 }} />
+                                                    <Typography
+                                                        sx={{
+                                                            color: '#666666',
+                                                            fontSize: '14px'
+                                                        }}
+                                                    >
+                                                        Client Since: 2023
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
                                         </Box>
+
                                     </Box>
+
+
+                                    <Divider style={{ margin: "10px 0px" }} />
 
                                     {/* Customer Metrics */}
                                     <Grid container spacing={2}>
@@ -290,23 +305,13 @@ const B2bDetails = () => {
                                         </Grid>
                                     </Grid>
 
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-                                        <CalendarToday sx={{ color: '#666666', fontSize: 16 }} />
-                                        <Typography
-                                            sx={{
-                                                color: '#666666',
-                                                fontSize: '14px'
-                                            }}
-                                        >
-                                            Client Since: 2023
-                                        </Typography>
-                                    </Box>
+
                                 </CardContent>
                             </Card>
                         </Grid>
 
-                        {/* Relationship Health Card */}
-                        <Grid item xs={12} lg={6}>
+                        {/* Relationship Health Card - Narrower */}
+                        <Grid item xs={12} lg={5}>
                             <Card
                                 sx={{
                                     background: '#ffffff',
@@ -321,7 +326,7 @@ const B2bDetails = () => {
                                         sx={{
                                             color: '#1a1a1a',
                                             paddingLeft: "0px !important",
-                                            mb: 3
+                                            mb: 1
                                         }}
                                     >
                                         Relationship Health
@@ -334,7 +339,7 @@ const B2bDetails = () => {
                                                     <Typography
                                                         sx={{
                                                             color: '#1a1a1a',
-                                                            fontSize: '14px',
+                                                            fontSize: '13px',
                                                             fontWeight: '500'
                                                         }}
                                                     >
@@ -343,8 +348,8 @@ const B2bDetails = () => {
                                                     <Typography
                                                         sx={{
                                                             color: colors.blueAccent[1000],
-                                                            fontSize: '14px',
-                                                            fontWeight: 'bold'
+                                                            fontSize: '13px',
+                                                            fontWeight: '500'
                                                         }}
                                                     >
                                                         {metric.value}%
@@ -372,15 +377,16 @@ const B2bDetails = () => {
                     </Grid>
 
                     {/* Bottom Row - Activity Planning and Strategies */}
-                    <Grid container spacing={3}>
-                        {/* Activity Planning Card */}
+                    <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
+                        {/* Activity Planning Card - Left Column */}
                         <Grid item xs={12} lg={6}>
                             <Card
                                 sx={{
                                     background: '#ffffff',
                                     borderRadius: 3,
                                     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                                    border: '1px solid #e0e0e0'
+                                    border: '1px solid #e0e0e0',
+                                    height: '100%' // Make it full height
                                 }}
                             >
                                 <CardContent sx={{ p: 3 }}>
@@ -420,10 +426,19 @@ const B2bDetails = () => {
                                                     >
                                                         {activity.title}
                                                     </Typography>
-                                                    <IconButton size="small" sx={{ color: '#666666' }}>
-                                                        <MoreVert />
-                                                    </IconButton>
+                                                    <Chip
+                                                    label={activity.priority}
+                                                    size="small"
+                                                    sx={{
+                                                        background: '#f0f0f0',
+                                                        color: '#666666',
+                                                        fontSize: '11px',
+                                                        fontWeight: '500'
+                                                    }}
+                                                />
+                   
                                                 </Box>
+                                                <Box  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }} >
                                                 <Typography
                                                     sx={{
                                                         color: '#666666',
@@ -433,6 +448,10 @@ const B2bDetails = () => {
                                                 >
                                                     {activity.description}
                                                 </Typography>
+                                                <IconButton size="small" sx={{ color: '#666666' }}>
+                                                        <MoreVert />
+                                                    </IconButton>
+                                                    </Box>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
                                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                                         <CalendarToday sx={{ color: '#666666', fontSize: 14 }} />
@@ -454,16 +473,7 @@ const B2bDetails = () => {
                                                         {activity.duration}
                                                     </Typography>
                                                 </Box>
-                                                <Chip
-                                                    label={activity.priority}
-                                                    size="small"
-                                                    sx={{
-                                                        background: '#f0f0f0',
-                                                        color: '#666666',
-                                                        fontSize: '11px',
-                                                        fontWeight: '500'
-                                                    }}
-                                                />
+
                                             </Box>
                                         ))}
                                     </Box>
@@ -499,6 +509,7 @@ const B2bDetails = () => {
                                         borderRadius: 3,
                                         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                                         border: '1px solid #e0e0e0'
+                                        // Removed flex height constraint to allow natural expansion
                                     }}
                                 >
                                     <CardContent sx={{ p: 3 }}>
@@ -563,6 +574,7 @@ const B2bDetails = () => {
                                         borderRadius: 3,
                                         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                                         border: '1px solid #e0e0e0'
+                                        // Removed flex height constraint
                                     }}
                                 >
                                     <CardContent sx={{ p: 3 }}>
