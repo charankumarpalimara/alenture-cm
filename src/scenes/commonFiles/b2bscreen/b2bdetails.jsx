@@ -479,12 +479,24 @@ const B2bDetails = () => {
                                     </Box>
 
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         className='form-button'
                                         sx={{
-                                            background: colors.blueAccent[1000],
-                                            color: 'white',
+                                            // background: colors.blueAccent[1000],
+                                            color: 'black',
+                                            width: '100%',
                                             borderRadius: 2,
+                                            borderColor: '#333333 !important',
+                                            borderWidth: '1px',
+                                            borderStyle: 'solid',
+                                            fontSize: '14px',
+                                            fontWeight: '500',
+                                            padding: '10px 20px',
+                                            textTransform: 'none',
+                                            '&:hover': {
+                                                background: colors.blueAccent[1000],
+                                                color: 'white'
+                                            }
                                             //   py: 1,
                                             //   px: 2,
                                             //   fontSize: '14px',
@@ -526,7 +538,15 @@ const B2bDetails = () => {
 
                                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                                             {strategies.map((strategy, index) => (
-                                                <Box key={index} sx={{ mb: 2 }}>
+                                                <Box key={index} sx={{ 
+                                                    mb: 2,
+                                                    pl: 3,
+                                                    borderLeft: `4px solid #e0e0e0`,
+                                                    // '&:hover': {
+                                                    //     borderLeftColor: '#333333',
+                                                    //     transition: 'border-left-color 0.3s ease'
+                                                    // }
+                                                }}>
                                                     <Typography
                                                         sx={{
                                                             fontWeight: 'bold',
