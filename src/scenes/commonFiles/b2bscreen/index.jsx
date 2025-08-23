@@ -23,7 +23,7 @@ import {
     Person,
     Event
 } from '@mui/icons-material';
-import { CloseOutlined } from "@ant-design/icons";
+// import { CloseOutlined } from "@ant-design/icons";
 import { useNavigate } from 'react-router-dom';
 import { tokens } from '../../../theme';
 
@@ -76,30 +76,30 @@ const B2bScreen = () => {
         <>
             {/* Header */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", background: "#fff", padding: "10px", borderRadius: "8px", }}>
-            <div style={{ flex: 1 }}>
-                <Typography
-                    sx={{
-                        textAlign: "left",
-                        fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                        paddingLeft: isMobile ? "0px" : "30px",
-                        marginBottom: "4px",
-                        fontWeight: "bold"
-                    }}
-                >
-                    B2B Customer Relationships
-                </Typography>
-                <Typography
-                    sx={{
-                        color: '#666666',
-                        textAlign: "left",
-                        fontSize: isMobile ? "13px" : isTablet ? "15px" : "17px",
-                        paddingLeft: isMobile ? "0px" : "30px",
-                    }}
-                >
-                    Build and nurture deep, lasting relationships with your business customers
-                </Typography>
-            </div>
-            {/* <Button
+                <div style={{ flex: 1 }}>
+                    <Typography
+                        sx={{
+                            textAlign: "left",
+                            fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                            paddingLeft: isMobile ? "0px" : "30px",
+                            marginBottom: "4px",
+                            fontWeight: "bold"
+                        }}
+                    >
+                        B2B Customer Relationships
+                    </Typography>
+                    <Typography
+                        sx={{
+                            color: '#666666',
+                            textAlign: "left",
+                            fontSize: isMobile ? "13px" : isTablet ? "15px" : "17px",
+                            paddingLeft: isMobile ? "0px" : "30px",
+                        }}
+                    >
+                        Build and nurture deep, lasting relationships with your business customers
+                    </Typography>
+                </div>
+                {/* <Button
                 type="text"
                 startIcon={<CloseOutlined style={{ fontSize: 20 }} />}
                 onClick={() => navigate(-1)}
@@ -111,7 +111,7 @@ const B2bScreen = () => {
                     marginLeft: 8,
                 }}
             /> */}
-        </div>
+            </div>
 
             <Box
                 sx={{
@@ -184,40 +184,71 @@ const B2bScreen = () => {
                                         <Grid item xs={12} sm={6}>
                                             <Card
                                                 sx={{
-                                                    background: '#f8f9fa',
+                                                    background: '#f9fafb',
                                                     borderRadius: 2,
                                                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                                                     border: '1px solid #e0e0e0'
                                                 }}
                                             >
                                                 <CardContent sx={{ p: 2, textAlign: 'center' }}>
-                                                    <Business sx={{ fontSize: 30, color: '#666666', mb: 1 }} />
-                                                    <Typography sx={{ color: '#1a1a1a', fontWeight: 'bold', fontSize: "15px" }}>
-                                                        247
-                                                    </Typography>
-                                                    <Typography variant="body2" sx={{ color: '#666666' }}>
-                                                        Total Customers
-                                                    </Typography>
+                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
+                                                            <Typography variant="body2" sx={{ color: '#666666' }}>
+                                                                Total Customers
+                                                            </Typography>
+                                                            <Typography sx={{ color: '#1a1a1a', fontWeight: 'bold', fontSize: "15px" }}>
+                                                                247
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box sx={{
+                                                            background: "#d1d5db", 
+                                                            borderRadius: "5%", 
+                                                            padding: "8px",
+                                                            width: "50px",
+                                                            height: "50px",
+                                                            display: "flex",
+                                                            alignItems: "center", 
+                                                            justifyContent: "center"
+                                                        }}>
+                                                            <Business sx={{ fontSize: 30, color: '#4b5563' }} />
+                                                        </Box>
+                                                    </Box>
                                                 </CardContent>
                                             </Card>
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
                                             <Card
                                                 sx={{
-                                                    background: '#f8f9fa',
+                                                    background: '#f9fafb',
                                                     borderRadius: 2,
                                                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                                                     border: '1px solid #e0e0e0'
                                                 }}
                                             >
                                                 <CardContent sx={{ p: 2, textAlign: 'center' }}>
-                                                    <Handshake sx={{ fontSize: 30, color: '#666666', mb: 1 }} />
-                                                    <Typography sx={{ color: '#1a1a1a', fontWeight: 'bold', fontSize: "15px" }}>
-                                                        189
-                                                    </Typography>
-                                                    <Typography variant="body2" sx={{ color: '#666666' }}>
-                                                        Active Relationships
-                                                    </Typography>
+                                                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center' }}>
+
+                                                            <Typography variant="body2" sx={{ color: '#666666' }}>
+                                                                Active Relationships
+                                                            </Typography>
+                                                            <Typography sx={{ color: '#1a1a1a', fontWeight: 'bold', fontSize: "15px" }}>
+                                                                189
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box sx={{
+                                                            background: "#d1d5db", 
+                                                            borderRadius: "5%", 
+                                                            padding: "8px",
+                                                            width: "50px",
+                                                            height: "50px",
+                                                            display: "flex",
+                                                            alignItems: "center", 
+                                                            justifyContent: "center"
+                                                        }}>
+                                                            <Handshake sx={{ fontSize: 30, color: '#4b5563' }} />
+                                                        </Box>
+                                                    </Box>
                                                 </CardContent>
                                             </Card>
                                         </Grid>
@@ -246,8 +277,8 @@ const B2bScreen = () => {
                                                 }}
                                             >
                                                 <CardContent sx={{ p: 2 }}>
-                                                    <Box sx={{ display: 'flex',  flexDirection: isMobile ? "column" : "row", alignItems: 'center', justifyContent: 'space-between' }}>
-                                                        <Box sx={{ display: 'flex', flexDirection: isMobile ? "column" : "row"  , alignItems: 'center', gap: 2 }}>
+                                                    <Box sx={{ display: 'flex', flexDirection: isMobile ? "column" : "row", alignItems: 'center', justifyContent: 'space-between' }}>
+                                                        <Box sx={{ display: 'flex', flexDirection: isMobile ? "column" : "row", alignItems: 'center', gap: 2 }}>
                                                             <Avatar
                                                                 sx={{
                                                                     background: '#f0f0f0',
@@ -321,16 +352,20 @@ const B2bScreen = () => {
                                     >
                                         Quick Actions
                                     </Typography>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'flex-start' }}>
+                                    <Box sx={{ display: 'flex', flex: 1, flexDirection: 'column', gap: 2, alignItems: 'flex-start' }}>
                                         <Button
                                             variant="outlined"
                                             startIcon={<Phone />}
                                             sx={{
-                                                borderColor: '#666666',
-                                                color: '#666666',
+                                                borderColor: '#333333',
+                                                color: '#333333',
                                                 borderRadius: 2,
                                                 py: 1.5,
                                                 fontSize: "11px",
+                                                borderWidth: '1px',
+                                                borderStyle: 'solid',
+                                                width: '100%',
+                                                justifyContent: 'flex-start',
                                                 '&:hover': {
                                                     borderColor: '#333333',
                                                     background: '#f5f5f5'
@@ -343,11 +378,15 @@ const B2bScreen = () => {
                                             variant="outlined"
                                             startIcon={<Email />}
                                             sx={{
-                                                borderColor: '#666666',
-                                                color: '#666666',
+                                                borderColor: '#333333',
+                                                color: '#333333',
                                                 borderRadius: 2,
                                                 py: 1.5,
                                                 fontSize: "11px",
+                                                borderWidth: '1px',
+                                                borderStyle: 'solid',
+                                                width: '100%',
+                                                justifyContent: 'flex-start',
                                                 '&:hover': {
                                                     borderColor: '#333333',
                                                     background: '#f5f5f5'
@@ -360,11 +399,15 @@ const B2bScreen = () => {
                                             variant="outlined"
                                             startIcon={<CardGiftcard />}
                                             sx={{
-                                                borderColor: '#666666',
-                                                color: '#666666',
+                                                borderColor: '#333333',
+                                                color: '#333333',
                                                 borderRadius: 2,
                                                 py: 1.5,
                                                 fontSize: "11px",
+                                                borderWidth: '1px',
+                                                borderStyle: 'solid',
+                                                width: '100%',
+                                                justifyContent: 'flex-start',
                                                 '&:hover': {
                                                     borderColor: '#333333',
                                                     background: '#f5f5f5'
