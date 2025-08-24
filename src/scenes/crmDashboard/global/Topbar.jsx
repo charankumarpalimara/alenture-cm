@@ -470,8 +470,8 @@ const Topbar = ({ onLogout }) => {
     const storedSelected = sessionStorage.getItem("selectedSidebarItem");
     if (storedSelected) {
       setSelected(storedSelected);
-      // Auto-expand contract sub-tab if user is on contract analysis page
-      if (storedSelected === "/contract/analysis") {
+      // Auto-expand contract sub-tab if user is on contract pages
+      if (storedSelected === "/contract" || storedSelected === "/contract/analysis") {
         setContractExpanded(true);
       }
     }
@@ -484,11 +484,11 @@ const Topbar = ({ onLogout }) => {
       getActivePage(location.pathname)
     );
 
-    // Auto-expand contract sub-tab when on contract analysis page
+    // Auto-expand contract sub-tab when on contract pages
     const currentPage = getActivePage(location.pathname);
-    if (currentPage === "/contract/analysis") {
+    if (currentPage === "/contract" || currentPage === "/contract/analysis") {
       setContractExpanded(true);
-    } else if (currentPage !== "/contract" && currentPage !== "/contract/analysis") {
+    } else {
       setContractExpanded(false);
     }
   }, [location.pathname]);
@@ -1011,33 +1011,25 @@ const Topbar = ({ onLogout }) => {
             />
             <ListItem
               button
-          
               onClick={() => {
-
                 setContractExpanded(!contractExpanded);
-                if (selected !== "/contract") {
-                  setSelected("/contract");
-                  navigate("/contract");
-                }
               }}
               sx={{
-                color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
-                fontWeight: (selected === "/contract" || selected === "/contract/analysis") ? "bold" : "regular",
-                background: (selected === "/contract" || selected === "/contract/analysis") ? colors.blueAccent[1000] : "inherit",
+                color: colors.blueAccent[500],
+                fontWeight: "regular",
+                background: "inherit",
                 borderRadius: "10px",
                 marginBottom: "8px",
                 "&:hover": {
-                  backgroundColor: (selected === "/contract" || selected === "/contract/analysis") ? "#f5f5f5 !important" : "none",
-                  color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
+                  backgroundColor: "none",
+                  color: colors.blueAccent[500],
                 },
               }}
-              handleClose={() => setIsModalOpen(false)}
             >
               <ListItemIcon sx={{ color: "inherit" }}>
                 <AssignmentIcon />
               </ListItemIcon>
               <ListItemText
-     
                 primary="Contract"
                 sx={{
                   "& .MuiTypography-root": {
@@ -1059,6 +1051,41 @@ const Topbar = ({ onLogout }) => {
             </ListItem>
             {contractExpanded && (
               <Box sx={{ ml: 3, mt: 1, mb: 2 }}>
+                <ListItem
+                  button
+                  component={Link}
+                  to="/contract"
+                  selected={selected === "/contract"}
+                  onClick={() => {
+                    setSelected("/contract");
+                    sessionStorage.setItem("selectedSidebarItem", "/contract");
+                    setIsModalOpen(false);
+                  }}
+                  sx={{
+                    color: selected === "/contract" ? "white" : colors.blueAccent[500],
+                    fontWeight: selected === "/contract" ? "bold" : "regular",
+                    background: selected === "/contract" ? colors.blueAccent[1000] : "#f5f5f5",
+                    borderRadius: "10px",
+                    marginBottom: "8px",
+                    "&:hover": {
+                      backgroundColor: selected === "/contract" ? "#3e4396 !important" : "none",
+                      color: selected === "/contract" ? "white" : colors.blueAccent[500],
+                    },
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "inherit" }}>
+                    <AssignmentIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Contract Management"
+                    sx={{
+                      "& .MuiTypography-root": {
+                        fontWeight: "500 !important",
+                        fontSize: "13px",
+                      },
+                    }}
+                  />
+                </ListItem>
                 <ListItem
                   button
                   component={Link}

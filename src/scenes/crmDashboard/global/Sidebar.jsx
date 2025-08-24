@@ -148,12 +148,22 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
     setSelected(getActivePage(location.pathname));
     sessionStorage.setItem("selectedSidebarItem", location.pathname);
 
-    // Close contract sub-tab when navigating to other tabs
+    // Auto-expand contract sub-tab when on contract pages
     const currentPage = getActivePage(location.pathname);
-    if (currentPage !== "/contract" && currentPage !== "/contract/analysis") {
+    if (currentPage === "/contract" || currentPage === "/contract/analysis") {
+      setContractExpanded(true);
+    } else {
       setContractExpanded(false);
     }
   }, [location.pathname]);
+
+  // Handle initial contract expansion state
+  useEffect(() => {
+    const storedSelected = sessionStorage.getItem("selectedSidebarItem");
+    if (storedSelected === "/contract" || storedSelected === "/contract/analysis") {
+      setContractExpanded(true);
+    }
+  }, []);
 
   const logoSrc = logoLight;
 
@@ -237,20 +247,16 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           button
           onClick={() => {
             setContractExpanded(!contractExpanded);
-            if (selected !== "/contract") {
-              setSelected("/contract");
-              navigate("/contract");
-            }
           }}
           sx={{
-            color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
-            fontWeight: (selected === "/contract" || selected === "/contract/analysis") ? "bold" : "regular",
-            background: (selected === "/contract" || selected === "/contract/analysis") ? colors.blueAccent[1000] : "inherit",
+            color: colors.blueAccent[500],
+            fontWeight: "regular",
+            background: "inherit",
             borderRadius: "10px",
             marginBottom: "8px",
             "&:hover": {
-              backgroundColor: (selected === "/contract" || selected === "/contract/analysis") ? "#3e4396 !important" : "none",
-              color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
+              backgroundColor: "none",
+              color: colors.blueAccent[500],
             },
           }}
         >
@@ -279,6 +285,13 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
         </ListItem>
         {contractExpanded && (
           <Box sx={{ ml: 3, mt: 1, mb: 2 }}>
+            <Item
+              title="Contract Management"
+              to="/contract"
+              icon={<AssignmentIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <Item
               title="Contract Analysis"
               to="/contract/analysis"
