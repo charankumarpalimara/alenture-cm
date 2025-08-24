@@ -8,14 +8,9 @@ import {
     Chip,
     IconButton,
     useMediaQuery,
-    Container,
-    // LinearProgress,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel
+    Container
 } from '@mui/material';
-import { Table, Progress } from 'antd';
+import { Table, Progress, Select as AntSelect } from 'antd';
 import {
     Search,
     FilterList,
@@ -414,72 +409,44 @@ const Viewallcontracts = () => {
                                 </Box>
 
                                 {/* Status Dropdown */}
-                                <FormControl sx={{ minWidth: isMobile ? '100%' : 120 }}>
-                                    <InputLabel sx={{ fontSize: '14px', color: '#666666',  textAlign: "center" }}>All Status</InputLabel>
-                                    <Select
-                                        value=""
-                                        label="All Status"
-                                        sx={{
-                                            background: '#f5f5f5',
-                                            borderRadius: 2,
-                                            height: '36px',
-                                            fontSize: '14px',
-                                            color: '#666666',
-                                            '& .MuiOutlinedInput-notchedOutline': {
-                                                border: '1px solid #e0e0e0'
-                                            },
-                                            '& .MuiSelect-select': {
-                                                padding: '0px 14px !important',
-                                                display: 'flex !important',
-                                                alignItems: 'center !important',
-                                                height: '36px !important',
-                                                lineHeight: '36px !important',
-                                                margin: '0 !important'
-                                            }
-                                        }}
-                                    >
-                                        <MenuItem value="" sx={{ fontSize: '14px' }}>All Status</MenuItem>
-                                        <MenuItem value="active" sx={{ fontSize: '14px' }}>Active</MenuItem>
-                                        <MenuItem value="pending" sx={{ fontSize: '14px' }}>Pending</MenuItem>
-                                        <MenuItem value="review" sx={{ fontSize: '14px' }}>Under Review</MenuItem>
-                                        <MenuItem value="draft" sx={{ fontSize: '14px' }}>Draft</MenuItem>
-                                        <MenuItem value="expired" sx={{ fontSize: '14px' }}>Expired</MenuItem>
-                                    </Select>
-                                </FormControl>
+                                <AntSelect
+                                    placeholder="All Status"
+                                    style={{
+                                        minWidth: isMobile ? '100%' : 120,
+                                        height: '36px',
+                                        background: '#f5f5f5',
+                                        borderRadius: '8px',
+                                        border: '1px solid #e0e0e0'
+                                    }}
+                                    options={[
+                                        { value: '', label: 'All Status' },
+                                        { value: 'active', label: 'Active' },
+                                        { value: 'pending', label: 'Pending' },
+                                        { value: 'review', label: 'Under Review' },
+                                        { value: 'draft', label: 'Draft' },
+                                        { value: 'expired', label: 'Expired' }
+                                    ]}
+                                />
 
                                 {/* Type Dropdown */}
-                                <FormControl sx={{ minWidth: isMobile ? '100%' : 120 }}>
-                                    <InputLabel sx={{ fontSize: '14px', color: '#666666', textAlign: "center" }}>All Types</InputLabel>
-                                    <Select
-                                        value=""
-                                        label="All Types"
-                                        sx={{
-                                            background: '#f5f5f5',
-                                            borderRadius: 2,
-                                            height: '36px',
-                                            fontSize: '14px',
-                                            color: '#666666',
-                                            '& .MuiOutlinedInput-notchedOutline': {
-                                                border: '1px solid #e0e0e0'
-                                            },
-                                            '& .MuiSelect-select': {
-                                                padding: '0px 14px !important',
-                                                display: 'flex !important',
-                                                alignItems: 'center !important',
-                                                height: '36px !important',
-                                                lineHeight: '36px !important',
-                                                margin: '0 !important'
-                                            }
-                                        }}
-                                    >
-                                        <MenuItem value="" sx={{ fontSize: '14px' }}>All Types</MenuItem>
-                                        <MenuItem value="license" sx={{ fontSize: '14px' }}>License</MenuItem>
-                                        <MenuItem value="service" sx={{ fontSize: '14px' }}>Service</MenuItem>
-                                        <MenuItem value="data" sx={{ fontSize: '14px' }}>Data</MenuItem>
-                                        <MenuItem value="partnership" sx={{ fontSize: '14px' }}>Partnership</MenuItem>
-                                        <MenuItem value="audit" sx={{ fontSize: '14px' }}>Audit</MenuItem>
-                                    </Select>
-                                </FormControl>
+                                <AntSelect
+                                    placeholder="All Types"
+                                    style={{
+                                        minWidth: isMobile ? '100%' : 120,
+                                        height: '36px',
+                                        background: '#f5f5f5',
+                                        borderRadius: '8px',
+                                        border: '1px solid #e0e0e0'
+                                    }}
+                                    options={[
+                                        { value: '', label: 'All Types' },
+                                        { value: 'license', label: 'License' },
+                                        { value: 'service', label: 'Service' },
+                                        { value: 'data', label: 'Data' },
+                                        { value: 'partnership', label: 'Partnership' },
+                                        { value: 'audit', label: 'Audit' }
+                                    ]}
+                                />
 
                                 {/* Filters Button */}
                                 <Button

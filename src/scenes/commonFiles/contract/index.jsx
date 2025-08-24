@@ -51,6 +51,9 @@ const Contract = () => {
     const navigate = useNavigate();
     const isMobile = useMediaQuery("(max-width:484px)");
     const isTablet = useMediaQuery("(max-width: 700px)");
+    
+    // Search state
+    const [searchTerm, setSearchTerm] = React.useState('');
 
     const summaryCards = [
         {
@@ -86,6 +89,14 @@ const Contract = () => {
             iconColor: "#4b5563"
         }
     ];
+
+    // Search filter function
+    const handleSearchChange = (event) => {
+        const searchValue = event.target.value.toLowerCase();
+        setSearchTerm(searchValue);
+        // You can add filtering logic here for contracts if needed
+        console.log('Searching for:', searchValue);
+    };
 
     const recentContracts = [
         {
@@ -203,9 +214,21 @@ const Contract = () => {
                             border: '1px solid #e0e0e0'
                         }}>
                             <Search sx={{ color: '#666666', mr: 1 }} />
-                            <Typography sx={{ color: '#666666', fontSize: '14px' }}>
-                                Search contracts, accounts...
-                            </Typography>
+                            <input
+                                type="text"
+                                placeholder="Search contracts, accounts..."
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                                style={{
+                                    border: 'none',
+                                    background: 'transparent',
+                                    outline: 'none',
+                                    fontSize: '14px',
+                                    color: '#666666',
+                                    width: '100%',
+                                    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                                }}
+                            />
                         </Box>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
