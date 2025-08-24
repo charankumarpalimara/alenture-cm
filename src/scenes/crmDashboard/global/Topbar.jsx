@@ -130,7 +130,7 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        background: selected === to ? colors.blueAccent[1000] : (to === '/contract/analysis' ? '#000000' : "inherit"),
+        background: selected === to ? colors.blueAccent[1000] : (to === '/contract/analysis' ? '#f5f5f5' : "inherit"),
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
@@ -465,11 +465,15 @@ const Topbar = ({ onLogout }) => {
   // const pageTitle = getPageTitle();
   // const [primaryTitle, secondaryTitle] = pageTitle.includes(" / ") ? pageTitle.split(" / ") : [pageTitle, ""];
 
-  // Sync selected state with sessionStorage
+  // Sync selected state with sessionStorage and handle initial contract expansion
   useEffect(() => {
     const storedSelected = sessionStorage.getItem("selectedSidebarItem");
     if (storedSelected) {
       setSelected(storedSelected);
+      // Auto-expand contract sub-tab if user is on contract analysis page
+      if (storedSelected === "/contract/analysis") {
+        setContractExpanded(true);
+      }
     }
   }, []);
 
@@ -480,9 +484,11 @@ const Topbar = ({ onLogout }) => {
       getActivePage(location.pathname)
     );
 
-    // Close contract sub-tab when navigating to other tabs
+    // Auto-expand contract sub-tab when on contract analysis page
     const currentPage = getActivePage(location.pathname);
-    if (currentPage !== "/contract" && currentPage !== "/contract/analysis") {
+    if (currentPage === "/contract/analysis") {
+      setContractExpanded(true);
+    } else if (currentPage !== "/contract" && currentPage !== "/contract/analysis") {
       setContractExpanded(false);
     }
   }, [location.pathname]);
@@ -1005,7 +1011,9 @@ const Topbar = ({ onLogout }) => {
             />
             <ListItem
               button
+          
               onClick={() => {
+
                 setContractExpanded(!contractExpanded);
                 if (selected !== "/contract") {
                   setSelected("/contract");
@@ -1019,15 +1027,17 @@ const Topbar = ({ onLogout }) => {
                 borderRadius: "10px",
                 marginBottom: "8px",
                 "&:hover": {
-                  backgroundColor: (selected === "/contract" || selected === "/contract/analysis") ? "#3e4396 !important" : "none",
+                  backgroundColor: (selected === "/contract" || selected === "/contract/analysis") ? "#f5f5f5 !important" : "none",
                   color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
                 },
               }}
+              handleClose={() => setIsModalOpen(false)}
             >
               <ListItemIcon sx={{ color: "inherit" }}>
                 <AssignmentIcon />
               </ListItemIcon>
               <ListItemText
+     
                 primary="Contract"
                 sx={{
                   "& .MuiTypography-root": {
@@ -1049,14 +1059,41 @@ const Topbar = ({ onLogout }) => {
             </ListItem>
             {contractExpanded && (
               <Box sx={{ ml: 3, mt: 1, mb: 2 }}>
-                <Item
-                  title="Contract Analysis"
+                <ListItem
+                  button
+                  component={Link}
                   to="/contract/analysis"
-                  icon={<AssignmentIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                  handleClose={() => setIsModalOpen(false)}
-                />
+                  selected={selected === "/contract/analysis"}
+                  onClick={() => {
+                    setSelected("/contract/analysis");
+                    sessionStorage.setItem("selectedSidebarItem", "/contract/analysis");
+                    setIsModalOpen(false);
+                  }}
+                  sx={{
+                    color: selected === "/contract/analysis" ? "white" : colors.blueAccent[500],
+                    fontWeight: selected === "/contract/analysis" ? "bold" : "regular",
+                    background: selected === "/contract/analysis" ? colors.blueAccent[1000] : "#f5f5f5",
+                    borderRadius: "10px",
+                    marginBottom: "8px",
+                    "&:hover": {
+                      backgroundColor: selected === "/contract/analysis" ? "#3e4396 !important" : "none",
+                      color: selected === "/contract/analysis" ? "white" : colors.blueAccent[500],
+                    },
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "inherit" }}>
+                    <AssignmentIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Contract Analysis"
+                    sx={{
+                      "& .MuiTypography-root": {
+                        fontWeight: "500 !important",
+                        fontSize: "13px",
+                      },
+                    }}
+                  />
+                </ListItem>
               </Box>
             )}
             <Item

@@ -450,31 +450,32 @@ const ContractAnalysis = () => {
                                     alignItems: 'center',
                                     background: 'white',
                                     borderRadius: 2,
-                                    padding: '5px 16px',
+                                    padding: isMobile ? '8px 12px' : '5px 16px',
                                     border: '1px solid #e0e0e0',
-                                    minWidth: 200
+                                    minWidth: isMobile ? '100%' : 200,
+                                    width: isMobile ? '100%' : 'auto'
                                 }}>
-                                    <Search sx={{ color: '#666666', mr: 1 }} />
+                                    <Search sx={{ color: '#666666', mr: 1, fontSize: isMobile ? 18 : 20 }} />
                                     <InputBase
                                         placeholder="Search contracts..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                         sx={{
-                                            fontSize: '14px',
+                                            fontSize: isMobile ? '13px' : '14px',
                                             color: '#666666',
                                             width: '100%'
                                         }}
                                     />
                                 </Box>
-                                <FormControl sx={{ minWidth: 150 }}>
-                                    <InputLabel sx={{ fontSize: '14px', color: '#666666' }}>All Reasons</InputLabel>
+                                <FormControl sx={{ minWidth: isMobile ? '100%' : 150, width: isMobile ? '100%' : 'auto' }}>
+                                    <InputLabel sx={{ fontSize: isMobile ? '13px' : '14px', color: '#666666' }}>All Reasons</InputLabel>
                                     <Select
                                         value={filterReason}
                                         onChange={(e) => setFilterReason(e.target.value)}
                                         label="All Reasons"
                                         sx={{
-                                            fontSize: '14px',
-                                            height: '40px'
+                                            fontSize: isMobile ? '13px' : '14px',
+                                            height: isMobile ? '45px' : '40px'
                                         }}
                                     >
                                         <MenuItem value="All Reasons">All Reasons</MenuItem>
@@ -491,8 +492,97 @@ const ContractAnalysis = () => {
                         <Box sx={{ border: '1px solid #e0e0e0', borderRadius: 2, overflow: 'hidden' }}>
                             <AntTable
                                 dataSource={lostContracts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
-
-                                columns={[
+                                columns={isMobile ? [
+                                    // Mobile columns - simplified view
+                                    {
+                                        title: 'CONTRACT',
+                                        dataIndex: 'account',
+                                        key: 'account',
+                                        render: (text, record) => (
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                    <Business sx={{ fontSize: 14, color: '#666666' }} />
+                                                    <Typography sx={{ fontSize: '12px', color: '#1a1a1a', fontWeight: '500' }}>
+                                                        {text}
+                                                    </Typography>
+                                                </Box>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                    <Person sx={{ fontSize: 14, color: '#666666' }} />
+                                                    <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                                                        {record.accountManager}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                        ),
+                                        className: 'custom-ant-table-header'
+                                    },
+                                    {
+                                        title: 'DETAILS',
+                                        key: 'details',
+                                        render: (_, record) => (
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                                                <Typography sx={{ fontSize: '11px', color: '#1a1a1a', fontWeight: '500' }}>
+                                                    {record.contractValue}
+                                                </Typography>
+                                                <Typography sx={{ fontSize: '10px', color: '#666666' }}>
+                                                    {record.duration}
+                                                </Typography>
+                                                <Chip
+                                                    label={record.lossReason}
+                                                    size="small"
+                                                    sx={{
+                                                        background: '#f0f0f0',
+                                                        color: '#666666',
+                                                        fontSize: '10px',
+                                                        fontWeight: '500',
+                                                        height: '20px',
+                                                        width: 'fit-content'
+                                                    }}
+                                                />
+                                                <Typography sx={{ fontSize: '10px', color: '#666666' }}>
+                                                    {record.lostDate}
+                                                </Typography>
+                                            </Box>
+                                        ),
+                                        className: 'custom-ant-table-header'
+                                    },
+                                    {
+                                        title: 'ACTIONS',
+                                        key: 'actions',
+                                        render: () => (
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                                                <Button
+                                                    size="small"
+                                                    sx={{
+                                                        color: colors.blueAccent[1000],
+                                                        fontSize: '10px',
+                                                        textTransform: 'none',
+                                                        p: 0.5,
+                                                        minWidth: 'auto',
+                                                        height: '24px'
+                                                    }}
+                                                >
+                                                    View
+                                                </Button>
+                                                <Button
+                                                    size="small"
+                                                    sx={{
+                                                        color: colors.blueAccent[1000],
+                                                        fontSize: '10px',
+                                                        textTransform: 'none',
+                                                        p: 0.5,
+                                                        minWidth: 'auto',
+                                                        height: '24px'
+                                                    }}
+                                                >
+                                                    Recovery
+                                                </Button>
+                                            </Box>
+                                        ),
+                                        className: 'custom-ant-table-header'
+                                    }
+                                ] : [
+                                    // Desktop columns - full view
                                     {
                                         title: 'ACCOUNT',
                                         dataIndex: 'account',
@@ -613,11 +703,19 @@ const ContractAnalysis = () => {
                                 style={{
                                     fontSize: '11px'
                                 }}
+                                scroll={{ x: isMobile ? 300 : 1200 }}
                             />
                         </Box>
 
                         {/* Pagination */}
-                        <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginTop: "10px" }}>
+                        <Box sx={{ 
+                            display: "flex", 
+                            justifyContent: isMobile ? "center" : "flex-end", 
+                            alignItems: "center", 
+                            marginTop: "10px",
+                            flexDirection: isMobile ? "column" : "row",
+                            gap: isMobile ? 1 : 0
+                        }}>
                             <CustomTablePagination
                                 count={lostContracts.length}
                                 page={page}
@@ -627,9 +725,9 @@ const ContractAnalysis = () => {
                                     setRowsPerPage(newRpp);
                                     setPage(0);
                                 }}
-                                rowsPerPageOptions={[10, 20, 50, 100]}
+                                rowsPerPageOptions={isMobile ? [5, 10, 20] : [10, 20, 50, 100]}
                             />
-                        </div>
+                        </Box>
                     </CardContent>
                 </Card>
             </Container>
