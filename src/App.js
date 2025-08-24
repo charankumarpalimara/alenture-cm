@@ -257,12 +257,19 @@ const [isAuthenticated, setIsAuthenticated] = useState(
               overflowY: "auto",
               transition: "margin 0.3s ease-in-out",
               "&::-webkit-scrollbar": {
-                width: "1px",
-                height: "5px",
+                width: "8px",
+                height: "8px",
               },
               "&::-webkit-scrollbar-track": {
-                backgroundColor: "#000000",
+                backgroundColor: "#f1f1f1",
                 borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "#c1c1c1",
+                borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                backgroundColor: "#a8a8a8",
               },
 
               fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important',

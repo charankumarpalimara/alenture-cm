@@ -21,6 +21,8 @@ import B2bScreen from "../scenes/commonFiles/b2bscreen";
 import B2bDetails from "../scenes/commonFiles/b2bscreen/b2bdetails";
 import Contract from "../scenes/commonFiles/contract";
 import Viewallcontracts from "../scenes/commonFiles/contract/viewallcontracts";
+import ContractAnalysis from "../scenes/commonFiles/contract/analysis";
+import Knowledge from "../scenes/commonFiles/knowledge";
 
 const crmRoutes = [
   <Route key="dashboard" path="/" element={<Dashboard />} />,
@@ -44,6 +46,8 @@ const crmRoutes = [
   <Route key="b2bdetails" path="/b2bdetails" element={<B2bDetails />} />,
   <Route key="contract" path="/contract" element={<Contract />} />,
   <Route key="viewallcontracts" path="/viewallcontracts" element={<Viewallcontracts />} />,
+  <Route key="contractanalysis" path="/contract/analysis" element={<ContractAnalysis />} />,
+  <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
 ];
 
 export default crmRoutes; 

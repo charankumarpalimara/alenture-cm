@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { tokens } from "../../../theme";
@@ -21,6 +22,9 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -65,15 +69,23 @@ const getActivePage = (pathname) => {
   } else if (
     pathname.includes("/b2bscreen") ||
     pathname.includes("/b2bdetails")
-  )
-   {
+  ) {
     return "/b2bscreen"; // Ensure this matches the `to` prop of the B2B Screen Item
   }
   else if (
     pathname.includes("/contract") ||
-    pathname.includes("/viewallcontracts")
+    pathname.includes("/viewallcontracts") ||
+    pathname.includes("/contract/analysis")
   ) {
-    return "/contract"; // Ensure this matches the `to` prop of the Experiences Item
+    if (pathname.includes("/contract/analysis")) {
+      return "/contract/analysis"; // Return the specific sub-tab path
+    }
+    return "/contract"; // Return main contract path for other contract routes
+  }
+  else if (
+    pathname.includes("/knowledge")
+  ) {
+    return "/knowledge"; // Ensure this matches the `to` prop of the Experiences Item
   }
   else {
     return pathname;
@@ -98,7 +110,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        background: selected === to ? colors.blueAccent[1000] : "inherit",
+        background: selected === to ? colors.blueAccent[1000] : (to === '/contract/analysis' ? '#f5f5f5' : "inherit"),
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
@@ -130,10 +142,17 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
   // const isMobile = useMediaQuery("(max-width: 900px)");
   const location = useLocation();
   const [selected, setSelected] = useState(getActivePage(location.pathname));
+  const [contractExpanded, setContractExpanded] = useState(false);
 
   useEffect(() => {
     setSelected(getActivePage(location.pathname));
     sessionStorage.setItem("selectedSidebarItem", location.pathname);
+
+    // Close contract sub-tab when navigating to other tabs
+    const currentPage = getActivePage(location.pathname);
+    if (currentPage !== "/contract" && currentPage !== "/contract/analysis") {
+      setContractExpanded(false);
+    }
   }, [location.pathname]);
 
   const logoSrc = logoLight;
@@ -214,10 +233,66 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           selected={selected}
           setSelected={setSelected}
         />
+        <ListItem
+          button
+          onClick={() => {
+            setContractExpanded(!contractExpanded);
+            if (selected !== "/contract") {
+              setSelected("/contract");
+              navigate("/contract");
+            }
+          }}
+          sx={{
+            color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
+            fontWeight: (selected === "/contract" || selected === "/contract/analysis") ? "bold" : "regular",
+            background: (selected === "/contract" || selected === "/contract/analysis") ? colors.blueAccent[1000] : "inherit",
+            borderRadius: "10px",
+            marginBottom: "8px",
+            "&:hover": {
+              backgroundColor: (selected === "/contract" || selected === "/contract/analysis") ? "#3e4396 !important" : "none",
+              color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
+            },
+          }}
+        >
+          <ListItemIcon sx={{ color: "inherit" }}>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary="Contract"
+            sx={{
+              "& .MuiTypography-root": {
+                fontWeight: "500 !important",
+                fontSize: "13px",
+              },
+            }}
+          />
+          <IconButton
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation();
+              setContractExpanded(!contractExpanded);
+            }}
+            sx={{ color: "inherit", p: 0.5 }}
+          >
+            {contractExpanded ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+          </IconButton>
+        </ListItem>
+        {contractExpanded && (
+          <Box sx={{ ml: 3, mt: 1, mb: 2 }}>
+            <Item
+              title="Contract Analysis"
+              to="/contract/analysis"
+              icon={<AssignmentIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+        )}
+
         <Item
-          title="Contract"
-          to="/contract"
-          icon={<AssignmentIcon />}
+          title="Knowledge Hub"
+          to="/knowledge"
+          icon={<SchoolOutlinedIcon />}
           selected={selected}
           setSelected={setSelected}
         />

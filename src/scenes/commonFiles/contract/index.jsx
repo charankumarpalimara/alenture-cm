@@ -44,6 +44,7 @@ import {
 // } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { tokens } from '../../../theme';
+import CustomTablePagination from '../../../components/CustomPagination';
 
 const Contract = () => {
     const theme = useTheme();
@@ -183,8 +184,8 @@ const Contract = () => {
         <Box
             sx={{
                 background: '#ffffff',
-                minHeight: '100vh',
-                padding: { xs: 2, md: 4 }
+                minHeight: '100vh',        // ✅ Minimum height, no maximum constraint
+                padding: { xs: 2, md: 4 }  // ✅ Responsive padding
             }}
         >
             <Container maxWidth="xl">

@@ -22,6 +22,8 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useNavigate } from "react-router-dom";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 // import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
@@ -31,6 +33,7 @@ import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { getCreaterFirstName, getCreaterRole } from "../../../config";
 
@@ -79,8 +82,12 @@ const getActivePage = (pathname) => {
   }
   else if (
     pathname.includes("/contract") ||
-    pathname.includes("/viewallcontracts")
+    pathname.includes("/viewallcontracts") ||
+    pathname.includes("/contract/analysis")
   ) {
+    if (pathname.includes("/contract/analysis")) {
+      return "/contract/analysis";
+    }
     return "/contract";
   }
   else if (
@@ -118,7 +125,7 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        background: selected === to ? colors.blueAccent[1000] : "inherit",
+        background: selected === to ? colors.blueAccent[1000] : (to === '/contract/analysis' ? '#000000' : "inherit"),
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
@@ -158,6 +165,7 @@ const Topbar = ({ onLogout }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [contractExpanded, setContractExpanded] = useState(false);
   const queryClient = useQueryClient();
 
   const {
@@ -466,6 +474,12 @@ const Topbar = ({ onLogout }) => {
       "selectedSidebarItem",
       getActivePage(location.pathname)
     );
+
+    // Close contract sub-tab when navigating to other tabs
+    const currentPage = getActivePage(location.pathname);
+    if (currentPage !== "/contract" && currentPage !== "/contract/analysis") {
+      setContractExpanded(false);
+    }
   }, [location.pathname]);
 
   const logoSrc = logoLight;
@@ -908,7 +922,7 @@ const Topbar = ({ onLogout }) => {
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           sx={{
-            display: "flex",
+            display: !isMobile ? "none" : "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -984,10 +998,66 @@ const Topbar = ({ onLogout }) => {
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
+            <ListItem
+              button
+              onClick={() => {
+                setContractExpanded(!contractExpanded);
+                if (selected !== "/contract") {
+                  setSelected("/contract");
+                  navigate("/contract");
+                }
+              }}
+              sx={{
+                color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
+                fontWeight: (selected === "/contract" || selected === "/contract/analysis") ? "bold" : "regular",
+                background: (selected === "/contract" || selected === "/contract/analysis") ? colors.blueAccent[1000] : "inherit",
+                borderRadius: "10px",
+                marginBottom: "8px",
+                "&:hover": {
+                  backgroundColor: (selected === "/contract" || selected === "/contract/analysis") ? "#3e4396 !important" : "none",
+                  color: (selected === "/contract" || selected === "/contract/analysis") ? "white" : colors.blueAccent[500],
+                },
+              }}
+            >
+              <ListItemIcon sx={{ color: "inherit" }}>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Contract"
+                sx={{
+                  "& .MuiTypography-root": {
+                    fontWeight: "500 !important",
+                    fontSize: "13px",
+                  },
+                }}
+              />
+              <IconButton
+                size="small"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setContractExpanded(!contractExpanded);
+                }}
+                sx={{ color: "inherit", p: 0.5 }}
+              >
+                {contractExpanded ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+              </IconButton>
+            </ListItem>
+            {contractExpanded && (
+              <Box sx={{ ml: 3, mt: 1, mb: 2 }}>
+                <Item
+                  title="Contract Analysis"
+                  to="/contract/analysis"
+                  icon={<AssignmentIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+                  handleClose={() => setIsModalOpen(false)}
+                />
+              </Box>
+            )}
             <Item
-              title="Contract"
-              to="/contract"
-              icon={<AssignmentIcon />}
+              title="Knowledge Hub"
+              to="/knowledge"
+              icon={<SchoolOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
