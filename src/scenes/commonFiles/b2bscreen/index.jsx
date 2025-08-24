@@ -293,7 +293,7 @@ const B2bScreen = () => {
                                                                 <Typography
                                                                     // variant="h6"
 
-                                                                    sx={{ fontWeight: "bold", fontSize: "12px", color: "#1e293b" }}
+                                                                    sx={{ fontWeight: "bold", fontSize: "11px", color: "#1e293b" }}
                                                                 >
                                                                     {customer.name}
                                                                 </Typography>

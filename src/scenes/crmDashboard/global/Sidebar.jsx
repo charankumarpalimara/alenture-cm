@@ -16,6 +16,7 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 // import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
@@ -64,9 +65,17 @@ const getActivePage = (pathname) => {
   } else if (
     pathname.includes("/b2bscreen") ||
     pathname.includes("/b2bdetails")
-  ) {
+  )
+   {
     return "/b2bscreen"; // Ensure this matches the `to` prop of the B2B Screen Item
-  } else {
+  }
+  else if (
+    pathname.includes("/contract") ||
+    pathname.includes("/viewallcontracts")
+  ) {
+    return "/contract"; // Ensure this matches the `to` prop of the Experiences Item
+  }
+  else {
     return pathname;
   }
 };
@@ -202,6 +211,13 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           title="Account Playbook"
           to="/b2bscreen"
           icon={<MenuBookOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
+        <Item
+          title="Contract"
+          to="/contract"
+          icon={<AssignmentIcon />}
           selected={selected}
           setSelected={setSelected}
         />

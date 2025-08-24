@@ -21,6 +21,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate } from "react-router-dom";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 // import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
@@ -71,12 +72,18 @@ const getActivePage = (pathname) => {
     return "/tasks";
   } else if (pathname.includes("/organization")) {
     return "/organization";
-  }else if (
+  } else if (
     pathname.includes("/b2bdetails") ||
     pathname.includes("/b2bscreen")) {
-     return "/b2bscreen"
+    return "/b2bscreen"
   }
-   else if (
+  else if (
+    pathname.includes("/contract") ||
+    pathname.includes("/viewallcontracts")
+  ) {
+    return "/contract";
+  }
+  else if (
     pathname === "/" ||
     pathname.includes("/ticketdetails") ||
     pathname.includes("/allExperiences") ||
@@ -973,6 +980,14 @@ const Topbar = ({ onLogout }) => {
               title="Account Playbook"
               to="/b2bscreen"
               icon={<MenuBookOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Contract"
+              to="/contract"
+              icon={<AssignmentIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}

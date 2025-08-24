@@ -19,6 +19,8 @@ import TaskDetails from "../scenes/commonFiles/taskdetails";
 import CrmProfile from "../scenes/crmDashboard/profile";
 import B2bScreen from "../scenes/commonFiles/b2bscreen";
 import B2bDetails from "../scenes/commonFiles/b2bscreen/b2bdetails";
+import Contract from "../scenes/commonFiles/contract";
+import Viewallcontracts from "../scenes/commonFiles/contract/viewallcontracts";
 
 const crmRoutes = [
   <Route key="dashboard" path="/" element={<Dashboard />} />,
@@ -40,6 +42,8 @@ const crmRoutes = [
   <Route key="profile" path="/profile" element={<CrmProfile />} />,
   <Route key="b2bscreen" path="/b2bscreen" element={<B2bScreen />} />,
   <Route key="b2bdetails" path="/b2bdetails" element={<B2bDetails />} />,
+  <Route key="contract" path="/contract" element={<Contract />} />,
+  <Route key="viewallcontracts" path="/viewallcontracts" element={<Viewallcontracts />} />,
 ];
 
 export default crmRoutes; 
