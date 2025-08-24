@@ -91,6 +91,11 @@ const getActivePage = (pathname) => {
     return "/contract";
   }
   else if (
+    pathname.includes("/knowledge")
+  ) {
+    return "/knowledge"; // Ensure this matches the `to` prop of the Experiences Item
+  }
+  else if (
     pathname === "/" ||
     pathname.includes("/ticketdetails") ||
     pathname.includes("/allExperiences") ||
