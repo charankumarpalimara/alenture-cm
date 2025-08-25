@@ -71,7 +71,7 @@ const Knowledge = () => {
             author: "John Smith",
             date: "Apr 23",
             readTime: "4 min read",
-            thumbnail: <Psychology sx={{ fontSize: 40, color: '#1976d2' }} />,
+            thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=100&h=100&fit=crop&crop=center",
             category: "Knowledge Articles",
             topic: "Technology"
         },
@@ -82,9 +82,31 @@ const Knowledge = () => {
             author: "Maria Garcia",
             date: "Apr 20",
             readTime: "6 min read",
-            thumbnail: <Cloud sx={{ fontSize: 40, color: '#1976d2' }} />,
+            thumbnail: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=100&h=100&fit=crop&crop=center",
             category: "Knowledge Articles",
             topic: "Technology"
+        },
+        {
+            id: 3,
+            title: "Digital Transformation Strategies",
+            description: "Learn how successful companies are implementing digital transformation strategies to stay competitive in the modern market.",
+            author: "Alex Thompson",
+            date: "Apr 18",
+            readTime: "7 min read",
+            thumbnail: "https://images.unsplash.com/photo-1551434678-e076d223b692?w=100&h=100&fit=crop&crop=face",
+            category: "Knowledge Articles",
+            topic: "Business Strategy"
+        },
+        {
+            id: 4,
+            title: "Data Analytics Best Practices",
+            description: "Discover the key principles and best practices for implementing effective data analytics in your organization.",
+            author: "Lisa Chen",
+            date: "Apr 15",
+            readTime: "5 min read",
+            thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=100&fit=crop&crop=center",
+            category: "Knowledge Articles",
+            topic: "Data Analytics"
         }
     ];
 
@@ -374,105 +396,75 @@ const Knowledge = () => {
                                     }}
                                 >
                                     {/* Post Header */}
-                                    <Box sx={{ p: 2, borderBottom: '1px solid #f0f0f0' }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                    {/* <Box sx={{ p: 2, borderBottom: '1px solid #f0f0f0' }}> */}
+                                    <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'center' : 'flex-start', gap: 3, p: 2 }}>
+                                        <Box sx={{ flexShrink: 0 }}>
                                             <Avatar
+                                                src={article.thumbnail}
                                                 sx={{
-                                                    width: 40,
-                                                    height: 40,
+                                                    width: isMobile ? 120 : 80,
+                                                    height: isMobile ? 120 : 80,
                                                     background: '#f5f5f5',
-                                                    color: '#1976d2'
+                                                    borderRadius: 2
+                                                }}
+                                            />
+                                        </Box>
+                                        <Box sx={{ flex: 1 }}>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: '16px',
+                                                    fontWeight: "600",
+                                                    color: '#1a1a1a',
+                                                    mb: 1
                                                 }}
                                             >
-                                                {article.thumbnail}
-                                            </Avatar>
-                                            <Box sx={{ flex: 1 }}>
-                                                <Typography
-                                                    // className='custom-headding-16px'
-                                                    sx={{
-                                                        // fontSize: isMobile ? "18px" : "20px",
-                                                        paddingLeft: '0px !important',
-                                                        fontSize: '14px',
-                                                        fontWeight: "600",
-                                                        color: '#1a1a1a',
-                                                        // mb: 2
-                                                    }}
-                                                >
-                                                    {article.title}
-                                                </Typography>
-                                                <Typography
-                                                    sx={{
-                                                        fontSize: '14px',
-                                                        color: '#666666'
-                                                    }}
-                                                >
-                                                    {article.date} · {article.readTime}
-                                                </Typography>
-                                            </Box>
+                                                {article.title}
+                                            </Typography>
+                                            <Typography
+                                                sx={{
+                                                    color: '#1a1a1a',
+                                                    fontSize: '14px',
+                                                    lineHeight: 1.6,
+                                                    mb: 1
+                                                }}
+                                            >
+                                                {article.description}
+                                            </Typography>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: '13px',
+                                                    color: '#666666'
+                                                }}
+                                            >
+                                                {article.date} · {article.readTime}
+                                            </Typography>
                                         </Box>
                                     </Box>
+                                    {/* </Box> */}
 
                                     {/* Post Content */}
-                                    <Box sx={{ p: 2 }}>
-                                        <Typography
-                                            sx={{
-                                                color: '#1a1a1a',
-                                                fontSize: '14px',
-                                                lineHeight: 1.6,
-                                                mb: 2
-                                            }}
-                                        >
-                                            {article.description}
-                                        </Typography>
 
-                                        {/* Post Image/Thumbnail */}
-                                        <Box sx={{
-                                            width: '100%',
-                                            height: 200,
-                                            background: '#f8f9fa',
-                                            borderRadius: 1,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            mb: 2,
-                                            border: '1px solid #e0e0e0'
-                                        }}>
-                                            <Box sx={{ textAlign: 'center' }}>
-                                                {React.cloneElement(article.thumbnail, {
-                                                    sx: { fontSize: 60, color: '#1976d2' }
-                                                })}
-                                                <Typography
-                                                    sx={{
-                                                        fontSize: '12px',
-                                                        color: '#666666',
-                                                        mt: 1
-                                                    }}
-                                                >
-                                                    {article.title}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                    </Box>
 
                                     {/* Post Actions - Facebook Style */}
                                     <Box sx={{
                                         borderTop: '1px solid #f0f0f0',
-                                        p: 1
+                                        p: 2
                                     }}>
                                         <Box sx={{
                                             display: 'flex',
-                                            justifyContent: 'space-evenly',
-                                            alignItems: 'center'
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            gap: 1
                                         }}>
-                                            <Box sx={{ display: 'flex', justifyContent: 'space-around', width: '100%' }}>
+                                            <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: 1 }}>
                                                 <Button
                                                     size="small"
                                                     // className='form-button'
-                                                    startIcon={isMobile ? null : <Star sx={{ fontSize: 16 }} />}
+                                                    startIcon={isMobile ? null : <Star sx={{ fontSize: 14 }} />}
                                                     sx={{
                                                         color: '#666666',
                                                         textTransform: 'none',
-                                                        fontSize: '13px',
+                                                        fontSize: '11px',
                                                         fontWeight: '500',
                                                         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                                                         '&:hover': {
@@ -484,11 +476,11 @@ const Knowledge = () => {
                                                 </Button>
                                                 <Button
                                                     size="small"
-                                                    startIcon={isMobile ? null : <PlayArrow sx={{ fontSize: 16 }} />}
+                                                    startIcon={isMobile ? null : <PlayArrow sx={{ fontSize: 14 }} />}
                                                     sx={{
                                                         color: '#666666',
                                                         textTransform: 'none',
-                                                        fontSize: '13px',
+                                                        fontSize: '11px',
                                                         fontWeight: '500',
                                                         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                                                         '&:hover': {
@@ -499,15 +491,15 @@ const Knowledge = () => {
                                                     {isMobile ? <PlayArrow sx={{ fontSize: 16 }} /> : 'Request demo'}
                                                     {/* Demo */}
                                                 </Button>
-                                            {/* </Box> */}
-                                            {/* <Box sx={{ display: 'flex', gap: 1 }}> */}
+                                                {/* </Box> */}
+                                                {/* <Box sx={{ display: 'flex', gap: 1 }}> */}
                                                 <Button
                                                     size="small"
-                                                    startIcon={isMobile ? null : <Description sx={{ fontSize: 16 }} />}
+                                                    startIcon={isMobile ? null : <Description sx={{ fontSize: 14 }} />}
                                                     sx={{
                                                         color: '#666666',
                                                         textTransform: 'none',
-                                                        fontSize: '13px',
+                                                        fontSize: '11px',
                                                         fontWeight: '500',
                                                         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                                                         '&:hover': {
@@ -519,11 +511,11 @@ const Knowledge = () => {
                                                 </Button>
                                                 <Button
                                                     size="small"
-                                                    startIcon={isMobile ? null : <Share sx={{ fontSize: 16 }} />}
+                                                    startIcon={isMobile ? null : <Share sx={{ fontSize: 14 }} />}
                                                     sx={{
                                                         color: '#666666',
                                                         textTransform: 'none',
-                                                        fontSize: '13px',
+                                                        fontSize: '11px',
                                                         fontWeight: '500',
                                                         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                                                         '&:hover': {
@@ -566,7 +558,7 @@ const Knowledge = () => {
                                 >
                                     Today's Articles For You
                                 </Typography>
-                                
+
                                 <Box>
                                     {todaysArticles.map((article, index) => (
                                         <Box
@@ -627,67 +619,67 @@ const Knowledge = () => {
 
                         {/* Upcoming Events */}
                         <Card
-                                sx={{
-                                    background: '#ffffff',
-                                    borderRadius: 3,
-                                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                                    border: '1px solid #e0e0e0'
-                                }}
-                            >
-                                <CardContent sx={{ p: 3 }}>
-                                    <Typography
-                                        className='custom-headding-16px'
-                                        sx={{
-                                            paddingLeft: "0px !important",
-                                            color: '#1a1a1a',
-                                            mb: 2
-                                        }}
-                                    >
-                                        Upcoming Events
-                                    </Typography>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                        {upcomingEvents.map((event, index) => (
-                                            <Box
-                                                key={index}
-                                                sx={{
-                                                    p: 2,
-                                                    background: '#f8f9fa',
-                                                    borderRadius: 2,
-                                                    border: '1px solid #e0e0e0'
-                                                }}
-                                            >
-                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                                    <Event sx={{ color: '#666666', fontSize: 20 }} />
-                                                    <Typography
-                                                        // variant="subtitle2"
-                                                        className='custom-headding-16px'
-                                                        sx={{
-                                                            color: '#1a1a1a',
-                                                            fontSize: "11px",
-                                                            fontWeight: 'bold !important',
-                                                            paddingLeft: "0px !important"
-                                                        }}
-                                                    >
-                                                        {event.title}
-                                                    </Typography>
-                                                </Box>
+                            sx={{
+                                background: '#ffffff',
+                                borderRadius: 3,
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                border: '1px solid #e0e0e0'
+                            }}
+                        >
+                            <CardContent sx={{ p: 3 }}>
+                                <Typography
+                                    className='custom-headding-16px'
+                                    sx={{
+                                        paddingLeft: "0px !important",
+                                        color: '#1a1a1a',
+                                        mb: 2
+                                    }}
+                                >
+                                    Upcoming Events
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                    {upcomingEvents.map((event, index) => (
+                                        <Box
+                                            key={index}
+                                            sx={{
+                                                p: 2,
+                                                background: '#f8f9fa',
+                                                borderRadius: 2,
+                                                border: '1px solid #e0e0e0'
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                                                <Event sx={{ color: '#666666', fontSize: 20 }} />
                                                 <Typography
-                                                    // variant="body2"
-                                                    sx={{ color: '#666666', mb: 0.5, fontSize: "11px" }}
+                                                    // variant="subtitle2"
+                                                    className='custom-headding-16px'
+                                                    sx={{
+                                                        color: '#1a1a1a',
+                                                        fontSize: "11px",
+                                                        fontWeight: 'bold !important',
+                                                        paddingLeft: "0px !important"
+                                                    }}
                                                 >
-                                                    {event.time}
-                                                </Typography>
-                                                <Typography
-                                                    // variant="body2"
-                                                    sx={{ color: '#666666', mb: 0.5, fontSize: "11px" }}
-                                                >
-                                                    {event.company}
+                                                    {event.title}
                                                 </Typography>
                                             </Box>
-                                        ))}
-                                    </Box>
-                                </CardContent>
-                            </Card>
+                                            <Typography
+                                                // variant="body2"
+                                                sx={{ color: '#666666', mb: 0.5, fontSize: "11px" }}
+                                            >
+                                                {event.time}
+                                            </Typography>
+                                            <Typography
+                                                // variant="body2"
+                                                sx={{ color: '#666666', mb: 0.5, fontSize: "11px" }}
+                                            >
+                                                {event.company}
+                                            </Typography>
+                                        </Box>
+                                    ))}
+                                </Box>
+                            </CardContent>
+                        </Card>
                     </Grid>
                 </Grid>
             </Container>
