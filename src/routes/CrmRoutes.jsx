@@ -25,6 +25,7 @@ import ContractAnalysis from "../scenes/commonFiles/contract/analysis";
 import Knowledge from "../scenes/commonFiles/knowledge";
 
 const crmRoutes = [
+  <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
   <Route key="dashboard" path="/" element={<Dashboard />} />,
   <Route key="cm" path="/cm" element={<Cm />} />,
   <Route key="cmform" path="/cmform" element={<CmForm />} />,
@@ -47,7 +48,7 @@ const crmRoutes = [
   <Route key="contract" path="/contract" element={<Contract />} />,
   <Route key="viewallcontracts" path="/viewallcontracts" element={<Viewallcontracts />} />,
   <Route key="contractanalysis" path="/contract/analysis" element={<ContractAnalysis />} />,
-  <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
+
 ];
 
 export default crmRoutes; 

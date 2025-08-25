@@ -960,6 +960,14 @@ const Topbar = ({ onLogout }) => {
             }}
           >
             <Item
+              title="Knowledge Hub"
+              to="/knowledge"
+              icon={<SchoolOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
               title="Dashboard"
               to="/"
               icon={<HomeOutlinedIcon />}
@@ -1123,14 +1131,7 @@ const Topbar = ({ onLogout }) => {
                 </ListItem>
               </Box>
             )}
-            <Item
-              title="Knowledge Hub"
-              to="/knowledge"
-              icon={<SchoolOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              handleClose={() => setIsModalOpen(false)}
-            />
+
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item
               title="Notes"

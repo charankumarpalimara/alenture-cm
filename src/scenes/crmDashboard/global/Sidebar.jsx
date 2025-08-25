@@ -207,6 +207,13 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
 
       {/* Menu Items */}
       <List sx={{ padding: "20px" }}>
+      <Item
+          title="Knowledge Hub"
+          to="/knowledge"
+          icon={<SchoolOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
         <Item
           title="Dashboard"
           to="/"
@@ -302,13 +309,7 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           </Box>
         )}
 
-        <Item
-          title="Knowledge Hub"
-          to="/knowledge"
-          icon={<SchoolOutlinedIcon />}
-          selected={selected}
-          setSelected={setSelected}
-        />
+
         {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
         <Item
           title="Notes"

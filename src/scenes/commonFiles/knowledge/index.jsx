@@ -18,7 +18,10 @@ import {
     FormControl,
     InputLabel,
     InputBase,
-    Avatar
+    Avatar,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails
 } from '@mui/material';
 import {
     Search,
@@ -32,7 +35,9 @@ import {
     Security,
     Brush,
     Event,
-    Business
+    Business,
+    ExpandMore,
+    FilterList
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 
@@ -174,134 +179,8 @@ const Knowledge = () => {
         >
             <Container maxWidth="xl">
                 <Grid container spacing={3}>
-                    {/* Left Sidebar - Filters */}
-                    <Grid item xs={12} md={3}>
-                        <Card
-                            sx={{
-                                background: 'white',
-                                borderRadius: 3,
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                                border: '1px solid #e0e0e0',
-                                height: 'fit-content',
-                                position: 'sticky',
-                                top: 20
-                            }}
-                        >
-                            <CardContent sx={{ p: 3 }}>
-                                {/* Filter by Category */}
-                                <Typography
-                                    className='custom-headding-16px'
-                                    sx={{
-                                        // fontSize: isMobile ? "18px" : "20px",
-                                        paddingLeft: '0px !important',
-                                        // fontWeight: "bold",
-                                        color: '#1a1a1a',
-                                        mb: 0.5
-                                    }}
-                                >
-                                    Filter by Category
-                                </Typography>
-                                <Box sx={{ mb: 3 }}>
-                                    {Object.keys(categoryFilters).map((category) => (
-                                        <FormControlLabel
-                                            key={category}
-                                            control={
-                                                <Checkbox
-                                                    checked={categoryFilters[category]}
-                                                    onChange={() => handleCategoryChange(category)}
-                                                    sx={{
-                                                        color: '#666666',
-                                                        '&.Mui-checked': {
-                                                            color: colors.blueAccent[1000]
-                                                        }
-                                                    }}
-                                                />
-                                            }
-                                            label={
-                                                <Typography sx={{ fontSize: '12px', color: '#666666' }}>
-                                                    {category}
-                                                </Typography>
-                                            }
-                                            sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1 }}
-                                        />
-                                    ))}
-                                </Box>
-
-                                {/* Filter by Topic */}
-                                <Typography
-                                    className='custom-headding-16px'
-                                    sx={{
-                                        // fontSize: isMobile ? "18px" : "20px",
-                                        paddingLeft: '0px !important',
-                                        // fontWeight: "bold",
-                                        color: '#1a1a1a',
-                                        mb: 2
-                                    }}
-                                >
-                                    Filter by Topic
-                                </Typography>
-                                <Box sx={{ mb: 3 }}>
-                                    {Object.keys(topicFilters).map((topic) => (
-                                        <FormControlLabel
-                                            key={topic}
-                                            control={
-                                                <Checkbox
-                                                    checked={topicFilters[topic]}
-                                                    onChange={() => handleTopicChange(topic)}
-                                                    sx={{
-                                                        color: '#666666',
-                                                        '&.Mui-checked': {
-                                                            color: colors.blueAccent[1000]
-                                                        }
-                                                    }}
-                                                />
-                                            }
-                                            label={
-                                                <Typography sx={{ fontSize: '12px', color: '#666666' }}>
-                                                    {topic}
-                                                </Typography>
-                                            }
-                                            sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1 }}
-                                        />
-                                    ))}
-                                </Box>
-
-                                {/* Date Range */}
-                                <Typography
-                                    className='custom-headding-16px'
-                                    sx={{
-                                        // fontSize: isMobile ? "18px" : "20px",
-                                        paddingLeft: '0px !important',
-                                        // fontWeight: "bold",
-                                        color: '#1a1a1a',
-                                        mb: 2
-                                    }}
-                                >
-                                    Date Range
-                                </Typography>
-                                <FormControl fullWidth size="small">
-                                    <Select
-                                        value={dateRange}
-                                        onChange={(e) => setDateRange(e.target.value)}
-                                        sx={{
-                                            fontSize: '14px',
-                                            '& .MuiOutlinedInput-notchedOutline': {
-                                                borderColor: '#e0e0e0'
-                                            }
-                                        }}
-                                    >
-                                        <MenuItem value="Last 30 days">Last 30 days</MenuItem>
-                                        <MenuItem value="Last 7 days">Last 7 days</MenuItem>
-                                        <MenuItem value="Last 3 months">Last 3 months</MenuItem>
-                                        <MenuItem value="Last year">Last year</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-
                     {/* Central Content Area */}
-                    <Grid item xs={12} md={5.4}>
+                    <Grid item xs={12} md={8}>
                         {/* Header */}
                         <Box sx={{ mb: 4 }}>
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", background: "#fff", padding: "10px", borderRadius: "8px", }}>
@@ -310,7 +189,6 @@ const Knowledge = () => {
                                         sx={{
                                             textAlign: "left",
                                             fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                                            // paddingLeft: isMobile ? "0px" : "30px",
                                             marginBottom: "4px",
                                             fontWeight: "bold"
                                         }}
@@ -322,7 +200,6 @@ const Knowledge = () => {
                                             color: '#666666',
                                             textAlign: "left",
                                             fontSize: isMobile ? "13px" : isTablet ? "15px" : "17px",
-                                            // paddingLeft: isMobile ? "0px" : "30px",
                                         }}
                                     >
                                         Browse our collection of articles, case studies, and resarch
@@ -358,7 +235,7 @@ const Knowledge = () => {
                                         }}
                                     />
                                 </Box>
-                                <FormControl sx={{ minWidth: 200 }}>
+                                <FormControl sx={{ minWidth: isMobile ? '100%' : 200 }}>
                                     <Select
                                         value={sortBy}
                                         onChange={(e) => setSortBy(e.target.value)}
@@ -378,6 +255,155 @@ const Knowledge = () => {
                             </Box>
                         </Box>
 
+                        {/* Filters Section - Collapsible Accordion for all screen sizes */}
+                        <Accordion 
+                            sx={{ 
+                                mb: 3, 
+                                background: 'white',
+                                borderRadius: 2,
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                border: '1px solid #e0e0e0'
+                            }}
+                        >
+                            <AccordionSummary
+                                expandIcon={<ExpandMore />}
+                                sx={{
+                                    '& .MuiAccordionSummary-content': {
+                                        alignItems: 'center',
+                                        gap: 1
+                                    }
+                                }}
+                            >
+                                <FilterList sx={{ color: '#666666' }} />
+                                <Typography className='custom-headding-16px' sx={{ fontSize: isMobile ? "13px" : isTablet ? "15px" : "17px", paddingLeft: "0px !important" }}>
+                                    Filters
+                                </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Box sx={{ 
+                                    display: 'flex', 
+                                    flexDirection: isMobile ? 'column' : 'row', 
+                                    gap: 3,
+                                    flexWrap: isMobile ? 'nowrap' : 'wrap'
+                                }}>
+                                    {/* Filter by Category */}
+                                    <Box sx={{ flex: isMobile ? 'none' : 1, minWidth: isMobile ? '100%' : '200px' }}>
+                                        <Typography
+                                            className='custom-headding-16px'
+                                            sx={{
+                                                paddingLeft: '0px !important',
+                                                color: '#1a1a1a',
+                                                mb: 1,
+                                                fontSize: '14px',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            Filter by Category
+                                        </Typography>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                                            {Object.keys(categoryFilters).map((category) => (
+                                                <FormControlLabel
+                                                    key={category}
+                                                    control={
+                                                        <Checkbox
+                                                            checked={categoryFilters[category]}
+                                                            onChange={() => handleCategoryChange(category)}
+                                                            sx={{
+                                                                color: '#666666',
+                                                                '&.Mui-checked': {
+                                                                    color: colors.blueAccent[1000]
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label={
+                                                        <Typography sx={{ fontSize: '12px', color: '#666666' }}>
+                                                            {category}
+                                                        </Typography>
+                                                    }
+                                                    sx={{ margin: 0 }}
+                                                />
+                                            ))}
+                                        </Box>
+                                    </Box>
+
+                                    {/* Filter by Topic */}
+                                    <Box sx={{ flex: isMobile ? 'none' : 1, minWidth: isMobile ? '100%' : '200px' }}>
+                                        <Typography
+                                            className='custom-headding-16px'
+                                            sx={{
+                                                paddingLeft: '0px !important',
+                                                color: '#1a1a1a',
+                                                mb: 1,
+                                                fontSize: '14px',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            Filter by Topic
+                                        </Typography>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                                            {Object.keys(topicFilters).map((topic) => (
+                                                <FormControlLabel
+                                                    key={topic}
+                                                    control={
+                                                        <Checkbox
+                                                            checked={topicFilters[topic]}
+                                                            onChange={() => handleTopicChange(topic)}
+                                                            sx={{
+                                                                color: '#666666',
+                                                                '&.Mui-checked': {
+                                                                    color: colors.blueAccent[1000]
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label={
+                                                        <Typography sx={{ fontSize: '12px', color: '#666666' }}>
+                                                            {topic}
+                                                        </Typography>
+                                                    }
+                                                    sx={{ margin: 0 }}
+                                                />
+                                            ))}
+                                        </Box>
+                                    </Box>
+
+                                    {/* Date Range */}
+                                    <Box sx={{ flex: isMobile ? 'none' : 1, minWidth: isMobile ? '100%' : '200px' }}>
+                                        <Typography
+                                            className='custom-headding-16px'
+                                            sx={{
+                                                paddingLeft: '0px !important',
+                                                color: '#1a1a1a',
+                                                mb: 1,
+                                                fontSize: '14px',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            Date Range
+                                        </Typography>
+                                        <FormControl fullWidth size="small">
+                                            <Select
+                                                value={dateRange}
+                                                onChange={(e) => setDateRange(e.target.value)}
+                                                sx={{
+                                                    fontSize: '14px',
+                                                    '& .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#e0e0e0'
+                                                    }
+                                                }}
+                                            >
+                                                <MenuItem value="Last 30 days">Last 30 days</MenuItem>
+                                                <MenuItem value="Last 7 days">Last 7 days</MenuItem>
+                                                <MenuItem value="Last 3 months">Last 3 months</MenuItem>
+                                                <MenuItem value="Last year">Last year</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                </Box>
+                            </AccordionDetails>
+                        </Accordion>
+
                         {/* Articles List - Facebook Style Posts */}
                         <Box>
                             {articles.map((article) => (
@@ -396,7 +422,6 @@ const Knowledge = () => {
                                     }}
                                 >
                                     {/* Post Header */}
-                                    {/* <Box sx={{ p: 2, borderBottom: '1px solid #f0f0f0' }}> */}
                                     <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'center' : 'stretch', gap: 3, p: 2 }}>
                                         <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'stretch' }}>
                                             <Box
@@ -444,10 +469,6 @@ const Knowledge = () => {
                                             </Typography>
                                         </Box>
                                     </Box>
-                                    {/* </Box> */}
-
-                                    {/* Post Content */}
-
 
                                     {/* Post Actions - Facebook Style */}
                                     <Box sx={{
@@ -463,7 +484,6 @@ const Knowledge = () => {
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', gap: 1 }}>
                                                 <Button
                                                     size="small"
-                                                    // className='form-button'
                                                     startIcon={isMobile ? null : <Star sx={{ fontSize: 14 }} />}
                                                     sx={{
                                                         color: '#666666',
@@ -493,10 +513,7 @@ const Knowledge = () => {
                                                     }}
                                                 >
                                                     {isMobile ? <PlayArrow sx={{ fontSize: 16 }} /> : 'Request demo'}
-                                                    {/* Demo */}
                                                 </Button>
-                                                {/* </Box> */}
-                                                {/* <Box sx={{ display: 'flex', gap: 1 }}> */}
                                                 <Button
                                                     size="small"
                                                     startIcon={isMobile ? null : <Description sx={{ fontSize: 14 }} />}
@@ -538,7 +555,7 @@ const Knowledge = () => {
                     </Grid>
 
                     {/* Right Sidebar */}
-                    <Grid item xs={12} md={3.6}>
+                    <Grid item xs={12} md={4}>
                         {/* Today's Articles For You */}
                         <Card
                             sx={{
@@ -655,7 +672,6 @@ const Knowledge = () => {
                                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                                                 <Event sx={{ color: '#666666', fontSize: 20 }} />
                                                 <Typography
-                                                    // variant="subtitle2"
                                                     className='custom-headding-16px'
                                                     sx={{
                                                         color: '#1a1a1a',
@@ -668,13 +684,11 @@ const Knowledge = () => {
                                                 </Typography>
                                             </Box>
                                             <Typography
-                                                // variant="body2"
                                                 sx={{ color: '#666666', mb: 0.5, fontSize: "11px" }}
                                             >
                                                 {event.time}
                                             </Typography>
                                             <Typography
-                                                // variant="body2"
                                                 sx={{ color: '#666666', mb: 0.5, fontSize: "11px" }}
                                             >
                                                 {event.company}
