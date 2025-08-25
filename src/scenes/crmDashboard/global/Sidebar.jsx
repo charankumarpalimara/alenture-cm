@@ -110,7 +110,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       sx={{
         color: selected === to ? "white" : colors.blueAccent[500],
         fontWeight: selected === to ? "bold" : "regular",
-        background: selected === to ? colors.blueAccent[1000] : (to === '/contract/analysis' ? '#f5f5f5' : "inherit"),
+        background: selected === to ? colors.blueAccent[1000] : (to === '/contract/analysis' || to === '/contract' ? '#f5f5f5' : "inherit"),
         borderRadius: "10px",
         marginBottom: "8px",
         "&:hover": {
