@@ -397,15 +397,19 @@ const Knowledge = () => {
                                 >
                                     {/* Post Header */}
                                     {/* <Box sx={{ p: 2, borderBottom: '1px solid #f0f0f0' }}> */}
-                                    <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'center' : 'flex-start', gap: 3, p: 2 }}>
-                                        <Box sx={{ flexShrink: 0 }}>
-                                            <Avatar
+                                    <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'center' : 'stretch', gap: 3, p: 2 }}>
+                                        <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'stretch' }}>
+                                            <Box
+                                                component="img"
                                                 src={article.thumbnail}
                                                 sx={{
-                                                    width: isMobile ? 120 : 80,
-                                                    height: isMobile ? 120 : 80,
+                                                    width: isMobile ? 120 : 120,
+                                                    height: 'auto',
+                                                    minHeight: '100%',
+                                                    objectFit: 'cover',
                                                     background: '#f5f5f5',
-                                                    borderRadius: 2
+                                                    borderRadius: 2,
+                                                    flexShrink: 0
                                                 }}
                                             />
                                         </Box>
