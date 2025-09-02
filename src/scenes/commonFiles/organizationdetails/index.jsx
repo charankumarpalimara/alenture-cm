@@ -1,5 +1,5 @@
 import { Box, Button as MuiButton } from "@mui/material";
-import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon, Visibility as EyeIcon } from "@mui/icons-material";
 import {
   Form,
   Input,
@@ -13,13 +13,16 @@ import {
   Spin,
   // Divider,
   // Avatar,
-  Modal
+  Modal,
+  Tag,
+  Space,
+  Table
   // Typography
 } from "antd";
 // import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { UpOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
+import { UpOutlined, DownOutlined, UserOutlined, } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { tokens } from "../../../theme";
@@ -83,22 +86,22 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
 
   const editData = isEditingCm ? cmEdits : selectedCm;
   // Parse interests as array for Select
-const interestsValue = isEditingCm
-  ? (Array.isArray(editData.interests)
+  const interestsValue = isEditingCm
+    ? (Array.isArray(editData.interests)
       ? editData.interests
       : (typeof editData.extraind5 === "string" && editData.extraind5.length > 0
-          ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
-          : []))
-  : (Array.isArray(selectedCm.interests)
+        ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+        : []))
+    : (Array.isArray(selectedCm.interests)
       ? selectedCm.interests
       : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
-          ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
-          : []));
+        ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+        : []));
 
-// Debug logging for interests
-console.log('CM Details - selectedCm:', selectedCm);
-console.log('CM Details - editData:', editData);
-console.log('CM Details - interestsValue:', interestsValue);
+  // Debug logging for interests
+  console.log('CM Details - selectedCm:', selectedCm);
+  console.log('CM Details - editData:', editData);
+  console.log('CM Details - interestsValue:', interestsValue);
 
   return (
     <div style={{
@@ -411,6 +414,1043 @@ console.log('CM Details - interestsValue:', interestsValue);
   );
 };
 
+// Tab Components
+const UnitsTab = ({ colors, mobile }) => (
+  <Box>
+    {/* ServiceMap Header */}
+    <Box sx={{ mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box>
+          <Typography style={{ marginBottom: "5px",  fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+            ServiceMap: Journey Matrix
+          </Typography>
+          <Typography sx={{
+            fontSize: '14px',
+            color: '#666666'
+          }}>
+            Map services across customer journey touchpoints
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            icon={<UpOutlined />}
+            style={{
+              fontSize: '11px',
+              color: '#666666',
+              border: '1px solid #d9d9d9'
+            }}
+          >
+            Export
+          </Button>
+          <MuiButton
+            variant="contain"
+            className="form-button"
+            startIcon={<EditIcon />}
+            style={{
+              background: colors.blueAccent[1000],
+              color: '#fff',
+              // fontSize: '11px',
+              // background: '#52c41a',
+              border: 'none'
+            }}
+          >
+            Edit Matrix
+          </MuiButton>
+        </Box>
+      </Box>
+
+      {/* Summary Cards */}
+      <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 3, mb: 4 }}>
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#fafafa',
+          background: "#eff6ff"
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mb: 1 }}>
+            <UserOutlined style={{ fontSize: '24px', color: '#1890ff', marginRight: '8px' }} />
+            <Typography style={{ fontSize: '14px', color: '#666666' }}>
+              Total Services
+            </Typography>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+            12
+          </Typography>
+        </Box>
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          background: "#effdf4"
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mb: 1 }}>
+            <Box sx={{
+              width: '24px',
+              height: '24px',
+              background: 'linear-gradient(45deg, #1890ff, #52c41a)',
+              borderRadius: '4px',
+              position: 'relative',
+              marginRight: '8px'
+            }}>
+              <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '12px',
+                height: '12px',
+                background: 'white',
+                borderRadius: '2px'
+              }} />
+            </Box>
+            <Typography style={{ fontSize: '14px', color: '#666666' }}>
+              Journey Stages
+            </Typography>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+            6
+          </Typography>
+        </Box>
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#fffbeb'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mb: 1 }}>
+            <Box sx={{
+              width: '24px',
+              height: '24px',
+              background: '#fa8c16',
+              borderRadius: '50%',
+              position: 'relative',
+              marginRight: '8px'
+            }}>
+              <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '8px',
+                height: '8px',
+                background: 'white',
+                borderRadius: '50%'
+              }} />
+            </Box>
+            <Typography style={{ fontSize: '14px', color: '#666666' }}>
+              Touchpoints
+            </Typography>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+            24
+          </Typography>
+        </Box>
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#faf5ff'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', mb: 1 }}>
+            <Box sx={{
+              width: '24px',
+              height: '24px',
+              background: '#52c41a',
+              borderRadius: '4px',
+              position: 'relative',
+              marginRight: '8px'
+            }}>
+              <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '12px',
+                height: '12px',
+                background: 'white',
+                borderRadius: '2px'
+              }} />
+            </Box>
+            <Typography style={{ fontSize: '14px', color: '#666666' }}>
+              Coverage
+            </Typography>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+            85%
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* Service-Journey Mapping Matrix */}
+      <Box sx={{ mb: 4 }}>
+        <Typography style={{ marginBottom: "10px", fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+          Service-Journey Mapping Matrix
+        </Typography>
+
+        <Table
+          dataSource={[
+            {
+              key: '1',
+              service: 'Marketing Campaigns',
+              awareness: 'green',
+              consideration: 'green',
+              purchase: 'grey',
+              onboarding: 'grey',
+              usage: 'grey',
+              retention: 'orange'
+            },
+            {
+              key: '2',
+              service: 'Sales Support',
+              awareness: 'orange',
+              consideration: 'green',
+              purchase: 'orange',
+              onboarding: 'grey',
+              usage: 'grey',
+              retention: 'grey'
+            },
+            {
+              key: '3',
+              service: 'Customer Onboarding',
+              awareness: 'grey',
+              consideration: 'grey',
+              purchase: 'orange',
+              onboarding: 'green',
+              usage: 'green',
+              retention: 'green'
+            },
+            {
+              key: '4',
+              service: 'Technical Support',
+              awareness: 'grey',
+              consideration: 'grey',
+              purchase: 'orange',
+              onboarding: 'green',
+              usage: 'green',
+              retention: 'green'
+            },
+            {
+              key: '5',
+              service: 'Training Services',
+              awareness: 'grey',
+              consideration: 'orange',
+              purchase: 'grey',
+              onboarding: 'green',
+              usage: 'green',
+              retention: 'orange'
+            },
+            {
+              key: '6',
+              service: 'Account Management',
+              awareness: 'grey',
+              consideration: 'grey',
+              purchase: 'orange',
+              onboarding: 'green',
+              usage: 'green',
+              retention: 'green'
+            }
+          ]}
+          columns={[
+            {
+              title: 'Services',
+              dataIndex: 'service',
+              key: 'service',
+              width: mobile ? 120 : 200,
+              // fixed: mobile ? 'left' : false,
+              render: (text) => (
+                <Typography sx={{ fontSize: '11px', color: '#1a1a1a', fontWeight: 'bold' }}>
+                  {text}
+                </Typography>
+              ),
+            },
+            {
+              title: 'Awareness',
+              dataIndex: 'awareness',
+              key: 'awareness',
+              width: mobile ? 80 : 100,
+              render: (impact) => (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Box sx={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: impact === 'green' ? '#52c41a' :
+                      impact === 'orange' ? '#fa8c16' : '#d9d9d9'
+                  }} />
+                </Box>
+              ),
+            },
+            {
+              title: 'Consideration',
+              dataIndex: 'consideration',
+              key: 'consideration',
+              width: mobile ? 80 : 100,
+              render: (impact) => (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Box sx={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: impact === 'green' ? '#52c41a' :
+                      impact === 'orange' ? '#fa8c16' : '#d9d9d9'
+                  }} />
+                </Box>
+              ),
+            },
+            {
+              title: 'Purchase',
+              dataIndex: 'purchase',
+              key: 'purchase',
+              width: mobile ? 80 : 100,
+              render: (impact) => (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Box sx={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: impact === 'green' ? '#52c41a' :
+                      impact === 'orange' ? '#fa8c16' : '#d9d9d9'
+                  }} />
+                </Box>
+              ),
+            },
+            {
+              title: 'Onboarding',
+              dataIndex: 'onboarding',
+              key: 'onboarding',
+              width: mobile ? 80 : 100,
+              render: (impact) => (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Box sx={{
+                      width: '12px',
+                      height: '12px',
+                      borderRadius: '50%',
+                      backgroundColor: impact === 'green' ? '#52c41a' :
+                        impact === 'orange' ? '#fa8c16' : '#d9d9d9'
+                    }} />
+                  </Box>
+                </Box>
+              ),
+            },
+            {
+              title: 'Usage',
+              dataIndex: 'usage',
+              key: 'usage',
+              width: mobile ? 80 : 100,
+              render: (impact) => (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Box sx={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: impact === 'green' ? '#52c41a' :
+                      impact === 'orange' ? '#fa8c16' : '#d9d9d9'
+                  }} />
+                </Box>
+              ),
+            },
+            {
+              title: 'Retention',
+              dataIndex: 'retention',
+              key: 'retention',
+              width: mobile ? 80 : 100,
+              render: (impact) => (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Box sx={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: impact === 'green' ? '#52c41a' :
+                      impact === 'orange' ? '#fa8c16' : '#d9d9d9'
+                  }} />
+                </Box>
+              ),
+            }
+          ]}
+          pagination={false}
+          size="small"
+          className="custom-ant-table-header"
+          rowClassName={() => "custom-row"}
+          scroll={{ 
+            x: mobile ? 600 : 800,
+            y: mobile ? 400 : undefined
+          }}
+          style={{
+            fontSize: '11px'
+          }}
+        />
+
+        {/* Legend */}
+        <Box sx={{ 
+          mt: 2, 
+          display: 'flex', 
+          gap: 3, 
+          justifyContent: 'center',
+          flexDirection: mobile ? 'column' : 'row',
+          alignItems: mobile ? 'flex-start' : 'center'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#52c41a' }} />
+            <Typography sx={{ fontSize: '11px', color: '#666666' }}>High Impact</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#fa8c16' }} />
+            <Typography sx={{ fontSize: '11px', color: '#666666' }}>Medium Impact</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#d9d9d9' }} />
+            <Typography sx={{ fontSize: '11px', color: '#666666' }}>Low/No Impact</Typography>
+          </Box>
+        </Box>
+      </Box>
+
+
+      <Box sx={{ display: 'flex', gap: 3, mb: 4, flexDirection: mobile ? 'column' : 'row' }}>
+        {/* Journey Stage Analysis Card */}
+        <Box sx={{ 
+          flex: '1 1 50%',
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Typography style={{ marginBottom: "5px",  fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+            Journey Stage Analysis
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {[
+              { stage: 'Awareness', percentage: 75, color: '#1890ff' },
+              { stage: 'Consideration', percentage: 83, color: '#52c41a' },
+              { stage: 'Purchase', percentage: 67, color: '#722ed1' }
+            ].map((item) => (
+              <Box key={item.stage} sx={{ width: '100%' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                    {item.stage}
+                  </Typography>
+                  <Typography sx={{ fontSize: '11px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                    {item.percentage}%
+                  </Typography>
+                </Box>
+                <Box sx={{
+                  width: '100%',
+                  height: '8px',
+                  backgroundColor: '#f0f0f0',
+                  borderRadius: '4px',
+                  overflow: 'hidden'
+                }}>
+                  <Box sx={{
+                    width: `${item.percentage}%`,
+                    height: '100%',
+                    backgroundColor: item.color,
+                    borderRadius: '4px'
+                  }} />
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+
+        {/* Service Coverage Card */}
+        <Box sx={{ 
+          flex: '1 1 50%',
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Typography  style={{ marginBottom: "5px", fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+            Service Coverage
+          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {[
+              { service: 'Technical Support', coverage: 100, color: '#52c41a', backgroundColor: "#f6ffed" },
+              { service: 'Account Management', coverage: 83, color: '#52c41a', backgroundColor: "#dcfce6" },
+              { service: 'Training Services', coverage: 67, color: '#fa8c16', backgroundColor: "#fef3c7" },
+              { service: 'Marketing Campaigns', coverage: 50, color: '#fa8c16', backgroundColor: "#fef3c7" }
+            ].map((item) => (
+              <Box key={item.service} sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                // p: 2,
+                // border: '1px solid #e0e0e0',
+                borderRadius: '4px',
+                // backgroundColor: '#fafafa' 
+              }}>
+                <Typography sx={{ fontSize: '11px', color: '#1a1a1a' }}>
+                  {item.service}
+                </Typography>
+                <Box sx={{  backgroundColor: item.backgroundColor, padding: "2px", paddingX:"5px", borderRadius:"5px"}}>
+                <Typography 
+                sx={{
+                  fontSize: '11px',
+                  fontWeight: 'bold',
+                  color: item.color,
+                  backgroundColor: item.backgroundColor,
+                  px: 1.5,
+                  py: 0.5,
+                  borderRadius: '4px',
+                  display: 'inline-block'
+                }}>
+                  {item.coverage}%
+                </Typography>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </Box>
+      {/* Recommendations */}
+      <Box>
+        <Typography style={{ marginBottom: "5px", fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+          Recommendations
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 3 }}>
+          <Box sx={{
+            flex: 1,
+            p: 3,
+            border: '1px solid #ff4d4f',
+            borderRadius: '8px',
+            backgroundColor: '#fff2f0'
+          }}>
+            <Typography sx={{
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: '#ff4d4f',
+              mb: 1
+            }}>
+              Gap Analysis
+            </Typography>
+            <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+              Purchase stage needs more service support coverage
+            </Typography>
+          </Box>
+          <Box sx={{
+            flex: 1,
+            p: 3,
+            border: '1px solid #52c41a',
+            borderRadius: '8px',
+            backgroundColor: '#f6ffed'
+          }}>
+            <Typography sx={{
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: '#52c41a',
+              mb: 1
+            }}>
+              Optimization
+            </Typography>
+            <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+              Enhance onboarding touchpoints for consideration phases
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  </Box>
+);
+
+const CMsTab = ({ cmData }) => (
+  <Box>
+    <Typography variant="h6" sx={{ mb: 2, fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+      Customer Managers (CMs)
+    </Typography>
+    <Typography sx={{ fontSize: '11px', color: '#666666', mb: 2 }}>
+      Customer Manager details and assignments for this organization.
+    </Typography>
+
+    {/* CM Data Display */}
+    {cmData.length > 0 ? (
+      <Box>
+        {cmData.map((cm, index) => (
+          <Box key={cm.cmid || index} sx={{
+            p: 2,
+            mb: 1,
+            border: '1px solid #e0e0e0',
+            borderRadius: '4px',
+            backgroundColor: '#f9f9f9'
+          }}>
+            <Typography sx={{ fontSize: '11px', fontWeight: 'bold', color: '#1a1a1a' }}>
+              {cm.firstname} {cm.lastname}
+            </Typography>
+            <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+              Email: {cm.email} | Function: {cm.extraind4 || 'N/A'} | Unit: {cm.branch || 'N/A'}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    ) : (
+      <Typography sx={{ fontSize: '11px', color: '#666666', fontStyle: 'italic' }}>
+        No Customer Managers found for this organization.
+      </Typography>
+    )}
+  </Box>
+);
+
+const ProductServicesTab = () => (
+  <Box>
+    <Typography variant="h6" sx={{ mb: 2, fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+      Product/Services - Marketed
+    </Typography>
+    <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+      Products and services marketed to this organization will be displayed here.
+    </Typography>
+  </Box>
+);
+
+const PartnershipTab = ({ colors, mobile }) => (
+  <Box>
+    {/* Partnership Activities Header */}
+    <Box sx={{ mb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box>
+          <Typography style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+            Partnership Activities
+          </Typography>
+          <Typography sx={{
+            fontSize: '15px',
+            color: '#666666'
+          }}>
+            Manage and track all partnership activities to strengthen B2B relationships
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* Activity Filters Card */}
+      <Box sx={{ 
+        mb: 4,
+        p: 3,
+        border: '1px solid #e0e0e0',
+        borderRadius: '8px',
+        backgroundColor: '#ffffff',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
+      }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Typography style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+            Activity Filters
+          </Typography>
+          <Button
+            type="primary"
+            // icon={<EditIcon />}
+            style={{
+              fontSize: '11px',
+              background: colors.blueAccent[1000],
+              border: 'none'
+            }}
+          >
+            + New Activity
+          </Button>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 3, width: '100%' }}>
+          <Select
+            placeholder="All Partners"
+            style={{ flex: 1, fontSize: '11px' }}
+            size="middle"
+          >
+            <Select.Option value="all" style={{ fontSize: '11px' }}>All Partners</Select.Option>
+            <Select.Option value="techcorp" style={{ fontSize: '11px' }}>TechCorp Solutions</Select.Option>
+            <Select.Option value="global" style={{ fontSize: '11px' }}>Global Ventures</Select.Option>
+            <Select.Option value="innovation" style={{ fontSize: '11px' }}>Innovation Labs</Select.Option>
+          </Select>
+          <Select
+            placeholder="Activity Type"
+            style={{ flex: 1, fontSize: '11px' }}
+            size="middle"
+          >
+            <Select.Option value="all" style={{ fontSize: '11px' }}>All Types</Select.Option>
+            <Select.Option value="meeting" style={{ fontSize: '11px' }}>Meeting</Select.Option>
+            <Select.Option value="call" style={{ fontSize: '11px' }}>Call</Select.Option>
+            <Select.Option value="email" style={{ fontSize: '11px' }}>Email</Select.Option>
+            <Select.Option value="event" style={{ fontSize: '11px' }}>Event</Select.Option>
+          </Select>
+          <Select
+            placeholder="Status"
+            style={{ flex: 1, fontSize: '11px' }}
+            size="middle"
+          >
+            <Select.Option value="all" style={{ fontSize: '11px' }}>All Status</Select.Option>
+            <Select.Option value="completed" style={{ fontSize: '11px' }}>Completed</Select.Option>
+            <Select.Option value="scheduled" style={{ fontSize: '11px' }}>Scheduled</Select.Option>
+            <Select.Option value="in-progress" style={{ fontSize: '11px' }}>In Progress</Select.Option>
+            <Select.Option value="sent" style={{ fontSize: '11px' }}>Sent</Select.Option>
+          </Select>
+          <Input
+            placeholder="01/15/2025"
+            style={{ flex: 1, fontSize: '11px' }}
+            size="middle"
+            suffix={<EditIcon style={{ fontSize: '14px' }} />}
+          />
+        </Box>
+      </Box>
+
+      {/* Activity Summary Cards */}
+      <Box sx={{ mb: 4 }}>
+        <Typography style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+          Activity Summary
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+          {/* Card 1: Quarterly Review */}
+          <Box sx={{
+            flex: '1 1 300px',
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Box sx={{
+                width: '40px',
+                height: '40px',
+                backgroundColor: '#1890ff',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: '12px'
+              }}>
+                <EditIcon style={{ color: 'white', fontSize: '20px' }} />
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                  Quarterly Review
+                </Typography>
+                <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                  TechCorp Solutions
+                </Typography>
+              </Box>
+            </Box>
+            <Tag
+              color="default"
+              style={{
+                fontSize: '11px',
+                marginBottom: '12px',
+                backgroundColor: '#f5f5f5',
+                color: '#666666',
+                border: '1px solid #d9d9d9'
+              }}
+            >
+              Completed
+            </Tag>
+            <Typography sx={{ fontSize: '11px', color: '#666666', mb: '8px', lineHeight: 1.4 }}>
+              Reviewed Q4 performance metrics and discussed expansion opportunities for 2025.
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                Jan 10, 2025
+              </Typography>
+              <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                2h duration
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Card 2: Strategy Call */}
+          <Box sx={{
+            flex: '1 1 300px',
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Box sx={{
+                width: '40px',
+                height: '40px',
+                backgroundColor: '#52c41a',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: '12px'
+              }}>
+                <UserOutlined style={{ color: 'white', fontSize: '20px' }} />
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                  Strategy Call
+                </Typography>
+                <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                  Global Ventures
+                </Typography>
+              </Box>
+            </Box>
+            <Tag
+              color="default"
+              style={{
+                fontSize: '11px',
+                marginBottom: '12px',
+                backgroundColor: '#f5f5f5',
+                color: '#666666',
+                border: '1px solid #d9d9d9'
+              }}
+            >
+              Scheduled
+            </Tag>
+            <Typography sx={{ fontSize: '11px', color: '#666666', mb: '8px', lineHeight: 1.4 }}>
+              Discuss joint marketing initiatives and co-branding opportunities.
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                Jan 18, 2025
+              </Typography>
+              <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                1h duration
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Card 3: Trade Show */}
+          <Box sx={{
+            flex: '1 1 300px',
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Box sx={{
+                width: '40px',
+                height: '40px',
+                backgroundColor: '#fa8c16',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: '12px'
+              }}>
+                <EditIcon style={{ color: 'white', fontSize: '20px' }} />
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                  Trade Show
+                </Typography>
+                <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                  Innovation Labs
+                </Typography>
+              </Box>
+            </Box>
+            <Tag
+              color="default"
+              style={{
+                fontSize: '11px',
+                marginBottom: '12px',
+                backgroundColor: '#f5f5f5',
+                color: '#666666',
+                border: '1px solid #d9d9d9'
+              }}
+            >
+              In Progress
+            </Tag>
+            <Typography sx={{ fontSize: '11px', color: '#666666', mb: '8px', lineHeight: 1.4 }}>
+              Joint booth presentation at Tech Summit 2025 conference.
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                Jan 25-27, 2025
+              </Typography>
+              <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                3 days
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Recent Activities Table */}
+      <Box>
+        <Typography  style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+          Recent Activities
+        </Typography>
+        <Table
+          dataSource={[
+            {
+              key: '1',
+              activity: {
+                name: 'Partnership Agreement Review',
+                description: 'Annual contract renewal discussion',
+                icon: '🤝'
+              },
+              partner: {
+                name: 'TechCorp Solutions',
+                icon: '👤'
+              },
+              type: 'Meeting',
+              date: 'Jan 15, 2025',
+              status: 'Completed'
+            },
+            {
+              key: '2',
+              activity: {
+                name: 'Follow-up Email',
+                description: 'Post-meeting action items and next steps',
+                icon: '✉️'
+              },
+              partner: {
+                name: 'Global Ventures',
+                icon: '👤'
+              },
+              type: 'Email',
+              date: 'Jan 12, 2025',
+              status: 'Sent'
+            }
+          ]}
+          columns={[
+            {
+              title: 'ACTIVITY',
+              dataIndex: 'activity',
+              key: 'activity',
+              render: (activity) => (
+                <Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Typography style={{ marginRight: '8px', fontSize: '11px' }}>
+                      {activity.icon}
+                    </Typography>
+                    <Typography style={{ color: '#1a1a1a', fontSize: '11px' }}>
+                      {activity.name}
+                    </Typography>
+                  </Box>
+                  <Typography style={{ color: '#666666', fontSize: '11px' }}>
+                    {activity.description}
+                  </Typography>
+                </Box>
+              ),
+            },
+            {
+              title: 'PARTNER',
+              dataIndex: 'partner',
+              key: 'partner',
+              render: (partner) => (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography style={{ fontSize: '11px', marginRight: '8px' }}>
+                    {partner.icon}
+                  </Typography>
+                  <Typography style={{ color: '#1a1a1a', fontSize: '11px' }}>
+                    {partner.name}
+                  </Typography>
+                </Box>
+              ),
+            },
+            {
+              title: 'TYPE',
+              dataIndex: 'type',
+              key: 'type',
+              render: (type) => (
+                <Typography style={{ color: '#1a1a1a', fontSize: '11px' }}>
+                  {type}
+                </Typography>
+              ),
+            },
+            {
+              title: 'DATE',
+              dataIndex: 'date',
+              key: 'date',
+              render: (date) => (
+                <Typography style={{ color: '#1a1a1a', fontSize: '11px'  }}>
+                  {date}
+                </Typography>
+              ),
+            },
+            {
+              title: 'STATUS',
+              dataIndex: 'status',
+              key: 'status',
+              render: (status) => (
+                <Tag
+                  color="default"
+                  style={{
+                    backgroundColor: '#f5f5f5',
+                    color: '#666666',
+                    border: '1px solid #d9d9d9',
+                    borderRadius: '5px',
+                    fontSize: '11px'
+                  }}
+                >
+                  {status}
+                </Tag>
+              ),
+            },
+            {
+              title: 'ACTIONS',
+              key: 'actions',
+              render: () => (
+                <Space size="small">
+                  <Button
+                    type="text"
+                    icon={<EyeIcon />}
+                    size="small"
+                    style={{ fontSize: '11px' }}
+                  />
+                  <Button
+                    type="text"
+                    icon={<EditIcon />}
+                    size="small"
+                    style={{ fontSize: '11px' }}
+                  />
+                  <Button
+                    type="text"
+                    icon={<DeleteIcon />}
+                    size="small"
+                    style={{ fontSize: '11px' }}
+                  />
+                </Space>
+              ),
+            },
+          ]}
+          pagination={false}
+          size="small"
+          className="custom-ant-table-header"
+          rowClassName={() => "custom-row"}
+          scroll={{
+            x: mobile ? 650 : 800,
+            y: mobile ? 400 : undefined
+          }}
+          style={{
+            fontSize: '11px'
+          }}
+        />
+      </Box>
+    </Box>
+  </Box>
+);
+
+const CompetitorTab = () => (
+  <Box>
+    <Typography variant="h6" sx={{ mb: 2, fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+      Competitor Analysis
+    </Typography>
+    <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+      Competitor analysis and market positioning will be displayed here.
+    </Typography>
+  </Box>
+);
+
+const BusinessValueTab = () => (
+  <Box>
+    <Typography variant="h6" sx={{ mb: 2, fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+      Business Value
+    </Typography>
+    <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+      Business value metrics and ROI analysis will be displayed here.
+    </Typography>
+  </Box>
+);
+
 const OrganizationDetails = () => {
   const [form] = Form.useForm();
   const [branchForm] = Form.useForm();
@@ -442,7 +1482,7 @@ const OrganizationDetails = () => {
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-        
+
         // If we have an existing state value, make sure it's valid for the new country
         if (branchEdits.state) {
           const stateExists = states.find(s => s.name === branchEdits.state);
@@ -478,7 +1518,7 @@ const OrganizationDetails = () => {
       if (countryObj && stateObj) {
         const cities = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
         setBranchCities(cities);
-        
+
         // If we have an existing district value, make sure it's valid for the new state
         if (branchEdits.district) {
           const cityExists = cities.find(c => c.name === branchEdits.district);
@@ -513,7 +1553,7 @@ const OrganizationDetails = () => {
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-        
+
         if (branchEdits.state) {
           const stateObj = states.find(s => s.name === branchEdits.state);
           if (stateObj) {
@@ -673,17 +1713,17 @@ const OrganizationDetails = () => {
     const selectedCm = selectedCmByUnit[Object.keys(selectedCmByUnit)[0]];
     if (selectedCm) {
       setEditingCmIndex(selectedCm.cmid);
-      
+
       // Parse interests properly for editing
       const interestsArray = Array.isArray(selectedCm.interests)
         ? selectedCm.interests
         : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
-            ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
-            : []);
-      
-      setCmEdits({ 
-        ...selectedCm, 
-        interests: interestsArray 
+          ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+          : []);
+
+      setCmEdits({
+        ...selectedCm,
+        interests: interestsArray
       });
     }
   };
@@ -694,93 +1734,93 @@ const OrganizationDetails = () => {
     setCmEdits({});
   };
 
-    // Handle CM input change
-const handleCmInputChange = (field, value) => {
-  if (field === "interests") {
-    setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
-  } else if (field === "gender") {
-    setCmEdits((prev) => ({ ...prev, extraind2: value }));
-  } else if (field === "extraind4") {
-    setCmEdits((prev) => ({ ...prev, extraind4: value }));
-  } else {
-    setCmEdits((prev) => ({ ...prev, [field]: value }));
-  }
-};
+  // Handle CM input change
+  const handleCmInputChange = (field, value) => {
+    if (field === "interests") {
+      setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
+    } else if (field === "gender") {
+      setCmEdits((prev) => ({ ...prev, extraind2: value }));
+    } else if (field === "extraind4") {
+      setCmEdits((prev) => ({ ...prev, extraind4: value }));
+    } else {
+      setCmEdits((prev) => ({ ...prev, [field]: value }));
+    }
+  };
 
 
   // Handle CM save
-const handleCmSave = async () => {
-  setIsLoading(true);
-  try {
-    const payload = { ...cmEdits };
-    
-    // Handle interests properly - ensure it's always a string for the API
-    if (Array.isArray(cmEdits.interests)) {
-      payload.extraind5 = cmEdits.interests.join(",");
-    } else if (typeof cmEdits.interests === "string") {
-      payload.extraind5 = cmEdits.interests;
-    } else {
-      payload.extraind5 = "";
-    }
-    
-    // Remove the interests field as it should be stored as extraind5
-    delete payload.interests;
-    
-    console.log('Saving CM with payload:', payload);
-    
-    await axios.post(
-      `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
-      payload,
-      { headers: { "Content-Type": "application/json" } }
-    );
+  const handleCmSave = async () => {
+    setIsLoading(true);
+    try {
+      const payload = { ...cmEdits };
 
-    // Parse interests array from saved string for local state
-    const newInterestsArr = payload.extraind5
-      ? payload.extraind5.split(",").map(i => i.trim()).filter(Boolean)
-      : [];
-
-    // Update local state with new extraind5 and interests array
-    const updatedCmData = cmData.map(cm => {
-      if (cm.cmid === cmEdits.cmid) {
-        return {
-          ...cm,
-          ...cmEdits,
-          extraind5: payload.extraind5,
-          interests: newInterestsArr
-        };
+      // Handle interests properly - ensure it's always a string for the API
+      if (Array.isArray(cmEdits.interests)) {
+        payload.extraind5 = cmEdits.interests.join(",");
+      } else if (typeof cmEdits.interests === "string") {
+        payload.extraind5 = cmEdits.interests;
+      } else {
+        payload.extraind5 = "";
       }
-      return cm;
-    });
-    setCmData(updatedCmData);
 
-    // Update selected CM
-    setSelectedCmByUnit(prev => {
-      const newState = {};
-      Object.keys(prev).forEach(unit => {
-        if (prev[unit]?.cmid === cmEdits.cmid) {
-          newState[unit] = { ...prev[unit], ...cmEdits, extraind5: payload.extraind5, interests: newInterestsArr };
-        } else {
-          newState[unit] = prev[unit];
+      // Remove the interests field as it should be stored as extraind5
+      delete payload.interests;
+
+      console.log('Saving CM with payload:', payload);
+
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
+        payload,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      // Parse interests array from saved string for local state
+      const newInterestsArr = payload.extraind5
+        ? payload.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+        : [];
+
+      // Update local state with new extraind5 and interests array
+      const updatedCmData = cmData.map(cm => {
+        if (cm.cmid === cmEdits.cmid) {
+          return {
+            ...cm,
+            ...cmEdits,
+            extraind5: payload.extraind5,
+            interests: newInterestsArr
+          };
         }
+        return cm;
       });
-      return newState;
-    });
+      setCmData(updatedCmData);
 
-    setEditingCmIndex(null);
-    setCmEdits({});
-    message.success("Customer Manager updated successfully!");
-    
-    // Refresh CM data to ensure consistency
-    setTimeout(() => {
-      fetchCmData();
-    }, 1000);
-  } catch (error) {
-    message.error("Error updating Customer Manager");
-    console.error(error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+      // Update selected CM
+      setSelectedCmByUnit(prev => {
+        const newState = {};
+        Object.keys(prev).forEach(unit => {
+          if (prev[unit]?.cmid === cmEdits.cmid) {
+            newState[unit] = { ...prev[unit], ...cmEdits, extraind5: payload.extraind5, interests: newInterestsArr };
+          } else {
+            newState[unit] = prev[unit];
+          }
+        });
+        return newState;
+      });
+
+      setEditingCmIndex(null);
+      setCmEdits({});
+      message.success("Customer Manager updated successfully!");
+
+      // Refresh CM data to ensure consistency
+      setTimeout(() => {
+        fetchCmData();
+      }, 1000);
+    } catch (error) {
+      message.error("Error updating Customer Manager");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Handle CM delete
   // const handleCmDelete = () => {
@@ -811,7 +1851,7 @@ const handleCmSave = async () => {
   //         setCmEdits({});
 
   //         message.success("Customer Manager deleted successfully!");
-          
+
   //         // Refresh CM data to ensure consistency
   //         setTimeout(() => {
   //           fetchCmData();
@@ -869,14 +1909,14 @@ const handleCmSave = async () => {
     const branchToEdit = sortedBranches[idx];
     setEditingBranchIndex(idx);
     setBranchEdits({ ...branchToEdit });
-    
+
     // Initialize state and city dropdowns if country exists
     if (branchToEdit.country) {
       const countryObj = branchCountries.find(c => c.name === branchToEdit.country);
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-        
+
         if (branchToEdit.state) {
           const stateObj = states.find(s => s.name === branchToEdit.state);
           if (stateObj) {
@@ -902,7 +1942,7 @@ const handleCmSave = async () => {
     try {
       const payload = { ...branchEdits }; // branchEdits should include id
       console.log('Saving branch with payload:', payload);
-      
+
       await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/UpdateOrganizationDetails`,
         payload,
@@ -921,7 +1961,7 @@ const handleCmSave = async () => {
       setBranchStates([]);
       setBranchCities([]);
       message.success("Unit updated successfully!");
-      
+
       // Refresh CM data to ensure consistency
       setTimeout(() => {
         fetchCmData();
@@ -958,7 +1998,7 @@ const handleCmSave = async () => {
   //   }
   // };
 
-
+  const [activeTab, setActiveTab] = useState('Units');
 
   return (
     <>
@@ -990,7 +2030,7 @@ const handleCmSave = async () => {
       {/* Branches Accordion */}
       <Box
         mt={4}
-        style={{
+        sx={{
           padding: "16px",
           backgroundColor: "#ffffff",
           borderRadius: "8px",
@@ -1062,7 +2102,7 @@ const handleCmSave = async () => {
                   }}
                 >
                   <Row gutter={16}>
-                    <Col xs={24} md={8} style={{ display: editingBranchIndex === idx &&  editData.branchtype  === "Parent" && isEditing ? "block" : "none" }}>
+                    <Col xs={24} md={8} style={{ display: editingBranchIndex === idx && editData.branchtype === "Parent" && isEditing ? "block" : "none" }}>
                       <Form.Item
                         label={<Typography.Text className="custom-headding-12px">Organization Name</Typography.Text>}
                         name="organizationname"
@@ -1095,9 +2135,9 @@ const handleCmSave = async () => {
                       <Form.Item
                         label={<Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>}
                         name="branch"
-                        rules={[{ 
-                          required: editData.branchtype !== "Parent", 
-                          message: "Organization Unit is required" 
+                        rules={[{
+                          required: editData.branchtype !== "Parent",
+                          message: "Organization Unit is required"
                         }]}
                       >
                         <Input
@@ -1130,9 +2170,9 @@ const handleCmSave = async () => {
                           <Form.Item
                             name="phonecode"
                             noStyle
-                            rules={[{ 
-                              required: editData.branchtype !== "Parent", 
-                              message: "Phone code is required" 
+                            rules={[{
+                              required: editData.branchtype !== "Parent",
+                              message: "Phone code is required"
                             }]}
                           >
                             <Select
@@ -1388,7 +2428,7 @@ const handleCmSave = async () => {
                                   );
                                   message.success("Organization deleted successfully!");
                                   setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-                                  
+
                                   // Refresh CM data to ensure consistency
                                   setTimeout(() => {
                                     fetchCmData();
@@ -1430,104 +2470,104 @@ const handleCmSave = async () => {
                 </div>
                 {editData.branchtype !== "Parent" && (
                   <>
-                <Text className="custom-headding-16px"
-                  style={{
-                    textAlign: isMobile ? "left" : "center",
-                    fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
-                    paddingLeft: isMobile ? "0px" : "0px",
-            
-                  }}
-                >
-                  Customer Manager(s) :
-                </Text>
+                    <Text className="custom-headding-16px"
+                      style={{
+                        textAlign: isMobile ? "left" : "center",
+                        fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
+                        paddingLeft: isMobile ? "0px" : "0px",
 
-                {/* Customer Managers Section - Only show for non-Parent units */}
+                      }}
+                    >
+                      Customer Manager(s) :
+                    </Text>
 
-
-                  <div style={{ marginTop: 24 }}>
+                    {/* Customer Managers Section - Only show for non-Parent units */}
 
 
-                    {unitCmData.length === 0 ? (
-                      <div
-                        style={{
-                          textAlign: 'center',
-                          padding: '40px',
-                          backgroundColor: '#fafafa',
-                          borderRadius: 8,
-                          border: '1px solid #f0f0f0'
-                        }}>
-                        <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
-                        <Text style={{ fontSize: 16, color: colors.grey[600], display: 'block' }}>
-                          No Customer Managers found for this unit
-                        </Text>
-                      </div>
-                    ) : (
-                      <Box
-                        style={{
-                          // padding: "16px",
-                          // backgroundColor: "#fafafa",
-                          borderRadius: "8px",
-                          // border: "1px solid #f0f0f0"
-                        }}
-                      >
-                        <Collapse
+                    <div style={{ marginTop: 24 }}>
 
 
-                          ghost
-                          expandIconPosition="end"
-                          expandIcon={({ isActive }) =>
-                            isActive ? <UpOutlined /> : <DownOutlined />
-                          }
+                      {unitCmData.length === 0 ? (
+                        <div
+                          style={{
+                            textAlign: 'center',
+                            padding: '40px',
+                            backgroundColor: '#fafafa',
+                            borderRadius: 8,
+                            border: '1px solid #f0f0f0'
+                          }}>
+                          <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
+                          <Text style={{ fontSize: 16, color: colors.grey[600], display: 'block' }}>
+                            No Customer Managers found for this unit
+                          </Text>
+                        </div>
+                      ) : (
+                        <Box
+                          style={{
+                            // padding: "16px",
+                            // backgroundColor: "#fafafa",
+                            borderRadius: "8px",
+                            // border: "1px solid #f0f0f0"
+                          }}
                         >
-                          {unitCmData.map((cm, cmIndex) => (
-                            <React.Fragment key={cm.cmid}>
-                              <Collapse.Panel
-                                header={
-                                  <span>
-                                    <Typography.Text strong >
-                                      {cm.firstname} {cm.lastname}
-                                    </Typography.Text>
-                                    {/* <span style={{ fontSize: "14px", color: colors.grey[600], marginLeft: 8 }}>
+                          <Collapse
+
+
+                            ghost
+                            expandIconPosition="end"
+                            expandIcon={({ isActive }) =>
+                              isActive ? <UpOutlined /> : <DownOutlined />
+                            }
+                          >
+                            {unitCmData.map((cm, cmIndex) => (
+                              <React.Fragment key={cm.cmid}>
+                                <Collapse.Panel
+                                  header={
+                                    <span>
+                                      <Typography.Text strong >
+                                        {cm.firstname} {cm.lastname}
+                                      </Typography.Text>
+                                      {/* <span style={{ fontSize: "14px", color: colors.grey[600], marginLeft: 8 }}>
                                     (CM ID: {cm.cmid})
                                   </span> */}
-                                  </span>
-                                }
-                                key={cm.cmid}
-                                style={{
-                                  border: "1px solid #f0f0f0",
-                                  borderRadius: "8px",
-                                  marginBottom: "8px",
-                                  backgroundColor: "#f0f0f0",
-                                  // opacity:0.7
-                                }}
-                              >
-                                <CmDetailsComponent
-                                  selectedCm={cm}
-                                  colors={colors}
-                                  isEditingCm={editingCmIndex === cm.cmid}
-                                  cmEdits={cmEdits}
-                                  form={form}
-                                  onCmEdit={() => {
-                                    setEditingCmIndex(cm.cmid);
-                                    
-                                    // Parse interests properly for editing
-                                    const interestsArray = Array.isArray(cm.interests)
-                                      ? cm.interests
-                                      : (typeof (cm.interests || cm.extraind5) === "string"
+                                    </span>
+                                  }
+                                  key={cm.cmid}
+                                  style={{
+                                    border: "1px solid #f0f0f0",
+                                    borderRadius: "8px",
+                                    marginBottom: "8px",
+                                    backgroundColor: "#f0f0f0",
+                                    // opacity:0.7
+                                  }}
+                                >
+                                  <CmDetailsComponent
+                                    selectedCm={cm}
+                                    colors={colors}
+                                    isEditingCm={editingCmIndex === cm.cmid}
+                                    cmEdits={cmEdits}
+                                    form={form}
+                                    onCmEdit={() => {
+                                      setEditingCmIndex(cm.cmid);
+
+                                      // Parse interests properly for editing
+                                      const interestsArray = Array.isArray(cm.interests)
+                                        ? cm.interests
+                                        : (typeof (cm.interests || cm.extraind5) === "string"
                                           ? (cm.interests || cm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
                                           : []);
-                                    
-                                    setCmEdits({ 
-                                      ...cm, 
-                                      interests: interestsArray 
-                                    });
-                                  }}
-                                  onCmCancel={handleCmCancel}
-                                  onCmSave={handleCmSave}
-                                  onCmInputChange={handleCmInputChange}
-                                />
-                              </Collapse.Panel>
-                              {/* {cmIndex < unitCmData.length - 1 && (
+
+                                      setCmEdits({
+                                        ...cm,
+                                        interests: interestsArray
+                                      });
+                                    }}
+                                    onCmCancel={handleCmCancel}
+                                    onCmSave={handleCmSave}
+                                    onCmInputChange={handleCmInputChange}
+                                  />
+                                </Collapse.Panel>
+                                {/* {cmIndex < unitCmData.length - 1 && (
                               <hr style={{
                                 border: 'none',
                                 height: '1px',
@@ -1536,12 +2576,12 @@ const handleCmSave = async () => {
                                 opacity: 0.6
                               }} />
                             )} */}
-                            </React.Fragment>
-                          ))}
-                        </Collapse>
-                      </Box>
-                    )}
-                  </div>
+                              </React.Fragment>
+                            ))}
+                          </Collapse>
+                        </Box>
+                      )}
+                    </div>
                   </>
                 )}
 
@@ -1679,6 +2719,163 @@ const handleCmSave = async () => {
         )
         }
       </Box >
+
+      <Box mt={4}
+        sx={{
+          padding: "16px",
+          backgroundColor: "#ffffff",
+          borderRadius: "8px",
+          height: "100%",
+        }}>
+
+        {/* Chevron Style Tab Navigation */}
+        <Box sx={{ mb: 4 }}>
+          {/* <Typography 
+          className="custom-headding-16px"
+            style={{
+              textAlign: isMobile ? "left" : "center",
+              fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+              paddingLeft: isMobile ? "0px" : "30px",
+            }}
+          >
+            Organization Sections
+          </Typography> */}
+
+          {/* Tab Navigation Bar */}
+          <Box sx={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: isMobile ? 'stretch' : 'center',
+            background: '#f5f5f5',
+            borderRadius: '8px',
+            padding: '4px',
+            position: 'relative',
+            gap: isMobile ? '4px' : '0'
+          }}>
+            {/* Active Tab - First Segment */}
+            <Box
+              onClick={() => setActiveTab('Units')}
+              sx={{
+                background: activeTab === 'Units' ? colors.blueAccent[1000] : '#e0e0e0',
+                color: activeTab === 'Units' ? 'white' : '#666666',
+                padding: isMobile ? '8px 16px' : '12px 20px',
+                borderRadius: '6px',
+                fontSize: '11px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                position: 'relative',
+                transition: 'all 0.3s ease',
+                textAlign: isMobile ? 'center' : 'left',
+                '&:hover': {
+                  background: activeTab === 'Units' ? colors.blueAccent[1000] : '#d0d0d0'
+                },
+                '&::after': {
+                  content: isMobile ? 'none' : '""',
+                  position: 'absolute',
+                  right: '-8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: 0,
+                  height: 0,
+                  borderLeft: '8px solid',
+                  borderLeftColor: activeTab === 'Units' ? colors.blueAccent[1000] : '#e0e0e0',
+                  borderTop: '8px solid transparent',
+                  borderBottom: '8px solid transparent',
+                  zIndex: 1
+                }
+              }}
+            >
+              Units
+            </Box>
+
+            {/* Inactive Tabs */}
+            {['Partnership', 'CMs', 'Competitor'].map((tab) => (
+              <Box
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                sx={{
+                  background: activeTab === tab ? colors.blueAccent[1000] : '#e0e0e0',
+                  color: activeTab === tab ? 'white' : '#666666',
+                  padding: isMobile ? '8px 16px' : '12px 20px',
+                  fontSize: '11px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  position: 'relative',
+                  marginLeft: isMobile ? '0' : '-4px',
+                  transition: 'all 0.3s ease',
+                  textAlign: isMobile ? 'center' : 'left',
+                  '&:hover': {
+                    background: activeTab === tab ? colors.blueAccent[1000] : '#d0d0d0'
+                  },
+                  '&::after': {
+                    content: isMobile ? 'none' : '""',
+                    position: 'absolute',
+                    right: '-8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: 0,
+                    height: 0,
+                    borderLeft: '8px solid',
+                    borderLeftColor: activeTab === tab ? colors.blueAccent[1000] : '#e0e0e0',
+                    borderTop: '8px solid transparent',
+                    borderBottom: '8px solid transparent',
+                    zIndex: 1
+                  }
+                }}
+              >
+                {tab}
+              </Box>
+            ))}
+          </Box>
+
+          {/* Tab Description */}
+          {/* <Typography sx={{ 
+            mt: 2, 
+            fontSize: '11px', 
+            color: '#666666',
+            fontStyle: 'italic'
+          }}>
+            Admin or HOB will create Organisation. This organization will have different tabs. 
+            Tabs are Units, CMs, Product/Services – Marketed, Partnership Activities, 
+            Competitor Analysis & Business Value.
+          </Typography> */}
+        </Box>
+
+        {/* Tab Content Sections */}
+        <Box sx={{ mt: 3 }}>
+          {/* Units Section */}
+          <Box sx={{ display: activeTab === 'Units' ? 'block' : 'none' }}>
+            <UnitsTab colors={colors} mobile={isMobile} />
+          </Box>
+
+          {/* Partnership Activities Section */}
+          <Box sx={{ display: activeTab === 'Partnership' ? 'block' : 'none' }}>
+            <PartnershipTab colors={colors} mobile={isMobile} />
+          </Box>
+          {/* CMs Section */}
+          <Box sx={{ display: activeTab === 'CMs' ? 'block' : 'none' }}>
+            <CMsTab cmData={cmData} />
+          </Box>
+
+          {/* Product/Services Section */}
+          <Box sx={{ display: activeTab === 'Product/Services' ? 'block' : 'none' }}>
+            <ProductServicesTab />
+          </Box>
+
+
+
+          {/* Competitor Analysis Section */}
+          <Box sx={{ display: activeTab === 'Competitor' ? 'block' : 'none' }}>
+            <CompetitorTab />
+          </Box>
+
+          {/* Business Value Section */}
+          <Box sx={{ display: activeTab === 'Business Value' ? 'block' : 'none' }}>
+            <BusinessValueTab />
+          </Box>
+        </Box>
+      </Box>
+
     </>
   );
 };

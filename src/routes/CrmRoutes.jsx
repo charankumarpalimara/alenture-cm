@@ -23,6 +23,7 @@ import Contract from "../scenes/commonFiles/contract";
 import Viewallcontracts from "../scenes/commonFiles/contract/viewallcontracts";
 import ContractAnalysis from "../scenes/commonFiles/contract/analysis";
 import Knowledge from "../scenes/commonFiles/knowledge";
+import Account from "../scenes/commonFiles/account";
 
 const crmRoutes = [
   <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
@@ -48,6 +49,7 @@ const crmRoutes = [
   <Route key="contract" path="/contract" element={<Contract />} />,
   <Route key="viewallcontracts" path="/viewallcontracts" element={<Viewallcontracts />} />,
   <Route key="contractanalysis" path="/contract/analysis" element={<ContractAnalysis />} />,
+  <Route key="account" path="/account" element={<Account />} />,
 
 ];
 

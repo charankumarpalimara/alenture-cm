@@ -34,6 +34,7 @@ import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { getCreaterFirstName, getCreaterRole } from "../../../config";
 
@@ -1131,6 +1132,14 @@ const Topbar = ({ onLogout }) => {
                 </ListItem>
               </Box>
             )}
+
+            <Item
+              title="Account"
+              to="/account"
+              icon={<AccountCircleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
 
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item

@@ -17,6 +17,7 @@ import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { getCreaterRole } from "../../../config";
@@ -73,6 +74,10 @@ const getActivePage = (pathname) => {
     pathname.includes("/resolvedExperiences")
   ) {
     return "/"; // Dashboard is active for these routes
+  } else if (
+    pathname.includes("/account")
+  ) {
+    return "/account";
   } else {
     return pathname;
   }
@@ -111,7 +116,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontWeight: "500 !important", // Ensure text is bold for selected item
             fontSize: "13px",
           },
         }}
@@ -197,19 +202,27 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
           selected={selected}
           setSelected={setSelected}
         />
-  {getCreaterRole() === "admin" && (
-        <Item
-          title="Head of the Business"
-          to="/hob"
-          icon={<StorefrontOutlinedIcon />}
-          selected={selected}
-          setSelected={setSelected}
-        />
-  )}
+        {getCreaterRole() === "admin" && (
+          <Item
+            title="Head of the Business"
+            to="/hob"
+            icon={<StorefrontOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+        )}
         <Item
           title="Organization"
           to="/organization"
           icon={<BusinessOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
+
+        <Item
+          title="Account"
+          to="/account"
+          icon={<AccountCircleOutlinedIcon />}
           selected={selected}
           setSelected={setSelected}
         />

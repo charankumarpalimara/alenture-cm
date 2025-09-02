@@ -26,6 +26,7 @@ import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -81,6 +82,10 @@ const getActivePage = (pathname) => {
     pathname.includes("/resolvedExperiences")
   ) {
     return "/"; // Dashboard is active for these routes
+  } else if (
+    pathname.includes("/account") 
+  ){
+    return "/account";
   } else {
     return pathname;
   }
@@ -120,7 +125,7 @@ const Item = ({ title, to, icon, selected, setSelected, handleClose }) => {
         sx={{
           "& .MuiTypography-root": {
             // Target the nested Typography component
-            fontWeight:  "500 !important", // Ensure text is bold for selected item
+            fontWeight: "500 !important", // Ensure text is bold for selected item
             fontSize: "13px",
           },
         }}
@@ -232,29 +237,29 @@ const Topbar = ({ onLogout }) => {
   const notifClick = (data) => {
     setDrawerOpen(false);
     console.log("Clicked notification:", data);
-    
+
     if (window.location.pathname === "/ticketdetails") {
       navigate("/");
     }
-    
+
     // Handle different notification types for admin and HOB
     if (data.type === "cm_registration") {
       // Navigate to CM details
-      navigate(`/cmdetails/${data.finalExperienceid}`, { 
-        state: { ticket: { id: data.finalExperienceid } } 
+      navigate(`/cmdetails/${data.finalExperienceid}`, {
+        state: { ticket: { id: data.finalExperienceid } }
       });
     } else if (data.type === "crm_registration") {
       // Navigate to CRM details
-      navigate(`/crmdetails/${data.finalExperienceid}`, { 
-        state: { ticket: { crmid: data.finalExperienceid } } 
+      navigate(`/crmdetails/${data.finalExperienceid}`, {
+        state: { ticket: { crmid: data.finalExperienceid } }
       });
     } else if (data.type === "hob_registration") {
       // Navigate to HOB details
-      navigate(`/hobdetails/${data.finalExperienceid}`, { 
-        state: { ticket: { hobid: data.finalExperienceid } } 
+      navigate(`/hobdetails/${data.finalExperienceid}`, {
+        state: { ticket: { hobid: data.finalExperienceid } }
       });
     }
-    
+
     markNotificationReadMutate({
       id: data.id,
     });
@@ -1031,6 +1036,14 @@ const Topbar = ({ onLogout }) => {
               title="Organization"
               to="/organization"
               icon={<BusinessOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Account"
+              to="/account"
+              icon={<AccountCircleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
