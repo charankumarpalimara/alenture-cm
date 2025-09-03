@@ -325,7 +325,7 @@ const Account = () => {
                                     fontSize: '13px'
                                 }}
                             >
-                                + Add Service
+                             Add Service
                             </Button>
                         </Space>
                     </Col>

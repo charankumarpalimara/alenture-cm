@@ -22,7 +22,24 @@ import {
 // import { Country, State, City } from "country-state-city";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { UpOutlined, DownOutlined, UserOutlined, } from "@ant-design/icons";
+import {
+  UpOutlined,
+  DownOutlined,
+  UserOutlined,
+  DownloadOutlined,
+  EyeOutlined,
+  UnorderedListOutlined,
+  FileTextOutlined,
+  CheckCircleOutlined,
+  MinusCircleOutlined,
+  FilterOutlined,
+  BarChartOutlined,
+  LineChartOutlined,
+  EnvironmentOutlined,
+  DollarOutlined,
+  TeamOutlined,
+  GlobalOutlined
+} from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { tokens } from "../../../theme";
@@ -415,13 +432,18 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
 };
 
 // Tab Components
-const UnitsTab = ({ colors, mobile }) => (
+const UnitsTab = ({ colors, mobile, tablet }) => (
   <Box>
     {/* ServiceMap Header */}
     <Box sx={{ mb: 4 }}>
       <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography style={{ marginBottom: "5px",  fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+          <Typography style={{
+            textAlign: "left",
+            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+            paddingLeft: "0px",
+            fontWeight: "600",
+          }}>
             ServiceMap: Journey Matrix
           </Typography>
           <Typography sx={{
@@ -781,7 +803,7 @@ const UnitsTab = ({ colors, mobile }) => (
           size="small"
           className="custom-ant-table-header"
           rowClassName={() => "custom-row"}
-          scroll={{ 
+          scroll={{
             x: mobile ? 600 : 800,
             y: mobile ? 400 : undefined
           }}
@@ -791,10 +813,10 @@ const UnitsTab = ({ colors, mobile }) => (
         />
 
         {/* Legend */}
-        <Box sx={{ 
-          mt: 2, 
-          display: 'flex', 
-          gap: 3, 
+        <Box sx={{
+          mt: 2,
+          display: 'flex',
+          gap: 3,
           justifyContent: 'center',
           flexDirection: mobile ? 'column' : 'row',
           alignItems: mobile ? 'flex-start' : 'center'
@@ -817,7 +839,7 @@ const UnitsTab = ({ colors, mobile }) => (
 
       <Box sx={{ display: 'flex', gap: 3, mb: 4, flexDirection: mobile ? 'column' : 'row' }}>
         {/* Journey Stage Analysis Card */}
-        <Box sx={{ 
+        <Box sx={{
           flex: '1 1 50%',
           p: 3,
           border: '1px solid #e0e0e0',
@@ -825,7 +847,7 @@ const UnitsTab = ({ colors, mobile }) => (
           backgroundColor: '#ffffff',
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
         }}>
-          <Typography style={{ marginBottom: "5px",  fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+          <Typography style={{ marginBottom: "5px", fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
             Journey Stage Analysis
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -863,7 +885,7 @@ const UnitsTab = ({ colors, mobile }) => (
         </Box>
 
         {/* Service Coverage Card */}
-        <Box sx={{ 
+        <Box sx={{
           flex: '1 1 50%',
           p: 3,
           border: '1px solid #e0e0e0',
@@ -871,7 +893,7 @@ const UnitsTab = ({ colors, mobile }) => (
           backgroundColor: '#ffffff',
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
         }}>
-          <Typography  style={{ marginBottom: "5px", fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
+          <Typography style={{ marginBottom: "5px", fontSize: '15px', fontWeight: '600', color: '#1a1a1a' }}>
             Service Coverage
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -893,20 +915,20 @@ const UnitsTab = ({ colors, mobile }) => (
                 <Typography sx={{ fontSize: '11px', color: '#1a1a1a' }}>
                   {item.service}
                 </Typography>
-                <Box sx={{  backgroundColor: item.backgroundColor, padding: "2px", paddingX:"5px", borderRadius:"5px"}}>
-                <Typography 
-                sx={{
-                  fontSize: '11px',
-                  fontWeight: 'bold',
-                  color: item.color,
-                  backgroundColor: item.backgroundColor,
-                  px: 1.5,
-                  py: 0.5,
-                  borderRadius: '4px',
-                  display: 'inline-block'
-                }}>
-                  {item.coverage}%
-                </Typography>
+                <Box sx={{ backgroundColor: item.backgroundColor, padding: "2px", paddingX: "5px", borderRadius: "5px" }}>
+                  <Typography
+                    sx={{
+                      fontSize: '11px',
+                      fontWeight: 'bold',
+                      color: item.color,
+                      backgroundColor: item.backgroundColor,
+                      px: 1.5,
+                      py: 0.5,
+                      borderRadius: '4px',
+                      display: 'inline-block'
+                    }}>
+                    {item.coverage}%
+                  </Typography>
                 </Box>
               </Box>
             ))}
@@ -1011,13 +1033,18 @@ const ProductServicesTab = () => (
   </Box>
 );
 
-const PartnershipTab = ({ colors, mobile }) => (
+const PartnershipTab = ({ colors, mobile, tablet }) => (
   <Box>
     {/* Partnership Activities Header */}
     <Box sx={{ mb: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+          <Typography style={{
+            textAlign: "left",
+            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+            paddingLeft: "0px",
+            fontWeight: "600",
+          }}>
             Partnership Activities
           </Typography>
           <Typography sx={{
@@ -1030,7 +1057,7 @@ const PartnershipTab = ({ colors, mobile }) => (
       </Box>
 
       {/* Activity Filters Card */}
-      <Box sx={{ 
+      <Box sx={{
         mb: 4,
         p: 3,
         border: '1px solid #e0e0e0',
@@ -1042,17 +1069,18 @@ const PartnershipTab = ({ colors, mobile }) => (
           <Typography style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
             Activity Filters
           </Typography>
-          <Button
-            type="primary"
+          <MuiButton
+            variant="contain"
             // icon={<EditIcon />}
-            style={{
+            sx={{
               fontSize: '11px',
+              color: '#fff',
               background: colors.blueAccent[1000],
               border: 'none'
             }}
           >
             + New Activity
-          </Button>
+          </MuiButton>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 3, width: '100%' }}>
           <Select
@@ -1098,7 +1126,7 @@ const PartnershipTab = ({ colors, mobile }) => (
 
       {/* Activity Summary Cards */}
       <Box sx={{ mb: 4 }}>
-        <Typography style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+        <Typography style={{ marginBottom: "8px", fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
           Activity Summary
         </Typography>
         <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
@@ -1125,10 +1153,10 @@ const PartnershipTab = ({ colors, mobile }) => (
                 <EditIcon style={{ color: 'white', fontSize: '20px' }} />
               </Box>
               <Box>
-                <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
                   Quarterly Review
                 </Typography>
-                <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                <Typography style={{ fontSize: '12px', color: '#666666' }}>
                   TechCorp Solutions
                 </Typography>
               </Box>
@@ -1140,7 +1168,8 @@ const PartnershipTab = ({ colors, mobile }) => (
                 marginBottom: '12px',
                 backgroundColor: '#f5f5f5',
                 color: '#666666',
-                border: '1px solid #d9d9d9'
+                border: '1px solid #d9d9d9',
+                borderRadius: '5px'
               }}
             >
               Completed
@@ -1181,10 +1210,10 @@ const PartnershipTab = ({ colors, mobile }) => (
                 <UserOutlined style={{ color: 'white', fontSize: '20px' }} />
               </Box>
               <Box>
-                <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
                   Strategy Call
                 </Typography>
-                <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                <Typography style={{ fontSize: '12px', color: '#666666' }}>
                   Global Ventures
                 </Typography>
               </Box>
@@ -1196,7 +1225,8 @@ const PartnershipTab = ({ colors, mobile }) => (
                 marginBottom: '12px',
                 backgroundColor: '#f5f5f5',
                 color: '#666666',
-                border: '1px solid #d9d9d9'
+                border: '1px solid #d9d9d9',
+                borderRadius: '5px'
               }}
             >
               Scheduled
@@ -1237,10 +1267,10 @@ const PartnershipTab = ({ colors, mobile }) => (
                 <EditIcon style={{ color: 'white', fontSize: '20px' }} />
               </Box>
               <Box>
-                <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
                   Trade Show
                 </Typography>
-                <Typography sx={{ fontSize: '11px', color: '#666666' }}>
+                <Typography style={{ fontSize: '12px', color: '#666666' }}>
                   Innovation Labs
                 </Typography>
               </Box>
@@ -1252,7 +1282,8 @@ const PartnershipTab = ({ colors, mobile }) => (
                 marginBottom: '12px',
                 backgroundColor: '#f5f5f5',
                 color: '#666666',
-                border: '1px solid #d9d9d9'
+                border: '1px solid #d9d9d9',
+                borderRadius: '5px'
               }}
             >
               In Progress
@@ -1274,7 +1305,7 @@ const PartnershipTab = ({ colors, mobile }) => (
 
       {/* Recent Activities Table */}
       <Box>
-        <Typography  style={{ marginBottom: 2, fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+        <Typography style={{ marginBottom: "8px", fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
           Recent Activities
         </Typography>
         <Table
@@ -1361,7 +1392,7 @@ const PartnershipTab = ({ colors, mobile }) => (
               dataIndex: 'date',
               key: 'date',
               render: (date) => (
-                <Typography style={{ color: '#1a1a1a', fontSize: '11px'  }}>
+                <Typography style={{ color: '#1a1a1a', fontSize: '11px' }}>
                   {date}
                 </Typography>
               ),
@@ -1429,14 +1460,531 @@ const PartnershipTab = ({ colors, mobile }) => (
   </Box>
 );
 
-const CompetitorTab = () => (
+const CompetitorTab = ({ colors, mobile, tablet }) => (
   <Box>
-    <Typography variant="h6" sx={{ mb: 2, fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
-      Competitor Analysis
-    </Typography>
-    <Typography sx={{ fontSize: '11px', color: '#666666' }}>
-      Competitor analysis and market positioning will be displayed here.
-    </Typography>
+    {/* Competitor Analysis Hub Header */}
+    <Box sx={{ mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box>
+          <Typography style={{ marginBottom: mobile ? '10px' :2, fontSize: mobile ? "15px" : tablet ? "17px" : "18px", fontWeight: '600', color: '#1a1a1a' }}>
+            Competitor Analysis Hub
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            type="primary"
+            icon={<DownloadOutlined />}
+            style={{
+              fontSize: '11px',
+              background: colors.blueAccent[1000],
+              border: 'none'
+            }}
+          >
+            Export Report
+          </Button>
+          <Box sx={{
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#f0f0f0',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <UserOutlined style={{ fontSize: '16px', color: '#666666' }} />
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Main Title */}
+      <Box sx={{ mb: 4 }}>
+        <Typography style={{
+          textAlign: "left",
+          fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+          paddingLeft: "0px",
+          fontWeight: "600",
+        }}>
+          B2B Account Competitor Analysis
+        </Typography>
+        <Typography sx={{
+          fontSize: '14px',
+          color: '#666666'
+        }}>
+          Comprehensive activities to analyze competitors and develop strategic insights
+        </Typography>
+      </Box>
+
+      {/* Summary Metrics Cards */}
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 3 }}>
+          {/* Active Competitors Card */}
+          <Box sx={{
+            flex: '1 1 200px',
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 2 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1 }}>
+                <Box sx={{
+                  width: '30px',
+                  height: '30px',
+                  backgroundColor: '#1890ff',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <EyeOutlined style={{ color: 'white', fontSize: '15px' }} />
+                </Box>
+                <Typography style={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                  Active Competitors
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a', textAlign: 'left' }}>
+                  12
+                </Typography>
+                <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                  Identified this quarter
+                </Typography>
+              </Box>
+            </Box>
+
+          </Box>
+
+          {/* Analysis Tasks Card */}
+          <Box sx={{
+            flex: '1 1 200px',
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 2 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1 }}>
+                <Box sx={{
+                  width: '30px',
+                  height: '30px',
+                  backgroundColor: '#52c41a',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <UnorderedListOutlined style={{ color: 'white', fontSize: '15px' }} />
+                </Box>
+                <Typography style={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                  Analysis Tasks
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a', textAlign: 'left' }}>
+                  8
+                </Typography>
+                <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                  In progress
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Reports Generated Card */}
+          <Box sx={{
+            flex: '1 1 200px',
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 2 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 1 }}>
+                <Box sx={{
+                  width: '30px',
+                  height: '30px',
+                  backgroundColor: '#fa8c16',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <FileTextOutlined style={{ color: 'white', fontSize: '15px' }} />
+                </Box>
+                <Typography style={{ fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
+                  Reports Generated
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a', textAlign: 'left' }}>
+                  24
+                </Typography>
+                <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                  This month
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Main Content Grid */}
+      <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 4 }}>
+        {/* Left Column - Analysis Activities */}
+        <Box sx={{ flex: '1' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography style={{ marginBottom: 2, fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+                Analysis Activities
+              </Typography>
+              <Button
+                type="primary"
+                style={{
+                  fontSize: '11px',
+                  background: colors.blueAccent[1000],
+                  border: 'none'
+                }}
+              >
+                + New Activity
+              </Button>
+            </Box>
+
+            {/* Activity Categories */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {/* Market Research & Intelligence */}
+              <Box sx={{
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography sx={{ fontSize: '11px', fontWeight: '700', color: '#1a1a1a' }}>
+                    Market Research & Intelligence
+                  </Typography>
+                  <Tag color="processing" style={{ fontSize: '10px' }}>In Progress</Tag>
+                </Box>
+                <Typography style={{ fontSize: '11px', color: '#666666', marginBottom: '16px' }}>
+                  Gather comprehensive market data
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <CheckCircleOutlined style={{ color: '#52c41a', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Industry reports analysis</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <CheckCircleOutlined style={{ color: '#52c41a', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Market size evaluation</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <MinusCircleOutlined style={{ color: '#d9d9d9', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Trend identification</Typography>
+                  </Box>
+                </Box>
+              </Box>
+
+              {/* Competitor Identification */}
+              <Box sx={{
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography sx={{ fontSize: '11px', fontWeight: '700', color: '#1a1a1a' }}>
+                    Competitor Identification
+                  </Typography>
+                  <Tag color="success" style={{ fontSize: '10px' }}>Completed</Tag>
+                </Box>
+                <Typography style={{ fontSize: '11px', color: '#666666', marginBottom: '16px' }}>
+                  Map direct and indirect competitors
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <CheckCircleOutlined style={{ color: '#52c41a', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Direct competitors mapping</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <CheckCircleOutlined style={{ color: '#52c41a', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Indirect competitors analysis</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <CheckCircleOutlined style={{ color: '#52c41a', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Emerging players research</Typography>
+                  </Box>
+                </Box>
+              </Box>
+
+              {/* Product/Service Analysis */}
+              <Box sx={{
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography sx={{ fontSize: '11px', fontWeight: '700', color: '#1a1a1a' }}>
+                    Product/Service Analysis
+                  </Typography>
+                  <Tag color="default" style={{ fontSize: '10px' }}>Pending</Tag>
+                </Box>
+                <Typography style={{ fontSize: '11px', color: '#666666', marginBottom: '16px' }}>
+                  Deep dive into competitor offerings
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <MinusCircleOutlined style={{ color: '#d9d9d9', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Feature comparison matrix</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <MinusCircleOutlined style={{ color: '#d9d9d9', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Pricing strategy analysis</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <MinusCircleOutlined style={{ color: '#d9d9d9', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Value proposition mapping</Typography>
+                  </Box>
+                </Box>
+              </Box>
+
+              {/* Marketing & Sales Strategy */}
+              <Box sx={{
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Typography sx={{ fontSize: '11px', fontWeight: '700', color: '#1a1a1a' }}>
+                    Marketing & Sales Strategy
+                  </Typography>
+                  <Tag color="processing" style={{ fontSize: '10px' }}>In Progress</Tag>
+                </Box>
+                <Typography style={{ fontSize: '11px', color: '#666666', marginBottom: '16px' }}>
+                  Analyze competitor go-to-market approach
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <CheckCircleOutlined style={{ color: '#52c41a', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Digital presence audit</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* Right Column */}
+        <Box sx={{ flex: '1', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {/* Competitor Profiles */}
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography style={{ marginBottom: 2, fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+                Competitor Profiles
+              </Typography>
+              <Button
+                icon={<FilterOutlined />}
+                style={{
+                  fontSize: '11px',
+                  border: '1px solid #d9d9d9'
+                }}
+              >
+                Filter
+              </Button>
+            </Box>
+
+            {/* Individual Profiles */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {/* Acme Corporation */}
+              <Box sx={{
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                  <Typography sx={{ fontSize: '11px', fontWeight: '700', color: '#1a1a1a' }}>
+                    Acme Corporation
+                  </Typography>
+                  <Tag color="blue" style={{ fontSize: '10px' }}>Direct Competitor</Tag>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <DollarOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>$2.5B Revenue</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <TeamOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>500+ Employees</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <GlobalOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>North America</Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Market Share: <span style={{ fontWeight: '600', color: '#1a1a1a' }}>23%</span>
+                  </Typography>
+                  <Typography style={{ fontSize: '10px', color: '#999999' }}>
+                    Jan 15, 2025
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* TechSolutions Inc */}
+              <Box sx={{
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                  <Typography sx={{ fontSize: '11px', fontWeight: '700', color: '#1a1a1a' }}>
+                    TechSolutions Inc
+                  </Typography>
+                  <Tag color="orange" style={{ fontSize: '10px' }}>Indirect Competitor</Tag>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <DollarOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>$1.8B Revenue</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <TeamOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>350+ Employees</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <GlobalOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Global</Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Market Share: <span style={{ fontWeight: '600', color: '#1a1a1a' }}>18%</span>
+                  </Typography>
+                  <Typography style={{ fontSize: '10px', color: '#999999' }}>
+                    Jan 12, 2025
+                  </Typography>
+                </Box>
+
+                {/* InnovatePro */}
+
+              </Box>
+              <Box sx={{
+                p: 2,
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                  <Typography sx={{ fontSize: '11px', fontWeight: '700', color: '#1a1a1a' }}>
+                    InnovatePro
+                  </Typography>
+                  <Tag color="green" style={{ fontSize: '10px' }}>Emerging Player</Tag>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <DollarOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>$450M Revenue</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <TeamOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>150+ Employees</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <GlobalOutlined style={{ color: '#666666', fontSize: '12px' }} />
+                    <Typography style={{ fontSize: '11px', color: '#666666' }}>Europe</Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Market Share: <span style={{ fontWeight: '600', color: '#1a1a1a' }}>8%</span>
+                  </Typography>
+                  <Typography style={{ fontSize: '10px', color: '#999999' }}>
+                    Jan 10, 2025
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Quick Analysis Tools */}
+            <Box sx={{
+              p: 3,
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              backgroundColor: '#ffffff',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              marginTop: '20px'
+            }}>
+              <Typography style={{ marginBottom: 2, fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 3 }}>
+                Quick Analysis Tools
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: mobile ? 'column' : 'row', gap: 2 }}>
+                <Button
+                  icon={<BarChartOutlined />}
+                  style={{
+                    fontSize: '11px',
+                    border: '1px solid #d9d9d9',
+                    // flex: '1 1 20px'
+                  }}
+                >
+                  SWOT Analysis
+                </Button>
+                <Button
+                  icon={<LineChartOutlined />}
+                  style={{
+                    fontSize: '11px',
+                    border: '1px solid #d9d9d9',
+                    // flex: '1 1 20px'
+                  }}
+                >
+                  Trend Analysis
+                </Button>
+                <Button
+                  icon={<EnvironmentOutlined />}
+                  style={{
+                    fontSize: '11px',
+                    border: '1px solid #d9d9d9',
+                    // flex: '1 1 120px'
+                  }}
+                >
+                  Position Map
+                </Button>
+                <Button
+                  icon={<FileTextOutlined />}
+                  style={{
+                    fontSize: '11px',
+                    border: '1px solid #d9d9d9',
+                    // flex: '1 1 120px'
+                  }}
+                >
+                  Report Builder
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   </Box>
 );
 
@@ -2845,33 +3393,33 @@ const OrganizationDetails = () => {
         <Box sx={{ mt: 3 }}>
           {/* Units Section */}
           <Box sx={{ display: activeTab === 'Units' ? 'block' : 'none' }}>
-            <UnitsTab colors={colors} mobile={isMobile} />
+            <UnitsTab colors={colors} mobile={isMobile} tablet={isTablet} />
           </Box>
 
           {/* Partnership Activities Section */}
           <Box sx={{ display: activeTab === 'Partnership' ? 'block' : 'none' }}>
-            <PartnershipTab colors={colors} mobile={isMobile} />
+            <PartnershipTab colors={colors} mobile={isMobile} tablet={isTablet} />
           </Box>
           {/* CMs Section */}
           <Box sx={{ display: activeTab === 'CMs' ? 'block' : 'none' }}>
-            <CMsTab cmData={cmData} />
+            <CMsTab cmData={cmData} mobile={isMobile} tablet={isTablet} />
           </Box>
 
           {/* Product/Services Section */}
           <Box sx={{ display: activeTab === 'Product/Services' ? 'block' : 'none' }}>
-            <ProductServicesTab />
+            <ProductServicesTab mobile={isMobile} tablet={isTablet} />
           </Box>
 
 
 
           {/* Competitor Analysis Section */}
           <Box sx={{ display: activeTab === 'Competitor' ? 'block' : 'none' }}>
-            <CompetitorTab />
+            <CompetitorTab colors={colors} mobile={isMobile} tablet={isTablet} />
           </Box>
 
           {/* Business Value Section */}
           <Box sx={{ display: activeTab === 'Business Value' ? 'block' : 'none' }}>
-            <BusinessValueTab />
+            <BusinessValueTab mobile={isMobile} tablet={isTablet} />
           </Box>
         </Box>
       </Box>

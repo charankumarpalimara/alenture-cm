@@ -1139,6 +1139,7 @@ const Topbar = ({ onLogout }) => {
               icon={<AccountCircleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
             />
 
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
