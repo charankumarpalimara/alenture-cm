@@ -4,23 +4,16 @@ import {
     Button,
     Select,
     Card,
-    Tag,
     Space,
     Typography,
     Row,
-    Col,
-    theme
+    Col
 } from 'antd';
 import {
     ExportOutlined,
     PlusOutlined,
     FilterOutlined,
-    ReloadOutlined,
-    EyeOutlined,
-    EditOutlined,
-    CloudOutlined,
-    AppstoreOutlined,
-    BarChartOutlined
+    ReloadOutlined
 } from '@ant-design/icons';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { tokens } from '../../../theme';
@@ -38,185 +31,160 @@ const Account = () => {
     const [selectedTechnology, setSelectedTechnology] = useState('All Technologies');
     const [selectedComplexity, setSelectedComplexity] = useState('All Levels');
 
-    // Mock data for the service matrix
+    // Mock data for the service matrix based on Excel table
     const serviceData = [
         {
             key: '1',
-            serviceName: {
-                name: 'Cloud Migration',
-                description: 'Infrastructure modernization',
-                icon: <CloudOutlined style={{ fontSize: '11px', color: '#1890ff' }} />
-            },
-            industry: { label: 'Healthcare', color: 'purple' },
-            function: { label: 'Technology', color: 'green' },
-            technology: { label: 'Cloud', color: 'blue' },
-            complexity: { label: 'Advanced', color: 'orange' },
-            duration: '6-12 months',
-            status: { label: 'Active', color: 'green' },
-            actions: ['view', 'edit']
+            sno: '1',
+            accountIndustry: 'Banking, Manufacturing',
+            productServices: 'Cloud Migration',
+            description: 'Decision Making, Innovation',
+            industry: 'Small,Medium,Large,Startups',
+            function: 'Cost Savings, Agility',
+            segments: 'Cloud Security, FinOps',
+            businessValueDriver: 'Cost Savings, Agility',
+            adjacencyExpansion: 'Cloud Security, FinOps'
         },
         {
             key: '2',
-            serviceName: {
-                name: 'AI Implementation',
-                description: 'Machine learning solutions',
-                icon: <AppstoreOutlined style={{ fontSize: '20px', color: '#722ed1' }} />
-            },
-            industry: { label: 'Financial', color: 'pink' },
-            function: { label: 'Operations', color: 'red' },
-            technology: { label: 'AI/ML', color: 'default' },
-            complexity: { label: 'Expert', color: 'red' },
-            duration: '8-18 months',
-            status: { label: 'Active', color: 'green' },
-            actions: ['view', 'edit']
+            sno: '2',
+            accountIndustry: 'Banking',
+            productServices: 'AI/ML Solutions',
+            description: 'Revenue Growth, Innovation',
+            industry: '',
+            function: '',
+            segments: 'AI Ops, Intelligent Automation',
+            businessValueDriver: 'Revenue Growth, Innovation',
+            adjacencyExpansion: 'AI Ops, Intelligent Automation'
         },
         {
             key: '3',
-            serviceName: {
-                name: 'Data Platform',
-                description: 'Business intelligence platform',
-                icon: <BarChartOutlined style={{ fontSize: '20px', color: '#52c41a' }} />
-            },
-            industry: { label: 'Telecom', color: 'default' },
-            function: { label: '', color: '' },
-            technology: { label: '', color: '' },
-            complexity: { label: 'Intermediate', color: 'blue' },
-            duration: '4-8 months',
-            status: { label: 'Planning', color: 'orange' },
-            actions: ['view', 'edit']
+            sno: '3',
+            accountIndustry: 'Insurance',
+            productServices: 'Cybersecurity Services',
+            description: 'Risk Reduction, Compliance',
+            industry: '',
+            function: '',
+            segments: 'Managed Security, Zero Trust',
+            businessValueDriver: 'Risk Reduction, Compliance',
+            adjacencyExpansion: 'Managed Security, Zero Trust'
         },
         {
             key: '4',
-            serviceName: {
-                name: 'Cyber Security Services',
-                description: 'Business intelligence platform',
-                icon: <BarChartOutlined style={{ fontSize: '20px', color: '#52c41a' }} />
-            },
-            industry: { label: 'Insurance', color: 'default' },
-            function: { label: '', color: '' },
-            technology: { label: '', color: '' },
-            complexity: { label: 'Intermediate', color: 'blue' },
-            duration: '4-8 months',
-            status: { label: 'Planning', color: 'orange' },
-            actions: ['view', 'edit']
+            sno: '4',
+            accountIndustry: 'Manufacturing',
+            productServices: 'Voice AI',
+            description: 'Customer Experience, Revenue Growth',
+            industry: '',
+            function: '',
+            segments: 'Conversational Analytics, Multilingual Bots',
+            businessValueDriver: 'Customer Experience, Revenue Growth',
+            adjacencyExpansion: 'Conversational Analytics, Multilingual Bots'
         },
         {
-            key: '4',
-            serviceName: {
-                name: 'Voice AI',
-                description: 'Business intelligence platform',
-                icon: <BarChartOutlined style={{ fontSize: '20px', color: '#52c41a' }} />
-            },
-            industry: { label: 'Manufacturing', color: 'default' },
-            function: { label: '', color: '' },
-            technology: { label: '', color: '' },
-            complexity: { label: 'Intermediate', color: 'blue' },
-            duration: '4-8 months',
-            status: { label: 'Planning', color: 'orange' },
-            actions: ['view', 'edit']
+            key: '5',
+            sno: '5',
+            accountIndustry: 'Telecom',
+            productServices: 'Data Platform',
+            description: 'Decision Making, Innovation',
+            industry: '',
+            function: '',
+            segments: 'AI/ML Use Cases, Data Governance',
+            businessValueDriver: 'Decision Making, Innovation',
+            adjacencyExpansion: 'AI/ML Use Cases, Data Governance'
         }
     ];
 
     const columns = [
         {
-            title: 'Service Name',
-            dataIndex: 'serviceName',
-            key: 'serviceName',
-            render: (serviceName) => (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {serviceName.icon}
-                    <div>
-                        <div style={{
-                            // fontWeight: 'bold', 
-                            // fontSize: '16px',
-                            color: '#1a1a1a'
-                        }}>
-                            {serviceName.name}
-                        </div>
-                        <div style={{
-                            // fontSize: '12px', 
-                            color: '#666666',
-                            lineHeight: 1.2
-                        }}>
-                            {serviceName.description}
-                        </div>
-                    </div>
-                </div>
+            title: 'S.No',
+            dataIndex: 'sno',
+            key: 'sno',
+            width: 60,
+            render: (sno) => (
+                <span style={{ fontSize: '11px', color: '#666666' }}>
+                    {sno}
+                </span>
+            ),
+        },
+        {
+            title: 'Account Industry',
+            dataIndex: 'accountIndustry',
+            key: 'accountIndustry',
+            render: (accountIndustry) => (
+                <span style={{ fontSize: '11px', color: '#1a1a1a' }}>
+                    {accountIndustry}
+                </span>
+            ),
+        },
+        {
+            title: 'Product/Services',
+            dataIndex: 'productServices',
+            key: 'productServices',
+            render: (productServices) => (
+                <span style={{ fontSize: '11px', color: '#1a1a1a' }}>
+                    {productServices}
+                </span>
+            ),
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+            render: (description) => (
+                <span style={{ fontSize: '11px', color: '#666666' }}>
+                    {description}
+                </span>
             ),
         },
         {
             title: 'Industry',
             dataIndex: 'industry',
             key: 'industry',
-            render: (industry) => industry.label ? (
-                <Tag color={industry.color} style={{ fontSize: "11px", borderRadius: "10px" }}>{industry.label}</Tag>
-            ) : '-',
+            render: (industry) => (
+                <span style={{ fontSize: '11px', color: '#1a1a1a' }}>
+                    {industry}
+                </span>
+            ),
         },
         {
             title: 'Function',
             dataIndex: 'function',
             key: 'function',
-            render: (func) => func.label ? (
-                <Tag color={func.color}  style={{ fontSize: "11px", borderRadius: "10px" }}>{func.label}</Tag>
-            ) : '-',
-        },
-        {
-            title: 'Technology',
-            dataIndex: 'technology',
-            key: 'technology',
-            render: (tech) => tech.label ? (
-                <Tag color={tech.color}  style={{ fontSize: "11px", borderRadius: "10px" }}>{tech.label}</Tag>
-            ) : '-',
-        },
-        {
-            title: 'Complexity',
-            dataIndex: 'complexity',
-            key: 'complexity',
-            render: (complexity) => complexity.label ? (
-                <Tag color={complexity.color}  style={{ fontSize: "11px", borderRadius: "10px" }}>{complexity.label}</Tag>
-            ) : '-',
-        },
-        {
-            title: 'Duration',
-            dataIndex: 'duration',
-            key: 'duration',
-            render: (duration) => (
-                <span style={{
-                    fontSize: '13px',
-                    color: '#666666'
-                }}>
-                    {duration}
+            render: (func) => (
+                <span style={{ fontSize: '11px', color: '#1a1a1a' }}>
+                    {func}
                 </span>
             ),
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status) => status.label ? (
-                <Tag color={status.color}  style={{ fontSize: "11px", borderRadius: "10px" }}>{status.label}</Tag>
-            ) : '-',
+            title: 'Segment(s)',
+            dataIndex: 'segments',
+            key: 'segments',
+            render: (segments) => (
+                <span style={{ fontSize: '11px', color: '#1a1a1a' }}>
+                    {segments}
+                </span>
+            ),
         },
         {
-            title: 'Actions',
-            key: 'actions',
-            render: (_, record) => (
-                <Space size="middle">
-                    <Button
-                        type="text"
-                        icon={<EyeOutlined />}
-                        size="small"
-                        title="View Details"
-                        style={{ fontSize: '11px' }}
-                    />
-                    <Button
-                        type="text"
-                        icon={<EditOutlined />}
-                        size="small"
-                        title="Edit"
-                        style={{ fontSize: '11px' }}
-                    />
-                </Space>
+            title: 'Business Value Driver',
+            dataIndex: 'businessValueDriver',
+            key: 'businessValueDriver',
+            render: (businessValueDriver) => (
+                <span style={{ fontSize: '11px', color: '#1a1a1a' }}>
+                    {businessValueDriver}
+                </span>
+            ),
+        },
+        {
+            title: 'Adjacency Expansion',
+            dataIndex: 'adjacencyExpansion',
+            key: 'adjacencyExpansion',
+            render: (adjacencyExpansion) => (
+                <span style={{ fontSize: '11px', color: '#1a1a1a' }}>
+                    {adjacencyExpansion}
+                </span>
             ),
         },
     ];
@@ -237,7 +205,7 @@ const Account = () => {
         setSelectedComplexity('All Levels');
     };
 
-    return (
+  return (
         <div style={{ padding: '24px', backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
             {/* Header Section */}
             <Card style={{ marginBottom: '24px' }}>
@@ -278,7 +246,7 @@ const Account = () => {
                                     +
                                 </div>
                             </div>
-                            <div>
+    <div>
                                 <Title
 
                                     style={{
@@ -289,7 +257,7 @@ const Account = () => {
                                         fontWeight: "bold"
                                     }}
                                 >
-                                    Service Matrix
+                                    Product Service Matrix Ver 0.1
                                 </Title>
                                 <Text
                                     style={{
@@ -301,7 +269,7 @@ const Account = () => {
                                     }}
 
                                 >
-                                    Browse our collection of services and offerings
+                                    Decision Making, Innovation
                                 </Text>
                             </div>
                         </div>
@@ -429,7 +397,7 @@ const Account = () => {
                             }}>
                                 Complexity
                             </Text>
-                        </div>
+    </div>
                         <Select
                             value={selectedComplexity}
                             onChange={setSelectedComplexity}
@@ -478,7 +446,7 @@ const Account = () => {
                             fontSize: '12px',
                             color: '#666666'
                         }}>
-                            Showing 24 of 156 services
+                            Showing 5 of 5 services
                         </Text>
                     </Col>
                 </Row>

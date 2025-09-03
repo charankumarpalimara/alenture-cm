@@ -27,6 +27,7 @@ import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -1044,6 +1045,14 @@ const Topbar = ({ onLogout }) => {
               title="Account"
               to="/account"
               icon={<AccountCircleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Customer Insights"
+              to="/customer-insights"
+              icon={<InsightsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}

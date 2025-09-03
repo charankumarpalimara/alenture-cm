@@ -28,6 +28,7 @@ import OrganizationUnitadd from "../scenes/commonFiles/organizationform/organiza
 import CmDataByOrganization from "../scenes/commonFiles/organizationdetails/CmDataByOrganization";
 import TaskDetails from "../scenes/commonFiles/taskdetails";
 import Account from "../scenes/commonFiles/account";
+import CustomerInsights from "../scenes/commonFiles/customer-insights";
 
 
 const adminRoutes = [
@@ -59,6 +60,7 @@ const adminRoutes = [
   <Route key="cmDataByOrganization" path="/cmDataByOrganization" element={<CmDataByOrganization />} />,
   <Route key="taskdetails" path="/taskdetails" element={<TaskDetails />} />,
   <Route key="account" path="/account" element={<Account />} />,
+  <Route key="customer-insights" path="/customer-insights" element={<CustomerInsights />} />,
 ];
 
 export default adminRoutes; 

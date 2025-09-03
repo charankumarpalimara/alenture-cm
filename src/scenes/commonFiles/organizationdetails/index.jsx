@@ -103,22 +103,22 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
 
   const editData = isEditingCm ? cmEdits : selectedCm;
   // Parse interests as array for Select
-  const interestsValue = isEditingCm
-    ? (Array.isArray(editData.interests)
+const interestsValue = isEditingCm
+  ? (Array.isArray(editData.interests)
       ? editData.interests
       : (typeof editData.extraind5 === "string" && editData.extraind5.length > 0
-        ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
-        : []))
-    : (Array.isArray(selectedCm.interests)
+          ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+          : []))
+  : (Array.isArray(selectedCm.interests)
       ? selectedCm.interests
       : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
-        ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
-        : []));
+          ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+          : []));
 
-  // Debug logging for interests
-  console.log('CM Details - selectedCm:', selectedCm);
-  console.log('CM Details - editData:', editData);
-  console.log('CM Details - interestsValue:', interestsValue);
+// Debug logging for interests
+console.log('CM Details - selectedCm:', selectedCm);
+console.log('CM Details - editData:', editData);
+console.log('CM Details - interestsValue:', interestsValue);
 
   return (
     <div style={{
@@ -482,7 +482,7 @@ const UnitsTab = ({ colors, mobile, tablet }) => (
       </Box>
 
       {/* Summary Cards */}
-      <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 3, mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', gap: 3, mb: 4 }}>
         <Box sx={{
           flex: 1,
           p: 3,
@@ -1464,34 +1464,42 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
   <Box>
     {/* Competitor Analysis Hub Header */}
     <Box sx={{ mb: 4 }}>
-      <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: mobile ? 'column' : 'row', 
+        justifyContent: 'space-between', 
+        alignItems: mobile ? 'flex-start' : 'center', 
+        mb: 3,
+        gap: mobile ? 2 : 0
+      }}>
         <Box>
-          <Typography style={{ marginBottom: mobile ? '10px' :2, fontSize: mobile ? "15px" : tablet ? "17px" : "18px", fontWeight: '600', color: '#1a1a1a' }}>
+          <Typography style={{ marginBottom: mobile ? '10px' : 2, fontSize: mobile ? "15px" : tablet ? "17px" : "18px", fontWeight: '600', color: '#1a1a1a' }}>
             Competitor Analysis Hub
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: 'flex', gap: mobile ? 1 : 2, alignItems: 'center' }}>
           <Button
             type="primary"
             icon={<DownloadOutlined />}
             style={{
-              fontSize: '11px',
+              fontSize: mobile ? '10px' : '11px',
               background: colors.blueAccent[1000],
-              border: 'none'
+              border: 'none',
+              padding: mobile ? '4px 8px' : undefined
             }}
           >
-            Export Report
+            {mobile ? 'Export' : 'Export Report'}
           </Button>
           <Box sx={{
-            width: '32px',
-            height: '32px',
+            width: mobile ? '28px' : '32px',
+            height: mobile ? '28px' : '32px',
             backgroundColor: '#f0f0f0',
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
           }}>
-            <UserOutlined style={{ fontSize: '16px', color: '#666666' }} />
+            <UserOutlined style={{ fontSize: mobile ? '14px' : '16px', color: '#666666' }} />
           </Box>
         </Box>
       </Box>
@@ -1516,11 +1524,11 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
 
       {/* Summary Metrics Cards */}
       <Box sx={{ mb: 4 }}>
-        <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 3 }}>
+        <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: mobile ? 2 : 3 }}>
           {/* Active Competitors Card */}
           <Box sx={{
             flex: '1 1 200px',
-            p: 3,
+            p: mobile ? 2 : 3,
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
             backgroundColor: '#ffffff',
@@ -1545,7 +1553,7 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
                 </Typography>
               </Box>
               <Box>
-                <Typography style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a', textAlign: 'left' }}>
+                <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', textAlign: 'left' }}>
                   12
                 </Typography>
                 <Typography style={{ fontSize: '12px', color: '#666666' }}>
@@ -1559,7 +1567,7 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
           {/* Analysis Tasks Card */}
           <Box sx={{
             flex: '1 1 200px',
-            p: 3,
+            p: mobile ? 2 : 3,
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
             backgroundColor: '#ffffff',
@@ -1584,7 +1592,7 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
                 </Typography>
               </Box>
               <Box>
-                <Typography style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a', textAlign: 'left' }}>
+                <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', textAlign: 'left' }}>
                   8
                 </Typography>
                 <Typography style={{ fontSize: '12px', color: '#666666' }}>
@@ -1597,7 +1605,7 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
           {/* Reports Generated Card */}
           <Box sx={{
             flex: '1 1 200px',
-            p: 3,
+            p: mobile ? 2 : 3,
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
             backgroundColor: '#ffffff',
@@ -1622,7 +1630,7 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
                 </Typography>
               </Box>
               <Box>
-                <Typography style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a', textAlign: 'left' }}>
+                <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', textAlign: 'left' }}>
                   24
                 </Typography>
                 <Typography style={{ fontSize: '12px', color: '#666666' }}>
@@ -1635,34 +1643,42 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
       </Box>
 
       {/* Main Content Grid */}
-      <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', gap: mobile ? 2 : tablet ? 3 : 4 }}>
         {/* Left Column - Analysis Activities */}
         <Box sx={{ flex: '1' }}>
           <Box sx={{
-            p: 3,
+            p: mobile ? 2 : 3,
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
             backgroundColor: '#ffffff',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-              <Typography style={{ marginBottom: 2, fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: mobile ? 'flex-start' : 'center', 
+              mb: 3,
+              flexDirection: mobile ? 'column' : 'row',
+              gap: mobile ? 1 : 0
+            }}>
+              <Typography style={{ marginBottom: 2, fontSize: mobile ? '13px' : '15px', fontWeight: '700', color: '#1a1a1a' }}>
                 Analysis Activities
               </Typography>
               <Button
                 type="primary"
                 style={{
-                  fontSize: '11px',
+                  fontSize: mobile ? '10px' : '11px',
                   background: colors.blueAccent[1000],
-                  border: 'none'
+                  border: 'none',
+                  padding: mobile ? '4px 8px' : undefined
                 }}
               >
-                + New Activity
+                {mobile ? '+ New' : '+ New Activity'}
               </Button>
             </Box>
 
             {/* Activity Categories */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: mobile ? 2 : 3 }}>
               {/* Market Research & Intelligence */}
               <Box sx={{
                 p: 2,
@@ -1790,21 +1806,29 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
         <Box sx={{ flex: '1', display: 'flex', flexDirection: 'column', gap: 4 }}>
           {/* Competitor Profiles */}
           <Box sx={{
-            p: 3,
+            p: mobile ? 2 : 3,
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
             backgroundColor: '#ffffff',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-              <Typography style={{ marginBottom: 2, fontSize: '15px', fontWeight: '700', color: '#1a1a1a' }}>
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: mobile ? 'flex-start' : 'center', 
+              mb: 3,
+              flexDirection: mobile ? 'column' : 'row',
+              gap: mobile ? 1 : 0
+            }}>
+              <Typography style={{ marginBottom: 2, fontSize: mobile ? '13px' : '15px', fontWeight: '700', color: '#1a1a1a' }}>
                 Competitor Profiles
               </Typography>
               <Button
                 icon={<FilterOutlined />}
                 style={{
-                  fontSize: '11px',
-                  border: '1px solid #d9d9d9'
+                  fontSize: mobile ? '10px' : '11px',
+                  border: '1px solid #d9d9d9',
+                  padding: mobile ? '4px 8px' : undefined
                 }}
               >
                 Filter
@@ -1812,7 +1836,7 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
             </Box>
 
             {/* Individual Profiles */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: mobile ? 2 : 3 }}>
               {/* Acme Corporation */}
               <Box sx={{
                 p: 2,
@@ -1928,23 +1952,30 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
 
             {/* Quick Analysis Tools */}
             <Box sx={{
-              p: 3,
+              p: mobile ? 2 : 3,
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
               backgroundColor: '#ffffff',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
               marginTop: '20px'
             }}>
-              <Typography style={{ marginBottom: 2, fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 3 }}>
+              <Typography style={{ marginBottom: 2, fontSize: mobile ? '13px' : '15px', fontWeight: '700', color: '#1a1a1a', mb: 3 }}>
                 Quick Analysis Tools
               </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: mobile ? 'column' : 'row', gap: 2 }}>
+              <Box sx={{ 
+                display: 'flex', 
+                justifyContent: mobile || tablet ? 'flex-start' : 'space-between', 
+                flexDirection: mobile || tablet ? 'column' : 'row',
+                gap: mobile || tablet ? 2 : 1,
+                flexWrap: mobile ? 'nowrap' : 'wrap'
+              }}>
                 <Button
                   icon={<BarChartOutlined />}
                   style={{
-                    fontSize: '11px',
+                    fontSize: mobile ? '10px' : '11px',
                     border: '1px solid #d9d9d9',
-                    // flex: '1 1 20px'
+                    padding: mobile ? '6px 12px' : undefined,
+                    width: mobile ? '100%' : 'auto'
                   }}
                 >
                   SWOT Analysis
@@ -1952,9 +1983,10 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
                 <Button
                   icon={<LineChartOutlined />}
                   style={{
-                    fontSize: '11px',
+                    fontSize: mobile ? '10px' : '11px',
                     border: '1px solid #d9d9d9',
-                    // flex: '1 1 20px'
+                    padding: mobile ? '6px 12px' : undefined,
+                    width: mobile ? '100%' : 'auto'
                   }}
                 >
                   Trend Analysis
@@ -1962,9 +1994,10 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
                 <Button
                   icon={<EnvironmentOutlined />}
                   style={{
-                    fontSize: '11px',
+                    fontSize: mobile ? '10px' : '11px',
                     border: '1px solid #d9d9d9',
-                    // flex: '1 1 120px'
+                    padding: mobile ? '6px 12px' : undefined,
+                    width: mobile ? '100%' : 'auto'
                   }}
                 >
                   Position Map
@@ -1972,9 +2005,10 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
                 <Button
                   icon={<FileTextOutlined />}
                   style={{
-                    fontSize: '11px',
+                    fontSize: mobile ? '10px' : '11px',
                     border: '1px solid #d9d9d9',
-                    // flex: '1 1 120px'
+                    padding: mobile ? '6px 12px' : undefined,
+                    width: mobile ? '100%' : 'auto'
                   }}
                 >
                   Report Builder
@@ -1988,14 +2022,828 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
   </Box>
 );
 
-const BusinessValueTab = () => (
+const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
   <Box>
-    <Typography variant="h6" sx={{ mb: 2, fontSize: '14px', fontWeight: 'bold', color: '#1a1a1a' }}>
-      Business Value
-    </Typography>
-    <Typography sx={{ fontSize: '11px', color: '#666666' }}>
-      Business value metrics and ROI analysis will be displayed here.
-    </Typography>
+    {/* Value Generated Analytics Header */}
+    <Box sx={{ mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box>
+          <Typography 
+          style={{
+            textAlign: "left",
+            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+            paddingLeft: "0px",
+            fontWeight: "600",
+            color: '#1a1a1a'
+          }}
+
+          >
+            Value Generated Analytics
+          </Typography>
+          <Typography sx={{
+            fontSize: '14px',
+            color: '#666666'
+          }}>
+            Track and measure the value delivered to your B2B customers
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2, mt: mobile ? 2 : 0 }}>
+          <Select
+            defaultValue="Last 30 days"
+            style={{ width: 120, fontSize: '11px' }}
+            size="middle"
+          >
+            <Select.Option value="7days" style={{ fontSize: '11px' }}>Last 7 days</Select.Option>
+            <Select.Option value="30days" style={{ fontSize: '11px' }}>Last 30 days</Select.Option>
+            <Select.Option value="90days" style={{ fontSize: '11px' }}>Last 90 days</Select.Option>
+            <Select.Option value="1year" style={{ fontSize: '11px' }}>Last year</Select.Option>
+          </Select>
+          <Button
+           className="form-button"
+            type="primary"
+            icon={<DownloadOutlined />}
+            style={{
+              // fontSize: '11px',
+              background: colors.blueAccent[1000],
+              border: 'none'
+            }}
+          >
+            Export
+          </Button>
+        </Box>
+      </Box>
+
+      {/* Summary Cards */}
+      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', gap: 3, mb: 4 }}>
+        {/* Total Value Generated Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#dcfce6',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <DollarOutlined style={{ color: '#3bb468', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px"}}>
+            <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+              +19.2%
+            </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            $2.4M
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Total Value Generated
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Avg Value per Customer Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#dbeafe',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <UserOutlined style={{ color: '#3670ed', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{backgroundColor: "#dbeafe", padding: "4px 8px", borderRadius: "4px"}}>
+            <Typography style={{ fontSize: '11px', color: '#3670ed', fontWeight: '600' }}>
+              +8.3%
+            </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            $185K
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Avg Value per Customer
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Average ROI Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#f3e8ff',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <BarChartOutlined style={{ color: '#9334e9', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{backgroundColor: "#f3e8ff", padding: "4px 8px", borderRadius: "4px"}}>
+            <Typography style={{ fontSize: '11px', color: '#9334e9', fontWeight: '600' }}>
+              -2.1%
+            </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            4.2x
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Average ROI
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Value Satisfaction Score Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',  
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#ffedd5',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <CheckCircleOutlined style={{ color: '#ea580b', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{backgroundColor: "#ffedd5", padding: "4px 8px", borderRadius: "4px"}}>
+            <Typography style={{ fontSize: '11px', color: '#ea580b', fontWeight: '600' }}>
+              +5.2%
+            </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            8.7
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Value Satisfaction Score
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Main Content Grid */}
+      <Box sx={{ display: 'flex', flexDirection: mobile || bigtablet  ? 'column' : 'row', gap: 4, mb: 4 }}>
+        {/* Left Column - Value Generation Trend */}
+        <Box sx={{ flex: '2' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+                Value Generation Trend
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button size="small" style={{ fontSize: '10px', color: '#666666' }}>Monthly</Button>
+                <Button size="small" type="primary" style={{ fontSize: '10px', background: colors.blueAccent[1000] }}>Quarterly</Button>
+              </Box>
+            </Box>
+            
+            {/* Chart Area - Line Chart */}
+            <Box sx={{
+              height: '300px',
+              background: '#ffffff',
+              borderRadius: '8px',
+              position: 'relative',
+              border: '1px solid #f0f0f0',
+              padding: '20px'
+            }}>
+              {/* Y-axis labels */}
+              <Box sx={{
+                position: 'absolute',
+                left: '10px',
+                top: '20px',
+                bottom: '40px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                width: '30px'
+              }}>
+                {['50K', '40K', '30K', '20K', '10K', '0'].map((label) => (
+                  <Typography key={label} style={{ fontSize: '11px', color: '#666666' }}>
+                    {label}
+                  </Typography>
+                ))}
+              </Box>
+
+              {/* Chart Grid Lines */}
+              <Box sx={{
+                position: 'absolute',
+                left: '50px',
+                right: '20px',
+                top: '20px',
+                bottom: '40px'
+              }}>
+                {[0, 1, 2, 3, 4, 5].map((line) => (
+                  <Box key={line} sx={{
+                    position: 'absolute',
+                    top: `${line * 20}%`,
+                    left: 0,
+                    right: 0,
+                    height: '1px',
+                    backgroundColor: '#f5f5f5'
+                  }} />
+                ))}
+              </Box>
+
+              {/* Line Chart Area */}
+              <Box sx={{
+                position: 'absolute',
+                left: '50px',
+                right: '20px',
+                top: '20px',
+                bottom: '40px',
+                overflow: 'hidden'
+              }}>
+                {/* Gradient Fill Area */}
+                <Box sx={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: '70%',
+                  background: 'linear-gradient(180deg, rgba(24, 144, 255, 0.2) 0%, rgba(24, 144, 255, 0.05) 100%)',
+                  clipPath: 'polygon(0% 60%, 15% 45%, 30% 55%, 45% 35%, 60% 40%, 75% 25%, 90% 30%, 100% 20%, 100% 100%, 0% 100%)'
+                }} />
+                
+                {/* Line Path */}
+                <Box sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '40%',
+                    left: 0,
+                    right: 0,
+                    height: '2px',
+                    background: colors.blueAccent[1000],
+                    clipPath: 'polygon(0% 60%, 15% 45%, 30% 55%, 45% 35%, 60% 40%, 75% 25%, 90% 30%, 100% 20%)'
+                  }
+                }} />
+
+                {/* Data Points */}
+                {[
+                  { x: '0%', y: '60%' },
+                  { x: '15%', y: '45%' },
+                  { x: '30%', y: '55%' },
+                  { x: '45%', y: '35%' },
+                  { x: '60%', y: '40%' },
+                  { x: '75%', y: '25%' },
+                  { x: '90%', y: '30%' }
+                ].map((point, index) => (
+                  <Box key={index} sx={{
+                    position: 'absolute',
+                    left: point.x,
+                    top: point.y,
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: colors.blueAccent[1000],
+                    borderRadius: '50%',
+                    border: '2px solid white',
+                    transform: 'translate(-50%, -50%)',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }} />
+                ))}
+              </Box>
+              
+              {/* X-axis labels */}
+              <Box sx={{
+                position: 'absolute',
+                bottom: '10px',
+                left: '50px',
+                right: '20px',
+                display: 'flex',
+                justifyContent: 'space-between'
+              }}>
+                {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((month) => (
+                  <Typography key={month} style={{ fontSize: '11px', color: '#666666' }}>
+                    {month}
+                  </Typography>
+                ))}
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* Right Column - Top Value Customers */}
+        <Box sx={{ flex: '1' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+                Top Value Customers
+              </Typography>
+            </Box>
+
+            {/* Customer List */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {/* Acme Corp */}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                p: 2,
+                // border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  backgroundColor: '#1890ff',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    A
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Acme Corp
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Enterprise
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    $450K
+                  </Typography>
+                  <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
+                    +18%
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Tech Innovations */}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                p: 2,
+                // border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  backgroundColor: '#52c41a',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    T
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Tech Innovations
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Mid Market
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    $320K
+                  </Typography>
+                  <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
+                    +12%
+                  </Typography>
+                </Box>
+              </Box>
+
+              {/* Global Systems */}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                p: 2,
+                // border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  backgroundColor: '#722ed1',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    G
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Global Systems
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Enterprise
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    $285K
+                  </Typography>
+                  <Typography style={{ fontSize: '10px', color: '#fa8c16' }}>
+                    -5%
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Value Breakdown by Category */}
+      <Box sx={{ mb: 4 }}>
+        <Typography style={{ marginBottom: "16px", fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+          Value Breakdown by Category
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: mobile || cards ? 'column' : 'row', gap: 3 }}>
+          {/* Time Savings Card */}
+          <Box sx={{
+            flex: 1,
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            textAlign: 'center'
+          }}>
+            <Box sx={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: '#52c41a',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px'
+            }}>
+              <Typography style={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+                $
+              </Typography>
+            </Box>
+            <Typography style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+              $980K
+            </Typography>
+            <Typography style={{ fontSize: '12px', color: '#666666', mb: 2 }}>
+              Time Savings
+            </Typography>
+                        {/* Progress Bar */}
+                        <Box sx={{
+              width: '100%',
+              height: '6px',
+              backgroundColor: '#f0f0f0',
+              borderRadius: '3px',
+              overflow: 'hidden',
+              mt: 1
+            }}>
+              <Box sx={{
+                width: '41%',
+                height: '100%',
+                backgroundColor: '#52c41a',
+                borderRadius: '3px'
+              }} />
+            </Box>
+            <Typography style={{ fontSize: '11px', color: '#52c41a', fontWeight: '600', mb: 2 }}>
+              41% of total value
+            </Typography>
+            
+
+          </Box>
+
+          {/* Cost Reduction Card */}
+          <Box sx={{
+            flex: 1,
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            textAlign: 'center'
+          }}>
+            <Box sx={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: '#1890ff',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px'
+            }}>
+              <DownOutlined style={{ color: 'white', fontSize: '24px' }} />
+            </Box>
+            <Typography style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+              $720K
+            </Typography>
+            <Typography style={{ fontSize: '12px', color: '#666666', mb: 2 }}>
+              Cost Reduction
+            </Typography>
+              
+            {/* Progress Bar */}
+            <Box sx={{
+              width: '100%',
+              height: '6px',
+              backgroundColor: '#f0f0f0',
+              borderRadius: '3px',
+              overflow: 'hidden',
+              mt: 1
+            }}>
+              <Box sx={{
+                width: '30%',
+                height: '100%',
+                backgroundColor: '#1890ff',
+                borderRadius: '3px'
+              }} />
+            </Box>
+            <Typography style={{ fontSize: '11px', color: '#1890ff', fontWeight: '600', mb: 2 }}>
+              30% of total value
+            </Typography>
+          
+          </Box>
+
+          {/* Revenue Growth Card */}
+          <Box sx={{
+            flex: 1,
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            textAlign: 'center'
+          }}>
+            <Box sx={{
+              width: '60px',
+              height: '60px',
+              backgroundColor: '#722ed1',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px'
+            }}>
+              <BarChartOutlined style={{ color: 'white', fontSize: '24px' }} />
+            </Box>
+            <Typography style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+              $700K
+            </Typography>
+            <Typography style={{ fontSize: '12px', color: '#666666', mb: 2 }}>
+              Revenue Growth
+            </Typography>
+                      {/* Progress Bar */}
+                      <Box sx={{
+              width: '100%',
+              height: '6px',
+              backgroundColor: '#f0f0f0',
+              borderRadius: '3px',
+              overflow: 'hidden',
+              mt:1
+            }}>
+              <Box sx={{
+                width: '29%',
+                height: '100%',
+                backgroundColor: '#722ed1',
+                borderRadius: '3px'
+              }} />
+            </Box>
+            <Typography style={{ fontSize: '11px', color: '#722ed1', fontWeight: '600', mb: 2 }}>
+              29% of total value
+            </Typography>
+            
+  
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Recent Value Activities */}
+      <Box sx={{ flex: '1' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+                Recent Values Activities
+              </Typography>
+            </Box>
+
+            {/* Customer List */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              {/* Acme Corp */}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                p: 2,
+                // border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  backgroundColor: '#1890ff',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    P
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    
+                    Process Optimization Completed
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Acme Corp Saved $45k in Operational costs Through Automated Workflow
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    2 hours ago
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    $450K
+                  </Typography>
+                  {/* <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
+                    +18%
+                  </Typography> */}
+                </Box>
+              </Box>
+
+              {/* Tech Innovations */}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                p: 2,
+                // border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  backgroundColor: '#52c41a',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    R
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Revenue Milestone Achieved
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Mid Market Achieved $1M in Revenue
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    1 day ago
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    $320K
+                  </Typography>
+                  {/* <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
+                    +12%
+                  </Typography> */}
+                </Box>
+              </Box>
+
+              {/* Global Systems */}
+              {/* <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                p: 2,
+                // border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                backgroundColor: '#fafafa'
+              }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  backgroundColor: '#722ed1',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginRight: '12px'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    G
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Global Systems
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Enterprise
+                  </Typography>
+                </Box>
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    $285K
+                  </Typography>
+                  {/* <Typography style={{ fontSize: '10px', color: '#fa8c16' }}>
+                    -5%
+                  </Typography> 
+                </Box>
+              </Box> */}
+            </Box>
+          </Box>
+        </Box>
+    </Box>
   </Box>
 );
 
@@ -2006,6 +2854,8 @@ const OrganizationDetails = () => {
   const colors = tokens(theme.palette.mode);
   const isMobile = useMediaQuery("(max-width: 400px)");
   const isTablet = useMediaQuery("(max-width: 700px)");
+  const isCards = useMediaQuery("(max-width: 540px)");
+  const isHightTablet = useMediaQuery("(max-width: 830px)");
   const [isLoading, setIsLoading] = useState(false);
   // const [editMode, setEditMode] = useState(false);
   // const [originalBranch, setOriginalBranch] = useState(null);
@@ -2030,7 +2880,7 @@ const OrganizationDetails = () => {
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-
+        
         // If we have an existing state value, make sure it's valid for the new country
         if (branchEdits.state) {
           const stateExists = states.find(s => s.name === branchEdits.state);
@@ -2066,7 +2916,7 @@ const OrganizationDetails = () => {
       if (countryObj && stateObj) {
         const cities = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
         setBranchCities(cities);
-
+        
         // If we have an existing district value, make sure it's valid for the new state
         if (branchEdits.district) {
           const cityExists = cities.find(c => c.name === branchEdits.district);
@@ -2101,7 +2951,7 @@ const OrganizationDetails = () => {
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-
+        
         if (branchEdits.state) {
           const stateObj = states.find(s => s.name === branchEdits.state);
           if (stateObj) {
@@ -2261,17 +3111,17 @@ const OrganizationDetails = () => {
     const selectedCm = selectedCmByUnit[Object.keys(selectedCmByUnit)[0]];
     if (selectedCm) {
       setEditingCmIndex(selectedCm.cmid);
-
+      
       // Parse interests properly for editing
       const interestsArray = Array.isArray(selectedCm.interests)
         ? selectedCm.interests
         : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
-          ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
-          : []);
-
-      setCmEdits({
-        ...selectedCm,
-        interests: interestsArray
+            ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+            : []);
+      
+      setCmEdits({ 
+        ...selectedCm, 
+        interests: interestsArray 
       });
     }
   };
@@ -2282,93 +3132,93 @@ const OrganizationDetails = () => {
     setCmEdits({});
   };
 
-  // Handle CM input change
-  const handleCmInputChange = (field, value) => {
-    if (field === "interests") {
-      setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
-    } else if (field === "gender") {
-      setCmEdits((prev) => ({ ...prev, extraind2: value }));
-    } else if (field === "extraind4") {
-      setCmEdits((prev) => ({ ...prev, extraind4: value }));
-    } else {
-      setCmEdits((prev) => ({ ...prev, [field]: value }));
-    }
-  };
+    // Handle CM input change
+const handleCmInputChange = (field, value) => {
+  if (field === "interests") {
+    setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
+  } else if (field === "gender") {
+    setCmEdits((prev) => ({ ...prev, extraind2: value }));
+  } else if (field === "extraind4") {
+    setCmEdits((prev) => ({ ...prev, extraind4: value }));
+  } else {
+    setCmEdits((prev) => ({ ...prev, [field]: value }));
+  }
+};
 
 
   // Handle CM save
-  const handleCmSave = async () => {
-    setIsLoading(true);
-    try {
-      const payload = { ...cmEdits };
-
-      // Handle interests properly - ensure it's always a string for the API
-      if (Array.isArray(cmEdits.interests)) {
-        payload.extraind5 = cmEdits.interests.join(",");
-      } else if (typeof cmEdits.interests === "string") {
-        payload.extraind5 = cmEdits.interests;
-      } else {
-        payload.extraind5 = "";
-      }
-
-      // Remove the interests field as it should be stored as extraind5
-      delete payload.interests;
-
-      console.log('Saving CM with payload:', payload);
-
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
-        payload,
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      // Parse interests array from saved string for local state
-      const newInterestsArr = payload.extraind5
-        ? payload.extraind5.split(",").map(i => i.trim()).filter(Boolean)
-        : [];
-
-      // Update local state with new extraind5 and interests array
-      const updatedCmData = cmData.map(cm => {
-        if (cm.cmid === cmEdits.cmid) {
-          return {
-            ...cm,
-            ...cmEdits,
-            extraind5: payload.extraind5,
-            interests: newInterestsArr
-          };
-        }
-        return cm;
-      });
-      setCmData(updatedCmData);
-
-      // Update selected CM
-      setSelectedCmByUnit(prev => {
-        const newState = {};
-        Object.keys(prev).forEach(unit => {
-          if (prev[unit]?.cmid === cmEdits.cmid) {
-            newState[unit] = { ...prev[unit], ...cmEdits, extraind5: payload.extraind5, interests: newInterestsArr };
-          } else {
-            newState[unit] = prev[unit];
-          }
-        });
-        return newState;
-      });
-
-      setEditingCmIndex(null);
-      setCmEdits({});
-      message.success("Customer Manager updated successfully!");
-
-      // Refresh CM data to ensure consistency
-      setTimeout(() => {
-        fetchCmData();
-      }, 1000);
-    } catch (error) {
-      message.error("Error updating Customer Manager");
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+const handleCmSave = async () => {
+  setIsLoading(true);
+  try {
+    const payload = { ...cmEdits };
+    
+    // Handle interests properly - ensure it's always a string for the API
+    if (Array.isArray(cmEdits.interests)) {
+      payload.extraind5 = cmEdits.interests.join(",");
+    } else if (typeof cmEdits.interests === "string") {
+      payload.extraind5 = cmEdits.interests;
+    } else {
+      payload.extraind5 = "";
     }
-  };
+    
+    // Remove the interests field as it should be stored as extraind5
+    delete payload.interests;
+    
+    console.log('Saving CM with payload:', payload);
+    
+    await axios.post(
+      `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
+      payload,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    // Parse interests array from saved string for local state
+    const newInterestsArr = payload.extraind5
+      ? payload.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+      : [];
+
+    // Update local state with new extraind5 and interests array
+    const updatedCmData = cmData.map(cm => {
+      if (cm.cmid === cmEdits.cmid) {
+        return {
+          ...cm,
+          ...cmEdits,
+          extraind5: payload.extraind5,
+          interests: newInterestsArr
+        };
+      }
+      return cm;
+    });
+    setCmData(updatedCmData);
+
+    // Update selected CM
+    setSelectedCmByUnit(prev => {
+      const newState = {};
+      Object.keys(prev).forEach(unit => {
+        if (prev[unit]?.cmid === cmEdits.cmid) {
+          newState[unit] = { ...prev[unit], ...cmEdits, extraind5: payload.extraind5, interests: newInterestsArr };
+        } else {
+          newState[unit] = prev[unit];
+        }
+      });
+      return newState;
+    });
+
+    setEditingCmIndex(null);
+    setCmEdits({});
+    message.success("Customer Manager updated successfully!");
+    
+    // Refresh CM data to ensure consistency
+    setTimeout(() => {
+      fetchCmData();
+    }, 1000);
+  } catch (error) {
+    message.error("Error updating Customer Manager");
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Handle CM delete
   // const handleCmDelete = () => {
@@ -2399,7 +3249,7 @@ const OrganizationDetails = () => {
   //         setCmEdits({});
 
   //         message.success("Customer Manager deleted successfully!");
-
+          
   //         // Refresh CM data to ensure consistency
   //         setTimeout(() => {
   //           fetchCmData();
@@ -2457,14 +3307,14 @@ const OrganizationDetails = () => {
     const branchToEdit = sortedBranches[idx];
     setEditingBranchIndex(idx);
     setBranchEdits({ ...branchToEdit });
-
+    
     // Initialize state and city dropdowns if country exists
     if (branchToEdit.country) {
       const countryObj = branchCountries.find(c => c.name === branchToEdit.country);
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-
+        
         if (branchToEdit.state) {
           const stateObj = states.find(s => s.name === branchToEdit.state);
           if (stateObj) {
@@ -2490,7 +3340,7 @@ const OrganizationDetails = () => {
     try {
       const payload = { ...branchEdits }; // branchEdits should include id
       console.log('Saving branch with payload:', payload);
-
+      
       await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/UpdateOrganizationDetails`,
         payload,
@@ -2509,7 +3359,7 @@ const OrganizationDetails = () => {
       setBranchStates([]);
       setBranchCities([]);
       message.success("Unit updated successfully!");
-
+      
       // Refresh CM data to ensure consistency
       setTimeout(() => {
         fetchCmData();
@@ -2683,9 +3533,9 @@ const OrganizationDetails = () => {
                       <Form.Item
                         label={<Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>}
                         name="branch"
-                        rules={[{
-                          required: editData.branchtype !== "Parent",
-                          message: "Organization Unit is required"
+                        rules={[{ 
+                          required: editData.branchtype !== "Parent", 
+                          message: "Organization Unit is required" 
                         }]}
                       >
                         <Input
@@ -2718,9 +3568,9 @@ const OrganizationDetails = () => {
                           <Form.Item
                             name="phonecode"
                             noStyle
-                            rules={[{
-                              required: editData.branchtype !== "Parent",
-                              message: "Phone code is required"
+                            rules={[{ 
+                              required: editData.branchtype !== "Parent", 
+                              message: "Phone code is required" 
                             }]}
                           >
                             <Select
@@ -2976,7 +3826,7 @@ const OrganizationDetails = () => {
                                   );
                                   message.success("Organization deleted successfully!");
                                   setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-
+                                  
                                   // Refresh CM data to ensure consistency
                                   setTimeout(() => {
                                     fetchCmData();
@@ -3018,104 +3868,104 @@ const OrganizationDetails = () => {
                 </div>
                 {editData.branchtype !== "Parent" && (
                   <>
-                    <Text className="custom-headding-16px"
-                      style={{
-                        textAlign: isMobile ? "left" : "center",
-                        fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
-                        paddingLeft: isMobile ? "0px" : "0px",
+                <Text className="custom-headding-16px"
+                  style={{
+                    textAlign: isMobile ? "left" : "center",
+                    fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
+                    paddingLeft: isMobile ? "0px" : "0px",
+            
+                  }}
+                >
+                  Customer Manager(s) :
+                </Text>
 
-                      }}
-                    >
-                      Customer Manager(s) :
-                    </Text>
-
-                    {/* Customer Managers Section - Only show for non-Parent units */}
-
-
-                    <div style={{ marginTop: 24 }}>
+                {/* Customer Managers Section - Only show for non-Parent units */}
 
 
-                      {unitCmData.length === 0 ? (
-                        <div
-                          style={{
-                            textAlign: 'center',
-                            padding: '40px',
-                            backgroundColor: '#fafafa',
-                            borderRadius: 8,
-                            border: '1px solid #f0f0f0'
-                          }}>
-                          <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
-                          <Text style={{ fontSize: 16, color: colors.grey[600], display: 'block' }}>
-                            No Customer Managers found for this unit
-                          </Text>
-                        </div>
-                      ) : (
-                        <Box
-                          style={{
-                            // padding: "16px",
-                            // backgroundColor: "#fafafa",
-                            borderRadius: "8px",
-                            // border: "1px solid #f0f0f0"
-                          }}
+                  <div style={{ marginTop: 24 }}>
+
+
+                    {unitCmData.length === 0 ? (
+                      <div
+                        style={{
+                          textAlign: 'center',
+                          padding: '40px',
+                          backgroundColor: '#fafafa',
+                          borderRadius: 8,
+                          border: '1px solid #f0f0f0'
+                        }}>
+                        <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
+                        <Text style={{ fontSize: 16, color: colors.grey[600], display: 'block' }}>
+                          No Customer Managers found for this unit
+                        </Text>
+                      </div>
+                    ) : (
+                      <Box
+                        style={{
+                          // padding: "16px",
+                          // backgroundColor: "#fafafa",
+                          borderRadius: "8px",
+                          // border: "1px solid #f0f0f0"
+                        }}
+                      >
+                        <Collapse
+
+
+                          ghost
+                          expandIconPosition="end"
+                          expandIcon={({ isActive }) =>
+                            isActive ? <UpOutlined /> : <DownOutlined />
+                          }
                         >
-                          <Collapse
-
-
-                            ghost
-                            expandIconPosition="end"
-                            expandIcon={({ isActive }) =>
-                              isActive ? <UpOutlined /> : <DownOutlined />
-                            }
-                          >
-                            {unitCmData.map((cm, cmIndex) => (
-                              <React.Fragment key={cm.cmid}>
-                                <Collapse.Panel
-                                  header={
-                                    <span>
-                                      <Typography.Text strong >
-                                        {cm.firstname} {cm.lastname}
-                                      </Typography.Text>
-                                      {/* <span style={{ fontSize: "14px", color: colors.grey[600], marginLeft: 8 }}>
+                          {unitCmData.map((cm, cmIndex) => (
+                            <React.Fragment key={cm.cmid}>
+                              <Collapse.Panel
+                                header={
+                                  <span>
+                                    <Typography.Text strong >
+                                      {cm.firstname} {cm.lastname}
+                                    </Typography.Text>
+                                    {/* <span style={{ fontSize: "14px", color: colors.grey[600], marginLeft: 8 }}>
                                     (CM ID: {cm.cmid})
                                   </span> */}
-                                    </span>
-                                  }
-                                  key={cm.cmid}
-                                  style={{
-                                    border: "1px solid #f0f0f0",
-                                    borderRadius: "8px",
-                                    marginBottom: "8px",
-                                    backgroundColor: "#f0f0f0",
-                                    // opacity:0.7
-                                  }}
-                                >
-                                  <CmDetailsComponent
-                                    selectedCm={cm}
-                                    colors={colors}
-                                    isEditingCm={editingCmIndex === cm.cmid}
-                                    cmEdits={cmEdits}
-                                    form={form}
-                                    onCmEdit={() => {
-                                      setEditingCmIndex(cm.cmid);
-
-                                      // Parse interests properly for editing
-                                      const interestsArray = Array.isArray(cm.interests)
-                                        ? cm.interests
-                                        : (typeof (cm.interests || cm.extraind5) === "string"
+                                  </span>
+                                }
+                                key={cm.cmid}
+                                style={{
+                                  border: "1px solid #f0f0f0",
+                                  borderRadius: "8px",
+                                  marginBottom: "8px",
+                                  backgroundColor: "#f0f0f0",
+                                  // opacity:0.7
+                                }}
+                              >
+                                <CmDetailsComponent
+                                  selectedCm={cm}
+                                  colors={colors}
+                                  isEditingCm={editingCmIndex === cm.cmid}
+                                  cmEdits={cmEdits}
+                                  form={form}
+                                  onCmEdit={() => {
+                                    setEditingCmIndex(cm.cmid);
+                                    
+                                    // Parse interests properly for editing
+                                    const interestsArray = Array.isArray(cm.interests)
+                                      ? cm.interests
+                                      : (typeof (cm.interests || cm.extraind5) === "string"
                                           ? (cm.interests || cm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
                                           : []);
-
-                                      setCmEdits({
-                                        ...cm,
-                                        interests: interestsArray
-                                      });
-                                    }}
-                                    onCmCancel={handleCmCancel}
-                                    onCmSave={handleCmSave}
-                                    onCmInputChange={handleCmInputChange}
-                                  />
-                                </Collapse.Panel>
-                                {/* {cmIndex < unitCmData.length - 1 && (
+                                    
+                                    setCmEdits({ 
+                                      ...cm, 
+                                      interests: interestsArray 
+                                    });
+                                  }}
+                                  onCmCancel={handleCmCancel}
+                                  onCmSave={handleCmSave}
+                                  onCmInputChange={handleCmInputChange}
+                                />
+                              </Collapse.Panel>
+                              {/* {cmIndex < unitCmData.length - 1 && (
                               <hr style={{
                                 border: 'none',
                                 height: '1px',
@@ -3124,12 +3974,12 @@ const OrganizationDetails = () => {
                                 opacity: 0.6
                               }} />
                             )} */}
-                              </React.Fragment>
-                            ))}
-                          </Collapse>
-                        </Box>
-                      )}
-                    </div>
+                            </React.Fragment>
+                          ))}
+                        </Collapse>
+                      </Box>
+                    )}
+                  </div>
                   </>
                 )}
 
@@ -3294,7 +4144,8 @@ const OrganizationDetails = () => {
             display: 'flex',
             flexDirection: isMobile ? 'column' : 'row',
             alignItems: isMobile ? 'stretch' : 'center',
-            background: '#f5f5f5',
+            justifyContent:"center",
+            // background: '#f5f5f5',
             borderRadius: '8px',
             padding: '4px',
             position: 'relative',
@@ -3304,19 +4155,20 @@ const OrganizationDetails = () => {
             <Box
               onClick={() => setActiveTab('Units')}
               sx={{
-                background: activeTab === 'Units' ? colors.blueAccent[1000] : '#e0e0e0',
-                color: activeTab === 'Units' ? 'white' : '#666666',
+                background: activeTab === 'Units' ? '#0a91b5' : '#f9fafb',
+                color: activeTab === 'Units' ? '#ffffff' : '#0a2636',
                 padding: isMobile ? '8px 16px' : '12px 20px',
                 borderRadius: '6px',
                 fontSize: '11px',
-                fontWeight: '500',
+                fontWeight: '700',
                 cursor: 'pointer',
                 position: 'relative',
                 transition: 'all 0.3s ease',
                 textAlign: isMobile ? 'center' : 'left',
-                '&:hover': {
-                  background: activeTab === 'Units' ? colors.blueAccent[1000] : '#d0d0d0'
-                },
+                border: '2px solid #0a91b5',
+                // '&:hover': {
+                //   background: activeTab === 'Units' ? 'none' : '#d0f0fa'
+                // },
                 '&::after': {
                   content: isMobile ? 'none' : '""',
                   position: 'absolute',
@@ -3326,7 +4178,7 @@ const OrganizationDetails = () => {
                   width: 0,
                   height: 0,
                   borderLeft: '8px solid',
-                  borderLeftColor: activeTab === 'Units' ? colors.blueAccent[1000] : '#e0e0e0',
+                  borderLeftColor: activeTab === 'Units' ? colors.blueAccent[1000] : '#f9fafb',
                   borderTop: '8px solid transparent',
                   borderBottom: '8px solid transparent',
                   zIndex: 1
@@ -3337,24 +4189,25 @@ const OrganizationDetails = () => {
             </Box>
 
             {/* Inactive Tabs */}
-            {['Partnership', 'CMs', 'Competitor'].map((tab) => (
+            {['Partnership', 'Business Value', 'Competitor'].map((tab) => (
               <Box
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 sx={{
-                  background: activeTab === tab ? colors.blueAccent[1000] : '#e0e0e0',
-                  color: activeTab === tab ? 'white' : '#666666',
+                  background: activeTab === tab ? '#0a91b5' : '#f9fafb',
+                  color: activeTab === tab ? '#ffffff' : '#0a2636',
                   padding: isMobile ? '8px 16px' : '12px 20px',
                   fontSize: '11px',
-                  fontWeight: '500',
+                  fontWeight: '700',
                   cursor: 'pointer',
                   position: 'relative',
                   marginLeft: isMobile ? '0' : '-4px',
                   transition: 'all 0.3s ease',
                   textAlign: isMobile ? 'center' : 'left',
-                  '&:hover': {
-                    background: activeTab === tab ? colors.blueAccent[1000] : '#d0d0d0'
-                  },
+                  border: '2px solid #0a91b5',
+                  // '&:hover': {
+                  //   background: activeTab === tab ? 'none' : '#d0f0fa'
+                  // },
                   '&::after': {
                     content: isMobile ? 'none' : '""',
                     position: 'absolute',
@@ -3419,10 +4272,10 @@ const OrganizationDetails = () => {
 
           {/* Business Value Section */}
           <Box sx={{ display: activeTab === 'Business Value' ? 'block' : 'none' }}>
-            <BusinessValueTab mobile={isMobile} tablet={isTablet} />
+            <BusinessValueTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
           </Box>
         </Box>
-      </Box>
+        </Box>
 
     </>
   );

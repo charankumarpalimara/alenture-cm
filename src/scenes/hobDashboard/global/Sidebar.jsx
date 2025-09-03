@@ -18,6 +18,7 @@ import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { getCreaterRole } from "../../../config";
@@ -223,6 +224,13 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
           title="Account"
           to="/account"
           icon={<AccountCircleOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
+        <Item
+          title="Customer Insights"
+          to="/customer-insights"
+          icon={<InsightsOutlinedIcon />}
           selected={selected}
           setSelected={setSelected}
         />

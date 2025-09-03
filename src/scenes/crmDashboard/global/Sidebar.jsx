@@ -26,6 +26,7 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -240,6 +241,14 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           title="Organization"
           to="/organization"
           icon={<BusinessOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
+
+        <Item
+          title="Customer Insights"
+          to="/customer-insights"
+          icon={<InsightsOutlinedIcon />}
           selected={selected}
           setSelected={setSelected}
         />
