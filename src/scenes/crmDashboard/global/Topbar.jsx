@@ -961,14 +961,14 @@ const Topbar = ({ onLogout }) => {
               boxShadow: "4px 0px 8px rgba(0, 0, 0, 0.2)",
             }}
           >
-            <Item
+            {/* <Item
               title="Knowledge Hub"
               to="/knowledge"
               icon={<SchoolOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
-            />
+            /> */}
             <Item
               title="Dashboard"
               to="/"

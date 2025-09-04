@@ -49,7 +49,7 @@ const handleSubmit = async (values) => {
       } else if (role === "listofcrm") {
         sessionStorage.setItem("crmtoken", data.token);
         sessionStorage.setItem("CrmDetails", JSON.stringify(data.data));
-            navigate("/knowledge");
+            navigate("/");
       } else if (role === "admin") {
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("userDetails", JSON.stringify(data.data));
@@ -57,7 +57,7 @@ const handleSubmit = async (values) => {
       } else if (role === "listofcm") {
         sessionStorage.setItem("cmtoken", data.token);
         sessionStorage.setItem("CmDetails", JSON.stringify(data.data));
-            navigate("/");
+            navigate("/knowledge");
       }
 
       console.log("API response:", data);

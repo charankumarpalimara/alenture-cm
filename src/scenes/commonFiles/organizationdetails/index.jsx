@@ -25,6 +25,8 @@ import axios from "axios";
 import {
   UpOutlined,
   DownOutlined,
+  PlusOutlined,
+  MinusOutlined,
   UserOutlined,
   DownloadOutlined,
   EyeOutlined,
@@ -58,6 +60,135 @@ import { getCreaterRole } from "../../../config";
 // import { Height } from "@mui/icons-material";
 
 const { Text, Title } = Typography;
+
+// Add custom CSS styles for modern collapse
+const collapseStyles = `
+  .modern-collapse .ant-collapse-item {
+    border: none !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .modern-collapse .ant-collapse-header {
+    background: #ffffff !important;
+    border: 1px solid #e8e8e8 !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .modern-collapse .ant-collapse-header:hover {
+    border-color: #d0d0d0 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+  }
+  
+  .modern-collapse .ant-collapse-content {
+    border: none !important;
+    background: transparent !important;
+  }
+  
+  .modern-collapse .ant-collapse-content-box {
+    padding: 24px 28px 28px 28px !important;
+    background: #ffffff !important;
+    border: 1px solid #e8e8e8 !important;
+    border-top: none !important;
+    border-radius: 0 0 12px 12px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+    margin-top: -1px !important;
+  }
+  
+  .modern-collapse.cm-collapse .ant-collapse-header {
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+  }
+  
+  .modern-collapse.cm-collapse .ant-collapse-content-box {
+    border-radius: 0 0 8px 8px !important;
+    padding: 16px 20px 20px 20px !important;
+  }
+  
+  .modern-collapse .ant-collapse-arrow {
+    color: #666666 !important;
+    font-size: 12px !important;
+  }
+  
+  /* Form spacing adjustments within collapse */
+  .modern-collapse .ant-form-item {
+    margin-bottom: 20px !important;
+  }
+  
+  .modern-collapse .ant-form-item:last-child {
+    margin-bottom: 8px !important;
+  }
+  
+  .modern-collapse .ant-row {
+    margin-bottom: 0 !important;
+  }
+  
+  .modern-collapse .ant-input,
+  .modern-collapse .ant-select-selector {
+    margin-bottom: 0 !important;
+  }
+  
+  .modern-collapse .ant-col {
+    padding: 0 8px !important;
+  }
+  
+  .modern-collapse .ant-col:first-child {
+    padding-left: 0 !important;
+  }
+  
+  .modern-collapse .ant-col:last-child {
+    padding-right: 0 !important;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .modern-collapse .ant-collapse-header {
+      padding: 12px 16px !important;
+      font-size: 14px !important;
+    }
+    
+    .modern-collapse .ant-collapse-content-box {
+      padding: 20px 24px 24px 24px !important;
+    }
+    
+    .modern-collapse.cm-collapse .ant-collapse-header {
+      padding: 10px 12px !important;
+      font-size: 13px !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .modern-collapse .ant-collapse-header {
+      padding: 10px 12px !important;
+      font-size: 13px !important;
+      border-radius: 8px !important;
+    }
+    
+    .modern-collapse .ant-collapse-content-box {
+      padding: 16px 20px 20px 20px !important;
+      border-radius: 0 0 8px 8px !important;
+    }
+    
+    .modern-collapse .ant-col {
+      padding: 0 4px !important;
+    }
+  }
+`;
+
+// Inject styles
+if (typeof document !== 'undefined') {
+  const styleElement = document.createElement('style');
+  styleElement.textContent = collapseStyles;
+  if (!document.head.querySelector('style[data-collapse-styles]')) {
+    styleElement.setAttribute('data-collapse-styles', 'true');
+    document.head.appendChild(styleElement);
+  }
+}
 
 
 
@@ -122,10 +253,11 @@ console.log('CM Details - interestsValue:', interestsValue);
 
   return (
     <div style={{
-      backgroundColor: '#ffffff',
-      borderRadius: 8,
-      border: '1px solid #f0f0f0',
-      padding: 16
+      backgroundColor: 'transparent',
+      borderRadius: 0,
+      border: 'none',
+      padding: 0,
+      margin: 0
     }}>
       <Form
         form={form}
@@ -3464,15 +3596,21 @@ const handleCmSave = async () => {
           accordion
           expandIconPosition="end"
           expandIcon={({ isActive }) =>
-            isActive ? <UpOutlined /> : <DownOutlined />
+            isActive ? <MinusOutlined /> : <PlusOutlined />
           }
           defaultActiveKey={
             sortedBranches.length > 0
-              ? String(
-                sortedBranches.findIndex((b) => b.branchtype === "Parent")
-              )
-              : undefined
+              ? (() => {
+                  const parentIndex = sortedBranches.findIndex(b => b.branchtype === "Parent");
+                  return parentIndex !== -1 ? [String(sortedBranches[parentIndex].id || parentIndex)] : [];
+                })()
+              : []
           }
+          className="modern-collapse"
+          style={{
+            background: 'transparent',
+            border: 'none'
+          }}
         >
           {sortedBranches.map((branch, idx) => {
             const isEditing = editingBranchIndex === idx;
@@ -3482,12 +3620,58 @@ const handleCmSave = async () => {
 
             const panelLabel =
               branch.branchtype === "Parent"
-                ? <span>  <Typography.Text strong style={{ fontSize: "16px" }}>{branch.organizationname} </Typography.Text> (Parent) </span>
-                : <span> <Typography.Text strong>{branch.branch}</Typography.Text> (Unit) </span>;
+                ? <span style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: isMobile ? '6px' : '8px',
+                    flexWrap: 'wrap'
+                  }}>
+                    <Typography.Text strong style={{ 
+                      fontSize: isMobile ? "14px" : "16px", 
+                      color: '#1a1a1a' 
+                    }}>
+                      {branch.organizationname}
+                    </Typography.Text> 
+                    <span style={{ 
+                      fontSize: isMobile ? "10px" : "12px", 
+                      color: '#666666', 
+                      background: '#f0f9ff', 
+                      padding: '2px 6px', 
+                      borderRadius: '4px',
+                      fontWeight: '500'
+                    }}>
+                      Parent
+                    </span>
+                  </span>
+                : <span style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: isMobile ? '6px' : '8px',
+                    flexWrap: 'wrap'
+                  }}>
+                    <Typography.Text strong style={{ 
+                      fontSize: isMobile ? "13px" : "15px", 
+                      color: '#1a1a1a' 
+                    }}>
+                      {branch.branch}
+                    </Typography.Text> 
+                    <span style={{ 
+                      fontSize: isMobile ? "10px" : "12px", 
+                      color: '#666666', 
+                      background: '#f0f9ff', 
+                      padding: '2px 6px', 
+                      borderRadius: '4px',
+                      fontWeight: '500'
+                    }}>
+                      Unit
+                    </span>
+                  </span>;
             return (
               <Collapse.Panel
                 header={panelLabel}
                 key={branch.id || idx}
+                className="modern-collapse-panel"
+                // style={{padding: "20px"}}
               >
                 <Form
                   form={branchForm}
@@ -3754,7 +3938,15 @@ const handleCmSave = async () => {
                   </Row>
                 </Form>
 
-                <div style={{ marginTop: 16, display: "flex", alignItems: "flex-end", justifyContent: "flex-end", gap: "8px" }}>
+                <div style={{ 
+                  marginTop: 24, 
+                  paddingTop: 16,
+                  borderTop: '1px solid #f0f0f0',
+                  display: "flex", 
+                  alignItems: "flex-end", 
+                  justifyContent: "flex-end", 
+                  gap: "8px" 
+                }}>
                   {isEditing ? (
                     <>
                       <MuiButton
@@ -3909,35 +4101,31 @@ const handleCmSave = async () => {
                         }}
                       >
                         <Collapse
-
-
-                          ghost
                           expandIconPosition="end"
                           expandIcon={({ isActive }) =>
-                            isActive ? <UpOutlined /> : <DownOutlined />
+                            isActive ? <MinusOutlined /> : <PlusOutlined />
                           }
+                          className="modern-collapse cm-collapse"
+                          style={{
+                            background: 'transparent',
+                            border: 'none'
+                          }}
                         >
                           {unitCmData.map((cm, cmIndex) => (
                             <React.Fragment key={cm.cmid}>
                               <Collapse.Panel
                                 header={
-                                  <span>
-                                    <Typography.Text strong >
+                                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <Typography.Text strong style={{ fontSize: "14px", color: '#1a1a1a' }}>
                                       {cm.firstname} {cm.lastname}
                                     </Typography.Text>
-                                    {/* <span style={{ fontSize: "14px", color: colors.grey[600], marginLeft: 8 }}>
-                                    (CM ID: {cm.cmid})
-                                  </span> */}
+                                    <span style={{ fontSize: "11px", color: '#666666' }}>
+                                      ({cm.email})
+                                    </span>
                                   </span>
                                 }
                                 key={cm.cmid}
-                                style={{
-                                  border: "1px solid #f0f0f0",
-                                  borderRadius: "8px",
-                                  marginBottom: "8px",
-                                  backgroundColor: "#f0f0f0",
-                                  // opacity:0.7
-                                }}
+                                className="modern-collapse-panel cm-panel"
                               >
                                 <CmDetailsComponent
                                   selectedCm={cm}
@@ -4144,10 +4332,11 @@ const handleCmSave = async () => {
             display: 'flex',
             flexDirection: isMobile ? 'column' : 'row',
             alignItems: isMobile ? 'stretch' : 'center',
-            justifyContent:"center",
-            // background: '#f5f5f5',
+            justifyContent:"space-around",
+            background: '#ffffff',
+            border: '1px solid #e0e0e0',
             borderRadius: '8px',
-            padding: '4px',
+            // padding: '2px',
             position: 'relative',
             gap: isMobile ? '4px' : '0'
           }}>
@@ -4155,17 +4344,18 @@ const handleCmSave = async () => {
             <Box
               onClick={() => setActiveTab('Units')}
               sx={{
-                background: activeTab === 'Units' ? '#0a91b5' : '#f9fafb',
+                background: activeTab === 'Units' ? colors.blueAccent[1000] : 'none',
                 color: activeTab === 'Units' ? '#ffffff' : '#0a2636',
-                padding: isMobile ? '8px 16px' : '12px 20px',
-                borderRadius: '6px',
+                padding: isMobile ? '8px 16px' : '8px 20px',
+                width:"100%",
+                // borderRadius: '6px',
                 fontSize: '11px',
                 fontWeight: '700',
                 cursor: 'pointer',
                 position: 'relative',
                 transition: 'all 0.3s ease',
                 textAlign: isMobile ? 'center' : 'left',
-                border: '2px solid #0a91b5',
+                // border: '2px solid #0a91b5',
                 // '&:hover': {
                 //   background: activeTab === 'Units' ? 'none' : '#d0f0fa'
                 // },
@@ -4185,7 +4375,7 @@ const handleCmSave = async () => {
                 }
               }}
             >
-              Units
+              Journey Matrix
             </Box>
 
             {/* Inactive Tabs */}
@@ -4194,9 +4384,10 @@ const handleCmSave = async () => {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 sx={{
-                  background: activeTab === tab ? '#0a91b5' : '#f9fafb',
+                  background: activeTab === tab ? colors.blueAccent[1000] : 'none',
+                  width:"100%",
                   color: activeTab === tab ? '#ffffff' : '#0a2636',
-                  padding: isMobile ? '8px 16px' : '12px 20px',
+                  padding: isMobile ? '8px 12px' : '8px 20px',
                   fontSize: '11px',
                   fontWeight: '700',
                   cursor: 'pointer',
@@ -4204,7 +4395,7 @@ const handleCmSave = async () => {
                   marginLeft: isMobile ? '0' : '-4px',
                   transition: 'all 0.3s ease',
                   textAlign: isMobile ? 'center' : 'left',
-                  border: '2px solid #0a91b5',
+                  // border: '2px solid #0a91b5',
                   // '&:hover': {
                   //   background: activeTab === tab ? 'none' : '#d0f0fa'
                   // },

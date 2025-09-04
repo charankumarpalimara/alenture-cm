@@ -21,6 +21,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import Badge from "@mui/material/Badge";
 // import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 // import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
@@ -781,6 +782,14 @@ const notifClick = (data) => {
               boxShadow: "4px 0px 8px rgba(0, 0, 0, 0.2)",
             }}
           >
+                          <Item
+          title="Knowledge Hub"
+          to="/knowledge"
+          icon={<SchoolOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+          handleClose={() => setIsModalOpen(false)}
+        />
             <Item
               title="Dashboard"
               to="/"

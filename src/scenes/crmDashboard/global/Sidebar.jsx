@@ -22,7 +22,7 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+// import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -209,13 +209,13 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
 
       {/* Menu Items */}
       <List sx={{ padding: "20px" }}>
-        <Item
+        {/* <Item
           title="Knowledge Hub"
           to="/knowledge"
           icon={<SchoolOutlinedIcon />}
           selected={selected}
           setSelected={setSelected}
-        />
+        /> */}
         <Item
           title="Dashboard"
           to="/"
