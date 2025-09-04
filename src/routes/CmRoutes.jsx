@@ -11,8 +11,10 @@ import AllExperiences from "../scenes/commonFiles/experiences/allExperiences";
 import NewExperiences from "../scenes/commonFiles/experiences/newExperiences";
 import PendingExperiences from "../scenes/commonFiles/experiences/pendingExperiences";
 import ResolvedExperiences from "../scenes/commonFiles/experiences/resolvedExperiences";
+import Knowledge from "../scenes/commonFiles/knowledge";
 
 const cmRoutes = [
+  <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
   <Route key="dashboard" path="/" element={<Dashboard />} />,
   <Route key="experiences" path="/experiences" element={<Experinces />} />,
   <Route key="experienceRegistrationform" path="/experienceRegistrationform" element={<CmExperienceRegistrationForm />} />,

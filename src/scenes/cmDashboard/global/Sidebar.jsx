@@ -10,6 +10,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -137,6 +138,13 @@ const CmSidebar = ({ isSidebar, onLogout }) => {
 
       {/* Menu Items */}
       <List sx={{ padding: "20px" }}>
+                <Item
+          title="Knowledge Hub"
+          to="/knowledge"
+          icon={<SchoolOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
         <Item title="Dashboard" to="/" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Experiences" to="/experiences" icon={<WorkOutlineOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Notes" to="/notes" icon={<DescriptionOutlinedIcon />} selected={selected} setSelected={setSelected} />
