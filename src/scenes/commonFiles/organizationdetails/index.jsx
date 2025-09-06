@@ -42,6 +42,7 @@ import {
   TeamOutlined,
   GlobalOutlined
 } from "@ant-design/icons";
+import { TrendingUp } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { tokens } from "../../../theme";
@@ -2979,6 +2980,726 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
   </Box>
 );
 
+const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
+  <Box>
+    {/* Q4 Business Review Header */}
+    <Box sx={{ mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box>
+          <Typography 
+            style={{
+              textAlign: "left",
+              fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+              paddingLeft: "0px",
+              fontWeight: "600",
+              color: '#1a1a1a'
+            }}
+          >
+            Q4 Business Review
+          </Typography>
+          <Typography sx={{
+            fontSize: '14px',
+            color: '#666666'
+          }}>
+            December 2024
+          </Typography>
+        </Box>
+        <Box sx={{ display: 'flex', gap: 2, mt: mobile ? 2 : 0 }}>
+          <Button
+            className="form-button"
+            type="primary"
+            icon={<DownloadOutlined />}
+            style={{
+              background: colors.blueAccent[1000],
+              border: 'none'
+            }}
+          >
+            Export Report
+          </Button>
+          <Button
+            className="form-button"
+            icon={<UnorderedListOutlined />}
+            style={{
+              border: '1px solid #d9d9d9'
+            }}
+          >
+            Share
+          </Button>
+        </Box>
+      </Box>
+
+      {/* Outstanding Quarter Achievement Banner */}
+      <Box sx={{
+        background: 'linear-gradient(135deg, #4c6ef5 0%, #7c3aed 100%)',
+        borderRadius: '12px',
+        p: mobile ? 3 : 4,
+        mb: 4,
+        color: 'white',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <Box sx={{ position: 'relative', zIndex: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Typography style={{ 
+              fontSize: mobile ? '18px' : '24px', 
+              fontWeight: '700', 
+              color: 'white',
+              marginRight: '8px'
+            }}>
+              Outstanding Quarter Achievement! 🎉
+            </Typography>
+          </Box>
+          <Typography style={{ 
+            fontSize: mobile ? '13px' : '14px', 
+            color: 'rgba(255,255,255,0.9)',
+            marginBottom: '24px'
+          }}>
+            Congratulations on exceeding all targets and milestones
+          </Typography>
+          
+          {/* Achievement Stats */}
+          <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: mobile ? 2 : 4 }}>
+            <Box sx={{ textAlign: mobile ? 'center' : 'left' }}>
+              <Typography style={{ fontSize: mobile ? '24px' : '32px', fontWeight: '700', color: 'white' }}>
+                127%
+              </Typography>
+              <Typography style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)' }}>
+                Revenue Growth
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: mobile ? 'center' : 'left' }}>
+              <Typography style={{ fontSize: mobile ? '24px' : '32px', fontWeight: '700', color: 'white' }}>
+                94%
+              </Typography>
+              <Typography style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)' }}>
+                Customer Satisfaction
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: mobile ? 'center' : 'left' }}>
+              <Typography style={{ fontSize: mobile ? '24px' : '32px', fontWeight: '700', color: 'white' }}>
+                15
+              </Typography>
+              <Typography style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)' }}>
+                New Partnerships
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        
+        {/* Trophy Icon */}
+        <Box sx={{
+          position: 'absolute',
+          right: mobile ? '16px' : '32px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          opacity: 0.3,
+          fontSize: mobile ? '60px' : '80px'
+        }}>
+          🏆
+        </Box>
+      </Box>
+
+      {/* Main Content Grid */}
+      <Box sx={{ display: 'flex', flexDirection: mobile || bigtablet ? 'column' : 'row', gap: 4, mb: 4 }}>
+        {/* Left Column - Performance Overview */}
+        <Box sx={{ flex: '1' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            mb: 4
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+                Performance Overview
+              </Typography>
+              <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                Q4 2024
+              </Typography>
+            </Box>
+            
+            {/* Chart Area - Line Chart */}
+            <Box sx={{
+              height: '300px',
+              background: '#ffffff',
+              borderRadius: '8px',
+              position: 'relative',
+              border: '1px solid #f0f0f0',
+              padding: '20px'
+            }}>
+              {/* Y-axis labels */}
+              <Box sx={{
+                position: 'absolute',
+                left: '10px',
+                top: '20px',
+                bottom: '40px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                width: '30px'
+              }}>
+                {['3.0M', '2.5M', '2.0M', '1.5M', '1.0M', '0.5M'].map((label) => (
+                  <Typography key={label} style={{ fontSize: '11px', color: '#666666' }}>
+                    {label}
+                  </Typography>
+                ))}
+              </Box>
+
+              {/* Chart Grid Lines */}
+              <Box sx={{
+                position: 'absolute',
+                left: '50px',
+                right: '20px',
+                top: '20px',
+                bottom: '40px'
+              }}>
+                {[0, 1, 2, 3, 4, 5].map((line) => (
+                  <Box key={line} sx={{
+                    position: 'absolute',
+                    top: `${line * 20}%`,
+                    left: 0,
+                    right: 0,
+                    height: '1px',
+                    backgroundColor: '#f5f5f5'
+                  }} />
+                ))}
+              </Box>
+
+              {/* Line Chart Area */}
+              <Box sx={{
+                position: 'absolute',
+                left: '50px',
+                right: '20px',
+                top: '20px',
+                bottom: '40px',
+                overflow: 'hidden'
+              }}>
+                {/* Gradient Fill Area */}
+                <Box sx={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: '60%',
+                  background: 'linear-gradient(180deg, rgba(76, 110, 245, 0.2) 0%, rgba(76, 110, 245, 0.05) 100%)',
+                  clipPath: 'polygon(0% 80%, 25% 60%, 50% 40%, 75% 20%, 100% 10%, 100% 100%, 0% 100%)'
+                }} />
+                
+                {/* Line Path */}
+                <Box sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '20%',
+                    left: 0,
+                    right: 0,
+                    height: '3px',
+                    background: colors.blueAccent[1000],
+                    clipPath: 'polygon(0% 80%, 25% 60%, 50% 40%, 75% 20%, 100% 10%)'
+                  }
+                }} />
+
+                {/* Data Points */}
+                {[
+                  { x: '0%', y: '80%' },
+                  { x: '25%', y: '60%' },
+                  { x: '50%', y: '40%' },
+                  { x: '75%', y: '20%' },
+                  { x: '100%', y: '10%' }
+                ].map((point, index) => (
+                  <Box key={index} sx={{
+                    position: 'absolute',
+                    left: point.x,
+                    top: point.y,
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: colors.blueAccent[1000],
+                    borderRadius: '50%',
+                    border: '2px solid white',
+                    transform: 'translate(-50%, -50%)',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                  }} />
+                ))}
+              </Box>
+              
+              {/* X-axis labels */}
+              <Box sx={{
+                position: 'absolute',
+                bottom: '10px',
+                left: '50px',
+                right: '20px',
+                display: 'flex',
+                justifyContent: 'space-between'
+              }}>
+                {['Oct', 'Nov', 'Dec'].map((month) => (
+                  <Typography key={month} style={{ fontSize: '11px', color: '#666666' }}>
+                    {month}
+                  </Typography>
+                ))}
+              </Box>
+            </Box>
+
+            {/* Revenue and New Customers Cards */}
+            <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: 3, mt: 3 }}>
+              <Box sx={{
+                flex: 1,
+                p: 2,
+                backgroundColor: '#f8fffe',
+                borderRadius: '8px',
+                border: '1px solid #e6fffa'
+              }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <Box sx={{
+                    width: '24px',
+                    height: '24px',
+                    backgroundColor: '#10b981',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <TrendingUp style={{ color: 'white', fontSize: '14px' }} />
+                  </Box>
+                  <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                    Revenue
+                  </Typography>
+                </Box>
+                <Typography style={{ fontSize: '20px', fontWeight: '700', color: '#1a1a1a' }}>
+                  $2.4M
+                </Typography>
+              </Box>
+
+              <Box sx={{
+                flex: 1,
+                p: 2,
+                backgroundColor: '#eff6ff',
+                borderRadius: '8px',
+                border: '1px solid #dbeafe'
+              }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                  <Box sx={{
+                    width: '24px',
+                    height: '24px',
+                    backgroundColor: '#3b82f6',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <UserOutlined style={{ color: 'white', fontSize: '14px' }} />
+                  </Box>
+                  <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                    New Customers
+                  </Typography>
+                </Box>
+                <Typography style={{ fontSize: '20px', fontWeight: '700', color: '#1a1a1a' }}>
+                  847
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* Right Column - Key Achievements */}
+        <Box sx={{ flex: '1' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            mb: 4
+          }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', mb: 3 }}>
+              Key Achievements
+            </Typography>
+
+            {/* Achievement Items */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                <CheckCircleOutlined style={{ color: '#10b981', fontSize: '16px', marginTop: '2px' }} />
+                <Box>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a', mb: 1 }}>
+                    Product Launch Success
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    New AI features adopted by 78% of customers
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                <CheckCircleOutlined style={{ color: '#3b82f6', fontSize: '16px', marginTop: '2px' }} />
+                <Box>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a', mb: 1 }}>
+                    Customer Excellence
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Highest NPS score of 72 this year
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                <CheckCircleOutlined style={{ color: '#8b5cf6', fontSize: '16px', marginTop: '2px' }} />
+                <Box>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a', mb: 1 }}>
+                    Strategic Partnerships
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Secured 5 enterprise partnerships
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                <CheckCircleOutlined style={{ color: '#f59e0b', fontSize: '16px', marginTop: '2px' }} />
+                <Box>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a', mb: 1 }}>
+                    Market Expansion
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Entered 3 new international markets
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Bottom Section */}
+      <Box sx={{ display: 'flex', flexDirection: mobile || bigtablet ? 'column' : 'row', gap: 4 }}>
+        {/* Customer Satisfaction */}
+        <Box sx={{ flex: '1' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            textAlign: 'center'
+          }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', mb: 3 }}>
+              Customer Satisfaction
+            </Typography>
+
+            {/* Circular Progress */}
+            <Box sx={{ position: 'relative', display: 'inline-flex', mb: 3 }}>
+              <Box sx={{
+                width: '120px',
+                height: '120px',
+                borderRadius: '50%',
+                background: `conic-gradient(#10b981 0deg ${94 * 3.6}deg, #e5e7eb ${94 * 3.6}deg 360deg)`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Box sx={{
+                  width: '90px',
+                  height: '90px',
+                  borderRadius: '50%',
+                  backgroundColor: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Typography style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a' }}>
+                    94%
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Satisfaction Metrics */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center' }}>
+              <Box>
+                <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#10b981' }}>
+                  94%
+                </Typography>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  Overall Score
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#3b82f6' }}>
+                  89%
+                </Typography>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  Retention Rate
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#8b5cf6' }}>
+                  72
+                </Typography>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  NPS Score
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* Team Recognition */}
+        <Box sx={{ flex: '1' }}>
+          <Box sx={{
+            p: 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', mb: 3 }}>
+              Team Recognition
+            </Typography>
+
+            {/* Team Members */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  backgroundColor: '#fbbf24',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    SJ
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Sarah Johnson
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Top Sales Performer - 150% of target
+                  </Typography>
+                </Box>
+                <Box>
+                  🥇
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    MC
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Mike Chen
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Customer Success Champion
+                  </Typography>
+                </Box>
+                <Box>
+                  🏆
+                </Box>
+              </Box>
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  backgroundColor: '#3b82f6',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                    ER
+                  </Typography>
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                    Emily Rodriguez
+                  </Typography>
+                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                    Innovation Leader
+                  </Typography>
+                </Box>
+                <Box>
+                  💡
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Q1 2025 Goals & Initiatives */}
+      <Box sx={{ mt: 4 }}>
+        <Box sx={{
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+              Q1 2025 Goals & Initiatives
+            </Typography>
+            <Typography style={{ 
+              fontSize: '11px', 
+              color: '#3b82f6',
+              backgroundColor: '#eff6ff',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              fontWeight: '500'
+            }}>
+              Strategic Focus
+            </Typography>
+          </Box>
+
+          {/* Goals Grid */}
+          <Box sx={{ display: 'flex', flexDirection: mobile || cards ? 'column' : 'row', gap: 3 }}>
+            {/* Revenue Growth */}
+            <Box sx={{
+              flex: 1,
+              p: 3,
+              backgroundColor: '#f0fdf4',
+              borderRadius: '8px',
+              border: '1px solid #bbf7d0'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <TrendingUp style={{ color: '#10b981', fontSize: '20px' }} />
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                  Revenue Growth
+                </Typography>
+              </Box>
+              <Typography style={{ fontSize: '11px', color: '#666666', mb: 2 }}>
+                Target 35% increase in MRR through upselling and new acquisitions
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  Progress
+                </Typography>
+                <Typography style={{ fontSize: '11px', fontWeight: '600', color: '#10b981' }}>
+                  0%
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Customer Expansion */}
+            <Box sx={{
+              flex: 1,
+              p: 3,
+              backgroundColor: '#eff6ff',
+              borderRadius: '8px',
+              border: '1px solid #bfdbfe'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <UserOutlined style={{ color: '#3b82f6', fontSize: '20px' }} />
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                  Customer Expansion
+                </Typography>
+              </Box>
+              <Typography style={{ fontSize: '11px', color: '#666666', mb: 2 }}>
+                Onboard 500+ new enterprise customers across target verticals
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  Progress
+                </Typography>
+                <Typography style={{ fontSize: '11px', fontWeight: '600', color: '#3b82f6' }}>
+                  0%
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Product Innovation */}
+            <Box sx={{
+              flex: 1,
+              p: 3,
+              backgroundColor: '#faf5ff',
+              borderRadius: '8px',
+              border: '1px solid #e9d5ff'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <CheckCircleOutlined style={{ color: '#8b5cf6', fontSize: '20px' }} />
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                  Product Innovation
+                </Typography>
+              </Box>
+              <Typography style={{ fontSize: '11px', color: '#666666', mb: 2 }}>
+                Launch 3 major features based on customer feedback
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  Progress
+                </Typography>
+                <Typography style={{ fontSize: '11px', fontWeight: '600', color: '#8b5cf6' }}>
+                  0%
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Generated Footer */}
+      <Box sx={{ 
+        mt: 4, 
+        pt: 3, 
+        borderTop: '1px solid #e0e0e0',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <Typography style={{ fontSize: '11px', color: '#666666' }}>
+          Generated on December 15, 2024
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            size="small"
+            className="form-button"
+            style={{
+              fontSize: '11px',
+              background: colors.blueAccent[1000],
+              color: 'white',
+              border: 'none'
+            }}
+          >
+            Export Report
+          </Button>
+          <Button
+            size="small"
+            style={{
+              fontSize: '11px',
+              border: '1px solid #d9d9d9'
+            }}
+          >
+            Share
+          </Button>
+        </Box>
+      </Box>
+    </Box>
+  </Box>
+);
+
 const OrganizationDetails = () => {
   const [form] = Form.useForm();
   const [branchForm] = Form.useForm();
@@ -3596,7 +4317,7 @@ const handleCmSave = async () => {
           accordion
           expandIconPosition="end"
           expandIcon={({ isActive }) =>
-            isActive ? <MinusOutlined /> : <PlusOutlined />
+            isActive ? <MinusOutlined style={{ fontSize: isMobile ? 17 : 20, fontWeight: "bold" }} /> : <PlusOutlined style={{ fontSize: isMobile ? 17 : 20, fontWeight:"bold" }} />
           }
           defaultActiveKey={
             sortedBranches.length > 0
@@ -4379,7 +5100,7 @@ const handleCmSave = async () => {
             </Box>
 
             {/* Inactive Tabs */}
-            {['Partnership', 'Business Value', 'Competitor'].map((tab) => (
+            {['Partnership', 'Business Value', 'Competitor', 'Q4 Business Review'].map((tab) => (
               <Box
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -4464,6 +5185,11 @@ const handleCmSave = async () => {
           {/* Business Value Section */}
           <Box sx={{ display: activeTab === 'Business Value' ? 'block' : 'none' }}>
             <BusinessValueTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
+          </Box>
+
+          {/* Q4 Business Review Section */}
+          <Box sx={{ display: activeTab === 'Q4 Business Review' ? 'block' : 'none' }}>
+            <Q4BusinessReviewTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
           </Box>
         </Box>
         </Box>

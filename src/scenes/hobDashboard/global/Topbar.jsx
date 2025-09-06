@@ -28,6 +28,7 @@ import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -84,8 +85,8 @@ const getActivePage = (pathname) => {
   ) {
     return "/"; // Dashboard is active for these routes
   } else if (
-    pathname.includes("/account") 
-  ){
+    pathname.includes("/account")
+  ) {
     return "/account";
   } else {
     return pathname;
@@ -1057,6 +1058,16 @@ const Topbar = ({ onLogout }) => {
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
+            {getCreaterRole() === "hob" && (
+              <Item
+                title="Churn Prediction"
+                to="/churn-prediction"
+                icon={<TrendingDownIcon />}
+                selected={selected}
+                setSelected={setSelected}
+                handleClose={() => setIsModalOpen(false)}
+              />
+            )}
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item
               title="Notes"

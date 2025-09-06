@@ -28,6 +28,7 @@ import CmDataByOrganization from "../scenes/commonFiles/organizationdetails/CmDa
 import TaskDetails from "../scenes/commonFiles/taskdetails";
 import Account from "../scenes/commonFiles/account";
 import CustomerInsights from "../scenes/commonFiles/customer-insights";
+import ChurnPrediction from "../scenes/commonFiles/churnprediction";
 
 const hobRoutes = [
   <Route key="dashboard" path="/" element={<Dashboard />} />,
@@ -58,6 +59,7 @@ const hobRoutes = [
   <Route key="taskdetails" path="/taskdetails" element={<TaskDetails />} />,
   <Route key="account" path="/account" element={<Account />} />,
   <Route key="customer-insights" path="/customer-insights" element={<CustomerInsights />} />,
+  <Route key="churn-prediction" path="/churn-prediction" element={<ChurnPrediction />} />,
 ];
 
 export default hobRoutes; 

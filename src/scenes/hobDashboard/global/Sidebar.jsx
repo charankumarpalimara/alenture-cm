@@ -19,6 +19,7 @@ import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { getCreaterRole } from "../../../config";
@@ -234,6 +235,15 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
           selected={selected}
           setSelected={setSelected}
         />
+        {getCreaterRole() === "hob" && (
+          <Item
+            title="Churn Prediction"
+            to="/churn-prediction"
+            icon={<TrendingDownIcon />}
+            selected={selected}
+            setSelected={setSelected}
+          />
+        )}
         {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
         <Item
           title="Notes"

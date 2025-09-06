@@ -27,6 +27,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -323,6 +324,13 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           title="Account"
           to="/account"
           icon={<AccountCircleOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
+        <Item
+          title="Churn Prediction"
+          to="/churn-prediction"
+          icon={<TrendingDownIcon />}
           selected={selected}
           setSelected={setSelected}
         />
