@@ -248,44 +248,49 @@ const ChurnPrediction = () => {
                 borderRadius: 3,
                 boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
                 transition: 'all 0.3s ease',
-                '&:hover': {
-                  transform: 'translateY(-4px)',
-                  boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
-                }
+                // '&:hover': {
+                //   transform: 'translateY(-4px)',
+                //   boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
+                // }
               }}
             >
               <CardContent sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 2 }}>
-                  <Box
-                    sx={{
-                      width: 48,
-                      height: 48,
-                      backgroundColor: stat.bgColor,
-                      borderRadius: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: stat.color
-                    }}
-                  >
-                    {stat.icon}
+                <Box sx={{ display: 'flex', alignItems: "flex-start", justifyContent: "space-between" }}>
+                  <Box>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      {stat.subtitle}
+                    </Typography>
+                    <Typography variant="h3" fontWeight="bold" color={stat.color}  sx={{ mb: 1 }}>
+                      {stat.title}
+                    </Typography>
+
+                    <Typography
+                      variant="caption"
+                      sx={{
+                       color:"#1a1a1a",
+                        fontWeight: 500
+                      }}
+                    >
+                      {stat.change}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 2 }}>
+                    <Box
+                      sx={{
+                        width: 48,
+                        height: 48,
+                        backgroundColor: stat.bgColor,
+                        borderRadius: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: stat.color
+                      }}
+                    >
+                      {stat.icon}
+                    </Box>
                   </Box>
                 </Box>
-                <Typography variant="h3" fontWeight="bold" color="#1a1a1a" sx={{ mb: 1 }}>
-                  {stat.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  {stat.subtitle}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: stat.isIncrease ? '#4caf50' : '#f44336',
-                    fontWeight: 500
-                  }}
-                >
-                  {stat.change}
-                </Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -411,19 +416,23 @@ const ChurnPrediction = () => {
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: 2,
-                    p: 2,
+                    p: 2.5,
                     mb: 2,
-                    backgroundColor: '#f8f9fa',
+                    backgroundColor: index === 0 ? '#e3f2fd' : 
+                                   index === 1 ? '#fff3e0' : 
+                                   index === 2 ? '#e8f5e8' : '#f3e5f5',
                     borderRadius: 2,
-                    border: '1px solid #e0e0e0'
+                    border: '1px solid ' + (index === 0 ? '#bbdefb' : 
+                                           index === 1 ? '#ffcc80' : 
+                                           index === 2 ? '#c8e6c8' : '#e1bee7')
                   }}
                 >
                   <Box
                     sx={{
-                      width: 32,
-                      height: 32,
+                      width: 36,
+                      height: 36,
                       backgroundColor: activity.color,
-                      borderRadius: 1,
+                      borderRadius: 2,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -434,19 +443,21 @@ const ChurnPrediction = () => {
                     {activity.icon}
                   </Box>
                   <Box sx={{ flex: 1 }}>
-                    <Typography variant="subtitle2" fontWeight="600" sx={{ mb: 1 }}>
+                    <Typography variant="subtitle2" fontWeight="600" sx={{ mb: 1, fontSize: '14px' }}>
                       {activity.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5, fontSize: '12px' }}>
                       {activity.description}
                     </Typography>
                     <Chip
                       label={`Priority: ${activity.priority}`}
                       size="small"
                       sx={{
-                        bgcolor: activity.priority === 'High' ? '#ffebee' : '#fff3e0',
-                        color: activity.priority === 'High' ? '#f44336' : '#ff9800',
-                        fontWeight: 500
+                        bgcolor: activity.priority === 'High' ? '#1976d2' : '#ff9800',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '10px',
+                        height: '20px'
                       }}
                     />
                   </Box>
@@ -478,19 +489,23 @@ const ChurnPrediction = () => {
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: 2,
-                    p: 2,
+                    p: 2.5,
                     mb: 2,
-                    backgroundColor: '#f8f9fa',
+                    backgroundColor: index === 0 ? '#ffebee' : 
+                                   index === 1 ? '#e3f2fd' : 
+                                   index === 2 ? '#e8f5e8' : '#fff3e0',
                     borderRadius: 2,
-                    border: '1px solid #e0e0e0'
+                    border: '1px solid ' + (index === 0 ? '#ffcdd2' : 
+                                           index === 1 ? '#bbdefb' : 
+                                           index === 2 ? '#c8e6c8' : '#ffcc80')
                   }}
                 >
                   <Box
                     sx={{
-                      width: 32,
-                      height: 32,
+                      width: 36,
+                      height: 36,
                       backgroundColor: action.color,
-                      borderRadius: 1,
+                      borderRadius: 2,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -501,23 +516,23 @@ const ChurnPrediction = () => {
                     {action.icon}
                   </Box>
                   <Box sx={{ flex: 1 }}>
-                    <Typography variant="subtitle2" fontWeight="600" sx={{ mb: 1 }}>
+                    <Typography variant="subtitle2" fontWeight="600" sx={{ mb: 1, fontSize: '14px' }}>
                       {action.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5, fontSize: '12px' }}>
                       {action.description}
                     </Typography>
                     <Chip
                       label={action.priority}
                       size="small"
                       sx={{
-                        bgcolor: action.priority === 'Critical' ? '#ffebee' : 
-                                action.priority === 'Strategic' ? '#e3f2fd' :
-                                action.priority === 'Financial' ? '#e8f5e8' : '#fff3e0',
-                        color: action.priority === 'Critical' ? '#f44336' : 
-                               action.priority === 'Strategic' ? '#2196f3' :
-                               action.priority === 'Financial' ? '#4caf50' : '#ff9800',
-                        fontWeight: 500
+                        bgcolor: action.priority === 'Critical' ? '#d32f2f' :
+                          action.priority === 'Strategic' ? '#1976d2' :
+                            action.priority === 'Financial' ? '#388e3c' : '#f57c00',
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '10px',
+                        height: '20px'
                       }}
                     />
                   </Box>

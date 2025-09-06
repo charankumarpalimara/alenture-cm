@@ -2984,7 +2984,7 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
   <Box>
     {/* Q4 Business Review Header */}
     <Box sx={{ mb: 4 }}>
-      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+      {/* <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
           <Typography 
             style={{
@@ -3026,7 +3026,7 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             Share
           </Button>
         </Box>
-      </Box>
+      </Box> */}
 
       {/* Outstanding Quarter Achievement Banner */}
       <Box sx={{
@@ -3102,7 +3102,7 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
       {/* Main Content Grid */}
       <Box sx={{ display: 'flex', flexDirection: mobile || bigtablet ? 'column' : 'row', gap: 4, mb: 4 }}>
         {/* Left Column - Performance Overview */}
-        <Box sx={{ flex: '1' }}>
+        <Box sx={{ flex: '2' }}>
           <Box sx={{
             p: 3,
             border: '1px solid #e0e0e0',
@@ -3318,7 +3318,7 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
             mb: 4
           }}>
-            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', mb: 3 }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', marginBottom: "10px" }}>
               Key Achievements
             </Typography>
 
@@ -3386,17 +3386,18 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             borderRadius: '8px',
             backgroundColor: '#ffffff',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            textAlign: 'center'
+            textAlign: 'center',
+            height: '100%'
           }}>
-            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', mb: 3 }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', marginBottom: "10px" , textAlign:"left" }}>
               Customer Satisfaction
             </Typography>
 
-            {/* Circular Progress */}
-            <Box sx={{ position: 'relative', display: 'inline-flex', mb: 3 }}>
+            {/* Large Circular Progress - 94% */}
+            <Box sx={{ position: 'relative', display: 'inline-flex', mb: 4 }}>
               <Box sx={{
-                width: '120px',
-                height: '120px',
+                width: '160px',
+                height: '160px',
                 borderRadius: '50%',
                 background: `conic-gradient(#10b981 0deg ${94 * 3.6}deg, #e5e7eb ${94 * 3.6}deg 360deg)`,
                 display: 'flex',
@@ -3404,41 +3405,42 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 justifyContent: 'center'
               }}>
                 <Box sx={{
-                  width: '90px',
-                  height: '90px',
+                  width: '120px',
+                  height: '120px',
                   borderRadius: '50%',
                   backgroundColor: 'white',
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <Typography style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a' }}>
+                  <Typography style={{ fontSize: '36px', fontWeight: '700', color: '#10b981', lineHeight: 1 }}>
                     94%
                   </Typography>
                 </Box>
               </Box>
             </Box>
 
-            {/* Satisfaction Metrics */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center' }}>
-              <Box>
-                <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#10b981' }}>
+            {/* Bottom Metrics Row */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center', gap: 2 }}>
+              <Box sx={{ flex: 1 }}>
+                <Typography style={{ fontSize: '18px', fontWeight: '700', color: '#10b981' }}>
                   94%
                 </Typography>
                 <Typography style={{ fontSize: '11px', color: '#666666' }}>
                   Overall Score
                 </Typography>
               </Box>
-              <Box>
-                <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#3b82f6' }}>
+              <Box sx={{ flex: 1 }}>
+                <Typography style={{ fontSize: '18px', fontWeight: '700', color: '#3b82f6' }}>
                   89%
                 </Typography>
                 <Typography style={{ fontSize: '11px', color: '#666666' }}>
                   Retention Rate
                 </Typography>
               </Box>
-              <Box>
-                <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#8b5cf6' }}>
+              <Box sx={{ flex: 1 }}>
+                <Typography style={{ fontSize: '18px', fontWeight: '700', color: '#8b5cf6' }}>
                   72
                 </Typography>
                 <Typography style={{ fontSize: '11px', color: '#666666' }}>
@@ -3456,15 +3458,16 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
             backgroundColor: '#ffffff',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            height: '100%'
           }}>
-            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', mb: 3 }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', marginBottom: "10px" }}>
               Team Recognition
             </Typography>
 
             {/* Team Members */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor:"#fefce8",  padding:"8px", borderRadius:"5px", border: "1px solid #fef196" }}>
                 <Box sx={{
                   width: '40px',
                   height: '40px',
@@ -3491,7 +3494,7 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 </Box>
               </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor:"#effdf4",  padding:"8px", borderRadius:"5px", border: "1px solid #c4f7d7" }}>
                 <Box sx={{
                   width: '40px',
                   height: '40px',
@@ -3518,7 +3521,7 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 </Box>
               </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor:"#dce2eb", padding:"8px", borderRadius:"5px", border: "1px solid #c6dffe" }}>
                 <Box sx={{
                   width: '40px',
                   height: '40px',
@@ -3672,23 +3675,22 @@ const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
         <Typography style={{ fontSize: '11px', color: '#666666' }}>
           Generated on December 15, 2024
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box sx={{ display: 'flex', gap: 2, mt: mobile ? 2 : 0 }}>
           <Button
-            size="small"
             className="form-button"
+            type="primary"
+            icon={<DownloadOutlined />}
             style={{
-              fontSize: '11px',
               background: colors.blueAccent[1000],
-              color: 'white',
               border: 'none'
             }}
           >
             Export Report
           </Button>
           <Button
-            size="small"
+            className="form-button"
+            icon={<UnorderedListOutlined />}
             style={{
-              fontSize: '11px',
               border: '1px solid #d9d9d9'
             }}
           >
@@ -5051,7 +5053,7 @@ const handleCmSave = async () => {
           {/* Tab Navigation Bar */}
           <Box sx={{
             display: 'flex',
-            flexDirection: isMobile ? 'column' : 'row',
+            flexDirection: isMobile || isCards ? 'column' : 'row',
             alignItems: isMobile ? 'stretch' : 'center',
             justifyContent:"space-around",
             background: '#ffffff',
