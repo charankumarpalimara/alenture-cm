@@ -29,6 +29,7 @@ import TaskDetails from "../scenes/commonFiles/taskdetails";
 import Account from "../scenes/commonFiles/account";
 import CustomerInsights from "../scenes/commonFiles/customer-insights";
 import ChurnPrediction from "../scenes/commonFiles/churnprediction";
+import AllIdeas from "../scenes/commonFiles/allideas";
 
 const hobRoutes = [
   <Route key="dashboard" path="/" element={<Dashboard />} />,
@@ -60,6 +61,7 @@ const hobRoutes = [
   <Route key="account" path="/account" element={<Account />} />,
   <Route key="customer-insights" path="/customer-insights" element={<CustomerInsights />} />,
   <Route key="churn-prediction" path="/churn-prediction" element={<ChurnPrediction />} />,
+  <Route key="allideas" path="/allideas" element={<AllIdeas />} />,
 ];
 
 export default hobRoutes; 

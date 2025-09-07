@@ -26,6 +26,7 @@ import Knowledge from "../scenes/commonFiles/knowledge";
 import Account from "../scenes/commonFiles/account";
 import CustomerInsights from "../scenes/commonFiles/customer-insights";
 import ChurnPrediction from "../scenes/commonFiles/churnprediction";
+import AllIdeas from "../scenes/commonFiles/allideas";
 
 const crmRoutes = [
   <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
@@ -54,6 +55,7 @@ const crmRoutes = [
   <Route key="account" path="/account" element={<Account />} />,
   <Route key="customer-insights" path="/customer-insights" element={<CustomerInsights />} />,
   <Route key="churn-prediction" path="/churn-prediction" element={<ChurnPrediction />} />,
+  <Route key="allideas" path="/allideas" element={<AllIdeas />} />,
 
 ];
 

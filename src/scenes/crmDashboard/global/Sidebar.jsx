@@ -28,6 +28,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -245,7 +246,13 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           selected={selected}
           setSelected={setSelected}
         />
-
+        <Item
+          title="IdeaHub"
+          to="/allideas"
+          icon={<LightbulbOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
         <Item
           title="Customer Insights"
           to="/customer-insights"

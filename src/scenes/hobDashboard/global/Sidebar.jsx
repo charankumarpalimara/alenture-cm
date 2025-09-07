@@ -20,6 +20,7 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { getCreaterRole } from "../../../config";
@@ -220,7 +221,13 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
           selected={selected}
           setSelected={setSelected}
         />
-
+        <Item
+          title="IdeaHub"
+          to="/allideas"
+          icon={<LightbulbOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
         <Item
           title="Account"
           to="/account"
