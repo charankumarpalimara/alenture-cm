@@ -2980,7 +2980,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
   </Box>
 );
 
-const Q4BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
+const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
   <Box>
     {/* Q4 Business Review Header */}
     <Box sx={{ mb: 4 }}>
@@ -5083,7 +5083,7 @@ const handleCmSave = async () => {
                 //   background: activeTab === 'Units' ? 'none' : '#d0f0fa'
                 // },
                 '&::after': {
-                  content: isMobile ? 'none' : '""',
+                  content: isMobile || activeTab !== 'Units' ? 'none' : '""',
                   position: 'absolute',
                   right: '-8px',
                   top: '50%',
@@ -5091,7 +5091,7 @@ const handleCmSave = async () => {
                   width: 0,
                   height: 0,
                   borderLeft: '8px solid',
-                  borderLeftColor: activeTab === 'Units' ? colors.blueAccent[1000] : '#f9fafb',
+                  borderLeftColor: colors.blueAccent[1000],
                   borderTop: '8px solid transparent',
                   borderBottom: '8px solid transparent',
                   zIndex: 1
@@ -5102,7 +5102,7 @@ const handleCmSave = async () => {
             </Box>
 
             {/* Inactive Tabs */}
-            {['Partnership', 'Business Value', 'Competitor', 'Q4 Business Review'].map((tab) => (
+            {['Partnership', 'Business Value', 'Competitor', 'Business Review'].map((tab) => (
               <Box
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -5123,7 +5123,7 @@ const handleCmSave = async () => {
                   //   background: activeTab === tab ? 'none' : '#d0f0fa'
                   // },
                   '&::after': {
-                    content: isMobile ? 'none' : '""',
+                    content: isMobile || activeTab !== tab ? 'none' : '""',
                     position: 'absolute',
                     right: '-8px',
                     top: '50%',
@@ -5131,7 +5131,7 @@ const handleCmSave = async () => {
                     width: 0,
                     height: 0,
                     borderLeft: '8px solid',
-                    borderLeftColor: activeTab === tab ? colors.blueAccent[1000] : '#e0e0e0',
+                    borderLeftColor: colors.blueAccent[1000],
                     borderTop: '8px solid transparent',
                     borderBottom: '8px solid transparent',
                     zIndex: 1
@@ -5190,8 +5190,8 @@ const handleCmSave = async () => {
           </Box>
 
           {/* Q4 Business Review Section */}
-          <Box sx={{ display: activeTab === 'Q4 Business Review' ? 'block' : 'none' }}>
-            <Q4BusinessReviewTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
+          <Box sx={{ display: activeTab === 'Business Review' ? 'block' : 'none' }}>
+            <BusinessReviewTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
           </Box>
         </Box>
         </Box>
