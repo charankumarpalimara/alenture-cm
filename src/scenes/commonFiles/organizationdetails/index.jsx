@@ -6608,7 +6608,7 @@ const OrganizationDetails = () => {
   //   }
   // };
 
-  const [activeTab, setActiveTab] = useState('Units');
+  const [activeTab, setActiveTab] = useState('Journey Matrix');
 
   return (
     <>
