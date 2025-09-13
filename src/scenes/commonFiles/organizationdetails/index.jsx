@@ -3222,7 +3222,7 @@ const BusinessGrowthTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
       </Box>
 
       {/* Sub-navigation Tabs */}
-      <Box sx={{ mb: 4 }}>
+      {/* <Box sx={{ mb: 4 }}>
         <Box sx={{
           display: 'flex',
           gap: 0,
@@ -3258,7 +3258,7 @@ const BusinessGrowthTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             </Box>
           ))}
         </Box>
-      </Box>
+      </Box> */}
 
       {/* Sales Pipeline Overview */}
       <Box sx={{ mb: 4 }}>
@@ -3269,15 +3269,15 @@ const BusinessGrowthTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             paddingLeft: "0px",
             fontWeight: "600",
             color: '#1a1a1a',
-            mb: 1
+            marginBottom: "5px"
           }}
         >
           Sales Pipeline Overview
         </Typography>
-        <Typography sx={{
+        <Typography style={{
           fontSize: '14px',
           color: '#666666',
-          mb: 3
+          marginBottom: "10px"
         }}>
           High-value opportunities requiring attention
         </Typography>
@@ -4613,23 +4613,27 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
     }}>
       <Box sx={{
         display: 'flex',
+        flexDirection: mobile ? 'column' : 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: mobile ? 'flex-start' : 'center',
+        gap: mobile ? 2 : 0,
         mb: 3
       }}>
-        <Box>
+        <Box sx={{ flex: 1 }}>
           <Typography style={{
             textAlign: "left",
-            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+            fontSize: mobile ? "16px" : tablet ? "17px" : "18px",
             paddingLeft: "0px",
             fontWeight: "600",
-            color: '#1a1a1a'
+            color: '#1a1a1a',
+            mb: 0.5
           }}>
             Customer Revenue by Business Unit
           </Typography>
           <Typography style={{
             fontSize: mobile ? '12px' : '14px',
-            color: '#6b7280'
+            color: '#6b7280',
+            lineHeight: 1.4
           }}>
             Share of revenue, presence strength and weakness, and RM actions to expand footprint
           </Typography>
@@ -4637,10 +4641,12 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
         <Button
           type="primary"
           style={{
-            fontSize: mobile ? '10px' : '11px',
+            fontSize: mobile ? '11px' : '12px',
             background: colors.blueAccent[1000],
             border: 'none',
-            padding: mobile ? '4px 8px' : undefined
+            padding: mobile ? '8px 16px' : '8px 20px',
+            height: mobile ? '36px' : '40px',
+            minWidth: mobile ? '120px' : '140px'
           }}
         >
           Plan Actions
@@ -4655,25 +4661,26 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
         {/* Donut Chart Section */}
         <Box sx={{
           textAlign: 'center',
-          padding: mobile ? 1.5 : 2,
+          padding: mobile ? 2 : 2.5,
           border: '1px solid #e5e7eb',
           borderRadius: 2,
+          backgroundColor: '#ffffff'
         }}>
           {/* Donut Chart */}
           <Box sx={{
-            width: mobile ? 200 : 250,
-            height: mobile ? 200 : 250,
+            width: mobile ? 180 : 250,
+            height: mobile ? 180 : 250,
             borderRadius: '50%',
             background: 'conic-gradient(from 0deg, #10b981 0deg 108deg, #3b82f6 108deg 180deg, #ef4444 180deg 252deg, #f59e0b 252deg 324deg, #1f2937 324deg 360deg)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            margin: '0 auto 16px',
+            margin: '0 auto 20px',
             position: 'relative'
           }}>
             <Box sx={{
-              width: mobile ? 120 : 150,
-              height: mobile ? 120 : 150,
+              width: mobile ? 100 : 150,
+              height: mobile ? 100 : 150,
               borderRadius: '50%',
               backgroundColor: '#ffffff',
               display: 'flex',
@@ -4682,14 +4689,14 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
               flexDirection: 'column'
             }}>
               <Typography style={{
-                fontSize: mobile ? '16px' : '20px',
+                fontSize: mobile ? '18px' : '20px',
                 fontWeight: 700,
                 color: '#1f2937'
               }}>
                 $1.8M
               </Typography>
               <Typography style={{
-                fontSize: mobile ? '10px' : '12px',
+                fontSize: mobile ? '11px' : '12px',
                 color: '#6b7280'
               }}>
                 Total Revenue
@@ -4698,47 +4705,57 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
           </Box>
 
           {/* Legend */}
-          <Box sx={{ display: 'flex', flexWrap: "wrap", gap: 1, mb: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+            gap: mobile ? 1.5 : 2, 
+            mb: 3 
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: mobile ? 'center' : 'flex-start' }}>
               <Box sx={{ width: 12, height: 12, backgroundColor: '#10b981', borderRadius: '2px' }} />
               <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Payments</Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: mobile ? 'center' : 'flex-start' }}>
               <Box sx={{ width: 12, height: 12, backgroundColor: '#3b82f6', borderRadius: '2px' }} />
               <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Lending</Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: mobile ? 'center' : 'flex-start' }}>
               <Box sx={{ width: 12, height: 12, backgroundColor: '#ef4444', borderRadius: '2px' }} />
               <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Wealth</Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: mobile ? 'center' : 'flex-start' }}>
               <Box sx={{ width: 12, height: 12, backgroundColor: '#f59e0b', borderRadius: '2px' }} />
               <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Operations</Typography>
             </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: mobile ? 'center' : 'flex-start', gridColumn: mobile ? '1 / -1' : 'auto' }}>
               <Box sx={{ width: 12, height: 12, backgroundColor: '#1f2937', borderRadius: '2px' }} />
               <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>IT Shared Services</Typography>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: mobile ? 'column' : 'row',
+            gap: mobile ? 1.5 : 2, 
+            mb: 3 
+          }}>
             <Box sx={{
               backgroundColor: '#f9fafb',
-              padding: mobile ? 1 : 1.5,
+              padding: mobile ? 1.5 : 1.5,
               borderRadius: 2,
               border: '1px solid #e5e7eb',
               flex: 1,
               textAlign: 'center'
             }}>
               <Typography style={{
-                fontSize: mobile ? '10px' : '11px',
+                fontSize: mobile ? '11px' : '12px',
                 color: '#6b7280',
                 mb: 0.5
               }}>
                 Total Revenue
               </Typography>
               <Typography style={{
-                fontSize: mobile ? '14px' : '16px',
+                fontSize: mobile ? '16px' : '18px',
                 fontWeight: 600,
                 color: '#1f2937'
               }}>
@@ -4747,21 +4764,21 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
             </Box>
             <Box sx={{
               backgroundColor: '#f9fafb',
-              padding: mobile ? 1 : 1.5,
+              padding: mobile ? 1.5 : 1.5,
               borderRadius: 2,
               border: '1px solid #e5e7eb',
               flex: 1,
               textAlign: 'center'
             }}>
               <Typography style={{
-                fontSize: mobile ? '10px' : '11px',
+                fontSize: mobile ? '11px' : '12px',
                 color: '#6b7280',
                 mb: 0.5
               }}>
                 Units Tracked
               </Typography>
               <Typography style={{
-                fontSize: mobile ? '14px' : '16px',
+                fontSize: mobile ? '16px' : '18px',
                 fontWeight: 600,
                 color: '#1f2937'
               }}>
@@ -4949,7 +4966,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
 
       <Box sx={{
         display: 'grid',
-        gridTemplateColumns: mobile ? '1fr' : 'repeat(3, 1fr)',
+        gridTemplateColumns: mobile ? '1fr' : tablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
         gap: mobile ? 2 : 3
       }}>
         {/* IT Shared Services */}
@@ -5194,7 +5211,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
 
       <Box sx={{
         display: 'grid',
-        gridTemplateColumns: mobile ? '1fr' : 'repeat(3, 1fr)',
+        gridTemplateColumns: mobile ? '1fr' : tablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
         gap: mobile ? 2 : 3
       }}>
         {[
@@ -5230,54 +5247,59 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
             backgroundColor: '#ffffff'
           }}>
             <Typography style={{
-              fontSize: mobile ? '12px' : '14px',
+              fontSize: mobile ? '13px' : '14px',
               fontWeight: 600,
               color: '#1f2937',
-              mb: 1
+              mb: 1,
+              lineHeight: 1.3
             }}>
               {opportunity.title}
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: 'space-between', mb: 1 }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography style={{
-                  fontSize: mobile ? '11px' : '12px',
-                  color: '#6b7280'
+                  fontSize: mobile ? '12px' : '12px',
+                  color: '#6b7280',
+                  fontWeight: 500
                 }}>
                   Value:
                 </Typography>
                 <Typography style={{
-                  fontSize: mobile ? '11px' : '12px',
-                  color: '#6b7280'
+                  fontSize: mobile ? '12px' : '12px',
+                  color: '#1f2937',
+                  fontWeight: 600
                 }}>
                   {opportunity.value}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography style={{
-                  fontSize: mobile ? '11px' : '12px',
-                  color: '#6b7280'
+                  fontSize: mobile ? '12px' : '12px',
+                  color: '#6b7280',
+                  fontWeight: 500
                 }}>
                   Probability:
                 </Typography>
                 <Typography style={{
-                  fontSize: mobile ? '11px' : '12px',
-                  color: '#6b7280'
+                  fontSize: mobile ? '12px' : '12px',
+                  color: '#1f2937',
+                  fontWeight: 600
                 }}>
                   {opportunity.probability}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography style={{
-                  fontSize: mobile ? '11px' : '12px',
+                  fontSize: mobile ? '12px' : '12px',
                   color: '#6b7280',
-                  mb: 1
+                  fontWeight: 500
                 }}>
                   Expected Close:
                 </Typography>
                 <Typography style={{
-                  fontSize: mobile ? '11px' : '12px',
-                  color: '#6b7280',
-                  mb: 1
+                  fontSize: mobile ? '12px' : '12px',
+                  color: '#1f2937',
+                  fontWeight: 600
                 }}>
                   {opportunity.closeDate}
                 </Typography>
@@ -5300,14 +5322,15 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
             <Button
               size="small"
               style={{
-                fontSize: mobile ? '10px' : '11px',
+                fontSize: mobile ? '11px' : '12px',
                 background: colors.blueAccent[1000],
                 color: '#fff',
                 border: 'none',
-                padding: '6px 12px',
+                padding: mobile ? '8px 16px' : '6px 12px',
                 borderRadius: '4px',
                 textTransform: 'none',
-                fontWeight: 500
+                fontWeight: 500,
+                height: mobile ? '36px' : '32px'
               }}
             >
               {opportunity.status}
