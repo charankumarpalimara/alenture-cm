@@ -32,6 +32,7 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -1045,30 +1046,30 @@ const Topbar = ({ onLogout }) => {
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
-                    <Item
-          title="IdeaHub"
-          to="/allideas"
-          icon={<LightbulbOutlinedIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          handleClose={() => setIsModalOpen(false)}
-        />
-                <Item
-          title="Revenue Leak"
-          to="/revenue-leak"
-          icon={<MonetizationOnIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          handleClose={() => setIsModalOpen(false)}
-        />
-                <Item
-          title="Meeting Coach"
-          to="/meeting-coach"
-          icon={<RecordVoiceOverIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          handleClose={() => setIsModalOpen(false)}
-        />
+            <Item
+              title="IdeaHub"
+              to="/allideas"
+              icon={<LightbulbOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Revenue Leak"
+              to="/revenue-leak"
+              icon={<MonetizationOnIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Meeting Coach"
+              to="/meeting-coach"
+              icon={<RecordVoiceOverIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
             <Item
               title="Account"
               to="/account"
@@ -1095,6 +1096,15 @@ const Topbar = ({ onLogout }) => {
                 handleClose={() => setIsModalOpen(false)}
               />
             )}
+            <Item
+              title="Business Growth Analytics"
+              to="/business-growth-analytics"
+              icon={<TrendingUpIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item
               title="Notes"

@@ -23,6 +23,7 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { getCreaterRole } from "../../../config";
@@ -83,6 +84,10 @@ const getActivePage = (pathname) => {
     pathname.includes("/account")
   ) {
     return "/account";
+  } else if (
+    pathname.includes("/business-growth-analytics")
+  ) {
+    return "/business-growth-analytics";
   } else {
     return pathname;
   }
@@ -245,6 +250,13 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
           setSelected={setSelected}
         />
         <Item
+          title="Business Growth Analytics"
+          to="/business-growth-analytics"
+          icon={<TrendingUpIcon />}
+          selected={selected}
+          setSelected={setSelected}
+        />
+        <Item
           title="Account"
           to="/account"
           icon={<AccountCircleOutlinedIcon />}
@@ -267,6 +279,13 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
             setSelected={setSelected}
           />
         )}
+        <Item 
+          title="Business Growth Analytics" 
+          to="/business-growth-analytics" 
+          icon={<TrendingUpIcon />} 
+          selected={selected} 
+          setSelected={setSelected} 
+        />
         {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
         <Item
           title="Notes"

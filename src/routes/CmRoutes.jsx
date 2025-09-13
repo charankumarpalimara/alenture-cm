@@ -12,6 +12,7 @@ import NewExperiences from "../scenes/commonFiles/experiences/newExperiences";
 import PendingExperiences from "../scenes/commonFiles/experiences/pendingExperiences";
 import ResolvedExperiences from "../scenes/commonFiles/experiences/resolvedExperiences";
 import Knowledge from "../scenes/commonFiles/knowledge";
+import BusinessGrowthAnalytics from "../scenes/commonFiles/business-growth-analytics";
 
 const cmRoutes = [
   <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
@@ -26,6 +27,7 @@ const cmRoutes = [
   <Route key="newExperiences" path="/newExperiences" element={<NewExperiences />} />,
   <Route key="pendingExperiences" path="/pendingExperiences" element={<PendingExperiences />} />,
   <Route key="resolvedExperiences" path="/resolvedExperiences" element={<ResolvedExperiences />} />,
+  <Route key="business-growth-analytics" path="/business-growth-analytics" element={<BusinessGrowthAnalytics />} />,
 ];
 
 export default cmRoutes; 

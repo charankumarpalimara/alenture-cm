@@ -31,6 +31,7 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -92,6 +93,11 @@ const getActivePage = (pathname) => {
     pathname.includes("/knowledge")
   ) {
     return "/knowledge"; // Ensure this matches the `to` prop of the Experiences Item
+  }
+  else if (
+    pathname.includes("/business-growth-analytics")
+  ) {
+    return "/business-growth-analytics";
   }
   else {
     return pathname;
@@ -356,6 +362,13 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           icon={<TrendingDownIcon />}
           selected={selected}
           setSelected={setSelected}
+        />
+        <Item 
+          title="Business Growth Analytics" 
+          to="/business-growth-analytics" 
+          icon={<TrendingUpIcon />} 
+          selected={selected} 
+          setSelected={setSelected} 
         />
 
         {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}

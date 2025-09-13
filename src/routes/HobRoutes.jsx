@@ -32,6 +32,7 @@ import ChurnPrediction from "../scenes/commonFiles/churnprediction";
 import AllIdeas from "../scenes/commonFiles/allideas";
 import RevenueLeak from "../scenes/commonFiles/revenueleak";
 import MeetingCoach from "../scenes/commonFiles/meeting-couch/index.jsx";
+import BusinessGrowthAnalytics from "../scenes/commonFiles/business-growth-analytics";
 
 const hobRoutes = [
   <Route key="dashboard" path="/" element={<Dashboard />} />,
@@ -66,6 +67,7 @@ const hobRoutes = [
   <Route key="allideas" path="/allideas" element={<AllIdeas />} />,
   <Route key="revenue-leak" path="/revenue-leak" element={<RevenueLeak />} />,
   <Route key="meeting-coach" path="/meeting-coach" element={<MeetingCoach />} />,
+  <Route key="business-growth-analytics" path="/business-growth-analytics" element={<BusinessGrowthAnalytics />} />,
 ];
 
 export default hobRoutes; 

@@ -11,6 +11,7 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -39,6 +40,10 @@ const getActivePage = (pathname) => {
     pathname.includes("/resolvedExperiences")
   ) {
     return "/experiences"; // Ensure this matches the `to` prop of the Experiences Item
+  } else if (
+    pathname.includes("/business-growth-analytics")
+  ) {
+    return "/business-growth-analytics";
   } else {
     return pathname;
   }
@@ -149,6 +154,7 @@ const CmSidebar = ({ isSidebar, onLogout }) => {
         <Item title="Experiences" to="/experiences" icon={<WorkOutlineOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Notes" to="/notes" icon={<DescriptionOutlinedIcon />} selected={selected} setSelected={setSelected} />
         <Item title="Calendar" to="/calendar" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} />
+        <Item title="Business Growth Analytics" to="/business-growth-analytics" icon={<TrendingUpIcon />} selected={selected} setSelected={setSelected} />
         <ListItem
           button
           onClick={handleLogout}

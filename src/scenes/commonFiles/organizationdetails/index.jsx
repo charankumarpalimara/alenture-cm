@@ -7412,36 +7412,37 @@ const OrganizationDetails = () => {
           <Box sx={{
             backgroundColor: '#f8fafc',
             borderRadius: '20px',
-            padding: '6px',
+            padding: isMobile ? '6px' : isTablet ? '4px' : '6px',
             border: '1px solid #e2e8f0',
             position: 'relative'
           }}>
             <Box sx={{
               display: 'flex',
-              flexDirection: isMobile ? 'column' : 'row',
-              gap: '6px',
-              position: 'relative'
+              flexDirection: isMobile ? 'column' : isTablet ? 'column' : 'row',
+              gap: isMobile ? '6px' : isTablet ? '4px' : '6px',
+              position: 'relative',
+              flexWrap: isTablet ? 'wrap' : 'nowrap'
             }}>
               {/* Tab Buttons */}
-              {['Journey Matrix', 'Customer Activities', 'Partnership', 'Business Value', 'Competitor', 'Business Review', 'Business Growth'].map((tab, index) => (
+              {['Journey Matrix', 'Business Growth Opportunity', 'Partnership', 'Business Value', 'Competitor', 'Business Review'].map((tab, index) => (
                 <Box
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className="form-button"
                   sx={{
                     position: 'relative',
-                    flex: 1,
-                    padding: isMobile ? '12px 20px' : '14px 24px',
+                    flex: isTablet ? '0 0 calc(50% - 2px)' : 1,
+                    padding: isMobile ? '12px 20px' : isTablet ? '10px 16px' : '14px 24px',
                     borderRadius: '16px',
                     cursor: 'pointer',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     textAlign: 'center',
-                    fontSize: isMobile ? '13px' : '14px',
+                    fontSize: isMobile ? '13px' : isTablet ? '12px' : '14px',
                     fontWeight: activeTab === tab ? 700 : 500,
                     color: activeTab === tab ? '#1e40af' : '#64748b',
                     backgroundColor: activeTab === tab ? '#ffffff' : 'transparent',
                     border: activeTab === tab ? '2px solid #3b82f6' : '2px solid transparent',
-                    minHeight: isMobile ? '40px' : '48px',
+                    minHeight: isMobile ? '40px' : isTablet ? '36px' : '48px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -7511,7 +7512,7 @@ const OrganizationDetails = () => {
           </Box>
 
           {/* Customer Activities Section */}
-          <Box sx={{ display: activeTab === 'Customer Activities' ? 'block' : 'none' }}>
+          <Box sx={{ display: activeTab === 'Business Growth Opportunity' ? 'block' : 'none' }}>
             <CustomerActivitiesTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
           </Box>
 
@@ -7546,10 +7547,6 @@ const OrganizationDetails = () => {
             <BusinessReviewTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
           </Box>
 
-          {/* Business Growth Section */}
-          <Box sx={{ display: activeTab === 'Business Growth' ? 'block' : 'none' }}>
-            <BusinessGrowthTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
-          </Box>
         </Box>
       </Box>
 

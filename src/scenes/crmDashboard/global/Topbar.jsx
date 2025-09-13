@@ -33,13 +33,14 @@ import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+// import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { getCreaterFirstName, getCreaterRole } from "../../../config";
 
@@ -1186,6 +1187,14 @@ const Topbar = ({ onLogout }) => {
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
+                    <Item 
+          title="Business Growth Analytics" 
+          to="/business-growth-analytics" 
+          icon={<TrendingUpIcon />} 
+          selected={selected} 
+          setSelected={setSelected} 
+          handleClose={() => setIsModalOpen(false)}
+        />
 
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item
