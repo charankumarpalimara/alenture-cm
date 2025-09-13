@@ -1008,6 +1008,36 @@ const CmForm = () => {
                   </Select>
                 </Form.Item>
               </Col>
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text className="custom-headding-12px">Description</Text>}
+                  className="custom-placeholder-12px"
+                  name="description"
+                  // rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}
+                >
+                  <Input
+                    placeholder="Description"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", }}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col xs={24} md={8}>
+                <Form.Item
+                  label={<Text className="custom-headding-12px">Company Size</Text>}
+                  className="custom-placeholder-12px"
+                  name="companysize"
+                  // rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}
+                >
+                  <Input
+                    placeholder="Company Size"
+                    size="large"
+                    style={{ borderRadius: 8, background: "#fff", }}
+                  />
+                </Form.Item>
+              </Col>
+
 
 
               <Col xs={24} md={8}>

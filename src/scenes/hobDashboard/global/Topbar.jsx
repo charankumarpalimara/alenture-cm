@@ -30,6 +30,8 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 // import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
@@ -1047,6 +1049,22 @@ const Topbar = ({ onLogout }) => {
           title="IdeaHub"
           to="/allideas"
           icon={<LightbulbOutlinedIcon />}
+          selected={selected}
+          setSelected={setSelected}
+          handleClose={() => setIsModalOpen(false)}
+        />
+                <Item
+          title="Revenue Leak"
+          to="/revenue-leak"
+          icon={<MonetizationOnIcon />}
+          selected={selected}
+          setSelected={setSelected}
+          handleClose={() => setIsModalOpen(false)}
+        />
+                <Item
+          title="Meeting Coach"
+          to="/meeting-coach"
+          icon={<RecordVoiceOverIcon />}
           selected={selected}
           setSelected={setSelected}
           handleClose={() => setIsModalOpen(false)}

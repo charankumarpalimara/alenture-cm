@@ -29,6 +29,9 @@ import CmDataByOrganization from "../scenes/commonFiles/organizationdetails/CmDa
 import TaskDetails from "../scenes/commonFiles/taskdetails";
 import Account from "../scenes/commonFiles/account";
 import CustomerInsights from "../scenes/commonFiles/customer-insights";
+import AllIdeas from "../scenes/commonFiles/allideas";
+import RevenueLeak from "../scenes/commonFiles/revenueleak";
+import MeetingCoach from "../scenes/commonFiles/meeting-couch/index.jsx";
 
 
 const adminRoutes = [
@@ -61,6 +64,10 @@ const adminRoutes = [
   <Route key="taskdetails" path="/taskdetails" element={<TaskDetails />} />,
   <Route key="account" path="/account" element={<Account />} />,
   <Route key="customer-insights" path="/customer-insights" element={<CustomerInsights />} />,
+  
+  <Route key="allideas" path="/allideas" element={<AllIdeas />} />,
+  <Route key="revenue-leak" path="/revenue-leak" element={<RevenueLeak />} />,
+  <Route key="meeting-coach" path="/meeting-coach" element={<MeetingCoach />} />,
 ];
 
 export default adminRoutes; 

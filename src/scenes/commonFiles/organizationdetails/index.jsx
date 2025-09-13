@@ -40,9 +40,11 @@ import {
   EnvironmentOutlined,
   DollarOutlined,
   TeamOutlined,
-  GlobalOutlined
+  GlobalOutlined,
+  ReloadOutlined,
+  RiseOutlined
 } from "@ant-design/icons";
-import { TrendingUp } from "@mui/icons-material";
+import { TrendingUp, TrendingDown } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { tokens } from "../../../theme";
@@ -235,22 +237,22 @@ const CmDetailsComponent = ({ selectedCm, colors, isEditingCm, cmEdits, onCmEdit
 
   const editData = isEditingCm ? cmEdits : selectedCm;
   // Parse interests as array for Select
-const interestsValue = isEditingCm
-  ? (Array.isArray(editData.interests)
+  const interestsValue = isEditingCm
+    ? (Array.isArray(editData.interests)
       ? editData.interests
       : (typeof editData.extraind5 === "string" && editData.extraind5.length > 0
-          ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
-          : []))
-  : (Array.isArray(selectedCm.interests)
+        ? editData.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+        : []))
+    : (Array.isArray(selectedCm.interests)
       ? selectedCm.interests
       : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
-          ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
-          : []));
+        ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+        : []));
 
-// Debug logging for interests
-console.log('CM Details - selectedCm:', selectedCm);
-console.log('CM Details - editData:', editData);
-console.log('CM Details - interestsValue:', interestsValue);
+  // Debug logging for interests
+  console.log('CM Details - selectedCm:', selectedCm);
+  console.log('CM Details - editData:', editData);
+  console.log('CM Details - interestsValue:', interestsValue);
 
   return (
     <div style={{
@@ -1597,11 +1599,11 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
   <Box>
     {/* Competitor Analysis Hub Header */}
     <Box sx={{ mb: 4 }}>
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: mobile ? 'column' : 'row', 
-        justifyContent: 'space-between', 
-        alignItems: mobile ? 'flex-start' : 'center', 
+      <Box sx={{
+        display: 'flex',
+        flexDirection: mobile ? 'column' : 'row',
+        justifyContent: 'space-between',
+        alignItems: mobile ? 'flex-start' : 'center',
         mb: 3,
         gap: mobile ? 2 : 0
       }}>
@@ -1786,10 +1788,10 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
             backgroundColor: '#ffffff',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: mobile ? 'flex-start' : 'center', 
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: mobile ? 'flex-start' : 'center',
               mb: 3,
               flexDirection: mobile ? 'column' : 'row',
               gap: mobile ? 1 : 0
@@ -1945,10 +1947,10 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
             backgroundColor: '#ffffff',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            <Box sx={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: mobile ? 'flex-start' : 'center', 
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: mobile ? 'flex-start' : 'center',
               mb: 3,
               flexDirection: mobile ? 'column' : 'row',
               gap: mobile ? 1 : 0
@@ -2095,9 +2097,9 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
               <Typography style={{ marginBottom: 2, fontSize: mobile ? '13px' : '15px', fontWeight: '700', color: '#1a1a1a', mb: 3 }}>
                 Quick Analysis Tools
               </Typography>
-              <Box sx={{ 
-                display: 'flex', 
-                justifyContent: mobile || tablet ? 'flex-start' : 'space-between', 
+              <Box sx={{
+                display: 'flex',
+                justifyContent: mobile || tablet ? 'flex-start' : 'space-between',
                 flexDirection: mobile || tablet ? 'column' : 'row',
                 gap: mobile || tablet ? 2 : 1,
                 flexWrap: mobile ? 'nowrap' : 'wrap'
@@ -2161,14 +2163,14 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
     <Box sx={{ mb: 4 }}>
       <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography 
-          style={{
-            textAlign: "left",
-            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
-            paddingLeft: "0px",
-            fontWeight: "600",
-            color: '#1a1a1a'
-          }}
+          <Typography
+            style={{
+              textAlign: "left",
+              fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+              paddingLeft: "0px",
+              fontWeight: "600",
+              color: '#1a1a1a'
+            }}
 
           >
             Value Generated Analytics
@@ -2192,7 +2194,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Select.Option value="1year" style={{ fontSize: '11px' }}>Last year</Select.Option>
           </Select>
           <Button
-           className="form-button"
+            className="form-button"
             type="primary"
             icon={<DownloadOutlined />}
             style={{
@@ -2231,17 +2233,17 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             }}>
               <DollarOutlined style={{ color: '#3bb468', fontSize: '20px' }} />
             </Box>
-            <Box sx={{backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px"}}>
-            <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
-              +19.2%
-            </Typography>
+            <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+                +19.2%
+              </Typography>
             </Box>
           </Box>
           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
             $2.4M
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography style={{ fontSize: '12px', color: '#666666' }}>
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
               Total Value Generated
             </Typography>
           </Box>
@@ -2270,10 +2272,10 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             }}>
               <UserOutlined style={{ color: '#3670ed', fontSize: '20px' }} />
             </Box>
-            <Box sx={{backgroundColor: "#dbeafe", padding: "4px 8px", borderRadius: "4px"}}>
-            <Typography style={{ fontSize: '11px', color: '#3670ed', fontWeight: '600' }}>
-              +8.3%
-            </Typography>
+            <Box sx={{ backgroundColor: "#dbeafe", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#3670ed', fontWeight: '600' }}>
+                +8.3%
+              </Typography>
             </Box>
           </Box>
           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
@@ -2310,10 +2312,10 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             }}>
               <BarChartOutlined style={{ color: '#9334e9', fontSize: '20px' }} />
             </Box>
-            <Box sx={{backgroundColor: "#f3e8ff", padding: "4px 8px", borderRadius: "4px"}}>
-            <Typography style={{ fontSize: '11px', color: '#9334e9', fontWeight: '600' }}>
-              -2.1%
-            </Typography>
+            <Box sx={{ backgroundColor: "#f3e8ff", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#9334e9', fontWeight: '600' }}>
+                -2.1%
+              </Typography>
             </Box>
           </Box>
           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
@@ -2332,7 +2334,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
           flex: 1,
           p: 3,
           border: '1px solid #e0e0e0',
-          borderRadius: '8px',  
+          borderRadius: '8px',
           textAlign: 'left',
           backgroundColor: '#ffffff',
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -2350,10 +2352,10 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             }}>
               <CheckCircleOutlined style={{ color: '#ea580b', fontSize: '20px' }} />
             </Box>
-            <Box sx={{backgroundColor: "#ffedd5", padding: "4px 8px", borderRadius: "4px"}}>
-            <Typography style={{ fontSize: '11px', color: '#ea580b', fontWeight: '600' }}>
-              +5.2%
-            </Typography>
+            <Box sx={{ backgroundColor: "#ffedd5", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#ea580b', fontWeight: '600' }}>
+                +5.2%
+              </Typography>
             </Box>
           </Box>
           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
@@ -2369,7 +2371,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
       </Box>
 
       {/* Main Content Grid */}
-      <Box sx={{ display: 'flex', flexDirection: mobile || bigtablet  ? 'column' : 'row', gap: 4, mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile || bigtablet ? 'column' : 'row', gap: 4, mb: 4 }}>
         {/* Left Column - Value Generation Trend */}
         <Box sx={{ flex: '2' }}>
           <Box sx={{
@@ -2388,7 +2390,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 <Button size="small" type="primary" style={{ fontSize: '10px', background: colors.blueAccent[1000] }}>Quarterly</Button>
               </Box>
             </Box>
-            
+
             {/* Chart Area - Line Chart */}
             <Box sx={{
               height: '300px',
@@ -2456,7 +2458,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                   background: 'linear-gradient(180deg, rgba(24, 144, 255, 0.2) 0%, rgba(24, 144, 255, 0.05) 100%)',
                   clipPath: 'polygon(0% 60%, 15% 45%, 30% 55%, 45% 35%, 60% 40%, 75% 25%, 90% 30%, 100% 20%, 100% 100%, 0% 100%)'
                 }} />
-                
+
                 {/* Line Path */}
                 <Box sx={{
                   position: 'absolute',
@@ -2500,7 +2502,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                   }} />
                 ))}
               </Box>
-              
+
               {/* X-axis labels */}
               <Box sx={{
                 position: 'absolute',
@@ -2700,8 +2702,8 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Typography style={{ fontSize: '12px', color: '#666666', mb: 2 }}>
               Time Savings
             </Typography>
-                        {/* Progress Bar */}
-                        <Box sx={{
+            {/* Progress Bar */}
+            <Box sx={{
               width: '100%',
               height: '6px',
               backgroundColor: '#f0f0f0',
@@ -2719,7 +2721,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Typography style={{ fontSize: '11px', color: '#52c41a', fontWeight: '600', mb: 2 }}>
               41% of total value
             </Typography>
-            
+
 
           </Box>
 
@@ -2751,7 +2753,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Typography style={{ fontSize: '12px', color: '#666666', mb: 2 }}>
               Cost Reduction
             </Typography>
-              
+
             {/* Progress Bar */}
             <Box sx={{
               width: '100%',
@@ -2771,7 +2773,7 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Typography style={{ fontSize: '11px', color: '#1890ff', fontWeight: '600', mb: 2 }}>
               30% of total value
             </Typography>
-          
+
           </Box>
 
           {/* Revenue Growth Card */}
@@ -2802,14 +2804,14 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Typography style={{ fontSize: '12px', color: '#666666', mb: 2 }}>
               Revenue Growth
             </Typography>
-                      {/* Progress Bar */}
-                      <Box sx={{
+            {/* Progress Bar */}
+            <Box sx={{
               width: '100%',
               height: '6px',
               backgroundColor: '#f0f0f0',
               borderRadius: '3px',
               overflow: 'hidden',
-              mt:1
+              mt: 1
             }}>
               <Box sx={{
                 width: '29%',
@@ -2821,120 +2823,120 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Typography style={{ fontSize: '11px', color: '#722ed1', fontWeight: '600', mb: 2 }}>
               29% of total value
             </Typography>
-            
-  
+
+
           </Box>
         </Box>
       </Box>
 
       {/* Recent Value Activities */}
       <Box sx={{ flex: '1' }}>
-          <Box sx={{
-            p: 3,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-              <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
-                Recent Values Activities
-              </Typography>
-            </Box>
+        <Box sx={{
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
+              Recent Values Activities
+            </Typography>
+          </Box>
 
-            {/* Customer List */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {/* Acme Corp */}
+          {/* Customer List */}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* Acme Corp */}
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              p: 2,
+              // border: '1px solid #e0e0e0',
+              borderRadius: '6px',
+              backgroundColor: '#fafafa'
+            }}>
               <Box sx={{
+                width: '40px',
+                height: '40px',
+                backgroundColor: '#1890ff',
+                borderRadius: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                p: 2,
-                // border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                backgroundColor: '#fafafa'
+                justifyContent: 'center',
+                marginRight: '12px'
               }}>
-                <Box sx={{
-                  width: '40px',
-                  height: '40px',
-                  backgroundColor: '#1890ff',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: '12px'
-                }}>
-                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
-                    P
-                  </Typography>
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
-                    
-                    Process Optimization Completed
-                  </Typography>
-                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
-                    Acme Corp Saved $45k in Operational costs Through Automated Workflow
-                  </Typography>
-                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
-                    2 hours ago
-                  </Typography>
-                </Box>
-                <Box sx={{ textAlign: 'right' }}>
-                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
-                    $450K
-                  </Typography>
-                  {/* <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
+                <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                  P
+                </Typography>
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+
+                  Process Optimization Completed
+                </Typography>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  Acme Corp Saved $45k in Operational costs Through Automated Workflow
+                </Typography>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  2 hours ago
+                </Typography>
+              </Box>
+              <Box sx={{ textAlign: 'right' }}>
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                  $450K
+                </Typography>
+                {/* <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
                     +18%
                   </Typography> */}
-                </Box>
               </Box>
+            </Box>
 
-              {/* Tech Innovations */}
+            {/* Tech Innovations */}
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              p: 2,
+              // border: '1px solid #e0e0e0',
+              borderRadius: '6px',
+              backgroundColor: '#fafafa'
+            }}>
               <Box sx={{
+                width: '40px',
+                height: '40px',
+                backgroundColor: '#52c41a',
+                borderRadius: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                p: 2,
-                // border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                backgroundColor: '#fafafa'
+                justifyContent: 'center',
+                marginRight: '12px'
               }}>
-                <Box sx={{
-                  width: '40px',
-                  height: '40px',
-                  backgroundColor: '#52c41a',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginRight: '12px'
-                }}>
-                  <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
-                    R
-                  </Typography>
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
-                    Revenue Milestone Achieved
-                  </Typography>
-                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
-                    Mid Market Achieved $1M in Revenue
-                  </Typography>
-                  <Typography style={{ fontSize: '11px', color: '#666666' }}>
-                    1 day ago
-                  </Typography>
-                </Box>
-                <Box sx={{ textAlign: 'right' }}>
-                  <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
-                    $320K
-                  </Typography>
-                  {/* <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
+                <Typography style={{ color: 'white', fontSize: '14px', fontWeight: 'bold' }}>
+                  R
+                </Typography>
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                  Revenue Milestone Achieved
+                </Typography>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  Mid Market Achieved $1M in Revenue
+                </Typography>
+                <Typography style={{ fontSize: '11px', color: '#666666' }}>
+                  1 day ago
+                </Typography>
+              </Box>
+              <Box sx={{ textAlign: 'right' }}>
+                <Typography style={{ fontSize: '12px', fontWeight: '600', color: '#1a1a1a' }}>
+                  $320K
+                </Typography>
+                {/* <Typography style={{ fontSize: '10px', color: '#52c41a' }}>
                     +12%
                   </Typography> */}
-                </Box>
               </Box>
+            </Box>
 
-              {/* Global Systems */}
-              {/* <Box sx={{
+            {/* Global Systems */}
+            {/* <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
                 p: 2,
@@ -2973,9 +2975,903 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                   </Typography> 
                 </Box>
               </Box> */}
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  </Box>
+);
+
+const BusinessGrowthTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
+  <Box>
+    {/* Business Growth Analytics Header */}
+    <Box sx={{ mb: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Box>
+          <Typography
+            style={{
+              textAlign: "left",
+              fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+              paddingLeft: "0px",
+              fontWeight: "600",
+              color: '#1a1a1a'
+            }}
+          >
+            Business Growth Analytics
+          </Typography>
+          <Typography sx={{
+            fontSize: '14px',
+            color: '#666666'
+          }}>
+            Insights and metrics to drive B2B account growth
+          </Typography>
+        </Box>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: mobile ? 'column' : 'row',
+          gap: mobile ? 1.5 : 2,
+          mt: mobile ? 2 : 0,
+          width: mobile ? '100%' : 'auto'
+        }}>
+          <Select
+            defaultValue="This Quarter"
+            style={{
+              width: mobile ? '100%' : 120,
+              fontSize: mobile ? '12px' : '11px'
+            }}
+            size="middle"
+          >
+            <Select.Option value="thisQuarter" style={{ fontSize: mobile ? '12px' : '11px' }}>This Quarter</Select.Option>
+            <Select.Option value="lastQuarter" style={{ fontSize: mobile ? '12px' : '11px' }}>Last Quarter</Select.Option>
+            <Select.Option value="thisYear" style={{ fontSize: mobile ? '12px' : '11px' }}>This Year</Select.Option>
+            <Select.Option value="lastYear" style={{ fontSize: mobile ? '12px' : '11px' }}>Last Year</Select.Option>
+          </Select>
+          <Box sx={{
+            display: 'flex',
+            gap: mobile ? 1 : 2,
+            width: mobile ? '100%' : 'auto'
+          }}>
+            <Button
+              className="form-button"
+              type="primary"
+              icon={<DownloadOutlined />}
+              style={{
+                background: colors.blueAccent[1000],
+                border: 'none',
+                fontSize: mobile ? '12px' : '14px',
+                height: mobile ? '36px' : '32px',
+                flex: mobile ? 1 : 'none'
+              }}
+            >
+              {mobile ? 'Export' : 'Export'}
+            </Button>
+            <Button
+              className="form-button"
+              type="default"
+              icon={<ReloadOutlined />}
+              style={{
+                border: '1px solid #d9d9d9',
+                fontSize: mobile ? '12px' : '14px',
+                height: mobile ? '36px' : '32px',
+                flex: mobile ? 1 : 'none'
+              }}
+            >
+              {mobile ? 'Refresh' : 'Refresh'}
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Key Metrics Cards */}
+      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', gap: 3, mb: 4 }}>
+        {/* Revenue Growth Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#dcfce6',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <DollarOutlined style={{ color: '#3bb468', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+                +5.2%
+              </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            28.5%
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Revenue Growth
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Account Growth Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#dbeafe',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <UserOutlined style={{ color: '#3b82f6', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+                +3.1%
+              </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            15.2%
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Account Growth
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Activity Efficiency Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#fef3c7',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <BarChartOutlined style={{ color: '#f59e0b', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{ backgroundColor: "#fef2f2", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#ef4444', fontWeight: '600' }}>
+                -2.4%
+              </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            73.8%
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Activity Efficiency
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Pipeline Value Card */}
+        <Box sx={{
+          flex: 1,
+          p: 3,
+          border: '1px solid #e0e0e0',
+          borderRadius: '8px',
+          textAlign: 'left',
+          backgroundColor: '#ffffff',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{
+              width: '40px',
+              height: '40px',
+              backgroundColor: '#e0e7ff',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '12px'
+            }}>
+              <RiseOutlined style={{ color: '#6366f1', fontSize: '20px' }} />
+            </Box>
+            <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
+              <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+                +12.8%
+              </Typography>
+            </Box>
+          </Box>
+          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+            $2.85M
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography style={{ fontSize: '12px', color: '#666666' }}>
+              Pipeline Value
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Sub-navigation Tabs */}
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{
+          display: 'flex',
+          gap: 0,
+          borderBottom: '1px solid #e0e0e0',
+          overflowX: mobile ? 'auto' : 'visible',
+          '&::-webkit-scrollbar': {
+            height: '4px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: '#f1f1f1',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#c1c1c1',
+            borderRadius: '2px',
+          },
+        }}>
+          {['Growth Opportunities', 'Account Health', 'Insights & Recommendations', 'Performance Metrics'].map((tab, index) => (
+            <Box
+              key={tab}
+              sx={{
+                padding: mobile ? '12px 16px' : '12px 24px',
+                borderBottom: index === 0 ? '2px solid #3b82f6' : '2px solid transparent',
+                color: index === 0 ? '#3b82f6' : '#666666',
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: index === 0 ? '600' : '400',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                whiteSpace: 'nowrap',
+                minWidth: mobile ? 'fit-content' : 'auto'
+              }}
+            >
+              {tab}
+            </Box>
+          ))}
+        </Box>
+      </Box>
+
+      {/* Sales Pipeline Overview */}
+      <Box sx={{ mb: 4 }}>
+        <Typography
+          style={{
+            textAlign: "left",
+            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+            paddingLeft: "0px",
+            fontWeight: "600",
+            color: '#1a1a1a',
+            mb: 1
+          }}
+        >
+          Sales Pipeline Overview
+        </Typography>
+        <Typography sx={{
+          fontSize: '14px',
+          color: '#666666',
+          mb: 3
+        }}>
+          High-value opportunities requiring attention
+        </Typography>
+
+        {/* Pipeline Summary Metrics */}
+        <Box sx={{
+          display: 'grid',
+          gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : tablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+          gap: mobile ? 2 : 3,
+          mb: 4
+        }}>
+          <Box sx={{
+            p: mobile ? 1.5 : 2,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            textAlign: 'center',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '16px' : '20px',
+              fontWeight: '700',
+              color: '#1a1a1a',
+              mb: 1
+            }}>
+              $2.9M
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '12px',
+              color: '#666666'
+            }}>
+              Total Pipeline
+            </Typography>
+          </Box>
+          <Box sx={{
+            p: mobile ? 1.5 : 2,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            textAlign: 'center',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '16px' : '20px',
+              fontWeight: '700',
+              color: '#1a1a1a',
+              mb: 1
+            }}>
+              $185K
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '12px',
+              color: '#666666'
+            }}>
+              Average Deal Size
+            </Typography>
+          </Box>
+          <Box sx={{
+            p: mobile ? 1.5 : 2,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            textAlign: 'center',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '16px' : '20px',
+              fontWeight: '700',
+              color: '#1a1a1a',
+              mb: 1
+            }}>
+              42
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '12px',
+              color: '#666666'
+            }}>
+              Days Sales Cycle
+            </Typography>
+          </Box>
+          <Box sx={{
+            p: mobile ? 1.5 : 2,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            textAlign: 'center',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '16px' : '20px',
+              fontWeight: '700',
+              color: '#1a1a1a',
+              mb: 1
+            }}>
+              31.5%
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '12px',
+              color: '#666666'
+            }}>
+              Upsell Rate
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Opportunity List */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {/* Enterprise Platform Upgrade */}
+          <Box sx={{
+            p: mobile ? 2 : 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: mobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              alignItems: mobile ? 'flex-start' : 'flex-start',
+              mb: 2
+            }}>
+              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+                <Typography style={{
+                  fontSize: mobile ? '14px' : '16px',
+                  fontWeight: '600',
+                  color: '#1a1a1a',
+                  mb: 1
+                }}>
+                  Enterprise Platform Upgrade
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '12px' : '14px',
+                  color: '#666666',
+                  mb: 2
+                }}>
+                  Acme Corporation
+                </Typography>
+                <Box sx={{
+                  display: 'grid',
+                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                  gap: mobile ? 1.5 : 2,
+                  mb: 2
+                }}>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Value
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      $750K
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Probability
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      85%
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Expected Close
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      15/04/2024
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Activities
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      8 completed
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ width: mobile ? '100%' : '200px' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Progress
+                    </Typography>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      85%
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+                    <Box sx={{ width: '85%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+                  </Box>
+                </Box>
+              </Box>
+              <Box sx={{
+                display: 'flex',
+                gap: 1,
+                mb: 2,
+                flexWrap: 'wrap',
+                mt: mobile ? 2 : 0,
+                alignSelf: mobile ? 'flex-start' : 'flex-end'
+              }}>
+                <Box sx={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  high
+                </Box>
+                <Box sx={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  negotiation
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Multi-Year Service Extension */}
+          <Box sx={{
+            p: mobile ? 2 : 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: mobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              alignItems: mobile ? 'flex-start' : 'flex-start',
+              mb: 2
+            }}>
+              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+                <Typography style={{
+                  fontSize: mobile ? '14px' : '16px',
+                  fontWeight: '600',
+                  color: '#1a1a1a',
+                  mb: 1
+                }}>
+                  Multi-Year Service Extension
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '12px' : '14px',
+                  color: '#666666',
+                  mb: 2
+                }}>
+                  Global Solutions Ltd
+                </Typography>
+                <Box sx={{
+                  display: 'grid',
+                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                  gap: mobile ? 1.5 : 2,
+                  mb: 2
+                }}>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Value
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      $480K
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Probability
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      70%
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Expected Close
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      01/05/2024
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Activities
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      6 completed
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ width: mobile ? '100%' : '200px' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Progress
+                    </Typography>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      70%
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+                    <Box sx={{ width: '70%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+                  </Box>
+                </Box>
+              </Box>
+              <Box sx={{
+                display: 'flex',
+                gap: 1,
+                mb: 2,
+                flexWrap: 'wrap',
+                mt: mobile ? 2 : 0,
+                alignSelf: mobile ? 'flex-start' : 'flex-end'
+              }}>
+                <Box sx={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  high
+                </Box>
+                <Box sx={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  proposal
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Advanced Analytics Package */}
+          <Box sx={{
+            p: mobile ? 2 : 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: mobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              alignItems: mobile ? 'flex-start' : 'flex-start',
+              mb: 2
+            }}>
+              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+                <Typography style={{
+                  fontSize: mobile ? '14px' : '16px',
+                  fontWeight: '600',
+                  color: '#1a1a1a',
+                  mb: 1
+                }}>
+                  Advanced Analytics Package
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '12px' : '14px',
+                  color: '#666666',
+                  mb: 2
+                }}>
+                  TechStart Inc.
+                </Typography>
+                <Box sx={{
+                  display: 'grid',
+                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                  gap: mobile ? 1.5 : 2,
+                  mb: 2
+                }}>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Value
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      $220K
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Probability
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      60%
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Expected Close
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      30/04/2024
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Activities
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      4 completed
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ width: mobile ? '100%' : '200px' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Progress
+                    </Typography>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      60%
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+                    <Box sx={{ width: '60%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+                  </Box>
+                </Box>
+              </Box>
+
+              <Box sx={{
+                display: 'flex',
+                gap: 1,
+                mb: 2,
+                flexWrap: 'wrap',
+                mt: mobile ? 2 : 0,
+                alignSelf: mobile ? 'flex-start' : 'flex-end'
+              }}>
+                <Box sx={{
+                  backgroundColor: '#f59e0b',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  medium
+                </Box>
+                <Box sx={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  qualified
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Security Compliance Upgrade */}
+          <Box sx={{
+            p: mobile ? 2 : 3,
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            position: 'relative'
+          }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: mobile ? 'column' : 'row',
+              justifyContent: 'space-between',
+              alignItems: mobile ? 'flex-start' : 'flex-start',
+              mb: 2
+            }}>
+              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+                <Typography style={{
+                  fontSize: mobile ? '14px' : '16px',
+                  fontWeight: '600',
+                  color: '#1a1a1a',
+                  mb: 1
+                }}>
+                  Security Compliance Upgrade
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '12px' : '14px',
+                  color: '#666666',
+                  mb: 2
+                }}>
+                  DataFlow Systems
+                </Typography>
+                <Box sx={{
+                  display: 'grid',
+                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                  gap: mobile ? 1.5 : 2,
+                  mb: 2
+                }}>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Value
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      $320K
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Probability
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      75%
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Expected Close
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      28/03/2024
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Activities
+                    </Typography>
+                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                      5 completed
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ width: mobile ? '100%' : '200px' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      Progress
+                    </Typography>
+                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
+                      75%
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+                    <Box sx={{ width: '75%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+                  </Box>
+                </Box>
+              </Box>
+              <Box sx={{
+                display: 'flex',
+                gap: 1,
+                mb: 2,
+                flexWrap: 'wrap',
+                mt: mobile ? 2 : 0,
+                alignSelf: mobile ? 'flex-start' : 'flex-end'
+              }}>
+                <Box sx={{
+                  backgroundColor: '#ef4444',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  urgent
+                </Box>
+                <Box sx={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                  fontWeight: '600'
+                }}>
+                  proposal
+                </Box>
+              </Box>
+            </Box>
+
+            {/* Floating overlay */}
+            <Box sx={{
+              position: 'absolute',
+              top: mobile ? '5px' : '10px',
+              right: mobile ? '5px' : '10px',
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              borderRadius: '4px',
+              padding: '4px',
+              display: 'flex',
+              gap: '4px'
+            }}>
+              <Box sx={{ width: '16px', height: '16px', backgroundColor: '#666', borderRadius: '2px' }} />
+              <Box sx={{ width: '16px', height: '16px', backgroundColor: '#666', borderRadius: '2px' }} />
+              <Box sx={{ width: '16px', height: '16px', backgroundColor: '#ef4444', borderRadius: '2px' }} />
             </Box>
           </Box>
         </Box>
+      </Box>
     </Box>
   </Box>
 );
@@ -3040,23 +3936,23 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
       }}>
         <Box sx={{ position: 'relative', zIndex: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <Typography style={{ 
-              fontSize: mobile ? '18px' : '24px', 
-              fontWeight: '700', 
+            <Typography style={{
+              fontSize: mobile ? '18px' : '24px',
+              fontWeight: '700',
               color: 'white',
               marginRight: '8px'
             }}>
               Outstanding Quarter Achievement! 🎉
             </Typography>
           </Box>
-          <Typography style={{ 
-            fontSize: mobile ? '13px' : '14px', 
+          <Typography style={{
+            fontSize: mobile ? '13px' : '14px',
             color: 'rgba(255,255,255,0.9)',
             marginBottom: '24px'
           }}>
             Congratulations on exceeding all targets and milestones
           </Typography>
-          
+
           {/* Achievement Stats */}
           <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', gap: mobile ? 2 : 4 }}>
             <Box sx={{ textAlign: mobile ? 'center' : 'left' }}>
@@ -3085,7 +3981,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             </Box>
           </Box>
         </Box>
-        
+
         {/* Trophy Icon */}
         <Box sx={{
           position: 'absolute',
@@ -3119,7 +4015,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 Q4 2024
               </Typography>
             </Box>
-            
+
             {/* Chart Area - Line Chart */}
             <Box sx={{
               height: '300px',
@@ -3187,7 +4083,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                   background: 'linear-gradient(180deg, rgba(76, 110, 245, 0.2) 0%, rgba(76, 110, 245, 0.05) 100%)',
                   clipPath: 'polygon(0% 80%, 25% 60%, 50% 40%, 75% 20%, 100% 10%, 100% 100%, 0% 100%)'
                 }} />
-                
+
                 {/* Line Path */}
                 <Box sx={{
                   position: 'absolute',
@@ -3229,7 +4125,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                   }} />
                 ))}
               </Box>
-              
+
               {/* X-axis labels */}
               <Box sx={{
                 position: 'absolute',
@@ -3389,7 +4285,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             textAlign: 'center',
             height: '100%'
           }}>
-            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', marginBottom: "10px" , textAlign:"left" }}>
+            <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a', marginBottom: "10px", textAlign: "left" }}>
               Customer Satisfaction
             </Typography>
 
@@ -3467,7 +4363,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
 
             {/* Team Members */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor:"#fefce8",  padding:"8px", borderRadius:"5px", border: "1px solid #fef196" }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor: "#fefce8", padding: "8px", borderRadius: "5px", border: "1px solid #fef196" }}>
                 <Box sx={{
                   width: '40px',
                   height: '40px',
@@ -3494,7 +4390,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 </Box>
               </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor:"#effdf4",  padding:"8px", borderRadius:"5px", border: "1px solid #c4f7d7" }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor: "#effdf4", padding: "8px", borderRadius: "5px", border: "1px solid #c4f7d7" }}>
                 <Box sx={{
                   width: '40px',
                   height: '40px',
@@ -3521,7 +4417,7 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 </Box>
               </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor:"#dce2eb", padding:"8px", borderRadius:"5px", border: "1px solid #c6dffe" }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, backgroundColor: "#dce2eb", padding: "8px", borderRadius: "5px", border: "1px solid #c6dffe" }}>
                 <Box sx={{
                   width: '40px',
                   height: '40px',
@@ -3565,8 +4461,8 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Typography style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
               Q1 2025 Goals & Initiatives
             </Typography>
-            <Typography style={{ 
-              fontSize: '11px', 
+            <Typography style={{
+              fontSize: '11px',
               color: '#3b82f6',
               backgroundColor: '#eff6ff',
               padding: '4px 8px',
@@ -3664,9 +4560,9 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
       </Box>
 
       {/* Generated Footer */}
-      <Box sx={{ 
-        mt: 4, 
-        pt: 3, 
+      <Box sx={{
+        mt: 4,
+        pt: 3,
         borderTop: '1px solid #e0e0e0',
         display: 'flex',
         justifyContent: 'space-between',
@@ -3697,6 +4593,1427 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             Share
           </Button>
         </Box>
+      </Box>
+    </Box>
+  </Box>
+);
+
+const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
+  <Box>
+
+
+    {/* Customer Revenue by Business Unit */}
+    <Box sx={{
+      backgroundColor: '#ffffff',
+      padding: mobile ? 2 : 3,
+      borderRadius: 2,
+      border: '1px solid #e5e7eb',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      mb: 4
+    }}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 3
+      }}>
+        <Box>
+          <Typography style={{
+            textAlign: "left",
+            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+            paddingLeft: "0px",
+            fontWeight: "600",
+            color: '#1a1a1a'
+          }}>
+            Customer Revenue by Business Unit
+          </Typography>
+          <Typography style={{
+            fontSize: mobile ? '12px' : '14px',
+            color: '#6b7280'
+          }}>
+            Share of revenue, presence strength and weakness, and RM actions to expand footprint
+          </Typography>
+        </Box>
+        <Button
+          type="primary"
+          style={{
+            fontSize: mobile ? '10px' : '11px',
+            background: colors.blueAccent[1000],
+            border: 'none',
+            padding: mobile ? '4px 8px' : undefined
+          }}
+        >
+          Plan Actions
+        </Button>
+      </Box>
+
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: mobile ? '1fr' : '1fr 1fr',
+        gap: mobile ? 3 : 4
+      }}>
+        {/* Donut Chart Section */}
+        <Box sx={{
+          textAlign: 'center',
+          padding: mobile ? 1.5 : 2,
+          border: '1px solid #e5e7eb',
+          borderRadius: 2,
+        }}>
+          {/* Donut Chart */}
+          <Box sx={{
+            width: mobile ? 200 : 250,
+            height: mobile ? 200 : 250,
+            borderRadius: '50%',
+            background: 'conic-gradient(from 0deg, #10b981 0deg 108deg, #3b82f6 108deg 180deg, #ef4444 180deg 252deg, #f59e0b 252deg 324deg, #1f2937 324deg 360deg)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 16px',
+            position: 'relative'
+          }}>
+            <Box sx={{
+              width: mobile ? 120 : 150,
+              height: mobile ? 120 : 150,
+              borderRadius: '50%',
+              backgroundColor: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column'
+            }}>
+              <Typography style={{
+                fontSize: mobile ? '16px' : '20px',
+                fontWeight: 700,
+                color: '#1f2937'
+              }}>
+                $1.8M
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '10px' : '12px',
+                color: '#6b7280'
+              }}>
+                Total Revenue
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Legend */}
+          <Box sx={{ display: 'flex', flexWrap: "wrap", gap: 1, mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ width: 12, height: 12, backgroundColor: '#10b981', borderRadius: '2px' }} />
+              <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Payments</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ width: 12, height: 12, backgroundColor: '#3b82f6', borderRadius: '2px' }} />
+              <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Lending</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ width: 12, height: 12, backgroundColor: '#ef4444', borderRadius: '2px' }} />
+              <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Wealth</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ width: 12, height: 12, backgroundColor: '#f59e0b', borderRadius: '2px' }} />
+              <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>Operations</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ width: 12, height: 12, backgroundColor: '#1f2937', borderRadius: '2px' }} />
+              <Typography style={{ fontSize: mobile ? '11px' : '12px', color: '#1f2937' }}>IT Shared Services</Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+            <Box sx={{
+              backgroundColor: '#f9fafb',
+              padding: mobile ? 1 : 1.5,
+              borderRadius: 2,
+              border: '1px solid #e5e7eb',
+              flex: 1,
+              textAlign: 'center'
+            }}>
+              <Typography style={{
+                fontSize: mobile ? '10px' : '11px',
+                color: '#6b7280',
+                mb: 0.5
+              }}>
+                Total Revenue
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '14px' : '16px',
+                fontWeight: 600,
+                color: '#1f2937'
+              }}>
+                $1.8M
+              </Typography>
+            </Box>
+            <Box sx={{
+              backgroundColor: '#f9fafb',
+              padding: mobile ? 1 : 1.5,
+              borderRadius: 2,
+              border: '1px solid #e5e7eb',
+              flex: 1,
+              textAlign: 'center'
+            }}>
+              <Typography style={{
+                fontSize: mobile ? '10px' : '11px',
+                color: '#6b7280',
+                mb: 0.5
+              }}>
+                Units Tracked
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '14px' : '16px',
+                fontWeight: 600,
+                color: '#1f2937'
+              }}>
+                5
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* Linked Accounts */}
+          {/* <Box sx={{
+            backgroundColor: '#f9fafb',
+            padding: mobile ? 1 : 1.5,
+            borderRadius: 2,
+            border: '1px solid #e5e7eb'
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '11px' : '12px',
+              fontWeight: 600,
+              color: '#1f2937',
+              mb: 0.5
+            }}>
+              IT Shared Services
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '11px',
+              color: '#6b7280'
+            }}>
+              5 linked accounts
+            </Typography>
+          </Box> */}
+        </Box>
+
+        {/* Presence and Actions Section */}
+        <Box>
+          {/* Strong Presence */}
+          <Box sx={{ mb: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: "space-between", alignItems: 'center', gap: 1 }}>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                color: '#1f2937',
+                fontWeight: 600
+              }}>
+                Strong Presence
+              </Typography>
+              <Box sx={{
+                background: "#14a249",
+                borderRadius: "50%",
+                padding: "4px",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px'
+              }}>
+                <RiseOutlined style={{ color: '#fff', fontSize: '14px' }} />
+              </Box>
+            </Box>
+            <Typography style={{
+              fontSize: mobile ? '11px' : '12px',
+              color: '#6b7280'
+            }}>
+              Payments - 85%
+            </Typography>
+          </Box>
+
+          {/* Weak Presence */}
+          <Box sx={{ mb: 1 }}>
+            <Box sx={{ display: 'flex', justifyContent: "space-between", alignItems: 'center', gap: 1 }}>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                color: '#1f2937',
+                fontWeight: 600
+              }}>
+                Weak Presence
+              </Typography>
+              <Box sx={{
+                background: "#db7707",
+                borderRadius: "50%",
+                padding: "4px",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px'
+              }}>
+                <TrendingDown style={{ color: '#fff', fontSize: '14px' }} />
+              </Box>
+            </Box>
+
+          </Box>
+
+          {/* Detailed Actions */}
+          <Box sx={{
+            mb: 2, padding: mobile ? 1 : 1.5,
+            borderRadius: 2,
+            border: '1px solid #e5e7eb',
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '12px' : '14px',
+              color: '#1f2937',
+              fontWeight: 600,
+              mb: 1,
+
+            }}>
+              IT Shared Services
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '11px',
+              color: '#6b7280',
+              mb: 0.5
+            }}>
+              • Discovery call (business + technical)
+            </Typography>
+
+          </Box>
+
+          <Box sx={{
+            mb: 2, padding: mobile ? 1 : 1.5,
+            borderRadius: 2,
+            border: '1px solid #e5e7eb',
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '12px' : '14px',
+              color: '#1f2937',
+              fontWeight: 600,
+              mb: 1,
+
+            }}>
+              Wealth
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '11px',
+              color: '#6b7280',
+              mb: 0.5
+            }}>
+              • Discovery call (business + technical)
+            </Typography>
+
+          </Box>
+
+          <Box sx={{
+            padding: mobile ? 1 : 1.5,
+            borderRadius: 2,
+            border: '1px solid #e5e7eb',
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '12px' : '14px',
+              color: '#1f2937',
+              fontWeight: 600,
+              mb: 1,
+
+            }}>
+              Operations
+            </Typography>
+            <Typography style={{
+              fontSize: mobile ? '10px' : '11px',
+              color: '#6b7280',
+              mb: 0.5
+            }}>
+              • Discovery call (business + technical)
+            </Typography>
+
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+
+    {/* Strategic Activities for Relationship Manager */}
+    <Box sx={{
+      backgroundColor: '#ffffff',
+      padding: mobile ? 2 : 3,
+      borderRadius: 2,
+      border: '1px solid #e5e7eb',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      mb: 4
+    }}>
+      <Typography style={{
+        fontSize: mobile ? '16px' : '18px',
+        fontWeight: 600,
+        color: '#1f2937',
+        marginBottom: "5px"
+      }}>
+        Strategic Activities for Relationship Manager
+      </Typography>
+
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: mobile ? '1fr' : 'repeat(3, 1fr)',
+        gap: mobile ? 2 : 3
+      }}>
+        {/* IT Shared Services */}
+        <Box sx={{
+          padding: mobile ? 1.5 : 2,
+          borderRadius: 2,
+          border: '1px solid #e5e7eb',
+          backgroundColor: '#f9fafb'
+        }}>
+          <Typography style={{
+            fontSize: mobile ? '14px' : '16px',
+            fontWeight: 600,
+            color: '#1f2937',
+            marginBottom: "5px"
+          }}>
+            IT Shared Services
+          </Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                marginBottom: "5px"
+              }}>
+                Discovery call (business + technical)
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Discover business pain, success metrics, timeline, and technical context to qualify the opportunity.
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                marginBottom: "5px"
+              }}>
+                Business case & ROI/TCO analysis
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Quantify value with metrics, cost comparison, and payback period. Align with finance.
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
+              }}>
+                POC/pilot plan with success criteria
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Define scope, timeline, success metrics, and resources for a time-based pilot.
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* Wealth */}
+        <Box sx={{
+          padding: mobile ? 1.5 : 2,
+          borderRadius: 2,
+          border: '1px solid #e5e7eb',
+          backgroundColor: '#f9fafb'
+        }}>
+          <Typography style={{
+            fontSize: mobile ? '14px' : '16px',
+            fontWeight: 600,
+            color: '#1f2937',
+            mb: 2
+          }}>
+            Wealth
+          </Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
+              }}>
+                Discovery call (business + technical)
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Discover business pain, success metrics, timeline, and technical context to qualify the opportunity.
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
+              }}>
+                Business case & ROI/TCO analysis
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Quantify value with metrics, cost comparison, and payback period. Align with finance.
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
+              }}>
+                POC/pilot plan with success criteria
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Define scope, timeline, success metrics, and resources for a time-based pilot.
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* Operations */}
+        <Box sx={{
+          padding: mobile ? 1.5 : 2,
+          borderRadius: 2,
+          border: '1px solid #e5e7eb',
+          backgroundColor: '#f9fafb'
+        }}>
+          <Typography style={{
+            fontSize: mobile ? '14px' : '16px',
+            fontWeight: 600,
+            color: '#1f2937',
+            mb: 2
+          }}>
+            Operations
+          </Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
+              }}>
+                Discovery call (business + technical)
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Discover business pain, success metrics, timeline, and technical context to qualify the opportunity.
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
+              }}>
+                Business case & ROI/TCO analysis
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Quantify value with metrics, cost comparison, and payback period. Align with finance.
+              </Typography>
+            </Box>
+
+            <Box>
+              <Typography style={{
+                fontSize: mobile ? '12px' : '14px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
+              }}>
+                POC/pilot plan with success criteria
+              </Typography>
+              <Typography style={{
+                fontSize: mobile ? '11px' : '12px',
+                color: '#6b7280'
+              }}>
+                Define scope, timeline, success metrics, and resources for a time-based pilot.
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+
+
+
+    {/* Growth Opportunities */}
+    <Box sx={{
+      backgroundColor: '#ffffff',
+      padding: mobile ? 2 : 3,
+      borderRadius: 2,
+      border: '1px solid #e5e7eb',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      mb: 4
+    }}>
+      <Box sx={{ mb: 3 }}>
+        <Typography style={{
+          fontSize: mobile ? '16px' : '18px',
+          fontWeight: 600,
+          color: '#1f2937',
+          mb: 0.5
+        }}>
+          Growth Opportunities
+        </Typography>
+        <Typography style={{
+          fontSize: mobile ? '12px' : '14px',
+          color: '#6b7280'
+        }}>
+          Identify opportunities to expand business with existing accounts
+        </Typography>
+      </Box>
+
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: mobile ? '1fr' : 'repeat(3, 1fr)',
+        gap: mobile ? 2 : 3
+      }}>
+        {[
+          {
+            title: "Service Expansion - Acme Corp",
+            value: "$300K",
+            probability: "85%",
+            closeDate: "10/04/2024",
+            status: "proposal",
+            progress: 85
+          },
+          {
+            title: "New Platform License - Global Solutions Ltd",
+            value: "$190K",
+            probability: "60%",
+            closeDate: "16/05/2024",
+            status: "proposal",
+            progress: 60
+          },
+          {
+            title: "Enterprise Upgrade - DataFlow Systems",
+            value: "$220K",
+            probability: "70%",
+            closeDate: "10/04/2024",
+            status: "qualify",
+            progress: 70
+          }
+        ].map((opportunity, index) => (
+          <Box key={index} sx={{
+            padding: mobile ? 1.5 : 2,
+            border: '1px solid #e5e7eb',
+            borderRadius: 2,
+            backgroundColor: '#ffffff'
+          }}>
+            <Typography style={{
+              fontSize: mobile ? '12px' : '14px',
+              fontWeight: 600,
+              color: '#1f2937',
+              mb: 1
+            }}>
+              {opportunity.title}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: 'space-between', mb: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography style={{
+                  fontSize: mobile ? '11px' : '12px',
+                  color: '#6b7280'
+                }}>
+                  Value:
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '11px' : '12px',
+                  color: '#6b7280'
+                }}>
+                  {opportunity.value}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography style={{
+                  fontSize: mobile ? '11px' : '12px',
+                  color: '#6b7280'
+                }}>
+                  Probability:
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '11px' : '12px',
+                  color: '#6b7280'
+                }}>
+                  {opportunity.probability}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography style={{
+                  fontSize: mobile ? '11px' : '12px',
+                  color: '#6b7280',
+                  mb: 1
+                }}>
+                  Expected Close:
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '11px' : '12px',
+                  color: '#6b7280',
+                  mb: 1
+                }}>
+                  {opportunity.closeDate}
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{
+              width: '100%',
+              height: 4,
+              backgroundColor: '#e5e7eb',
+              borderRadius: 2,
+              overflow: 'hidden',
+              mb: 2
+            }}>
+              <Box sx={{
+                width: `${opportunity.progress}%`,
+                height: '100%',
+                backgroundColor: '#3b82f6'
+              }} />
+            </Box>
+            <Button
+              size="small"
+              style={{
+                fontSize: mobile ? '10px' : '11px',
+                background: colors.blueAccent[1000],
+                color: '#fff',
+                border: 'none',
+                padding: '6px 12px',
+                borderRadius: '4px',
+                textTransform: 'none',
+                fontWeight: 500
+              }}
+            >
+              {opportunity.status}
+            </Button>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+
+    {/* Sales Playbook by Stage & Persona */}
+    <Box sx={{
+      backgroundColor: '#ffffff',
+      padding: mobile ? 2 : 3,
+      borderRadius: 2,
+      border: '1px solid #e5e7eb',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      mb: 4
+    }}>
+      <Box sx={{ mb: 3 }}>
+        <Typography style={{
+          fontSize: mobile ? '16px' : '18px',
+          fontWeight: 600,
+          color: '#1f2937',
+          mb: 0.5
+        }}>
+          Sales Playbook by Stage & Persona
+        </Typography>
+        <Typography style={{
+          fontSize: mobile ? '12px' : '14px',
+          color: '#6b7280'
+        }}>
+          Recommended actions to take based on customer stage, opportunity, and buyer persona
+        </Typography>
+      </Box>
+
+      <Box sx={{
+        display: 'flex',
+        flexDirection: mobile ? 'column' : 'row',
+        gap: mobile ? 2 : 3,
+        mb: 3
+      }}>
+        <Input
+          placeholder="Search playbook..."
+          style={{
+            flex: 1,
+            fontSize: mobile ? '12px' : '14px'
+          }}
+          size="small"
+        />
+        <Select
+          defaultValue="Prospect"
+          style={{
+            width: mobile ? '100%' : 120,
+            fontSize: mobile ? '12px' : '11px'
+          }}
+          size="small"
+        >
+          <Select.Option value="prospect" style={{ fontSize: mobile ? '12px' : '11px' }}>Prospect</Select.Option>
+          <Select.Option value="qualified" style={{ fontSize: mobile ? '12px' : '11px' }}>Qualified</Select.Option>
+          <Select.Option value="proposal" style={{ fontSize: mobile ? '12px' : '11px' }}>Proposal</Select.Option>
+        </Select>
+        <Select
+          defaultValue="All Personas"
+          style={{
+            width: mobile ? '100%' : 120,
+            fontSize: mobile ? '12px' : '11px'
+          }}
+          size="small"
+        >
+          <Select.Option value="all" style={{ fontSize: mobile ? '12px' : '11px' }}>All Personas</Select.Option>
+          <Select.Option value="economic" style={{ fontSize: mobile ? '12px' : '11px' }}>Economic Buyer</Select.Option>
+          <Select.Option value="technical" style={{ fontSize: mobile ? '12px' : '11px' }}>Technical Buyer</Select.Option>
+        </Select>
+      </Box>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {[
+          {
+            title: "Persona-targeted multi-threaded outreach",
+            description: "Engage multiple stakeholders across different personas to increase response rates and build relationships",
+            personas: ["Economic Buyer", "Technical Buyer"],
+            status: "in progress",
+            materials: "Email templates, LinkedIn sequences, CRM data",
+            criteria: "Response rate >15%, 3+ stakeholders engaged",
+            duration: "2-3 days",
+            nextSteps: "Follow up with non-responders, schedule discovery calls"
+          },
+          {
+            title: "Discovery call (business + technical)",
+            description: "Deep dive into requirements, pain points, and decision-making process",
+            personas: ["Economic Buyer", "Technical Buyer", "End User"],
+            status: "nurturing",
+            materials: "Discovery questions, demo environment, needs assessment",
+            criteria: "Qualified opportunity, clear requirements, budget confirmed",
+            duration: "45-60 minutes",
+            nextSteps: "Send follow-up materials, schedule technical demo"
+          },
+          {
+            title: "Value hypothesis recap",
+            description: "Summarize key value propositions and align stakeholders on next steps",
+            personas: ["Economic Buyer", "Technical Buyer"],
+           
+            status: "qualifying",
+            materials: "Value prop deck, case studies, ROI calculator",
+            criteria: "Stakeholder alignment, value proposition validated",
+            duration: "30 minutes",
+            nextSteps: "Prepare proposal, schedule decision meeting"
+          },
+          {
+            title: "Qualification (BANT/CHAMP/MEDDICC highlights)",
+            description: "Assess buying authority, need, timeline, and budget using proven frameworks",
+            personas: ["Economic Buyer", "Technical Buyer"],
+            status: "in progress",
+            materials: "Qualification framework, scorecard, budget questions",
+            criteria: "Qualified lead, decision criteria met",
+            duration: "20-30 minutes",
+            nextSteps: "Move to proposal stage, prepare custom solution"
+          },
+          {
+            title: "Persona content enablement",
+            description: "Deliver targeted content based on persona interests and buying stage",
+            personas: ["Economic Buyer", "Technical Buyer", "End User"],
+            status: "nurturing",
+            materials: "Content library, personalization tools, analytics",
+            criteria: "Engagement metrics, content consumption, lead scoring",
+            duration: "Ongoing",
+            nextSteps: "Track engagement, adjust content strategy"
+          }
+        ].map((playbook, index) => (
+          <Box key={index} sx={{
+            padding: mobile ? 1.5 : 2,
+            border: '1px solid #e5e7eb',
+            borderRadius: 2,
+            backgroundColor: '#ffffff'
+          }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+              <Box sx={{ flex: 1 }}>
+                <Typography style={{
+                  fontSize: mobile ? '13px' : '15px',
+                  fontWeight: 600,
+                  color: '#1f2937',
+                  mb: 1
+                }}>
+                  {playbook.title}
+                </Typography>
+                <Typography style={{
+                  fontSize: mobile ? '11px' : '12px',
+                  color: '#6b7280',
+                  mb: 2
+                }}>
+                  {playbook.description}
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                  {playbook.personas.map((persona, idx) => {
+                    // Define colors for different personas
+                    const getPersonaColor = (persona) => {
+                      switch (persona) {
+                        case 'Economic Buyer':
+                          return {
+                            backgroundColor: '#dbeafe',
+                            borderColor: '#3b82f6',
+                            textColor: '#1e40af'
+                          };
+                        case 'Technical Buyer':
+                          return {
+                            backgroundColor: '#fef3c7',
+                            borderColor: '#f59e0b',
+                            textColor: '#92400e'
+                          };
+                        case 'End User':
+                          return {
+                            backgroundColor: '#d1fae5',
+                            borderColor: '#10b981',
+                            textColor: '#065f46'
+                          };
+                        case 'User Champion':
+                          return {
+                            backgroundColor: '#e0e7ff',
+                            borderColor: '#6366f1',
+                            textColor: '#3730a3'
+                          };
+                        case 'Marketing':
+                          return {
+                            backgroundColor: '#fce7f3',
+                            borderColor: '#ec4899',
+                            textColor: '#be185d'
+                          };
+                        default:
+                          return {
+                            backgroundColor: '#f3f4f6',
+                            borderColor: '#d1d5db',
+                            textColor: '#374151'
+                          };
+                      }
+                    };
+
+                    const colors = getPersonaColor(persona);
+
+                    return (
+                      <Box key={idx} sx={{
+                        padding: '2px 8px',
+                        backgroundColor: colors.backgroundColor,
+                        borderRadius: '12px',
+                        border: `1px solid ${colors.borderColor}`
+                      }}>
+                        <Typography style={{
+                          fontSize: '10px',
+                          color: colors.textColor,
+                          fontWeight: 500
+                        }}>
+                          {persona}
+                        </Typography>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Box>
+              <Box sx={{
+                padding: '4px 8px',
+                backgroundColor: colors.blueAccent[1000],
+                borderRadius: '12px',
+                ml: 2
+              }}>
+                <Typography style={{
+                  fontSize: '10px',
+                  color: 'black',
+                  fontWeight: 500,
+                  // color:"black"
+                }}>
+                  {playbook.status}
+                </Typography>
+              </Box>
+            </Box>
+            
+            <Box sx={{
+              display: 'grid',
+              gridTemplateColumns: mobile ? '1fr' : 'repeat(2, 1fr)',
+              gap: 2,
+              fontSize: mobile ? '10px' : '11px'
+            }}>
+              <Box>
+                <Typography style={{ 
+                  color: '#6b7280', 
+                  fontSize: mobile ? '10px' : '11px',
+                  fontWeight: 600,
+                  mb: 0.5
+                }}>
+                  Material
+                </Typography>
+                <Typography style={{ 
+                  color: '#374151', 
+                  fontSize: mobile ? '10px' : '11px'
+                }}>
+                  {playbook.materials}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ 
+                  color: '#6b7280', 
+                  fontSize: mobile ? '10px' : '11px',
+                  fontWeight: 600,
+                  mb: 0.5
+                }}>
+                  Success criteria
+                </Typography>
+                <Typography style={{ 
+                  color: '#374151', 
+                  fontSize: mobile ? '10px' : '11px'
+                }}>
+                  {playbook.criteria}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ 
+                  color: '#6b7280', 
+                  fontSize: mobile ? '10px' : '11px',
+                  fontWeight: 600,
+                  mb: 0.5
+                }}>
+                  Duration
+                </Typography>
+                <Typography style={{ 
+                  color: '#374151', 
+                  fontSize: mobile ? '10px' : '11px'
+                }}>
+                  {playbook.duration}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography style={{ 
+                  color: '#6b7280', 
+                  fontSize: mobile ? '10px' : '11px',
+                  fontWeight: 600,
+                  mb: 0.5
+                }}>
+                  Next steps
+                </Typography>
+                <Typography style={{ 
+                  color: '#374151', 
+                  fontSize: mobile ? '10px' : '11px'
+                }}>
+                  {playbook.nextSteps}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+
+    {/* Customer Interaction Timeline */}
+    <Box sx={{
+      backgroundColor: '#ffffff',
+      padding: mobile ? 2 : 3,
+      borderRadius: 2,
+      border: '1px solid #e5e7eb',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+    }}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 3
+      }}>
+        <Box>
+          <Typography style={{
+            fontSize: mobile ? '16px' : '18px',
+            fontWeight: 600,
+            color: '#1f2937',
+            mb: 0.5
+          }}>
+            Customer Interaction Timeline
+          </Typography>
+          <Typography style={{
+            fontSize: mobile ? '12px' : '14px',
+            color: '#6b7280'
+          }}>
+            Complete history of customer touchpoints and outcomes
+          </Typography>
+        </Box>
+        <Button
+          type="primary"
+          style={{
+            fontSize: mobile ? '10px' : '11px',
+            background: colors.blueAccent[1000],
+            border: 'none',
+            padding: mobile ? '4px 8px' : undefined
+          }}
+        >
+          Export
+        </Button>
+      </Box>
+
+      <Box sx={{
+        display: 'flex',
+        flexDirection: mobile ? 'column' : 'row',
+        gap: mobile ? 2 : 3,
+        mb: 3
+      }}>
+        <Input
+          placeholder="Search interactions..."
+          style={{
+            flex: 1,
+            fontSize: mobile ? '12px' : '14px'
+          }}
+          size="small"
+        />
+        <Select
+          defaultValue="All Types"
+          style={{
+            width: mobile ? '100%' : 120,
+            fontSize: mobile ? '12px' : '11px'
+          }}
+          size="small"
+        >
+          <Select.Option value="all" style={{ fontSize: mobile ? '12px' : '11px' }}>All Types</Select.Option>
+          <Select.Option value="calls" style={{ fontSize: mobile ? '12px' : '11px' }}>Calls</Select.Option>
+          <Select.Option value="meetings" style={{ fontSize: mobile ? '12px' : '11px' }}>Meetings</Select.Option>
+        </Select>
+        <Select
+          defaultValue="All Accounts"
+          style={{
+            width: mobile ? '100%' : 120,
+            fontSize: mobile ? '12px' : '11px'
+          }}
+          size="small"
+        >
+          <Select.Option value="all" style={{ fontSize: mobile ? '12px' : '11px' }}>All Accounts</Select.Option>
+          <Select.Option value="acme" style={{ fontSize: mobile ? '12px' : '11px' }}>Acme Corporation</Select.Option>
+          <Select.Option value="global" style={{ fontSize: mobile ? '12px' : '11px' }}>Global Solutions Ltd</Select.Option>
+        </Select>
+      </Box>
+
+      {/* Process Flow Timeline */}
+      <Box sx={{ position: 'relative' }}>
+        {/* Process Steps */}
+        {[
+          {
+            step: 1,
+            title: "Contract Renewal Discussion",
+            company: "Acme Corporation • Sarah Johnson",
+            outcome: "Strong interest in renewal with expanded packages",
+            tags: ["renewal", "negotiation", "QBR"],
+            date: "12/03/2024",
+            status: "completed",
+            icon: "📄"
+          },
+          {
+            step: 2,
+            title: "Proposal Follow-up",
+            company: "TechStart Inc. • Mike Chen",
+            outcome: "Attached: proposal_analytics_v2.pdf",
+            tags: ["proposal", "analytics"],
+            date: "12/03/2024",
+            status: "completed",
+            icon: "📋"
+          },
+          {
+            step: 3,
+            title: "Product Demo Session",
+            company: "Global Solutions Ltd. • Emma Davis",
+            outcome: "Technical team impressed with new capabilities",
+            tags: ["demo", "technical", "features"],
+            date: "12/03/2024",
+            status: "completed",
+            icon: "🖥️"
+          },
+          {
+            step: 4,
+            title: "Service Agreement Executed",
+            company: "DataFlow Systems • Robert Kim",
+            outcome: "Contract finalized after 6 weeks of negotiation",
+            tags: ["contract", "signed", "milestone"],
+            date: "12/03/2024",
+            status: "completed",
+            icon: "✅"
+          },
+          {
+            step: 5,
+            title: "Issue Resolution Call",
+            company: "Innovation Labs • Lisa Park",
+            outcome: "Issue resolved, monitoring situation closely",
+            tags: ["support", "technical", "resolution"],
+            date: "11/03/2024",
+            status: "completed",
+            icon: "📞"
+          },
+          {
+            step: 6,
+            title: "Contract Renewal Due",
+            company: "Acme Corporation",
+            outcome: "",
+            tags: ["reminder", "renewal", "important"],
+            date: "10/03/2024",
+            status: "pending",
+            icon: "⭐"
+          },
+          {
+            step: 7,
+            title: "User Training Session",
+            company: "SecureBank Corp • David Wilson",
+            outcome: "Team successfully onboarded, high engagement",
+            tags: ["training", "onboarding", "engagement"],
+            date: "10/03/2024",
+            status: "completed",
+            icon: "👥"
+          },
+          {
+            step: 8,
+            title: "Customer Satisfaction Survey",
+            company: "Acme Corporation • Sarah Johnson",
+            outcome: "4.5/5 stars, incorporating user feedback",
+            tags: ["feedback", "satisfaction", "survey"],
+            date: "11/03/2024",
+            status: "completed",
+            icon: "📊"
+          }
+        ].map((interaction, index) => {
+          const isLast = index === 7;
+          const isCompleted = interaction.status === 'completed';
+          const isPending = interaction.status === 'pending';
+
+          return (
+            <Box key={index} sx={{ position: 'relative' }}>
+              {/* Connecting Line */}
+              {!isLast && (
+                <Box sx={{
+                  position: 'absolute',
+                  left: mobile ? 15 : 19,
+                  top: 60,
+                  width: '2px',
+                  height: '40px',
+                  backgroundColor: isCompleted ? colors.blueAccent[1000] : '#e5e7eb',
+                  zIndex: 1
+                }} />
+              )}
+
+              {/* Process Step */}
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 2,
+                mb: 3,
+                position: 'relative',
+                zIndex: 2
+              }}>
+                {/* Step Number & Icon */}
+                <Box sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 1
+                }}>
+                  {/* Step Number Circle */}
+                  <Box sx={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    backgroundColor: isCompleted ? colors.blueAccent[1000] : isPending ? '#f59e0b' : '#e5e7eb',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: isCompleted ? '#ffffff' : isPending ? '#ffffff' : '#6b7280',
+                    border: `2px solid ${isCompleted ? colors.blueAccent[1000] : isPending ? '#f59e0b' : '#e5e7eb'}`
+                  }}>
+                    {interaction.step}
+                  </Box>
+                  
+                  {/* Icon */}
+                  <Box sx={{
+                    width: 24,
+                    height: 24,
+                    borderRadius: '50%',
+                    backgroundColor: '#ffffff',
+                    border: `1px solid ${isCompleted ? colors.blueAccent[1000] : isPending ? '#f59e0b' : '#e5e7eb'}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px'
+                  }}>
+                    {interaction.icon}
+                  </Box>
+                </Box>
+
+                {/* Content */}
+                <Box sx={{ 
+                  flex: 1,
+                  padding: mobile ? 1.5 : 2,
+                  backgroundColor: '#ffffff',
+                  border: `1px solid ${isCompleted ? colors.blueAccent[1000] : isPending ? '#f59e0b' : '#e5e7eb'}`,
+                  borderRadius: 2,
+                  boxShadow: isCompleted ? '0 2px 4px rgba(59, 130, 246, 0.1)' : isPending ? '0 2px 4px rgba(245, 158, 11, 0.1)' : '0 1px 3px rgba(0,0,0,0.1)'
+                }}>
+                  {/* Header */}
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography style={{
+                        fontSize: mobile ? '13px' : '15px',
+                        fontWeight: 600,
+                        color: '#1f2937'
+                      }}>
+                        {interaction.title}
+                      </Typography>
+                      {isCompleted && (
+                        <Box sx={{
+                          padding: '2px 6px',
+                          backgroundColor: '#10b981',
+                          borderRadius: '12px'
+                        }}>
+                          <Typography style={{
+                            fontSize: '8px',
+                            color: '#ffffff',
+                            fontWeight: 500
+                          }}>
+                            ✓ Completed
+                          </Typography>
+                        </Box>
+                      )}
+                      {isPending && (
+                        <Box sx={{
+                          padding: '2px 6px',
+                          backgroundColor: '#f59e0b',
+                          borderRadius: '12px'
+                        }}>
+                          <Typography style={{
+                            fontSize: '8px',
+                            color: '#ffffff',
+                            fontWeight: 500
+                          }}>
+                            ⏳ Pending
+                          </Typography>
+                        </Box>
+                      )}
+                    </Box>
+                    <Typography style={{
+                      fontSize: mobile ? '10px' : '11px',
+                      color: '#6b7280'
+                    }}>
+                      {interaction.date}
+                    </Typography>
+                  </Box>
+
+                  {/* Company */}
+                  <Typography style={{
+                    fontSize: mobile ? '11px' : '12px',
+                    color: '#374151',
+                    mb: 1
+                  }}>
+                    {interaction.company}
+                  </Typography>
+
+                  {/* Outcome */}
+                  {interaction.outcome && (
+                    <Box sx={{
+                      backgroundColor: '#f0fdf4',
+                      border: '1px solid #bbf7d0',
+                      borderRadius: 1,
+                      padding: 1,
+                      mb: 1
+                    }}>
+                      <Typography style={{
+                        fontSize: mobile ? '10px' : '11px',
+                        color: '#166534',
+                        fontWeight: 500
+                      }}>
+                        {interaction.outcome}
+                      </Typography>
+                    </Box>
+                  )}
+
+                  {/* Tags */}
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {interaction.tags.map((tag, tagIndex) => {
+                      const getTagColor = (tag) => {
+                        switch (tag) {
+                          case 'renewal':
+                          case 'contract':
+                          case 'signed':
+                            return { bg: '#dbeafe', text: '#1e40af', border: '#3b82f6' };
+                          case 'negotiation':
+                          case 'proposal':
+                            return { bg: '#fef3c7', text: '#92400e', border: '#f59e0b' };
+                          case 'QBR':
+                          case 'milestone':
+                            return { bg: '#e0e7ff', text: '#3730a3', border: '#6366f1' };
+                          case 'demo':
+                          case 'technical':
+                          case 'features':
+                            return { bg: '#d1fae5', text: '#065f46', border: '#10b981' };
+                          case 'support':
+                          case 'resolution':
+                            return { bg: '#fee2e2', text: '#991b1b', border: '#ef4444' };
+                          case 'reminder':
+                          case 'important':
+                            return { bg: '#f3e8ff', text: '#6b21a8', border: '#a855f7' };
+                          case 'training':
+                          case 'onboarding':
+                          case 'engagement':
+                            return { bg: '#ecfdf5', text: '#064e3b', border: '#059669' };
+                          case 'feedback':
+                          case 'satisfaction':
+                          case 'survey':
+                            return { bg: '#f0f9ff', text: '#1e40af', border: '#0ea5e9' };
+                          default:
+                            return { bg: '#f3f4f6', text: '#374151', border: '#d1d5db' };
+                        }
+                      };
+
+                      const tagColors = getTagColor(tag);
+
+                      return (
+                        <Box key={tagIndex} sx={{
+                          padding: '2px 6px',
+                          backgroundColor: tagColors.bg,
+                          border: `1px solid ${tagColors.border}`,
+                          borderRadius: '8px'
+                        }}>
+                          <Typography style={{
+                            fontSize: '9px',
+                            color: tagColors.text,
+                            fontWeight: 500
+                          }}>
+                            {tag}
+                          </Typography>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          );
+        })}
+      </Box>
+
+      <Box sx={{ textAlign: 'center', mt: 3 }}>
+        <Typography style={{
+          fontSize: mobile ? '11px' : '12px',
+          color: colors.blueAccent[1000],
+          fontWeight: 500,
+          cursor: 'pointer'
+        }}>
+          View All Interactions
+        </Typography>
       </Box>
     </Box>
   </Box>
@@ -3735,7 +6052,7 @@ const OrganizationDetails = () => {
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-        
+
         // If we have an existing state value, make sure it's valid for the new country
         if (branchEdits.state) {
           const stateExists = states.find(s => s.name === branchEdits.state);
@@ -3771,7 +6088,7 @@ const OrganizationDetails = () => {
       if (countryObj && stateObj) {
         const cities = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
         setBranchCities(cities);
-        
+
         // If we have an existing district value, make sure it's valid for the new state
         if (branchEdits.district) {
           const cityExists = cities.find(c => c.name === branchEdits.district);
@@ -3806,7 +6123,7 @@ const OrganizationDetails = () => {
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-        
+
         if (branchEdits.state) {
           const stateObj = states.find(s => s.name === branchEdits.state);
           if (stateObj) {
@@ -3966,17 +6283,17 @@ const OrganizationDetails = () => {
     const selectedCm = selectedCmByUnit[Object.keys(selectedCmByUnit)[0]];
     if (selectedCm) {
       setEditingCmIndex(selectedCm.cmid);
-      
+
       // Parse interests properly for editing
       const interestsArray = Array.isArray(selectedCm.interests)
         ? selectedCm.interests
         : (typeof (selectedCm.interests || selectedCm.extraind5) === "string"
-            ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
-            : []);
-      
-      setCmEdits({ 
-        ...selectedCm, 
-        interests: interestsArray 
+          ? (selectedCm.interests || selectedCm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
+          : []);
+
+      setCmEdits({
+        ...selectedCm,
+        interests: interestsArray
       });
     }
   };
@@ -3987,93 +6304,93 @@ const OrganizationDetails = () => {
     setCmEdits({});
   };
 
-    // Handle CM input change
-const handleCmInputChange = (field, value) => {
-  if (field === "interests") {
-    setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
-  } else if (field === "gender") {
-    setCmEdits((prev) => ({ ...prev, extraind2: value }));
-  } else if (field === "extraind4") {
-    setCmEdits((prev) => ({ ...prev, extraind4: value }));
-  } else {
-    setCmEdits((prev) => ({ ...prev, [field]: value }));
-  }
-};
+  // Handle CM input change
+  const handleCmInputChange = (field, value) => {
+    if (field === "interests") {
+      setCmEdits((prev) => ({ ...prev, interests: Array.isArray(value) ? value : [] }));
+    } else if (field === "gender") {
+      setCmEdits((prev) => ({ ...prev, extraind2: value }));
+    } else if (field === "extraind4") {
+      setCmEdits((prev) => ({ ...prev, extraind4: value }));
+    } else {
+      setCmEdits((prev) => ({ ...prev, [field]: value }));
+    }
+  };
 
 
   // Handle CM save
-const handleCmSave = async () => {
-  setIsLoading(true);
-  try {
-    const payload = { ...cmEdits };
-    
-    // Handle interests properly - ensure it's always a string for the API
-    if (Array.isArray(cmEdits.interests)) {
-      payload.extraind5 = cmEdits.interests.join(",");
-    } else if (typeof cmEdits.interests === "string") {
-      payload.extraind5 = cmEdits.interests;
-    } else {
-      payload.extraind5 = "";
-    }
-    
-    // Remove the interests field as it should be stored as extraind5
-    delete payload.interests;
-    
-    console.log('Saving CM with payload:', payload);
-    
-    await axios.post(
-      `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
-      payload,
-      { headers: { "Content-Type": "application/json" } }
-    );
+  const handleCmSave = async () => {
+    setIsLoading(true);
+    try {
+      const payload = { ...cmEdits };
 
-    // Parse interests array from saved string for local state
-    const newInterestsArr = payload.extraind5
-      ? payload.extraind5.split(",").map(i => i.trim()).filter(Boolean)
-      : [];
-
-    // Update local state with new extraind5 and interests array
-    const updatedCmData = cmData.map(cm => {
-      if (cm.cmid === cmEdits.cmid) {
-        return {
-          ...cm,
-          ...cmEdits,
-          extraind5: payload.extraind5,
-          interests: newInterestsArr
-        };
+      // Handle interests properly - ensure it's always a string for the API
+      if (Array.isArray(cmEdits.interests)) {
+        payload.extraind5 = cmEdits.interests.join(",");
+      } else if (typeof cmEdits.interests === "string") {
+        payload.extraind5 = cmEdits.interests;
+      } else {
+        payload.extraind5 = "";
       }
-      return cm;
-    });
-    setCmData(updatedCmData);
 
-    // Update selected CM
-    setSelectedCmByUnit(prev => {
-      const newState = {};
-      Object.keys(prev).forEach(unit => {
-        if (prev[unit]?.cmid === cmEdits.cmid) {
-          newState[unit] = { ...prev[unit], ...cmEdits, extraind5: payload.extraind5, interests: newInterestsArr };
-        } else {
-          newState[unit] = prev[unit];
+      // Remove the interests field as it should be stored as extraind5
+      delete payload.interests;
+
+      console.log('Saving CM with payload:', payload);
+
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/v1/updateCmProfileByAdminHobV2`,
+        payload,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      // Parse interests array from saved string for local state
+      const newInterestsArr = payload.extraind5
+        ? payload.extraind5.split(",").map(i => i.trim()).filter(Boolean)
+        : [];
+
+      // Update local state with new extraind5 and interests array
+      const updatedCmData = cmData.map(cm => {
+        if (cm.cmid === cmEdits.cmid) {
+          return {
+            ...cm,
+            ...cmEdits,
+            extraind5: payload.extraind5,
+            interests: newInterestsArr
+          };
         }
+        return cm;
       });
-      return newState;
-    });
+      setCmData(updatedCmData);
 
-    setEditingCmIndex(null);
-    setCmEdits({});
-    message.success("Customer Manager updated successfully!");
-    
-    // Refresh CM data to ensure consistency
-    setTimeout(() => {
-      fetchCmData();
-    }, 1000);
-  } catch (error) {
-    message.error("Error updating Customer Manager");
-    console.error(error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+      // Update selected CM
+      setSelectedCmByUnit(prev => {
+        const newState = {};
+        Object.keys(prev).forEach(unit => {
+          if (prev[unit]?.cmid === cmEdits.cmid) {
+            newState[unit] = { ...prev[unit], ...cmEdits, extraind5: payload.extraind5, interests: newInterestsArr };
+          } else {
+            newState[unit] = prev[unit];
+          }
+        });
+        return newState;
+      });
+
+      setEditingCmIndex(null);
+      setCmEdits({});
+      message.success("Customer Manager updated successfully!");
+
+      // Refresh CM data to ensure consistency
+      setTimeout(() => {
+        fetchCmData();
+      }, 1000);
+    } catch (error) {
+      message.error("Error updating Customer Manager");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Handle CM delete
   // const handleCmDelete = () => {
@@ -4104,7 +6421,7 @@ const handleCmSave = async () => {
   //         setCmEdits({});
 
   //         message.success("Customer Manager deleted successfully!");
-          
+
   //         // Refresh CM data to ensure consistency
   //         setTimeout(() => {
   //           fetchCmData();
@@ -4162,14 +6479,14 @@ const handleCmSave = async () => {
     const branchToEdit = sortedBranches[idx];
     setEditingBranchIndex(idx);
     setBranchEdits({ ...branchToEdit });
-    
+
     // Initialize state and city dropdowns if country exists
     if (branchToEdit.country) {
       const countryObj = branchCountries.find(c => c.name === branchToEdit.country);
       if (countryObj) {
         const states = State.getStatesOfCountry(countryObj.isoCode);
         setBranchStates(states);
-        
+
         if (branchToEdit.state) {
           const stateObj = states.find(s => s.name === branchToEdit.state);
           if (stateObj) {
@@ -4195,7 +6512,7 @@ const handleCmSave = async () => {
     try {
       const payload = { ...branchEdits }; // branchEdits should include id
       console.log('Saving branch with payload:', payload);
-      
+
       await axios.post(
         `${process.env.REACT_APP_API_URL}/v1/UpdateOrganizationDetails`,
         payload,
@@ -4214,7 +6531,7 @@ const handleCmSave = async () => {
       setBranchStates([]);
       setBranchCities([]);
       message.success("Unit updated successfully!");
-      
+
       // Refresh CM data to ensure consistency
       setTimeout(() => {
         fetchCmData();
@@ -4319,14 +6636,14 @@ const handleCmSave = async () => {
           accordion
           expandIconPosition="end"
           expandIcon={({ isActive }) =>
-            isActive ? <MinusOutlined style={{ fontSize: isMobile ? 17 : 20, fontWeight: "bold" }} /> : <PlusOutlined style={{ fontSize: isMobile ? 17 : 20, fontWeight:"bold" }} />
+            isActive ? <MinusOutlined style={{ fontSize: isMobile ? 17 : 20, fontWeight: "bold" }} /> : <PlusOutlined style={{ fontSize: isMobile ? 17 : 20, fontWeight: "bold" }} />
           }
           defaultActiveKey={
             sortedBranches.length > 0
               ? (() => {
-                  const parentIndex = sortedBranches.findIndex(b => b.branchtype === "Parent");
-                  return parentIndex !== -1 ? [String(sortedBranches[parentIndex].id || parentIndex)] : [];
-                })()
+                const parentIndex = sortedBranches.findIndex(b => b.branchtype === "Parent");
+                return parentIndex !== -1 ? [String(sortedBranches[parentIndex].id || parentIndex)] : [];
+              })()
               : []
           }
           className="modern-collapse"
@@ -4343,58 +6660,58 @@ const handleCmSave = async () => {
 
             const panelLabel =
               branch.branchtype === "Parent"
-                ? <span style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: isMobile ? '6px' : '8px',
-                    flexWrap: 'wrap'
+                ? <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: isMobile ? '6px' : '8px',
+                  flexWrap: 'wrap'
+                }}>
+                  <Typography.Text strong style={{
+                    fontSize: isMobile ? "14px" : "16px",
+                    color: '#1a1a1a'
                   }}>
-                    <Typography.Text strong style={{ 
-                      fontSize: isMobile ? "14px" : "16px", 
-                      color: '#1a1a1a' 
-                    }}>
-                      {branch.organizationname}
-                    </Typography.Text> 
-                    <span style={{ 
-                      fontSize: isMobile ? "10px" : "12px", 
-                      color: '#666666', 
-                      background: '#f0f9ff', 
-                      padding: '2px 6px', 
-                      borderRadius: '4px',
-                      fontWeight: '500'
-                    }}>
-                      Parent
-                    </span>
+                    {branch.organizationname}
+                  </Typography.Text>
+                  <span style={{
+                    fontSize: isMobile ? "10px" : "12px",
+                    color: '#666666',
+                    background: '#f0f9ff',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontWeight: '500'
+                  }}>
+                    Parent
                   </span>
-                : <span style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: isMobile ? '6px' : '8px',
-                    flexWrap: 'wrap'
+                </span>
+                : <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: isMobile ? '6px' : '8px',
+                  flexWrap: 'wrap'
+                }}>
+                  <Typography.Text strong style={{
+                    fontSize: isMobile ? "13px" : "15px",
+                    color: '#1a1a1a'
                   }}>
-                    <Typography.Text strong style={{ 
-                      fontSize: isMobile ? "13px" : "15px", 
-                      color: '#1a1a1a' 
-                    }}>
-                      {branch.branch}
-                    </Typography.Text> 
-                    <span style={{ 
-                      fontSize: isMobile ? "10px" : "12px", 
-                      color: '#666666', 
-                      background: '#f0f9ff', 
-                      padding: '2px 6px', 
-                      borderRadius: '4px',
-                      fontWeight: '500'
-                    }}>
-                      Unit
-                    </span>
-                  </span>;
+                    {branch.branch}
+                  </Typography.Text>
+                  <span style={{
+                    fontSize: isMobile ? "10px" : "12px",
+                    color: '#666666',
+                    background: '#f0f9ff',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontWeight: '500'
+                  }}>
+                    Unit
+                  </span>
+                </span>;
             return (
               <Collapse.Panel
                 header={panelLabel}
                 key={branch.id || idx}
                 className="modern-collapse-panel"
-                // style={{padding: "20px"}}
+              // style={{padding: "20px"}}
               >
                 <Form
                   form={branchForm}
@@ -4440,9 +6757,9 @@ const handleCmSave = async () => {
                       <Form.Item
                         label={<Typography.Text className="custom-headding-12px">Organization Unit</Typography.Text>}
                         name="branch"
-                        rules={[{ 
-                          required: editData.branchtype !== "Parent", 
-                          message: "Organization Unit is required" 
+                        rules={[{
+                          required: editData.branchtype !== "Parent",
+                          message: "Organization Unit is required"
                         }]}
                       >
                         <Input
@@ -4475,9 +6792,9 @@ const handleCmSave = async () => {
                           <Form.Item
                             name="phonecode"
                             noStyle
-                            rules={[{ 
-                              required: editData.branchtype !== "Parent", 
-                              message: "Phone code is required" 
+                            rules={[{
+                              required: editData.branchtype !== "Parent",
+                              message: "Phone code is required"
                             }]}
                           >
                             <Select
@@ -4661,14 +6978,14 @@ const handleCmSave = async () => {
                   </Row>
                 </Form>
 
-                <div style={{ 
-                  marginTop: 24, 
+                <div style={{
+                  marginTop: 24,
                   paddingTop: 16,
                   borderTop: '1px solid #f0f0f0',
-                  display: "flex", 
-                  alignItems: "flex-end", 
-                  justifyContent: "flex-end", 
-                  gap: "8px" 
+                  display: "flex",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                  gap: "8px"
                 }}>
                   {isEditing ? (
                     <>
@@ -4741,7 +7058,7 @@ const handleCmSave = async () => {
                                   );
                                   message.success("Organization deleted successfully!");
                                   setBranchesData((prev) => prev.filter((b) => b.id !== branch.id));
-                                  
+
                                   // Refresh CM data to ensure consistency
                                   setTimeout(() => {
                                     fetchCmData();
@@ -4783,100 +7100,100 @@ const handleCmSave = async () => {
                 </div>
                 {editData.branchtype !== "Parent" && (
                   <>
-                <Text className="custom-headding-16px"
-                  style={{
-                    textAlign: isMobile ? "left" : "center",
-                    fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
-                    paddingLeft: isMobile ? "0px" : "0px",
-            
-                  }}
-                >
-                  Customer Manager(s) :
-                </Text>
+                    <Text className="custom-headding-16px"
+                      style={{
+                        textAlign: isMobile ? "left" : "center",
+                        fontSize: isMobile ? "15px" : isTablet ? "15px" : "16px",
+                        paddingLeft: isMobile ? "0px" : "0px",
 
-                {/* Customer Managers Section - Only show for non-Parent units */}
+                      }}
+                    >
+                      Customer Manager(s) :
+                    </Text>
 
-
-                  <div style={{ marginTop: 24 }}>
+                    {/* Customer Managers Section - Only show for non-Parent units */}
 
 
-                    {unitCmData.length === 0 ? (
-                      <div
-                        style={{
-                          textAlign: 'center',
-                          padding: '40px',
-                          backgroundColor: '#fafafa',
-                          borderRadius: 8,
-                          border: '1px solid #f0f0f0'
-                        }}>
-                        <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
-                        <Text style={{ fontSize: 16, color: colors.grey[600], display: 'block' }}>
-                          No Customer Managers found for this unit
-                        </Text>
-                      </div>
-                    ) : (
-                      <Box
-                        style={{
-                          // padding: "16px",
-                          // backgroundColor: "#fafafa",
-                          borderRadius: "8px",
-                          // border: "1px solid #f0f0f0"
-                        }}
-                      >
-                        <Collapse
-                          expandIconPosition="end"
-                          expandIcon={({ isActive }) =>
-                            isActive ? <MinusOutlined /> : <PlusOutlined />
-                          }
-                          className="modern-collapse cm-collapse"
+                    <div style={{ marginTop: 24 }}>
+
+
+                      {unitCmData.length === 0 ? (
+                        <div
                           style={{
-                            background: 'transparent',
-                            border: 'none'
+                            textAlign: 'center',
+                            padding: '40px',
+                            backgroundColor: '#fafafa',
+                            borderRadius: 8,
+                            border: '1px solid #f0f0f0'
+                          }}>
+                          <UserOutlined style={{ fontSize: 48, color: colors.grey[400], marginBottom: 16 }} />
+                          <Text style={{ fontSize: 16, color: colors.grey[600], display: 'block' }}>
+                            No Customer Managers found for this unit
+                          </Text>
+                        </div>
+                      ) : (
+                        <Box
+                          style={{
+                            // padding: "16px",
+                            // backgroundColor: "#fafafa",
+                            borderRadius: "8px",
+                            // border: "1px solid #f0f0f0"
                           }}
                         >
-                          {unitCmData.map((cm, cmIndex) => (
-                            <React.Fragment key={cm.cmid}>
-                              <Collapse.Panel
-                                header={
-                                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <Typography.Text strong style={{ fontSize: "14px", color: '#1a1a1a' }}>
-                                      {cm.firstname} {cm.lastname}
-                                    </Typography.Text>
-                                    <span style={{ fontSize: "11px", color: '#666666' }}>
-                                      ({cm.email})
+                          <Collapse
+                            expandIconPosition="end"
+                            expandIcon={({ isActive }) =>
+                              isActive ? <MinusOutlined /> : <PlusOutlined />
+                            }
+                            className="modern-collapse cm-collapse"
+                            style={{
+                              background: 'transparent',
+                              border: 'none'
+                            }}
+                          >
+                            {unitCmData.map((cm, cmIndex) => (
+                              <React.Fragment key={cm.cmid}>
+                                <Collapse.Panel
+                                  header={
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                      <Typography.Text strong style={{ fontSize: "14px", color: '#1a1a1a' }}>
+                                        {cm.firstname} {cm.lastname}
+                                      </Typography.Text>
+                                      <span style={{ fontSize: "11px", color: '#666666' }}>
+                                        ({cm.email})
+                                      </span>
                                     </span>
-                                  </span>
-                                }
-                                key={cm.cmid}
-                                className="modern-collapse-panel cm-panel"
-                              >
-                                <CmDetailsComponent
-                                  selectedCm={cm}
-                                  colors={colors}
-                                  isEditingCm={editingCmIndex === cm.cmid}
-                                  cmEdits={cmEdits}
-                                  form={form}
-                                  onCmEdit={() => {
-                                    setEditingCmIndex(cm.cmid);
-                                    
-                                    // Parse interests properly for editing
-                                    const interestsArray = Array.isArray(cm.interests)
-                                      ? cm.interests
-                                      : (typeof (cm.interests || cm.extraind5) === "string"
+                                  }
+                                  key={cm.cmid}
+                                  className="modern-collapse-panel cm-panel"
+                                >
+                                  <CmDetailsComponent
+                                    selectedCm={cm}
+                                    colors={colors}
+                                    isEditingCm={editingCmIndex === cm.cmid}
+                                    cmEdits={cmEdits}
+                                    form={form}
+                                    onCmEdit={() => {
+                                      setEditingCmIndex(cm.cmid);
+
+                                      // Parse interests properly for editing
+                                      const interestsArray = Array.isArray(cm.interests)
+                                        ? cm.interests
+                                        : (typeof (cm.interests || cm.extraind5) === "string"
                                           ? (cm.interests || cm.extraind5).split(",").map(i => i.trim()).filter(Boolean)
                                           : []);
-                                    
-                                    setCmEdits({ 
-                                      ...cm, 
-                                      interests: interestsArray 
-                                    });
-                                  }}
-                                  onCmCancel={handleCmCancel}
-                                  onCmSave={handleCmSave}
-                                  onCmInputChange={handleCmInputChange}
-                                />
-                              </Collapse.Panel>
-                              {/* {cmIndex < unitCmData.length - 1 && (
+
+                                      setCmEdits({
+                                        ...cm,
+                                        interests: interestsArray
+                                      });
+                                    }}
+                                    onCmCancel={handleCmCancel}
+                                    onCmSave={handleCmSave}
+                                    onCmInputChange={handleCmInputChange}
+                                  />
+                                </Collapse.Panel>
+                                {/* {cmIndex < unitCmData.length - 1 && (
                               <hr style={{
                                 border: 'none',
                                 height: '1px',
@@ -4885,12 +7202,12 @@ const handleCmSave = async () => {
                                 opacity: 0.6
                               }} />
                             )} */}
-                            </React.Fragment>
-                          ))}
-                        </Collapse>
-                      </Box>
-                    )}
-                  </div>
+                              </React.Fragment>
+                            ))}
+                          </Collapse>
+                        </Box>
+                      )}
+                    </div>
                   </>
                 )}
 
@@ -5055,7 +7372,7 @@ const handleCmSave = async () => {
             display: 'flex',
             flexDirection: isMobile || isCards ? 'column' : 'row',
             alignItems: isMobile ? 'stretch' : 'center',
-            justifyContent:"space-around",
+            justifyContent: "space-around",
             background: '#ffffff',
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
@@ -5070,7 +7387,7 @@ const handleCmSave = async () => {
                 background: activeTab === 'Units' ? colors.blueAccent[1000] : 'none',
                 color: activeTab === 'Units' ? '#ffffff' : '#0a2636',
                 padding: isMobile ? '8px 16px' : '8px 20px',
-                width:"100%",
+                width: "100%",
                 // borderRadius: '6px',
                 fontSize: '11px',
                 fontWeight: '700',
@@ -5102,13 +7419,13 @@ const handleCmSave = async () => {
             </Box>
 
             {/* Inactive Tabs */}
-            {['Partnership', 'Business Value', 'Competitor', 'Business Review'].map((tab) => (
+            {['Customer Activities', 'Partnership', 'Business Value', 'Competitor', 'Business Review', 'Business Growth'].map((tab) => (
               <Box
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 sx={{
                   background: activeTab === tab ? colors.blueAccent[1000] : 'none',
-                  width:"100%",
+                  width: "100%",
                   color: activeTab === tab ? '#ffffff' : '#0a2636',
                   padding: isMobile ? '8px 12px' : '8px 20px',
                   fontSize: '11px',
@@ -5163,6 +7480,11 @@ const handleCmSave = async () => {
             <UnitsTab colors={colors} mobile={isMobile} tablet={isTablet} />
           </Box>
 
+          {/* Customer Activities Section */}
+          <Box sx={{ display: activeTab === 'Customer Activities' ? 'block' : 'none' }}>
+            <CustomerActivitiesTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
+          </Box>
+
           {/* Partnership Activities Section */}
           <Box sx={{ display: activeTab === 'Partnership' ? 'block' : 'none' }}>
             <PartnershipTab colors={colors} mobile={isMobile} tablet={isTablet} />
@@ -5193,8 +7515,13 @@ const handleCmSave = async () => {
           <Box sx={{ display: activeTab === 'Business Review' ? 'block' : 'none' }}>
             <BusinessReviewTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
           </Box>
+
+          {/* Business Growth Section */}
+          <Box sx={{ display: activeTab === 'Business Growth' ? 'block' : 'none' }}>
+            <BusinessGrowthTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
+          </Box>
         </Box>
-        </Box>
+      </Box>
 
     </>
   );

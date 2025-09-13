@@ -27,6 +27,8 @@ import Account from "../scenes/commonFiles/account";
 import CustomerInsights from "../scenes/commonFiles/customer-insights";
 import ChurnPrediction from "../scenes/commonFiles/churnprediction";
 import AllIdeas from "../scenes/commonFiles/allideas";
+import RevenueLeak from "../scenes/commonFiles/revenueleak";
+import MeetingCoach from "../scenes/commonFiles/meeting-couch";
 
 const crmRoutes = [
   <Route key="knowledge" path="/knowledge" element={<Knowledge />} />,
@@ -56,6 +58,8 @@ const crmRoutes = [
   <Route key="customer-insights" path="/customer-insights" element={<CustomerInsights />} />,
   <Route key="churn-prediction" path="/churn-prediction" element={<ChurnPrediction />} />,
   <Route key="allideas" path="/allideas" element={<AllIdeas />} />,
+  <Route key="revenue-leak" path="/revenue-leak" element={<RevenueLeak />} />,
+  <Route key="meeting-coach" path="/meeting-coach" element={<MeetingCoach />} />,
 
 ];
 
