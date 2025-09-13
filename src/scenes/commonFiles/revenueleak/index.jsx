@@ -94,7 +94,9 @@ const RevenueLeak = () => {
     }
   ];
 
-  const MetricCard = ({ title, value, subtitle, icon, progressValue, showProgress = false }) => (
+  const MetricCard = ({ title, value, subtitle, icon, progressValue, showProgress = false }) => {
+    const isMobile = useMediaQuery("(max-width:768px)");
+    return (
     <Card sx={{
       backgroundColor: '#ffffff',
       borderRadius: 3,
@@ -105,13 +107,26 @@ const RevenueLeak = () => {
       <CardContent sx={{ p: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 2 }}>
           <Box sx={{ flex: 1 }}>
-            <Typography sx={{ fontSize: '15px', fontWeight: 'bold', color: colors.grey[100] }}>
+            <Typography style={{ 
+              fontSize: isMobile ? '12px' : '14px', 
+              fontWeight: 600, 
+              color: '#1f2937' 
+            }}>
               {title}
             </Typography>
-            <Typography sx={{ fontSize: '28px', fontWeight: 'bold', color: colors.blueAccent[500], mb: 1 }}>
+            <Typography style={{ 
+              fontSize: isMobile ? '20px' : '24px', 
+              fontWeight: 700, 
+              color: colors.blueAccent[500], 
+              mb: 1 
+            }}>
               {value}
             </Typography>
-            <Typography sx={{ fontSize: '14px', color: colors.grey[500], mb: showProgress ? 2 : 0 }}>
+            <Typography style={{ 
+              fontSize: isMobile ? '11px' : '12px', 
+              color: '#6b7280', 
+              mb: showProgress ? 2 : 0 
+            }}>
               {subtitle}
             </Typography>
             {showProgress && (
@@ -146,7 +161,8 @@ const RevenueLeak = () => {
       </CardContent>
 
     </Card>
-  );
+    );
+  };
 
   return (
     <Box sx={{ 
@@ -157,17 +173,17 @@ const RevenueLeak = () => {
     }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography sx={{ 
-          fontSize: isMobile ? '24px' : '28px', 
-          fontWeight: 'bold', 
-          color: colors.grey[100], 
-          mb: 1 
+        <Typography style={{
+          fontSize: isMobile ? '16px' : '18px',
+          fontWeight: 600,
+          color: '#1f2937',
+          mb: 0.5
         }}>
           Potential Revenue Leak
         </Typography>
-        <Typography sx={{ 
-          fontSize: '16px', 
-          color: colors.grey[500],
+        <Typography style={{
+          fontSize: isMobile ? '12px' : '14px',
+          color: '#6b7280',
           mb: 3
         }}>
           Past trend analysis and recommended actions for Relationship Managers
@@ -221,17 +237,17 @@ const RevenueLeak = () => {
         mb: 4
       }}>
         <CardContent sx={{ p: 3 }}>
-          <Typography sx={{ 
-            fontSize: '18px', 
-            fontWeight: 'bold', 
-            color: colors.grey[100], 
-            mb: 1 
+          <Typography style={{
+            fontSize: isMobile ? '16px' : '18px',
+            fontWeight: 600,
+            color: '#1f2937',
+            mb: 0.5
           }}>
             Revenue Trends by Business Unit
           </Typography>
-          <Typography sx={{ 
-            fontSize: '14px', 
-            color: colors.grey[500],
+          <Typography style={{
+            fontSize: isMobile ? '12px' : '14px',
+            color: '#6b7280',
             mb: 3
           }}>
             Declining trajectories indicate potential leakage
@@ -323,17 +339,17 @@ const RevenueLeak = () => {
             height: '100%'
           }}>
             <CardContent sx={{ p: 3 }}>
-              <Typography sx={{ 
-                fontSize: '18px', 
-                fontWeight: 'bold', 
-                color: colors.grey[100], 
-                mb: 1 
+              <Typography style={{
+                fontSize: isMobile ? '16px' : '18px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
               }}>
                 Leak Signals
               </Typography>
-              <Typography sx={{ 
-                fontSize: '14px', 
-                color: colors.grey[500],
+              <Typography style={{
+                fontSize: isMobile ? '12px' : '14px',
+                color: '#6b7280',
                 mb: 3
               }}>
                 Units sorted by estimated leakage
@@ -358,7 +374,11 @@ const RevenueLeak = () => {
                       <ListItemText
                         primary={
                           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', color: colors.grey[100] }}>
+                            <Typography style={{ 
+                              fontSize: isMobile ? '13px' : '15px', 
+                              fontWeight: 600, 
+                              color: '#1f2937' 
+                            }}>
                               {signal.unit}
                             </Typography>
                             <Chip
@@ -375,14 +395,24 @@ const RevenueLeak = () => {
                         }
                         secondary={
                           <Box>
-                            <Typography sx={{ fontSize: '14px', color: colors.grey[100], mb: 0.5 }}>
+                            <Typography style={{ 
+                              fontSize: isMobile ? '11px' : '12px', 
+                              color: '#374151', 
+                              mb: 0.5 
+                            }}>
                               {signal.current} → {signal.previous} ({signal.decline})
                             </Typography>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography sx={{ fontSize: '12px', color: colors.grey[500] }}>
+                              <Typography style={{ 
+                                fontSize: isMobile ? '10px' : '11px', 
+                                color: '#6b7280' 
+                              }}>
                                 Leak estimate: {signal.leakEstimate}
                               </Typography>
-                              <Typography sx={{ fontSize: '12px', color: colors.grey[500] }}>
+                              <Typography style={{ 
+                                fontSize: isMobile ? '10px' : '11px', 
+                                color: '#6b7280' 
+                              }}>
                                 Confidence: {signal.confidence}
                               </Typography>
                             </Box>
@@ -408,17 +438,17 @@ const RevenueLeak = () => {
             height: '100%'
           }}>
             <CardContent sx={{ p: 3 }}>
-              <Typography sx={{ 
-                fontSize: '18px', 
-                fontWeight: 'bold', 
-                color: colors.grey[100], 
-                mb: 1 
+              <Typography style={{
+                fontSize: isMobile ? '16px' : '18px',
+                fontWeight: 600,
+                color: '#1f2937',
+                mb: 0.5
               }}>
                 Recommendations for Relationship Manager
               </Typography>
-              <Typography sx={{ 
-                fontSize: '14px', 
-                color: colors.grey[500],
+              <Typography style={{
+                fontSize: isMobile ? '12px' : '14px',
+                color: '#6b7280',
                 mb: 3
               }}>
                 Targeted actions to stop and recover leakage
@@ -426,10 +456,10 @@ const RevenueLeak = () => {
               <Box>
                 {recommendations.map((rec, index) => (
                   <Box key={rec.unit} sx={{ mb: 3 }}>
-                    <Typography sx={{ 
-                      fontSize: '16px', 
-                      fontWeight: 'bold', 
-                      color: colors.grey[100],
+                    <Typography style={{
+                      fontSize: isMobile ? '14px' : '16px',
+                      fontWeight: 600,
+                      color: '#1f2937',
                       mb: 2
                     }}>
                       {rec.unit}
@@ -452,9 +482,9 @@ const RevenueLeak = () => {
                           </ListItemIcon>
                           <ListItemText
                             primary={
-                            <Typography sx={{ 
-                              fontSize: '14px', 
-                              color: colors.grey[100],
+                            <Typography style={{ 
+                              fontSize: isMobile ? '11px' : '12px', 
+                              color: '#374151',
                               lineHeight: 1.4
                             }}>
                               {item}

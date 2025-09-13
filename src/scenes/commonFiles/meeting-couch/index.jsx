@@ -161,10 +161,9 @@ const MeetingCoach = () => {
           }}>
             <SearchIcon sx={{ color: '#6b7280', fontSize: isMobile ? 18 : 20 }} />
             <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{
+              style={{
                 fontSize: isMobile ? '12px' : '14px',
+                color: '#6b7280',
                 display: isMobile ? 'none' : 'block'
               }}
             >
@@ -209,20 +208,17 @@ const MeetingCoach = () => {
         }}>
           {/* Title Section */}
           <Box sx={{ mb: isMobile ? 2 : 4 }}>
-            <Typography variant="h4" sx={{
-              fontWeight: 700,
+            <Typography style={{
+              fontSize: isMobile ? '16px' : '18px',
+              fontWeight: 600,
               color: '#1f2937',
-              mb: 1,
-              fontSize: isMobile ? '20px' : isTablet ? '24px' : '32px',
-              lineHeight: 1.2
+              marginBottom: '4px'
             }}>
               30 Minute Meeting Coach
             </Typography>
-            <Typography variant="h6" sx={{
-              color: '#6b7280',
-              fontWeight: 400,
-              fontSize: isMobile ? '12px' : isTablet ? '14px' : '16px',
-              lineHeight: 1.4
+            <Typography style={{
+              fontSize: isMobile ? '12px' : '14px',
+              color: '#6b7280'
             }}>
               Persona and stage based topics, tips, and a crisp next step
             </Typography>
@@ -235,29 +231,29 @@ const MeetingCoach = () => {
             borderRadius: 2
           }}>
             <CardContent sx={{ p: isMobile ? 2 : 3 }}>
-              <Typography variant="h6" sx={{
+              <Typography style={{
+                fontSize: isMobile ? '16px' : '18px',
                 fontWeight: 600,
-                mb: 1,
                 color: '#1f2937',
-                fontSize: isMobile ? '16px' : '18px'
+                marginBottom: '4px'
               }}>
                 Setup
               </Typography>
-              <Typography variant="body2" sx={{
+              <Typography style={{
+                fontSize: isMobile ? '12px' : '14px',
                 color: '#6b7280',
-                mb: isMobile ? 2 : 3,
-                fontSize: isMobile ? '12px' : '14px'
+                marginBottom: isMobile ? '16px' : '24px'
               }}>
                 Select persona, stage, and objective
               </Typography>
 
               <Grid container spacing={isMobile ? 2 : 3}>
                 <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="body2" sx={{
-                    fontWeight: 500,
-                    mb: 1,
-                    color: '#374151',
-                    fontSize: isMobile ? '12px' : '14px'
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
+                    fontWeight: 600,
+                    color: '#1f2937',
+                    marginBottom: '8px'
                   }}>
                     Persona
                   </Typography>
@@ -281,11 +277,11 @@ const MeetingCoach = () => {
                   </Select>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="body2" sx={{
-                    fontWeight: 500,
-                    mb: 1,
-                    color: '#374151',
-                    fontSize: isMobile ? '12px' : '14px'
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
+                    fontWeight: 600,
+                    color: '#1f2937',
+                    marginBottom: '8px'
                   }}>
                     Stage
                   </Typography>
@@ -309,11 +305,11 @@ const MeetingCoach = () => {
                   </Select>
                 </Grid>
                 <Grid item xs={12} sm={12} md={4}>
-                  <Typography variant="body2" sx={{
-                    fontWeight: 500,
-                    mb: 1,
-                    color: '#374151',
-                    fontSize: isMobile ? '12px' : '14px'
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
+                    fontWeight: 600,
+                    color: '#1f2937',
+                    marginBottom: '8px'
                   }}>
                     Objective
                   </Typography>
@@ -356,17 +352,17 @@ const MeetingCoach = () => {
                 gap: isMobile ? 2 : 0
               }}>
                 <Box>
-                  <Typography variant="h6" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '16px' : '18px',
                     fontWeight: 600,
-                    mb: 1,
                     color: '#1f2937',
-                    fontSize: isMobile ? '16px' : '18px'
+                    marginBottom: '4px'
                   }}>
                     Timeboxed Agenda
                   </Typography>
-                  <Typography variant="body2" sx={{
-                    color: '#6b7280',
-                    fontSize: isMobile ? '12px' : '14px'
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
+                    color: '#6b7280'
                   }}>
                     30 minutes total - tailored by persona and stage
                   </Typography>
@@ -385,10 +381,10 @@ const MeetingCoach = () => {
                     color: '#6b7280',
                     fontSize: isMobile ? 16 : 20
                   }} />
-                  <Typography variant="h6" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '14px' : '16px',
                     fontWeight: 600,
-                    color: '#1f2937',
-                    fontSize: isMobile ? '14px' : '16px'
+                    color: '#1f2937'
                   }}>
                     {formatTime(timeRemaining)}
                   </Typography>
@@ -428,18 +424,18 @@ const MeetingCoach = () => {
                       onClick={() => setCurrentStep(index)}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", mb: 1 }}>
-                        <Typography variant="body2" sx={{
+                        <Typography style={{
+                          fontSize: isMobile ? '12px' : '14px',
                           fontWeight: 600,
-                          color: currentStep === index ? '#3b82f6' : '#374151',
-                          fontSize: isMobile ? '12px' : '14px'
+                          color: currentStep === index ? '#3b82f6' : '#1f2937'
                         }}>
                           {step.title}
                         </Typography>
                         <Box sx={{ border: '1px solid #e6e8ec', borderRadius: "10px", padding: "3px" }}>
-                          <Typography sx={{
+                          <Typography style={{
+                            fontSize: '10px',
                             fontWeight: 600,
-                            color: currentStep === index ? '#3b82f6' : '#374151',
-                            fontSize: '10px'
+                            color: currentStep === index ? '#3b82f6' : '#1f2937'
                           }}>
                             10m
                           </Typography>
@@ -529,18 +525,18 @@ const MeetingCoach = () => {
                 borderRadius: 2
               }}>
                 <CardContent sx={{ p: isMobile ? 2 : 3 }}>
-                  <Typography variant="h6" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '16px' : '18px',
                     fontWeight: 600,
-                    mb: 1,
                     color: '#1f2937',
-                    fontSize: isMobile ? '16px' : '18px'
+                    marginBottom: '4px'
                   }}>
                     Open Strong
                   </Typography>
-                  <Typography variant="body2" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
                     color: '#6b7280',
-                    mb: isMobile ? 1.5 : 2,
-                    fontSize: isMobile ? '12px' : '14px'
+                    marginBottom: isMobile ? '12px' : '16px'
                   }}>
                     Set context and outcomes
                   </Typography>
@@ -555,7 +551,7 @@ const MeetingCoach = () => {
                       label="Thank you for the time—my aim in 30 minutes is to confirm the outcomes that matter and agree a crisp next step with clear owners and dates."
                       sx={{
                         '& .MuiFormControlLabel-label': {
-                          fontSize: isMobile ? '11px' : '14px',
+                          fontSize: isMobile ? '11px' : '12px',
                           color: '#374151',
                           lineHeight: 1.4
                         }
@@ -574,25 +570,25 @@ const MeetingCoach = () => {
                 borderRadius: 2
               }}>
                 <CardContent sx={{ p: isMobile ? 2 : 3 }}>
-                  <Typography variant="h6" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '16px' : '18px',
                     fontWeight: 600,
-                    mb: 1,
                     color: '#1f2937',
-                    fontSize: isMobile ? '16px' : '18px'
+                    marginBottom: '4px'
                   }}>
                     Value Narrative
                   </Typography>
-                  <Typography variant="body2" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
                     color: '#6b7280',
-                    mb: isMobile ? 1.5 : 2,
-                    fontSize: isMobile ? '12px' : '14px'
+                    marginBottom: isMobile ? '12px' : '16px'
                   }}>
                     Proof that resonates with this persona
                   </Typography>
-                  <Typography variant="body2" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '11px' : '12px',
                     color: '#374151',
-                    mb: isMobile ? 2 : 3,
-                    fontSize: isMobile ? '12px' : '14px',
+                    marginBottom: isMobile ? '16px' : '24px',
                     lineHeight: 1.4
                   }}>
                     Peer outcomes in your industry show reduced time to value and measurable risk reduction within the first quarter.
@@ -612,10 +608,10 @@ const MeetingCoach = () => {
 
                         color: '#374151',
                         textTransform: 'none',
-                        fontSize: isMobile ? '10px' : '12px',
+                        fontSize: isMobile ? '10px' : '11px',
                         minWidth: isMobile ? 'auto' : 'auto',
                         width: isMobile ? '100%' : 'auto',
-                        mb: isMobile ? 0.5 : 0,
+                        marginBottom: isMobile ? '4px' : '0px',
                         border: '1px solid #e6e8ec',
                         borderRadius: "15px",
                         padding: "3px",
@@ -632,10 +628,10 @@ const MeetingCoach = () => {
                         borderColor: '#d1d5db',
                         color: '#374151',
                         textTransform: 'none',
-                        fontSize: isMobile ? '10px' : '12px',
+                        fontSize: isMobile ? '10px' : '11px',
                         minWidth: isMobile ? 'auto' : 'auto',
                         width: isMobile ? '100%' : 'auto',
-                        mb: isMobile ? 0.5 : 0,
+                        marginBottom: isMobile ? '4px' : '0px',
                         border: '1px solid #e6e8ec',
                         borderRadius: "15px",
                         padding: "3px",
@@ -652,7 +648,7 @@ const MeetingCoach = () => {
                         borderColor: '#d1d5db',
                         color: '#374151',
                         textTransform: 'none',
-                        fontSize: isMobile ? '10px' : '12px',
+                        fontSize: isMobile ? '10px' : '11px',
                         minWidth: isMobile ? 'auto' : 'auto',
                         width: isMobile ? '100%' : 'auto',
                         border: '1px solid #e6e8ec',
@@ -677,18 +673,18 @@ const MeetingCoach = () => {
                 borderRadius: 2
               }}>
                 <CardContent sx={{ p: isMobile ? 2 : 3 }}>
-                  <Typography variant="h6" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '16px' : '18px',
                     fontWeight: 600,
-                    mb: 1,
                     color: '#1f2937',
-                    fontSize: isMobile ? '16px' : '18px'
+                    marginBottom: '4px'
                   }}>
                     Discovery Questions
                   </Typography>
-                  <Typography variant="body2" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
                     color: '#6b7280',
-                    mb: isMobile ? 1.5 : 2,
-                    fontSize: isMobile ? '12px' : '14px'
+                    marginBottom: isMobile ? '12px' : '16px'
                   }}>
                     Align on needs, risks, and success
                   </Typography>
@@ -705,9 +701,9 @@ const MeetingCoach = () => {
                           fontSize: isMobile ? 16 : 20,
                           mt: 0.5
                         }} />
-                        <Typography variant="body2" sx={{
+                        <Typography style={{
+                          fontSize: isMobile ? '11px' : '12px',
                           color: '#374151',
-                          fontSize: isMobile ? '11px' : '14px',
                           lineHeight: 1.4
                         }}>
                           {question}
@@ -727,28 +723,28 @@ const MeetingCoach = () => {
                 borderRadius: 2
               }}>
                 <CardContent sx={{ p: isMobile ? 2 : 3 }}>
-                  <Typography variant="h6" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '16px' : '18px',
                     fontWeight: 600,
-                    mb: 1,
                     color: '#1f2937',
-                    fontSize: isMobile ? '16px' : '18px'
+                    marginBottom: '4px'
                   }}>
                     Close for Next Conversation
                   </Typography>
-                  <Typography variant="body2" sx={{
+                  <Typography style={{
+                    fontSize: isMobile ? '12px' : '14px',
                     color: '#6b7280',
-                    mb: isMobile ? 1.5 : 2,
-                    fontSize: isMobile ? '12px' : '14px'
+                    marginBottom: isMobile ? '12px' : '16px'
                   }}>
                     Clear asks tied to stage and goal
                   </Typography>
 
                   <Box sx={{ mb: isMobile ? 2 : 3 }}>
-                    <Typography variant="body2" sx={{
-                      fontWeight: 500,
-                      mb: 1,
-                      color: '#374151',
-                      fontSize: isMobile ? '12px' : '14px'
+                    <Typography style={{
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: 600,
+                      color: '#1f2937',
+                      marginBottom: '8px'
                     }}>
                       Action Items:
                     </Typography>
@@ -767,9 +763,9 @@ const MeetingCoach = () => {
                             color: '#10b981',
                             fontSize: isMobile ? 14 : 16
                           }} />
-                          <Typography variant="body2" sx={{
+                          <Typography style={{
+                            fontSize: isMobile ? '11px' : '12px',
                             color: '#374151',
-                            fontSize: isMobile ? '11px' : '14px',
                             lineHeight: 1.4
                           }}>
                             {item}
@@ -780,11 +776,11 @@ const MeetingCoach = () => {
                   </Box>
 
                   <Box>
-                    <Typography variant="body2" sx={{
-                      fontWeight: 500,
-                      mb: 1,
-                      color: '#374151',
-                      fontSize: isMobile ? '12px' : '14px'
+                    <Typography style={{
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: 600,
+                      color: '#1f2937',
+                      marginBottom: '8px'
                     }}>
                       Recommended Follow Ups:
                     </Typography>
@@ -800,17 +796,17 @@ const MeetingCoach = () => {
                           borderRadius: 1,
                           border: '1px solid #e5e7eb'
                         }}>
-                          <Typography variant="body2" sx={{
-                            fontWeight: 500,
-                            color: '#374151',
-                            fontSize: isMobile ? '11px' : '13px',
+                          <Typography style={{
+                            fontSize: isMobile ? '11px' : '12px',
+                            fontWeight: 600,
+                            color: '#1f2937',
                             lineHeight: 1.3
                           }}>
                             {item.title}
                           </Typography>
-                          <Typography variant="caption" sx={{
-                            color: '#6b7280',
+                          <Typography style={{
                             fontSize: isMobile ? '9px' : '11px',
+                            color: '#6b7280',
                             lineHeight: 1.3
                           }}>
                             {item.desc}

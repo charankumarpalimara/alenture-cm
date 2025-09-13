@@ -591,10 +591,11 @@ const UnitsTab = ({ colors, mobile, tablet }) => (
         <Box sx={{ display: 'flex', gap: 2 }}>
           <Button
             icon={<UpOutlined />}
+            className="form-button"
             style={{
-              fontSize: '11px',
-              color: '#666666',
-              border: '1px solid #d9d9d9'
+              background: colors.blueAccent[1000],
+              color: "#fff",
+              border: 'none',
             }}
           >
             Export
@@ -1616,11 +1617,11 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
           <Button
             type="primary"
             icon={<DownloadOutlined />}
+            className="form-button"
             style={{
-              fontSize: mobile ? '10px' : '11px',
               background: colors.blueAccent[1000],
+              color: "#fff",
               border: 'none',
-              padding: mobile ? '4px 8px' : undefined
             }}
           >
             {mobile ? 'Export' : 'Export Report'}
@@ -1801,11 +1802,11 @@ const CompetitorTab = ({ colors, mobile, tablet }) => (
               </Typography>
               <Button
                 type="primary"
+                className="form-button"
                 style={{
-                  fontSize: mobile ? '10px' : '11px',
                   background: colors.blueAccent[1000],
+                  color: "#fff",
                   border: 'none',
-                  padding: mobile ? '4px 8px' : undefined
                 }}
               >
                 {mobile ? '+ New' : '+ New Activity'}
@@ -2198,8 +2199,8 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             type="primary"
             icon={<DownloadOutlined />}
             style={{
-              // fontSize: '11px',
               background: colors.blueAccent[1000],
+              color: "#fff",
               border: 'none'
             }}
           >
@@ -2386,8 +2387,16 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
                 Value Generation Trend
               </Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button size="small" style={{ fontSize: '10px', color: '#666666' }}>Monthly</Button>
-                <Button size="small" type="primary" style={{ fontSize: '10px', background: colors.blueAccent[1000] }}>Quarterly</Button>
+                <Button size="small" className="form-button" style={{
+                  background: colors.blueAccent[1000],
+                  color: "#fff",
+                  border: 'none',
+                }}>Monthly</Button>
+                <Button size="small" type="primary" className="form-button" style={{
+                  background: colors.blueAccent[1000],
+                  color: "#fff",
+                  border: 'none',
+                }}>Quarterly</Button>
               </Box>
             </Box>
 
@@ -4293,24 +4302,26 @@ const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
             <Box sx={{ position: 'relative', display: 'inline-flex', mb: 4 }}>
               <Box sx={{
                 width: '160px',
-                height: '160px',
-                borderRadius: '50%',
-                background: `conic-gradient(#10b981 0deg ${94 * 3.6}deg, #e5e7eb ${94 * 3.6}deg 360deg)`,
+                height: '80px',
+                borderRadius: '80px 80px 0 0',
+                background: `conic-gradient(from 180deg, #10b981 0deg ${94 * 1.8}deg, #e5e7eb ${94 * 1.8}deg 180deg)`,
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+                overflow: 'hidden'
               }}>
                 <Box sx={{
                   width: '120px',
-                  height: '120px',
-                  borderRadius: '50%',
+                  height: '60px',
+                  borderRadius: '60px 60px 0 0',
                   backgroundColor: 'white',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  marginBottom: '0px'
                 }}>
-                  <Typography style={{ fontSize: '36px', fontWeight: '700', color: '#10b981', lineHeight: 1 }}>
+                  <Typography style={{ fontSize: '24px', fontWeight: '700', color: '#10b981', lineHeight: 1, marginTop: '10px' }}>
                     94%
                   </Typography>
                 </Box>
@@ -4640,13 +4651,15 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
         </Box>
         <Button
           type="primary"
+          className="form-button"
           style={{
-            fontSize: mobile ? '11px' : '12px',
+            // fontSize: mobile ? '11px' : '12px',
             background: colors.blueAccent[1000],
+            color:"#fff",
             border: 'none',
-            padding: mobile ? '8px 16px' : '8px 20px',
-            height: mobile ? '36px' : '40px',
-            minWidth: mobile ? '120px' : '140px'
+            // padding: mobile ? '8px 16px' : '8px 20px',
+            // height: mobile ? '36px' : '40px',
+            // minWidth: mobile ? '120px' : '140px'
           }}
         >
           Plan Actions
@@ -5406,7 +5419,11 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
         </Select>
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box sx={{ 
+        display: 'grid',
+        gridTemplateColumns: mobile ? '1fr' : tablet ? 'repeat(2, 1fr)' : 'repeat(2, 1fr)',
+        gap: mobile ? 2 : 3
+      }}>
         {[
           {
             title: "Persona-targeted multi-threaded outreach",
@@ -5573,7 +5590,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
             }}>
               <Box>
                 <Typography style={{ 
-                  color: '#6b7280', 
+                  color: 'black', 
                   fontSize: mobile ? '10px' : '11px',
                   fontWeight: 600,
                   mb: 0.5
@@ -5589,7 +5606,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
               </Box>
               <Box>
                 <Typography style={{ 
-                  color: '#6b7280', 
+                  color: 'black', 
                   fontSize: mobile ? '10px' : '11px',
                   fontWeight: 600,
                   mb: 0.5
@@ -5605,7 +5622,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
               </Box>
               <Box>
                 <Typography style={{ 
-                  color: '#6b7280', 
+                  color: 'black', 
                   fontSize: mobile ? '10px' : '11px',
                   fontWeight: 600,
                   mb: 0.5
@@ -5621,7 +5638,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
               </Box>
               <Box>
                 <Typography style={{ 
-                  color: '#6b7280', 
+           color: 'black', 
                   fontSize: mobile ? '10px' : '11px',
                   fontWeight: 600,
                   mb: 0.5
@@ -5820,11 +5837,11 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
                 <Box sx={{
                   position: 'absolute',
                   left: mobile ? 15 : 19,
-                  top: 60,
+                  top: 70,
                   width: '2px',
-                  height: '40px',
-                  backgroundColor: isCompleted ? colors.blueAccent[1000] : '#e5e7eb',
-                  zIndex: 1
+                  height: '80px',
+                  backgroundColor: '#d1d5db',
+                  zIndex: 0
                 }} />
               )}
 
@@ -5835,7 +5852,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
                 gap: 2,
                 mb: 3,
                 position: 'relative',
-                zIndex: 2
+                zIndex: 1
               }}>
                 {/* Step Number & Icon */}
                 <Box sx={{
@@ -5887,8 +5904,8 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
                   boxShadow: isCompleted ? '0 2px 4px rgba(59, 130, 246, 0.1)' : isPending ? '0 2px 4px rgba(245, 158, 11, 0.1)' : '0 1px 3px rgba(0,0,0,0.1)'
                 }}>
                   {/* Header */}
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ display: 'flex', flexDirection: mobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                    <Box sx={{ display: 'flex',  alignItems: 'center' }}>
                       <Typography style={{
                         fontSize: mobile ? '13px' : '15px',
                         fontWeight: 600,
@@ -5907,7 +5924,7 @@ const CustomerActivitiesTab = ({ colors, mobile, tablet, cards, bigtablet }) => 
                             color: '#ffffff',
                             fontWeight: 500
                           }}>
-                            ✓ Completed
+                            Completed
                           </Typography>
                         </Box>
                       )}
@@ -7391,96 +7408,86 @@ const OrganizationDetails = () => {
           </Typography> */}
 
           {/* Tab Navigation Bar */}
+          {/* Modern Pill-Style Tab Navigation */}
           <Box sx={{
-            display: 'flex',
-            flexDirection: isMobile || isCards ? 'column' : 'row',
-            alignItems: isMobile ? 'stretch' : 'center',
-            justifyContent: "space-around",
-            background: '#ffffff',
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            // padding: '2px',
-            position: 'relative',
-            gap: isMobile ? '4px' : '0'
+            backgroundColor: '#f8fafc',
+            borderRadius: '20px',
+            padding: '6px',
+            border: '1px solid #e2e8f0',
+            position: 'relative'
           }}>
-            {/* Active Tab - First Segment */}
-            <Box
-              onClick={() => setActiveTab('Units')}
-              sx={{
-                background: activeTab === 'Units' ? colors.blueAccent[1000] : 'none',
-                color: activeTab === 'Units' ? '#ffffff' : '#0a2636',
-                padding: isMobile ? '8px 16px' : '8px 20px',
-                width: "100%",
-                // borderRadius: '6px',
-                fontSize: '11px',
-                fontWeight: '700',
-                cursor: 'pointer',
-                position: 'relative',
-                transition: 'all 0.3s ease',
-                textAlign: isMobile ? 'center' : 'left',
-                // border: '2px solid #0a91b5',
-                // '&:hover': {
-                //   background: activeTab === 'Units' ? 'none' : '#d0f0fa'
-                // },
-                '&::after': {
-                  content: isMobile || activeTab !== 'Units' ? 'none' : '""',
-                  position: 'absolute',
-                  right: '-8px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: 0,
-                  height: 0,
-                  borderLeft: '8px solid',
-                  borderLeftColor: colors.blueAccent[1000],
-                  borderTop: '8px solid transparent',
-                  borderBottom: '8px solid transparent',
-                  zIndex: 1
-                }
-              }}
-            >
-              Journey Matrix
+            <Box sx={{
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              gap: '6px',
+              position: 'relative'
+            }}>
+              {/* Tab Buttons */}
+              {['Journey Matrix', 'Customer Activities', 'Partnership', 'Business Value', 'Competitor', 'Business Review', 'Business Growth'].map((tab, index) => (
+                <Box
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className="form-button"
+                  sx={{
+                    position: 'relative',
+                    flex: 1,
+                    padding: isMobile ? '12px 20px' : '14px 24px',
+                    borderRadius: '16px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    textAlign: 'center',
+                    fontSize: isMobile ? '13px' : '14px',
+                    fontWeight: activeTab === tab ? 700 : 500,
+                    color: activeTab === tab ? '#1e40af' : '#64748b',
+                    backgroundColor: activeTab === tab ? '#ffffff' : 'transparent',
+                    border: activeTab === tab ? '2px solid #3b82f6' : '2px solid transparent',
+                    minHeight: isMobile ? '40px' : '48px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: activeTab === tab ? '0 4px 12px rgba(59, 130, 246, 0.15)' : 'none',
+                    transform: activeTab === tab ? 'scale(1.02)' : 'scale(1)',
+                    '&:hover': {
+                      color: activeTab === tab ? '#1e40af' : '#374151',
+                      backgroundColor: activeTab === tab ? '#ffffff' : '#f1f5f9',
+                      border: activeTab === tab ? '2px solid #3b82f6' : '2px solid #cbd5e1',
+                      transform: activeTab === tab ? 'scale(1.02)' : 'scale(1.01)',
+                      boxShadow: activeTab === tab ? '0 4px 12px rgba(59, 130, 246, 0.15)' : '0 2px 8px rgba(0, 0, 0, 0.1)'
+                    },
+                    '&:active': {
+                      transform: 'scale(0.98)'
+                    }
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 'inherit',
+                      fontWeight: 'inherit',
+                      color: 'inherit',
+                      lineHeight: 1.3,
+                      textAlign: 'center',
+                      letterSpacing: '0.025em'
+                    }}
+                  >
+                    {tab}
+                  </Typography>
+                  
+                  {/* Active indicator dot */}
+                  {activeTab === tab && (
+                    <Box sx={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      width: '6px',
+                      height: '6px',
+                      backgroundColor: '#3b82f6',
+                      borderRadius: '50%',
+                      animation: 'pulse 2s infinite'
+                    }} />
+                  )}
+                </Box>
+              ))}
             </Box>
-
-            {/* Inactive Tabs */}
-            {['Customer Activities', 'Partnership', 'Business Value', 'Competitor', 'Business Review', 'Business Growth'].map((tab) => (
-              <Box
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                sx={{
-                  background: activeTab === tab ? colors.blueAccent[1000] : 'none',
-                  width: "100%",
-                  color: activeTab === tab ? '#ffffff' : '#0a2636',
-                  padding: isMobile ? '8px 12px' : '8px 20px',
-                  fontSize: '11px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  marginLeft: isMobile ? '0' : '-4px',
-                  transition: 'all 0.3s ease',
-                  textAlign: isMobile ? 'center' : 'left',
-                  // border: '2px solid #0a91b5',
-                  // '&:hover': {
-                  //   background: activeTab === tab ? 'none' : '#d0f0fa'
-                  // },
-                  '&::after': {
-                    content: isMobile || activeTab !== tab ? 'none' : '""',
-                    position: 'absolute',
-                    right: '-8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: 0,
-                    height: 0,
-                    borderLeft: '8px solid',
-                    borderLeftColor: colors.blueAccent[1000],
-                    borderTop: '8px solid transparent',
-                    borderBottom: '8px solid transparent',
-                    zIndex: 1
-                  }
-                }}
-              >
-                {tab}
-              </Box>
-            ))}
           </Box>
 
           {/* Tab Description */}
@@ -7499,7 +7506,7 @@ const OrganizationDetails = () => {
         {/* Tab Content Sections */}
         <Box sx={{ mt: 3 }}>
           {/* Units Section */}
-          <Box sx={{ display: activeTab === 'Units' ? 'block' : 'none' }}>
+          <Box sx={{ display: activeTab === 'Journey Matrix' ? 'block' : 'none' }}>
             <UnitsTab colors={colors} mobile={isMobile} tablet={isTablet} />
           </Box>
 

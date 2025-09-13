@@ -316,7 +316,34 @@ const ChurnPrediction = () => {
               <Typography variant="h5" color="text.secondary" sx={{ mb: 2 }}>
                 Overall Risk Level
               </Typography>
-              <CircularProgress value={32} />
+              <Box sx={{ position: 'relative', display: 'inline-flex', mb: 4 }}>
+              <Box sx={{
+                width: '160px',
+                height: '80px',
+                borderRadius: '80px 80px 0 0',
+                background: `conic-gradient(from 180deg, #10b981 0deg ${94 * 1.8}deg, #e5e7eb ${94 * 1.8}deg 180deg)`,
+                display: 'flex',
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+                overflow: 'hidden'
+              }}>
+                <Box sx={{
+                  width: '120px',
+                  height: '60px',
+                  borderRadius: '60px 60px 0 0',
+                  backgroundColor: 'white',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '0px'
+                }}>
+                  <Typography style={{ fontSize: '24px', fontWeight: '700', color: '#10b981', lineHeight: 1, marginTop: '10px' }}>
+                    94%
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
               <Box sx={{ mt: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                   <Typography variant="body2" color="text.secondary">Low Risk (0-30)</Typography>
