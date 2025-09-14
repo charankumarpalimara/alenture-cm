@@ -7424,7 +7424,7 @@ const OrganizationDetails = () => {
               flexWrap: isTablet ? 'wrap' : 'nowrap'
             }}>
               {/* Tab Buttons */}
-              {['Journey Matrix', 'Business Growth Opportunity', 'Partnership', 'Business Value', 'Competitor', 'Business Review'].map((tab, index) => (
+              {['Journey Matrix', 'Business Opportunity', 'Partnership', 'Business Value', 'Competitor', 'Business Review'].map((tab, index) => (
                 <Box
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -7512,7 +7512,7 @@ const OrganizationDetails = () => {
           </Box>
 
           {/* Customer Activities Section */}
-          <Box sx={{ display: activeTab === 'Business Growth Opportunity' ? 'block' : 'none' }}>
+          <Box sx={{ display: activeTab === 'Business Opportunity' ? 'block' : 'none' }}>
             <CustomerActivitiesTab colors={colors} mobile={isMobile} tablet={isTablet} cards={isCards} bigtablet={isHightTablet} />
           </Box>
 

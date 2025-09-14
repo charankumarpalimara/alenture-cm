@@ -32,6 +32,7 @@ import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 import logoLight from "./alentur-logo.avif";
 import { useNavigate } from "react-router-dom";
 
@@ -364,9 +365,9 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           setSelected={setSelected}
         />
         <Item 
-          title="Business Growth Analytics" 
+          title="Analytics" 
           to="/business-growth-analytics" 
-          icon={<TrendingUpIcon />} 
+          icon={<AnalyticsIcon />} 
           selected={selected} 
           setSelected={setSelected} 
         />

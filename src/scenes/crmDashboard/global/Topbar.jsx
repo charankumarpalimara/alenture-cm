@@ -41,6 +41,7 @@ import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { getCreaterFirstName, getCreaterRole } from "../../../config";
 
@@ -954,7 +955,7 @@ const Topbar = ({ onLogout }) => {
             width="100%"
             sx={{
               background: colors.primary[400],
-              height: "100vh",
+              height: "90vh",
               position: "absolute",
               left: 0,
               top: "10%",
@@ -962,8 +963,10 @@ const Topbar = ({ onLogout }) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              overflow: "hidden",
+              overflowY: "auto",
+              overflowX: "hidden",
               boxShadow: "4px 0px 8px rgba(0, 0, 0, 0.2)",
+              paddingBottom: "40px",
             }}
           >
             {/* <Item
@@ -1188,9 +1191,9 @@ const Topbar = ({ onLogout }) => {
               handleClose={() => setIsModalOpen(false)}
             />
                     <Item 
-          title="Business Growth Analytics" 
+          title="Analytics" 
           to="/business-growth-analytics" 
-          icon={<TrendingUpIcon />} 
+          icon={<AnalyticsIcon />} 
           selected={selected} 
           setSelected={setSelected} 
           handleClose={() => setIsModalOpen(false)}
@@ -1248,7 +1251,12 @@ const Topbar = ({ onLogout }) => {
         onClose={() => setDrawerOpen(false)}
       >
         <Box
-          sx={{ width: isMobile ? 250 : 350, padding: 2 }}
+          sx={{ 
+            width: isMobile ? 250 : 350, 
+            padding: 2,
+            maxHeight: "80vh",
+            overflowY: "auto"
+          }}
           role="presentation"
         >
           <Typography variant="h6" sx={{ mb: 2 }}>
