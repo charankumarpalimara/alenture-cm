@@ -20,7 +20,7 @@ import {
   // Typography
 } from "antd";
 // import { Country, State, City } from "country-state-city";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   UpOutlined,
@@ -6696,7 +6696,7 @@ const OrganizationDetails = () => {
             const isEditing = editingBranchIndex === idx;
             const editData = isEditing ? branchEdits : branch;
             const unitCmData = getCmDataForUnit(branch.branch);
-            const selectedCm = selectedCmByUnit[branch.branch];
+            // const selectedCm = selectedCmByUnit[branch.branch];
 
             const panelLabel =
               branch.branchtype === "Parent"
