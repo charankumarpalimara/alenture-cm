@@ -12,7 +12,6 @@ import {
   CardContent,
   Tabs,
   Tab,
-  IconButton
 } from '@mui/material';
 import { 
   Search,
@@ -21,8 +20,6 @@ import {
   Schedule,
   Assessment,
   Share,
-  Visibility,
-  CalendarToday,
   TrendingUp
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
@@ -33,8 +30,6 @@ const CustomerInsights = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const Mobile = useMediaQuery("(max-width: 400px)");
   const isTablet = useMediaQuery("(max-width: 700px)");
-  const isCards = useMediaQuery("(max-width: 540px)");
-  const isHightTablet = useMediaQuery("(max-width: 830px)");
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {

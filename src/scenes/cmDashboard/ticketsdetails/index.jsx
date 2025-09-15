@@ -48,7 +48,7 @@ const CmTicketDetails = () => {
   // const [selectedFile, setSelectedFile] = useState(null);
 
   const theme = useTheme();
-  const isDesktop = useMediaQuery("(min-width:600px)");
+  // const isDesktop = useMediaQuery("(min-width:600px)");
   const isMobile = useMediaQuery("(max-width:484px)");
   const isTablet = useMediaQuery("(max-width: 700px)");
   const colors = tokens(theme.palette.mode);

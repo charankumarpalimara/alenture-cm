@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Form, Input, Button, Row, Col, Select, message, Spin, Typography } from "antd";
+import { Form, Input, Button, Row, Col, Select, message, Typography } from "antd";
 import { Country, State, City } from "country-state-city";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -97,7 +97,7 @@ const OrganizationForm = () => {
       if (response) {
         const FinalOrgid = response.data.orgid;
         console.log("Final Organization ID:", FinalOrgid);
-        const branch = response.data.branch;
+        // const branch = response.data.branch;
 
         // message.success("Organization Registered successfully!");
         // navigate("/organizationunitadd", { state: { orgid: FinalOrgid } });

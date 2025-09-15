@@ -25,21 +25,18 @@ import {
   Flag as TargetIcon,
   Description as DescriptionIcon,
   Schedule as ScheduleIcon,
-  PlayArrow as PlayArrowIcon,
-  Pause as PauseIcon
 } from '@mui/icons-material';
 
 const MeetingCoach = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('lg'));
 
   const [selectedPersona, setSelectedPersona] = useState('Economic Buyer');
   const [selectedStage, setSelectedStage] = useState('Prospect');
   const [selectedObjective, setSelectedObjective] = useState('Secure discovery across stakeholders');
   const [currentStep, setCurrentStep] = useState(0);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(1800); // 30 minutes in seconds
+  // const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [timeRemaining, ] = useState(1800); // 30 minutes in seconds
 
   const personas = [
     'Economic Buyer',
@@ -104,27 +101,6 @@ const MeetingCoach = () => {
   };
 
 
-  const handleTimerToggle = () => {
-    setIsTimerRunning(!isTimerRunning);
-  };
-
-  const handleResetTimer = () => {
-    setIsTimerRunning(false);
-    setTimeRemaining(1800);
-    setCurrentStep(0);
-  };
-
-  const handleNextStep = () => {
-    if (currentStep < agendaSteps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const handlePrevStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
 
   return (
     <Box sx={{

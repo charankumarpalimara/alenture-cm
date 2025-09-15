@@ -3,7 +3,6 @@ import {
   Box,
   useTheme,
   useMediaQuery,
-  Button as MuiButton,
     Menu,
     MenuItem,
 } from "@mui/material";

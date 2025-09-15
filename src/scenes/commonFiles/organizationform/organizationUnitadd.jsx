@@ -11,7 +11,7 @@ import {
   message,
   // Avatar,
   Collapse,
-  Spin,
+  // Spin,
   Modal,
   Form,
   Result
@@ -158,7 +158,7 @@ const OrganizationUnitadd = () => {
   const [form] = Form.useForm();
   const [cmForm] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [profileImage, setProfileImage] = useState(null);
+  const [, setProfileImage] = useState(null);
   const [originalImage, setOriginalImage] = useState(null);
   const [cropModalOpen, setCropModalOpen] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
@@ -178,12 +178,12 @@ const OrganizationUnitadd = () => {
   const [cmform, setCmform] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const [crmNameList, setCrmNameList] = useState([]);
-  const [organizationNames, setOrganizationNames] = useState([]);
-  const [branchNames, setBranchNames] = useState([]);
+  const [, setOrganizationNames] = useState([]);
+  const [, setBranchNames] = useState([]);
 
   const [functionList, setFunctionList] = useState([]);
   const [interestList, setInterestList] = useState([]);
-  const [interestSearch, setInterestSearch] = useState("");
+  // const [interestSearch, setInterestSearch] = useState("");
   const [unitValue, setUnitValue] = useState("");
   //   const location = useLocation();
   // const organizationid = location.state?.orgid;
@@ -755,7 +755,7 @@ const OrganizationUnitadd = () => {
   }
 
 
-  const gender = ["Male", "Female"];
+  // const gender = ["Male", "Female"];
   return (
     <>
       {/* {isLoading && (

@@ -32,7 +32,7 @@ import React, {
   useCallback,
 } from "react";
 import { useParams } from "react-router-dom";
-import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import { Edit as EditIcon } from "@mui/icons-material";
 import {
   // FormatBold,
   // FormatItalic,
@@ -75,18 +75,16 @@ import { CloseOutlined } from "@ant-design/icons";
 const CrmTicketDetails = () => {
   const { experienceid } = useParams();
   const [experienceData, setExperienceData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [form] = Form.useForm();
   const socketRef = useRef(null);
   const theme = useTheme();
-  const isDesktop = useMediaQuery("(min-width:600px)");
   const isMobile = useMediaQuery("(max-width:484px)");
   const isTablet = useMediaQuery("(max-width: 700px)");
   const colors = tokens(theme.palette.mode);
   // const location = useLocation();
   const [isDownloading, setIsDownloading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [crmIdList, setCrmIdList] = useState([]);
+  const [, setCrmIdList] = useState([]);
   const [crmNameList, setCrmNameList] = useState([]);
   // const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();

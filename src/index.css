@@ -176,6 +176,11 @@ button,
   background: linear-gradient(to bottom, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
 }
 
+/* Force table header gradient with higher specificity */
+.ant-table.custom-ant-table-header .ant-table-thead>tr {
+  background: linear-gradient(to bottom, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
+}
+
 .custom-row:hover td {
   background: #e3e8ff !important;
 }
@@ -188,18 +193,30 @@ button,
   text-transform: none !important;
 }
 
-/* Ant Design Table header customizations */
+/* Ant Design Table header customizations - More specific selectors */
 .custom-ant-table-header .ant-table-thead>tr>th {
   background: transparent !important;
   color: #fff !important;
-  font-weight: bold;
-  font-size: 11px;
+  font-weight: bold !important;
+  font-size: 11px !important;
   border-right: none !important;
   border-bottom: none !important;
   padding-top: 6px !important;
   padding-bottom: 6px !important;
   height: 36px !important;
-  /* optional, for extra control */
+}
+
+/* Force table header styles with higher specificity */
+.ant-table.custom-ant-table-header .ant-table-thead>tr>th {
+  background: transparent !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-size: 11px !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  height: 36px !important;
 }
 
 
@@ -268,5 +285,28 @@ button,
   width: 100% !important;
   flex: 1 !important;
   /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; */
+}
+
+/* DEBUG: Force all table styles to be visible */
+.ant-table.custom-ant-table-header {
+  border: 2px solid red !important;
+}
+
+.ant-table.custom-ant-table-header .ant-table-thead>tr {
+  background: linear-gradient(to bottom, #0A0A3D, #1C1C6B, #2E2E9F, #5050D4, #5050D4) !important;
+  border: 2px solid blue !important;
+}
+
+.ant-table.custom-ant-table-header .ant-table-thead>tr>th {
+  background: transparent !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-size: 11px !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  height: 36px !important;
+  border: 1px solid yellow !important;
 }
 

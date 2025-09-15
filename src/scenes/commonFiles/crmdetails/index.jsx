@@ -26,7 +26,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { tokens } from "../../../theme";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { getCreaterRole, getCreaterId } from "../../../config";
-import { CloseOutlined, UpOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
+import { CloseOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 // import {  } from "@ant-design/icons";
 
 const { Text } = Typography;

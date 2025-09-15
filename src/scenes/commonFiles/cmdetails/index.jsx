@@ -65,7 +65,7 @@ const CmDetails = () => {
   const [crmNameList, setCrmNameList] = useState([]);
   const [functionList, setFunctionList] = useState([]);
   const [interestList, setInterestList] = useState([]);
-  const [interestSearch, setInterestSearch] = useState("");
+  const [, setInterestSearch] = useState("");
   // Fetch interests list for editing
   useEffect(() => {
     const fetchInterest = async () => {
@@ -797,9 +797,6 @@ formData.append("interests", Array.isArray(values.interests) ? values.interests.
                   filterOption={false}
                   disabled={!isEditing}
                   dropdownRender={menu => {
-                    const search = interestSearch.trim();
-                    const lowerList = interestList.map(i => i.toLowerCase());
-                    const alreadySelected = (form.getFieldValue("interests") || []).map(i => i.toLowerCase());
                     return menu;
                   }}
                 >

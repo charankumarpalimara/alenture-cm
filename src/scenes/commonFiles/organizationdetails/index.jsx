@@ -41,7 +41,7 @@ import {
   DollarOutlined,
   TeamOutlined,
   GlobalOutlined,
-  ReloadOutlined,
+  // ReloadOutlined,
   RiseOutlined
 } from "@ant-design/icons";
 import { TrendingUp, TrendingDown } from "@mui/icons-material";
@@ -62,7 +62,7 @@ import { getCreaterRole } from "../../../config";
 // import { heIL } from "@mui/x-data-grid";
 // import { Height } from "@mui/icons-material";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 // Add custom CSS styles for modern collapse
 const collapseStyles = `
@@ -2991,899 +2991,899 @@ const BusinessValueTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
   </Box>
 );
 
-const BusinessGrowthTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
-  <Box>
-    {/* Business Growth Analytics Header */}
-    <Box sx={{ mb: 4 }}>
-      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Box>
-          <Typography
-            style={{
-              textAlign: "left",
-              fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
-              paddingLeft: "0px",
-              fontWeight: "600",
-              color: '#1a1a1a'
-            }}
-          >
-            Business Growth Analytics
-          </Typography>
-          <Typography sx={{
-            fontSize: '14px',
-            color: '#666666'
-          }}>
-            Insights and metrics to drive B2B account growth
-          </Typography>
-        </Box>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: mobile ? 'column' : 'row',
-          gap: mobile ? 1.5 : 2,
-          mt: mobile ? 2 : 0,
-          width: mobile ? '100%' : 'auto'
-        }}>
-          <Select
-            defaultValue="This Quarter"
-            style={{
-              width: mobile ? '100%' : 120,
-              fontSize: mobile ? '12px' : '11px'
-            }}
-            size="middle"
-          >
-            <Select.Option value="thisQuarter" style={{ fontSize: mobile ? '12px' : '11px' }}>This Quarter</Select.Option>
-            <Select.Option value="lastQuarter" style={{ fontSize: mobile ? '12px' : '11px' }}>Last Quarter</Select.Option>
-            <Select.Option value="thisYear" style={{ fontSize: mobile ? '12px' : '11px' }}>This Year</Select.Option>
-            <Select.Option value="lastYear" style={{ fontSize: mobile ? '12px' : '11px' }}>Last Year</Select.Option>
-          </Select>
-          <Box sx={{
-            display: 'flex',
-            gap: mobile ? 1 : 2,
-            width: mobile ? '100%' : 'auto'
-          }}>
-            <Button
-              className="form-button"
-              type="primary"
-              icon={<DownloadOutlined />}
-              style={{
-                background: colors.blueAccent[1000],
-                border: 'none',
-                fontSize: mobile ? '12px' : '14px',
-                height: mobile ? '36px' : '32px',
-                flex: mobile ? 1 : 'none'
-              }}
-            >
-              {mobile ? 'Export' : 'Export'}
-            </Button>
-            <Button
-              className="form-button"
-              type="default"
-              icon={<ReloadOutlined />}
-              style={{
-                border: '1px solid #d9d9d9',
-                fontSize: mobile ? '12px' : '14px',
-                height: mobile ? '36px' : '32px',
-                flex: mobile ? 1 : 'none'
-              }}
-            >
-              {mobile ? 'Refresh' : 'Refresh'}
-            </Button>
-          </Box>
-        </Box>
-      </Box>
+// const BusinessGrowthTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
+//   <Box>
+//     {/* Business Growth Analytics Header */}
+//     <Box sx={{ mb: 4 }}>
+//       <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+//         <Box>
+//           <Typography
+//             style={{
+//               textAlign: "left",
+//               fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+//               paddingLeft: "0px",
+//               fontWeight: "600",
+//               color: '#1a1a1a'
+//             }}
+//           >
+//             Business Growth Analytics
+//           </Typography>
+//           <Typography sx={{
+//             fontSize: '14px',
+//             color: '#666666'
+//           }}>
+//             Insights and metrics to drive B2B account growth
+//           </Typography>
+//         </Box>
+//         <Box sx={{
+//           display: 'flex',
+//           flexDirection: mobile ? 'column' : 'row',
+//           gap: mobile ? 1.5 : 2,
+//           mt: mobile ? 2 : 0,
+//           width: mobile ? '100%' : 'auto'
+//         }}>
+//           <Select
+//             defaultValue="This Quarter"
+//             style={{
+//               width: mobile ? '100%' : 120,
+//               fontSize: mobile ? '12px' : '11px'
+//             }}
+//             size="middle"
+//           >
+//             <Select.Option value="thisQuarter" style={{ fontSize: mobile ? '12px' : '11px' }}>This Quarter</Select.Option>
+//             <Select.Option value="lastQuarter" style={{ fontSize: mobile ? '12px' : '11px' }}>Last Quarter</Select.Option>
+//             <Select.Option value="thisYear" style={{ fontSize: mobile ? '12px' : '11px' }}>This Year</Select.Option>
+//             <Select.Option value="lastYear" style={{ fontSize: mobile ? '12px' : '11px' }}>Last Year</Select.Option>
+//           </Select>
+//           <Box sx={{
+//             display: 'flex',
+//             gap: mobile ? 1 : 2,
+//             width: mobile ? '100%' : 'auto'
+//           }}>
+//             <Button
+//               className="form-button"
+//               type="primary"
+//               icon={<DownloadOutlined />}
+//               style={{
+//                 background: colors.blueAccent[1000],
+//                 border: 'none',
+//                 fontSize: mobile ? '12px' : '14px',
+//                 height: mobile ? '36px' : '32px',
+//                 flex: mobile ? 1 : 'none'
+//               }}
+//             >
+//               {mobile ? 'Export' : 'Export'}
+//             </Button>
+//             <Button
+//               className="form-button"
+//               type="default"
+//               icon={<ReloadOutlined />}
+//               style={{
+//                 border: '1px solid #d9d9d9',
+//                 fontSize: mobile ? '12px' : '14px',
+//                 height: mobile ? '36px' : '32px',
+//                 flex: mobile ? 1 : 'none'
+//               }}
+//             >
+//               {mobile ? 'Refresh' : 'Refresh'}
+//             </Button>
+//           </Box>
+//         </Box>
+//       </Box>
 
-      {/* Key Metrics Cards */}
-      <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', gap: 3, mb: 4 }}>
-        {/* Revenue Growth Card */}
-        <Box sx={{
-          flex: 1,
-          p: 3,
-          border: '1px solid #e0e0e0',
-          borderRadius: '8px',
-          textAlign: 'left',
-          backgroundColor: '#ffffff',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-            <Box sx={{
-              width: '40px',
-              height: '40px',
-              backgroundColor: '#dcfce6',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '12px'
-            }}>
-              <DollarOutlined style={{ color: '#3bb468', fontSize: '20px' }} />
-            </Box>
-            <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
-              <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
-                +5.2%
-              </Typography>
-            </Box>
-          </Box>
-          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
-            28.5%
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography style={{ fontSize: '12px', color: '#666666' }}>
-              Revenue Growth
-            </Typography>
-          </Box>
-        </Box>
+//       {/* Key Metrics Cards */}
+//       <Box sx={{ display: 'flex', flexDirection: mobile || tablet ? 'column' : 'row', gap: 3, mb: 4 }}>
+//         {/* Revenue Growth Card */}
+//         <Box sx={{
+//           flex: 1,
+//           p: 3,
+//           border: '1px solid #e0e0e0',
+//           borderRadius: '8px',
+//           textAlign: 'left',
+//           backgroundColor: '#ffffff',
+//           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+//         }}>
+//           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+//             <Box sx={{
+//               width: '40px',
+//               height: '40px',
+//               backgroundColor: '#dcfce6',
+//               borderRadius: '8px',
+//               display: 'flex',
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//               marginRight: '12px'
+//             }}>
+//               <DollarOutlined style={{ color: '#3bb468', fontSize: '20px' }} />
+//             </Box>
+//             <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
+//               <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+//                 +5.2%
+//               </Typography>
+//             </Box>
+//           </Box>
+//           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+//             28.5%
+//           </Typography>
+//           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//             <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//               Revenue Growth
+//             </Typography>
+//           </Box>
+//         </Box>
 
-        {/* Account Growth Card */}
-        <Box sx={{
-          flex: 1,
-          p: 3,
-          border: '1px solid #e0e0e0',
-          borderRadius: '8px',
-          textAlign: 'left',
-          backgroundColor: '#ffffff',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-            <Box sx={{
-              width: '40px',
-              height: '40px',
-              backgroundColor: '#dbeafe',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '12px'
-            }}>
-              <UserOutlined style={{ color: '#3b82f6', fontSize: '20px' }} />
-            </Box>
-            <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
-              <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
-                +3.1%
-              </Typography>
-            </Box>
-          </Box>
-          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
-            15.2%
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography style={{ fontSize: '12px', color: '#666666' }}>
-              Account Growth
-            </Typography>
-          </Box>
-        </Box>
+//         {/* Account Growth Card */}
+//         <Box sx={{
+//           flex: 1,
+//           p: 3,
+//           border: '1px solid #e0e0e0',
+//           borderRadius: '8px',
+//           textAlign: 'left',
+//           backgroundColor: '#ffffff',
+//           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+//         }}>
+//           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+//             <Box sx={{
+//               width: '40px',
+//               height: '40px',
+//               backgroundColor: '#dbeafe',
+//               borderRadius: '8px',
+//               display: 'flex',
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//               marginRight: '12px'
+//             }}>
+//               <UserOutlined style={{ color: '#3b82f6', fontSize: '20px' }} />
+//             </Box>
+//             <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
+//               <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+//                 +3.1%
+//               </Typography>
+//             </Box>
+//           </Box>
+//           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+//             15.2%
+//           </Typography>
+//           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//             <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//               Account Growth
+//             </Typography>
+//           </Box>
+//         </Box>
 
-        {/* Activity Efficiency Card */}
-        <Box sx={{
-          flex: 1,
-          p: 3,
-          border: '1px solid #e0e0e0',
-          borderRadius: '8px',
-          textAlign: 'left',
-          backgroundColor: '#ffffff',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-            <Box sx={{
-              width: '40px',
-              height: '40px',
-              backgroundColor: '#fef3c7',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '12px'
-            }}>
-              <BarChartOutlined style={{ color: '#f59e0b', fontSize: '20px' }} />
-            </Box>
-            <Box sx={{ backgroundColor: "#fef2f2", padding: "4px 8px", borderRadius: "4px" }}>
-              <Typography style={{ fontSize: '11px', color: '#ef4444', fontWeight: '600' }}>
-                -2.4%
-              </Typography>
-            </Box>
-          </Box>
-          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
-            73.8%
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography style={{ fontSize: '12px', color: '#666666' }}>
-              Activity Efficiency
-            </Typography>
-          </Box>
-        </Box>
+//         {/* Activity Efficiency Card */}
+//         <Box sx={{
+//           flex: 1,
+//           p: 3,
+//           border: '1px solid #e0e0e0',
+//           borderRadius: '8px',
+//           textAlign: 'left',
+//           backgroundColor: '#ffffff',
+//           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+//         }}>
+//           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+//             <Box sx={{
+//               width: '40px',
+//               height: '40px',
+//               backgroundColor: '#fef3c7',
+//               borderRadius: '8px',
+//               display: 'flex',
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//               marginRight: '12px'
+//             }}>
+//               <BarChartOutlined style={{ color: '#f59e0b', fontSize: '20px' }} />
+//             </Box>
+//             <Box sx={{ backgroundColor: "#fef2f2", padding: "4px 8px", borderRadius: "4px" }}>
+//               <Typography style={{ fontSize: '11px', color: '#ef4444', fontWeight: '600' }}>
+//                 -2.4%
+//               </Typography>
+//             </Box>
+//           </Box>
+//           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+//             73.8%
+//           </Typography>
+//           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//             <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//               Activity Efficiency
+//             </Typography>
+//           </Box>
+//         </Box>
 
-        {/* Pipeline Value Card */}
-        <Box sx={{
-          flex: 1,
-          p: 3,
-          border: '1px solid #e0e0e0',
-          borderRadius: '8px',
-          textAlign: 'left',
-          backgroundColor: '#ffffff',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-            <Box sx={{
-              width: '40px',
-              height: '40px',
-              backgroundColor: '#e0e7ff',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: '12px'
-            }}>
-              <RiseOutlined style={{ color: '#6366f1', fontSize: '20px' }} />
-            </Box>
-            <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
-              <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
-                +12.8%
-              </Typography>
-            </Box>
-          </Box>
-          <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
-            $2.85M
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography style={{ fontSize: '12px', color: '#666666' }}>
-              Pipeline Value
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
+//         {/* Pipeline Value Card */}
+//         <Box sx={{
+//           flex: 1,
+//           p: 3,
+//           border: '1px solid #e0e0e0',
+//           borderRadius: '8px',
+//           textAlign: 'left',
+//           backgroundColor: '#ffffff',
+//           boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+//         }}>
+//           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+//             <Box sx={{
+//               width: '40px',
+//               height: '40px',
+//               backgroundColor: '#e0e7ff',
+//               borderRadius: '8px',
+//               display: 'flex',
+//               alignItems: 'center',
+//               justifyContent: 'center',
+//               marginRight: '12px'
+//             }}>
+//               <RiseOutlined style={{ color: '#6366f1', fontSize: '20px' }} />
+//             </Box>
+//             <Box sx={{ backgroundColor: "#dcfce6", padding: "4px 8px", borderRadius: "4px" }}>
+//               <Typography style={{ fontSize: '11px', color: '#3bb468', fontWeight: '600' }}>
+//                 +12.8%
+//               </Typography>
+//             </Box>
+//           </Box>
+//           <Typography style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', mb: 1 }}>
+//             $2.85M
+//           </Typography>
+//           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//             <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//               Pipeline Value
+//             </Typography>
+//           </Box>
+//         </Box>
+//       </Box>
 
-      {/* Sub-navigation Tabs */}
-      {/* <Box sx={{ mb: 4 }}>
-        <Box sx={{
-          display: 'flex',
-          gap: 0,
-          borderBottom: '1px solid #e0e0e0',
-          overflowX: mobile ? 'auto' : 'visible',
-          '&::-webkit-scrollbar': {
-            height: '4px',
-          },
-          '&::-webkit-scrollbar-track': {
-            background: '#f1f1f1',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: '#c1c1c1',
-            borderRadius: '2px',
-          },
-        }}>
-          {['Growth Opportunities', 'Account Health', 'Insights & Recommendations', 'Performance Metrics'].map((tab, index) => (
-            <Box
-              key={tab}
-              sx={{
-                padding: mobile ? '12px 16px' : '12px 24px',
-                borderBottom: index === 0 ? '2px solid #3b82f6' : '2px solid transparent',
-                color: index === 0 ? '#3b82f6' : '#666666',
-                fontSize: mobile ? '12px' : '14px',
-                fontWeight: index === 0 ? '600' : '400',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                whiteSpace: 'nowrap',
-                minWidth: mobile ? 'fit-content' : 'auto'
-              }}
-            >
-              {tab}
-            </Box>
-          ))}
-        </Box>
-      </Box> */}
+//       {/* Sub-navigation Tabs */}
+//       {/* <Box sx={{ mb: 4 }}>
+//         <Box sx={{
+//           display: 'flex',
+//           gap: 0,
+//           borderBottom: '1px solid #e0e0e0',
+//           overflowX: mobile ? 'auto' : 'visible',
+//           '&::-webkit-scrollbar': {
+//             height: '4px',
+//           },
+//           '&::-webkit-scrollbar-track': {
+//             background: '#f1f1f1',
+//           },
+//           '&::-webkit-scrollbar-thumb': {
+//             background: '#c1c1c1',
+//             borderRadius: '2px',
+//           },
+//         }}>
+//           {['Growth Opportunities', 'Account Health', 'Insights & Recommendations', 'Performance Metrics'].map((tab, index) => (
+//             <Box
+//               key={tab}
+//               sx={{
+//                 padding: mobile ? '12px 16px' : '12px 24px',
+//                 borderBottom: index === 0 ? '2px solid #3b82f6' : '2px solid transparent',
+//                 color: index === 0 ? '#3b82f6' : '#666666',
+//                 fontSize: mobile ? '12px' : '14px',
+//                 fontWeight: index === 0 ? '600' : '400',
+//                 cursor: 'pointer',
+//                 transition: 'all 0.3s ease',
+//                 whiteSpace: 'nowrap',
+//                 minWidth: mobile ? 'fit-content' : 'auto'
+//               }}
+//             >
+//               {tab}
+//             </Box>
+//           ))}
+//         </Box>
+//       </Box> */}
 
-      {/* Sales Pipeline Overview */}
-      <Box sx={{ mb: 4 }}>
-        <Typography
-          style={{
-            textAlign: "left",
-            fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
-            paddingLeft: "0px",
-            fontWeight: "600",
-            color: '#1a1a1a',
-            marginBottom: "5px"
-          }}
-        >
-          Sales Pipeline Overview
-        </Typography>
-        <Typography style={{
-          fontSize: '14px',
-          color: '#666666',
-          marginBottom: "10px"
-        }}>
-          High-value opportunities requiring attention
-        </Typography>
+//       {/* Sales Pipeline Overview */}
+//       <Box sx={{ mb: 4 }}>
+//         <Typography
+//           style={{
+//             textAlign: "left",
+//             fontSize: mobile ? "15px" : tablet ? "17px" : "18px",
+//             paddingLeft: "0px",
+//             fontWeight: "600",
+//             color: '#1a1a1a',
+//             marginBottom: "5px"
+//           }}
+//         >
+//           Sales Pipeline Overview
+//         </Typography>
+//         <Typography style={{
+//           fontSize: '14px',
+//           color: '#666666',
+//           marginBottom: "10px"
+//         }}>
+//           High-value opportunities requiring attention
+//         </Typography>
 
-        {/* Pipeline Summary Metrics */}
-        <Box sx={{
-          display: 'grid',
-          gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : tablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-          gap: mobile ? 2 : 3,
-          mb: 4
-        }}>
-          <Box sx={{
-            p: mobile ? 1.5 : 2,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            textAlign: 'center',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-          }}>
-            <Typography style={{
-              fontSize: mobile ? '16px' : '20px',
-              fontWeight: '700',
-              color: '#1a1a1a',
-              mb: 1
-            }}>
-              $2.9M
-            </Typography>
-            <Typography style={{
-              fontSize: mobile ? '10px' : '12px',
-              color: '#666666'
-            }}>
-              Total Pipeline
-            </Typography>
-          </Box>
-          <Box sx={{
-            p: mobile ? 1.5 : 2,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            textAlign: 'center',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-          }}>
-            <Typography style={{
-              fontSize: mobile ? '16px' : '20px',
-              fontWeight: '700',
-              color: '#1a1a1a',
-              mb: 1
-            }}>
-              $185K
-            </Typography>
-            <Typography style={{
-              fontSize: mobile ? '10px' : '12px',
-              color: '#666666'
-            }}>
-              Average Deal Size
-            </Typography>
-          </Box>
-          <Box sx={{
-            p: mobile ? 1.5 : 2,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            textAlign: 'center',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-          }}>
-            <Typography style={{
-              fontSize: mobile ? '16px' : '20px',
-              fontWeight: '700',
-              color: '#1a1a1a',
-              mb: 1
-            }}>
-              42
-            </Typography>
-            <Typography style={{
-              fontSize: mobile ? '10px' : '12px',
-              color: '#666666'
-            }}>
-              Days Sales Cycle
-            </Typography>
-          </Box>
-          <Box sx={{
-            p: mobile ? 1.5 : 2,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            textAlign: 'center',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-          }}>
-            <Typography style={{
-              fontSize: mobile ? '16px' : '20px',
-              fontWeight: '700',
-              color: '#1a1a1a',
-              mb: 1
-            }}>
-              31.5%
-            </Typography>
-            <Typography style={{
-              fontSize: mobile ? '10px' : '12px',
-              color: '#666666'
-            }}>
-              Upsell Rate
-            </Typography>
-          </Box>
-        </Box>
+//         {/* Pipeline Summary Metrics */}
+//         <Box sx={{
+//           display: 'grid',
+//           gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : tablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+//           gap: mobile ? 2 : 3,
+//           mb: 4
+//         }}>
+//           <Box sx={{
+//             p: mobile ? 1.5 : 2,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             textAlign: 'center',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+//           }}>
+//             <Typography style={{
+//               fontSize: mobile ? '16px' : '20px',
+//               fontWeight: '700',
+//               color: '#1a1a1a',
+//               mb: 1
+//             }}>
+//               $2.9M
+//             </Typography>
+//             <Typography style={{
+//               fontSize: mobile ? '10px' : '12px',
+//               color: '#666666'
+//             }}>
+//               Total Pipeline
+//             </Typography>
+//           </Box>
+//           <Box sx={{
+//             p: mobile ? 1.5 : 2,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             textAlign: 'center',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+//           }}>
+//             <Typography style={{
+//               fontSize: mobile ? '16px' : '20px',
+//               fontWeight: '700',
+//               color: '#1a1a1a',
+//               mb: 1
+//             }}>
+//               $185K
+//             </Typography>
+//             <Typography style={{
+//               fontSize: mobile ? '10px' : '12px',
+//               color: '#666666'
+//             }}>
+//               Average Deal Size
+//             </Typography>
+//           </Box>
+//           <Box sx={{
+//             p: mobile ? 1.5 : 2,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             textAlign: 'center',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+//           }}>
+//             <Typography style={{
+//               fontSize: mobile ? '16px' : '20px',
+//               fontWeight: '700',
+//               color: '#1a1a1a',
+//               mb: 1
+//             }}>
+//               42
+//             </Typography>
+//             <Typography style={{
+//               fontSize: mobile ? '10px' : '12px',
+//               color: '#666666'
+//             }}>
+//               Days Sales Cycle
+//             </Typography>
+//           </Box>
+//           <Box sx={{
+//             p: mobile ? 1.5 : 2,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             textAlign: 'center',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+//           }}>
+//             <Typography style={{
+//               fontSize: mobile ? '16px' : '20px',
+//               fontWeight: '700',
+//               color: '#1a1a1a',
+//               mb: 1
+//             }}>
+//               31.5%
+//             </Typography>
+//             <Typography style={{
+//               fontSize: mobile ? '10px' : '12px',
+//               color: '#666666'
+//             }}>
+//               Upsell Rate
+//             </Typography>
+//           </Box>
+//         </Box>
 
-        {/* Opportunity List */}
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {/* Enterprise Platform Upgrade */}
-          <Box sx={{
-            p: mobile ? 2 : 3,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}>
-            <Box sx={{
-              display: 'flex',
-              flexDirection: mobile ? 'column' : 'row',
-              justifyContent: 'space-between',
-              alignItems: mobile ? 'flex-start' : 'flex-start',
-              mb: 2
-            }}>
-              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
-                <Typography style={{
-                  fontSize: mobile ? '14px' : '16px',
-                  fontWeight: '600',
-                  color: '#1a1a1a',
-                  mb: 1
-                }}>
-                  Enterprise Platform Upgrade
-                </Typography>
-                <Typography style={{
-                  fontSize: mobile ? '12px' : '14px',
-                  color: '#666666',
-                  mb: 2
-                }}>
-                  Acme Corporation
-                </Typography>
-                <Box sx={{
-                  display: 'grid',
-                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                  gap: mobile ? 1.5 : 2,
-                  mb: 2
-                }}>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Value
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      $750K
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Probability
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      85%
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Expected Close
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      15/04/2024
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Activities
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      8 completed
-                    </Typography>
-                  </Box>
-                </Box>
+//         {/* Opportunity List */}
+//         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+//           {/* Enterprise Platform Upgrade */}
+//           <Box sx={{
+//             p: mobile ? 2 : 3,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+//           }}>
+//             <Box sx={{
+//               display: 'flex',
+//               flexDirection: mobile ? 'column' : 'row',
+//               justifyContent: 'space-between',
+//               alignItems: mobile ? 'flex-start' : 'flex-start',
+//               mb: 2
+//             }}>
+//               <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+//                 <Typography style={{
+//                   fontSize: mobile ? '14px' : '16px',
+//                   fontWeight: '600',
+//                   color: '#1a1a1a',
+//                   mb: 1
+//                 }}>
+//                   Enterprise Platform Upgrade
+//                 </Typography>
+//                 <Typography style={{
+//                   fontSize: mobile ? '12px' : '14px',
+//                   color: '#666666',
+//                   mb: 2
+//                 }}>
+//                   Acme Corporation
+//                 </Typography>
+//                 <Box sx={{
+//                   display: 'grid',
+//                   gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+//                   gap: mobile ? 1.5 : 2,
+//                   mb: 2
+//                 }}>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Value
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       $750K
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Probability
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       85%
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Expected Close
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       15/04/2024
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Activities
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       8 completed
+//                     </Typography>
+//                   </Box>
+//                 </Box>
 
-                <Box sx={{ width: mobile ? '100%' : '200px' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Progress
-                    </Typography>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      85%
-                    </Typography>
-                  </Box>
-                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
-                    <Box sx={{ width: '85%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
-                  </Box>
-                </Box>
-              </Box>
-              <Box sx={{
-                display: 'flex',
-                gap: 1,
-                mb: 2,
-                flexWrap: 'wrap',
-                mt: mobile ? 2 : 0,
-                alignSelf: mobile ? 'flex-start' : 'flex-end'
-              }}>
-                <Box sx={{
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  high
-                </Box>
-                <Box sx={{
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  negotiation
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+//                 <Box sx={{ width: mobile ? '100%' : '200px' }}>
+//                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Progress
+//                     </Typography>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       85%
+//                     </Typography>
+//                   </Box>
+//                   <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+//                     <Box sx={{ width: '85%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+//                   </Box>
+//                 </Box>
+//               </Box>
+//               <Box sx={{
+//                 display: 'flex',
+//                 gap: 1,
+//                 mb: 2,
+//                 flexWrap: 'wrap',
+//                 mt: mobile ? 2 : 0,
+//                 alignSelf: mobile ? 'flex-start' : 'flex-end'
+//               }}>
+//                 <Box sx={{
+//                   backgroundColor: '#3b82f6',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   high
+//                 </Box>
+//                 <Box sx={{
+//                   backgroundColor: '#3b82f6',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   negotiation
+//                 </Box>
+//               </Box>
+//             </Box>
+//           </Box>
 
-          {/* Multi-Year Service Extension */}
-          <Box sx={{
-            p: mobile ? 2 : 3,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}>
-            <Box sx={{
-              display: 'flex',
-              flexDirection: mobile ? 'column' : 'row',
-              justifyContent: 'space-between',
-              alignItems: mobile ? 'flex-start' : 'flex-start',
-              mb: 2
-            }}>
-              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
-                <Typography style={{
-                  fontSize: mobile ? '14px' : '16px',
-                  fontWeight: '600',
-                  color: '#1a1a1a',
-                  mb: 1
-                }}>
-                  Multi-Year Service Extension
-                </Typography>
-                <Typography style={{
-                  fontSize: mobile ? '12px' : '14px',
-                  color: '#666666',
-                  mb: 2
-                }}>
-                  Global Solutions Ltd
-                </Typography>
-                <Box sx={{
-                  display: 'grid',
-                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                  gap: mobile ? 1.5 : 2,
-                  mb: 2
-                }}>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Value
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      $480K
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Probability
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      70%
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Expected Close
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      01/05/2024
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Activities
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      6 completed
-                    </Typography>
-                  </Box>
-                </Box>
+//           {/* Multi-Year Service Extension */}
+//           <Box sx={{
+//             p: mobile ? 2 : 3,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+//           }}>
+//             <Box sx={{
+//               display: 'flex',
+//               flexDirection: mobile ? 'column' : 'row',
+//               justifyContent: 'space-between',
+//               alignItems: mobile ? 'flex-start' : 'flex-start',
+//               mb: 2
+//             }}>
+//               <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+//                 <Typography style={{
+//                   fontSize: mobile ? '14px' : '16px',
+//                   fontWeight: '600',
+//                   color: '#1a1a1a',
+//                   mb: 1
+//                 }}>
+//                   Multi-Year Service Extension
+//                 </Typography>
+//                 <Typography style={{
+//                   fontSize: mobile ? '12px' : '14px',
+//                   color: '#666666',
+//                   mb: 2
+//                 }}>
+//                   Global Solutions Ltd
+//                 </Typography>
+//                 <Box sx={{
+//                   display: 'grid',
+//                   gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+//                   gap: mobile ? 1.5 : 2,
+//                   mb: 2
+//                 }}>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Value
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       $480K
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Probability
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       70%
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Expected Close
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       01/05/2024
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Activities
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       6 completed
+//                     </Typography>
+//                   </Box>
+//                 </Box>
 
-                <Box sx={{ width: mobile ? '100%' : '200px' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Progress
-                    </Typography>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      70%
-                    </Typography>
-                  </Box>
-                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
-                    <Box sx={{ width: '70%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
-                  </Box>
-                </Box>
-              </Box>
-              <Box sx={{
-                display: 'flex',
-                gap: 1,
-                mb: 2,
-                flexWrap: 'wrap',
-                mt: mobile ? 2 : 0,
-                alignSelf: mobile ? 'flex-start' : 'flex-end'
-              }}>
-                <Box sx={{
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  high
-                </Box>
-                <Box sx={{
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  proposal
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+//                 <Box sx={{ width: mobile ? '100%' : '200px' }}>
+//                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Progress
+//                     </Typography>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       70%
+//                     </Typography>
+//                   </Box>
+//                   <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+//                     <Box sx={{ width: '70%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+//                   </Box>
+//                 </Box>
+//               </Box>
+//               <Box sx={{
+//                 display: 'flex',
+//                 gap: 1,
+//                 mb: 2,
+//                 flexWrap: 'wrap',
+//                 mt: mobile ? 2 : 0,
+//                 alignSelf: mobile ? 'flex-start' : 'flex-end'
+//               }}>
+//                 <Box sx={{
+//                   backgroundColor: '#3b82f6',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   high
+//                 </Box>
+//                 <Box sx={{
+//                   backgroundColor: '#3b82f6',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   proposal
+//                 </Box>
+//               </Box>
+//             </Box>
+//           </Box>
 
-          {/* Advanced Analytics Package */}
-          <Box sx={{
-            p: mobile ? 2 : 3,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-          }}>
-            <Box sx={{
-              display: 'flex',
-              flexDirection: mobile ? 'column' : 'row',
-              justifyContent: 'space-between',
-              alignItems: mobile ? 'flex-start' : 'flex-start',
-              mb: 2
-            }}>
-              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
-                <Typography style={{
-                  fontSize: mobile ? '14px' : '16px',
-                  fontWeight: '600',
-                  color: '#1a1a1a',
-                  mb: 1
-                }}>
-                  Advanced Analytics Package
-                </Typography>
-                <Typography style={{
-                  fontSize: mobile ? '12px' : '14px',
-                  color: '#666666',
-                  mb: 2
-                }}>
-                  TechStart Inc.
-                </Typography>
-                <Box sx={{
-                  display: 'grid',
-                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                  gap: mobile ? 1.5 : 2,
-                  mb: 2
-                }}>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Value
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      $220K
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Probability
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      60%
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Expected Close
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      30/04/2024
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Activities
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      4 completed
-                    </Typography>
-                  </Box>
-                </Box>
+//           {/* Advanced Analytics Package */}
+//           <Box sx={{
+//             p: mobile ? 2 : 3,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+//           }}>
+//             <Box sx={{
+//               display: 'flex',
+//               flexDirection: mobile ? 'column' : 'row',
+//               justifyContent: 'space-between',
+//               alignItems: mobile ? 'flex-start' : 'flex-start',
+//               mb: 2
+//             }}>
+//               <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+//                 <Typography style={{
+//                   fontSize: mobile ? '14px' : '16px',
+//                   fontWeight: '600',
+//                   color: '#1a1a1a',
+//                   mb: 1
+//                 }}>
+//                   Advanced Analytics Package
+//                 </Typography>
+//                 <Typography style={{
+//                   fontSize: mobile ? '12px' : '14px',
+//                   color: '#666666',
+//                   mb: 2
+//                 }}>
+//                   TechStart Inc.
+//                 </Typography>
+//                 <Box sx={{
+//                   display: 'grid',
+//                   gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+//                   gap: mobile ? 1.5 : 2,
+//                   mb: 2
+//                 }}>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Value
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       $220K
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Probability
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       60%
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Expected Close
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       30/04/2024
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Activities
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       4 completed
+//                     </Typography>
+//                   </Box>
+//                 </Box>
 
-                <Box sx={{ width: mobile ? '100%' : '200px' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Progress
-                    </Typography>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      60%
-                    </Typography>
-                  </Box>
-                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
-                    <Box sx={{ width: '60%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
-                  </Box>
-                </Box>
-              </Box>
+//                 <Box sx={{ width: mobile ? '100%' : '200px' }}>
+//                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Progress
+//                     </Typography>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       60%
+//                     </Typography>
+//                   </Box>
+//                   <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+//                     <Box sx={{ width: '60%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+//                   </Box>
+//                 </Box>
+//               </Box>
 
-              <Box sx={{
-                display: 'flex',
-                gap: 1,
-                mb: 2,
-                flexWrap: 'wrap',
-                mt: mobile ? 2 : 0,
-                alignSelf: mobile ? 'flex-start' : 'flex-end'
-              }}>
-                <Box sx={{
-                  backgroundColor: '#f59e0b',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  medium
-                </Box>
-                <Box sx={{
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  qualified
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+//               <Box sx={{
+//                 display: 'flex',
+//                 gap: 1,
+//                 mb: 2,
+//                 flexWrap: 'wrap',
+//                 mt: mobile ? 2 : 0,
+//                 alignSelf: mobile ? 'flex-start' : 'flex-end'
+//               }}>
+//                 <Box sx={{
+//                   backgroundColor: '#f59e0b',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   medium
+//                 </Box>
+//                 <Box sx={{
+//                   backgroundColor: '#3b82f6',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   qualified
+//                 </Box>
+//               </Box>
+//             </Box>
+//           </Box>
 
-          {/* Security Compliance Upgrade */}
-          <Box sx={{
-            p: mobile ? 2 : 3,
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            backgroundColor: '#ffffff',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            position: 'relative'
-          }}>
-            <Box sx={{
-              display: 'flex',
-              flexDirection: mobile ? 'column' : 'row',
-              justifyContent: 'space-between',
-              alignItems: mobile ? 'flex-start' : 'flex-start',
-              mb: 2
-            }}>
-              <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
-                <Typography style={{
-                  fontSize: mobile ? '14px' : '16px',
-                  fontWeight: '600',
-                  color: '#1a1a1a',
-                  mb: 1
-                }}>
-                  Security Compliance Upgrade
-                </Typography>
-                <Typography style={{
-                  fontSize: mobile ? '12px' : '14px',
-                  color: '#666666',
-                  mb: 2
-                }}>
-                  DataFlow Systems
-                </Typography>
-                <Box sx={{
-                  display: 'grid',
-                  gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                  gap: mobile ? 1.5 : 2,
-                  mb: 2
-                }}>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Value
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      $320K
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Probability
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      75%
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Expected Close
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      28/03/2024
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Activities
-                    </Typography>
-                    <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                      5 completed
-                    </Typography>
-                  </Box>
-                </Box>
+//           {/* Security Compliance Upgrade */}
+//           <Box sx={{
+//             p: mobile ? 2 : 3,
+//             border: '1px solid #e0e0e0',
+//             borderRadius: '8px',
+//             backgroundColor: '#ffffff',
+//             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+//             position: 'relative'
+//           }}>
+//             <Box sx={{
+//               display: 'flex',
+//               flexDirection: mobile ? 'column' : 'row',
+//               justifyContent: 'space-between',
+//               alignItems: mobile ? 'flex-start' : 'flex-start',
+//               mb: 2
+//             }}>
+//               <Box sx={{ flex: 1, width: mobile ? '100%' : 'auto' }}>
+//                 <Typography style={{
+//                   fontSize: mobile ? '14px' : '16px',
+//                   fontWeight: '600',
+//                   color: '#1a1a1a',
+//                   mb: 1
+//                 }}>
+//                   Security Compliance Upgrade
+//                 </Typography>
+//                 <Typography style={{
+//                   fontSize: mobile ? '12px' : '14px',
+//                   color: '#666666',
+//                   mb: 2
+//                 }}>
+//                   DataFlow Systems
+//                 </Typography>
+//                 <Box sx={{
+//                   display: 'grid',
+//                   gridTemplateColumns: mobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+//                   gap: mobile ? 1.5 : 2,
+//                   mb: 2
+//                 }}>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Value
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       $320K
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Probability
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       75%
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Expected Close
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       28/03/2024
+//                     </Typography>
+//                   </Box>
+//                   <Box>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Activities
+//                     </Typography>
+//                     <Typography style={{ fontSize: mobile ? '12px' : '14px', fontWeight: '600', color: '#1a1a1a' }}>
+//                       5 completed
+//                     </Typography>
+//                   </Box>
+//                 </Box>
 
-                <Box sx={{ width: mobile ? '100%' : '200px' }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      Progress
-                    </Typography>
-                    <Typography style={{ fontSize: '12px', color: '#666666' }}>
-                      75%
-                    </Typography>
-                  </Box>
-                  <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
-                    <Box sx={{ width: '75%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
-                  </Box>
-                </Box>
-              </Box>
-              <Box sx={{
-                display: 'flex',
-                gap: 1,
-                mb: 2,
-                flexWrap: 'wrap',
-                mt: mobile ? 2 : 0,
-                alignSelf: mobile ? 'flex-start' : 'flex-end'
-              }}>
-                <Box sx={{
-                  backgroundColor: '#ef4444',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  urgent
-                </Box>
-                <Box sx={{
-                  backgroundColor: '#3b82f6',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '4px',
-                  fontSize: '11px',
-                  fontWeight: '600'
-                }}>
-                  proposal
-                </Box>
-              </Box>
-            </Box>
+//                 <Box sx={{ width: mobile ? '100%' : '200px' }}>
+//                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       Progress
+//                     </Typography>
+//                     <Typography style={{ fontSize: '12px', color: '#666666' }}>
+//                       75%
+//                     </Typography>
+//                   </Box>
+//                   <Box sx={{ width: '100%', height: '8px', backgroundColor: '#e0e0e0', borderRadius: '4px', overflow: 'hidden' }}>
+//                     <Box sx={{ width: '75%', height: '100%', backgroundColor: '#3b82f6', borderRadius: '4px' }} />
+//                   </Box>
+//                 </Box>
+//               </Box>
+//               <Box sx={{
+//                 display: 'flex',
+//                 gap: 1,
+//                 mb: 2,
+//                 flexWrap: 'wrap',
+//                 mt: mobile ? 2 : 0,
+//                 alignSelf: mobile ? 'flex-start' : 'flex-end'
+//               }}>
+//                 <Box sx={{
+//                   backgroundColor: '#ef4444',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   urgent
+//                 </Box>
+//                 <Box sx={{
+//                   backgroundColor: '#3b82f6',
+//                   color: 'white',
+//                   padding: '2px 8px',
+//                   borderRadius: '4px',
+//                   fontSize: '11px',
+//                   fontWeight: '600'
+//                 }}>
+//                   proposal
+//                 </Box>
+//               </Box>
+//             </Box>
 
-            {/* Floating overlay */}
-            <Box sx={{
-              position: 'absolute',
-              top: mobile ? '5px' : '10px',
-              right: mobile ? '5px' : '10px',
-              backgroundColor: 'rgba(0,0,0,0.1)',
-              borderRadius: '4px',
-              padding: '4px',
-              display: 'flex',
-              gap: '4px'
-            }}>
-              <Box sx={{ width: '16px', height: '16px', backgroundColor: '#666', borderRadius: '2px' }} />
-              <Box sx={{ width: '16px', height: '16px', backgroundColor: '#666', borderRadius: '2px' }} />
-              <Box sx={{ width: '16px', height: '16px', backgroundColor: '#ef4444', borderRadius: '2px' }} />
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-  </Box>
-);
+//             {/* Floating overlay */}
+//             <Box sx={{
+//               position: 'absolute',
+//               top: mobile ? '5px' : '10px',
+//               right: mobile ? '5px' : '10px',
+//               backgroundColor: 'rgba(0,0,0,0.1)',
+//               borderRadius: '4px',
+//               padding: '4px',
+//               display: 'flex',
+//               gap: '4px'
+//             }}>
+//               <Box sx={{ width: '16px', height: '16px', backgroundColor: '#666', borderRadius: '2px' }} />
+//               <Box sx={{ width: '16px', height: '16px', backgroundColor: '#666', borderRadius: '2px' }} />
+//               <Box sx={{ width: '16px', height: '16px', backgroundColor: '#ef4444', borderRadius: '2px' }} />
+//             </Box>
+//           </Box>
+//         </Box>
+//       </Box>
+//     </Box>
+//   </Box>
+// );
 
 const BusinessReviewTab = ({ colors, mobile, tablet, cards, bigtablet }) => (
   <Box>

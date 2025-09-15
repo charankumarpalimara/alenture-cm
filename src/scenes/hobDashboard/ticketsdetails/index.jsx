@@ -30,7 +30,7 @@ import React, {
   // useCallback,
 } from "react";
 import { useLocation } from "react-router-dom";
-import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import { Edit as EditIcon } from "@mui/icons-material";
 // import download from "downloadjs";
 import {
   // Check as CheckIcon,
