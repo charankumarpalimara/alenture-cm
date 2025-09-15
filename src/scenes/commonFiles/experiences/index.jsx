@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { getCreaterRole, getCreaterId } from "../../../config";
 import { Table } from "antd";
 import CustomTablePagination from '../../../components/CustomPagination';
+import { apiCall, WS_URL } from '../../../utils/apiConfig';
 
 const columns = [
   { title: "ID", dataIndex: "experienceid", key: "experienceid", width: 100, ellipsis: true },
@@ -56,22 +57,21 @@ const Experiences = () => {
   const fetchTickets = async () => {
     try {
       const role = getCreaterRole();
-      let url = "";
+      let endpoint = "";
       if (role === "crm") {
-        url = `${process.env.REACT_APP_API_URL}/v1/getTicketsbycrmId/${getCreaterId()}`;
+        endpoint = `getTicketsbycrmId/${getCreaterId()}`;
       } else if (role === "cm") {
-        url = `${process.env.REACT_APP_API_URL}/v1/getTicketsbyCmid/${getCreaterId()}`;
+        endpoint = `getTicketsbyCmid/${getCreaterId()}`;
       } else if (role === "hob" || role === "admin") {
-        url = `${process.env.REACT_APP_API_URL}/v1/getAllExperiences`;
+        endpoint = "getAllExperiences";
       } else {
         console.error("Invalid user role");
         return;
       }
 
-      const response = await fetch(url);
-      const data = await response.json();
+      const data = await apiCall(endpoint);
 
-      if (response.ok && Array.isArray(data.data)) {
+      if (Array.isArray(data.data)) {
         const transformedData = data.data.map((item, idx) => ({
           key: item.experienceid || item.id,
           id: item.experienceid || idx,
@@ -113,6 +113,9 @@ const Experiences = () => {
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
+      // Set empty arrays to prevent undefined errors
+      setTickets([]);
+      setFilteredTickets([]);
     }
   };
 
@@ -122,7 +125,6 @@ const Experiences = () => {
 
   // Live update: refetch tickets on relevant notification
   React.useEffect(() => {
-    const WS_URL = process.env.REACT_APP_WS_URL || "ws://161.35.54.196:8080";
     const ws = new window.WebSocket(WS_URL);
     ws.onmessage = (event) => {
       try {
