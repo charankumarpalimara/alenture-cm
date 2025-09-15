@@ -17,6 +17,7 @@ import { Table, Input, Button } from "antd";
 import "antd/dist/reset.css";
 // import TablePagination from '@mui/material/TablePagination';
 import CustomTablePagination from '../../../components/CustomPagination';
+import { apiCall, WS_URL } from '../../../utils/apiConfig';
 
 const columns = [
   { title: "ID", dataIndex: "id", key: "id", width: 100, ellipsis: true },
@@ -66,11 +67,8 @@ const Cm = () => {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getAllCm`
-        );
-        const data = await response.json();
-        if (response.ok && Array.isArray(data.data)) {
+        const data = await apiCall("getAllCm");
+        if (Array.isArray(data.data)) {
           const transformedData = data.data.map((item) => ({
             key: item.cmid || "N/A",
             id: item.cmid || "N/A",
