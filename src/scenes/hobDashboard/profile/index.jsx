@@ -12,7 +12,7 @@ import {
   Modal,
   Spin,
   Typography,
-  Select,
+  // Select,
 } from "antd";
 import { Country, State, City } from 'country-state-city';
 import {
@@ -45,9 +45,9 @@ const AdminProfile = () => {
   const [crop, setCrop] = useState();
   const [completedCrop, setCompletedCrop] = useState();
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
+  const [, setSelectedState] = useState(null);
+  const [, setStates] = useState([]);
+  const [, setCities] = useState([]);
   const imgRef = useRef(null);
   const fileInputRef = useRef(null);
   const setFieldValueRef = useRef(null);
