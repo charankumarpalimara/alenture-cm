@@ -1,4 +1,4 @@
-const api_url = "https://alantur-api.softplix.com/v1/";
+const api_url = process.env.REACT_APP_API_URL ? `${process.env.REACT_APP_API_URL}/v1/` : "https://alantur-api.softplix.com/v1/";
 
 export async function getAdminNotifications() {
   try {

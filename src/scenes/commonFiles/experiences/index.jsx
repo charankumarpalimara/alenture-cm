@@ -45,6 +45,8 @@ const Experiences = () => {
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState({
     priority: [],
     status: [],
@@ -55,21 +57,32 @@ const Experiences = () => {
 
   // Fetch from API on mount
   const fetchTickets = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const role = getCreaterRole();
+      const userId = getCreaterId();
+      
+      console.log('Fetching tickets for role:', role, 'userId:', userId);
+      
       let endpoint = "";
       if (role === "crm") {
-        endpoint = `getTicketsbycrmId/${getCreaterId()}`;
+        endpoint = `getTicketsbycrmId/${userId}`;
       } else if (role === "cm") {
-        endpoint = `getTicketsbyCmid/${getCreaterId()}`;
+        endpoint = `getTicketsbyCmid/${userId}`;
       } else if (role === "hob" || role === "admin") {
         endpoint = "getAllExperiences";
       } else {
-        console.error("Invalid user role");
+        console.error("Invalid user role:", role);
+        setTickets([]);
+        setFilteredTickets([]);
+        setError(`Invalid user role: ${role}`);
         return;
       }
 
+      console.log('API endpoint:', endpoint);
       const data = await apiCall(endpoint);
+      console.log('API response:', data);
 
       if (Array.isArray(data.data)) {
         const transformedData = data.data.map((item, idx) => ({
