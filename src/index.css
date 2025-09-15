@@ -24,7 +24,9 @@ body,
 
 /* Set table data font size globally */
 td, .ant-table-tbody > tr > td {
-  font-size: 11px !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  padding: 8px 12px !important;
 }
 .app {
   display: flex;
@@ -193,12 +195,12 @@ button,
   background: transparent !important;
   color: #fff !important;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 13px;
   border-right: none !important;
   border-bottom: none !important;
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  height: 36px !important;
+  padding: 12px !important;
+  min-height: 40px !important;
+  white-space: nowrap !important;
   /* optional, for extra control */
 }
 
@@ -216,7 +218,47 @@ button,
 /* Remove default AntD table header bottom border for all tables */
 .ant-table-thead>tr>th {
   border-bottom: none !important;
+}
 
+/* Ensure table content is visible */
+.ant-table-tbody > tr > td {
+  background-color: #fff !important;
+  color: #333 !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+
+/* Fix table row hover state */
+.ant-table-tbody > tr:hover > td {
+  background-color: #e3e8ff !important;
+}
+
+/* Ensure table cells have proper content display */
+.ant-table-tbody > tr > td * {
+  color: inherit !important;
+}
+
+/* Force table content visibility */
+.ant-table {
+  background-color: #fff !important;
+}
+
+.ant-table-container {
+  background-color: #fff !important;
+}
+
+/* Ensure table data is not hidden by any CSS */
+.ant-table-tbody > tr > td {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: table-cell !important;
+}
+
+/* Fix any potential text rendering issues */
+.ant-table-tbody > tr > td,
+.ant-table-tbody > tr > td * {
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
 /* Custom placeholder font size for form inputs */

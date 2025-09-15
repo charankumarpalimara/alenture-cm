@@ -1,0 +1,66 @@
+/* Critical table display fixes for server compatibility */
+
+/* Force table content visibility - highest priority */
+.ant-table-tbody > tr > td,
+td {
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  padding: 8px 12px !important;
+  background-color: #fff !important;
+  color: #333 !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: table-cell !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Ensure table headers are visible */
+.custom-ant-table-header .ant-table-thead > tr > th {
+  background: transparent !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  font-size: 13px !important;
+  padding: 12px !important;
+  min-height: 40px !important;
+  white-space: nowrap !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Force table container visibility */
+.ant-table,
+.ant-table-container {
+  background-color: #fff !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fix hover states */
+.ant-table-tbody > tr:hover > td,
+.custom-row:hover td {
+  background-color: #e3e8ff !important;
+}
+
+/* Ensure all table content is properly displayed */
+.ant-table-tbody > tr > td * {
+  color: inherit !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 600px) {
+  .ant-table-tbody > tr > td,
+  td {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
+  }
+  
+  .custom-ant-table-header .ant-table-thead > tr > th {
+    font-size: 12px !important;
+    padding: 8px !important;
+  }
+}
