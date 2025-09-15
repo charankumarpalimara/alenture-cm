@@ -50,7 +50,7 @@ import logoLight from "./alentur-logo.avif";
 import Badge from "@mui/material/Badge";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { getCrmId, getCrmName } from "../../../config";
+import { getCrmId } from "../../../config";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getCrmNotifications,

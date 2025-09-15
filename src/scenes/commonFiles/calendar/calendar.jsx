@@ -13,8 +13,8 @@ import {
   message,
   Switch,
 } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined, CloseOutlined } from "@ant-design/icons";
-import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import { PlusOutlined, EditOutlined } from "@ant-design/icons";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";

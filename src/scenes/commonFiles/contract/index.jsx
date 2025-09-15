@@ -19,7 +19,6 @@ import {
 } from '@mui/material';
 import {
     Search,
-    Notifications,
     TrendingUp,
     TrendingDown,
     Description,
@@ -31,8 +30,7 @@ import {
     Warning,
     Schedule,
     CheckCircle,
-    Pending,
-    CloseOutlined
+    Pending
 } from '@mui/icons-material';
 // import {
 //     Star,
@@ -44,7 +42,7 @@ import {
 // } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { tokens } from '../../../theme';
-import CustomTablePagination from '../../../components/CustomPagination';
+// import CustomTablePagination from '../../../components/CustomPagination';
 
 const Contract = () => {
     const theme = useTheme();

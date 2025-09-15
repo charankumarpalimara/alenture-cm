@@ -141,8 +141,8 @@ const CrmForm = () => {
     const isMobile = useMediaQuery("(max-width: 400px)");
     const isTablet = useMediaQuery("(max-width: 700px)");
   const [isLoading, setIsLoading] = useState(false);
-  const [organizationNames, setOrganizationNames] = useState([]);
-  const [branchNames, setBranchNames] = useState([]);
+  const [, setOrganizationNames] = useState([]);
+  const [, setBranchNames] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
   // const [selectedCity, setSelectedCity] = useState('');

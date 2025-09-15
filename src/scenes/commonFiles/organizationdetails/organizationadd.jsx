@@ -24,7 +24,7 @@ import { CloseOutlined } from "@ant-design/icons";
 
 
 const { Text } = Typography;
-const { Option } = Select;
+// const { Option } = Select;
 
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
@@ -151,15 +151,15 @@ const Organizationadd = () => {
   const [crop, setCrop] = useState();
   const [completedCrop, setCompletedCrop] = useState();
   const [cmform, setCmform] = useState(true);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [, setShowSuccess] = useState(false);
   const [crmNameList, setCrmNameList] = useState([]);
   const [functionList, setFunctionList] = useState([]);
   const [interestList, setInterestList] = useState([]);
-  const [interestSearch, setInterestSearch] = useState("");
+  // const [interestSearch, setInterestSearch] = useState("");
   const [unitValue, setUnitValue] = useState("");
   const [unitAddForm, setUnitAddForm] = useState(true);
   const [editingCmIndex, setEditingCmIndex] = useState(null);
-  const [industryList, setIndustryList] = useState([]);
+  const [, setIndustryList] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
 
@@ -224,13 +224,13 @@ const Organizationadd = () => {
     }
   }, [unitValue]);
 
-  const handleAddBranch = () => {
-    // This function is no longer needed as we're using a single Organization Unit form
-  };
+  // const handleAddBranch = () => {
+  //   // This function is no longer needed as we're using a single Organization Unit form
+  // };
 
-  const handleRemoveBranch = (index) => {
-    // This function is no longer needed as we're using a single Organization Unit form
-  };
+  // const handleRemoveBranch = (index) => {
+  //   // This function is no longer needed as we're using a single Organization Unit form
+  // };
 
   const handleFormSubmit = async (values) => {
     setIsLoading(true);
@@ -601,7 +601,7 @@ const Organizationadd = () => {
     }
 
 
-  const gender = ["Male", "Female"];
+  // const gender = ["Male", "Female"];
 
   return (
     <>

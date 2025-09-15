@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button as MuiButton,
   useTheme,
   useMediaQuery,
   Menu,
@@ -156,9 +155,6 @@ const Cm = () => {
     };
   }, []);
 
-  const handleNewTicket = () => {
-    Navigate("/cmform");
-  };
 
   const handleRowClick = (record) => {
     Navigate(`/cmdetails/${record.id}`);

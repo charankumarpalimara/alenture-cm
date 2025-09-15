@@ -16,13 +16,13 @@ import {
   useMediaQuery
 } from '@mui/material';
 import {
-  Add as AddIcon,
+  // Add as AddIcon,
   ViewModule as GridViewIcon,
   ViewList as ListViewIcon,
   ThumbUp as ThumbUpIcon,
   Comment as CommentIcon,
   Visibility as ViewIcon,
-  Group as GroupIcon
+  // Group as GroupIcon
 } from '@mui/icons-material';
 import { tokens } from '../../../theme';
 
@@ -112,18 +112,18 @@ const AllIdeas = () => {
     }
   ];
 
-  const sidebarStats = [
-    { label: "Active Ideas", value: 24 },
-    { label: "Your Votes", value: 18 },
-    { label: "Implemented", value: 7 }
-  ];
+  // const sidebarStats = [
+  //   { label: "Active Ideas", value: 24 },
+  //   { label: "Your Votes", value: 18 },
+  //   { label: "Implemented", value: 7 }
+  // ];
 
-  const categories = [
-    "All Ideas",
-    "Sales Solutions", 
-    "Customer Engagement",
-    "Process Improvement"
-  ];
+  // const categories = [
+  //   "All Ideas",
+  //   "Sales Solutions", 
+  //   "Customer Engagement",
+  //   "Process Improvement"
+  // ];
 
   return (
     <Box sx={{ 
