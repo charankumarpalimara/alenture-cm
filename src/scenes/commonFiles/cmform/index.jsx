@@ -513,6 +513,7 @@ const CmForm = () => {
                 <Select disabled={!isEditMode}>
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
+                  <Option value="other">Other</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -1278,6 +1279,7 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Organization</Text>}
                     className="custom-placeholder-12px"
                     name="organization"
+                    rules={[{ required: true, message: "Organization is required" }]}
                   >
                     <Select
                       showSearch
@@ -1301,6 +1303,7 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Organization Unit</Text>}
                     className="custom-placeholder-12px"
                     name="branch"
+                    rules={[{ required: true, message: "Unit is required" }]}
                   >
                     <Select
                       showSearch
@@ -1324,6 +1327,7 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Relationship Manager</Text>}
                     className="custom-placeholder-12px"
                     name="crmname"
+                    rules={[{ required: true, message: "Relationship Manager is required" }]}
                   >
                     <Select
                       showSearch
