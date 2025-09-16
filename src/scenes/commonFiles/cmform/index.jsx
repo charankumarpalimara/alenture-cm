@@ -16,153 +16,43 @@ import {
   Checkbox,
   Card
 } from "antd";
-import { CameraOutlined, PlusOutlined } from "@ant-design/icons";
-import ReactCrop from "react-image-crop";
+import { CameraOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "react-image-crop/dist/ReactCrop.css";
 import { Country } from "country-state-city";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../../theme";
 import { useTheme, useMediaQuery } from "@mui/material";
-import { CloseOutlined } from "@ant-design/icons";
-// import { ArrowLeftOutlined } from "@ant-design/icons";
-import { getCreaterRole, getCreaterId } from "../../../config"; // Adjust the path as necessary
 
 const { Option } = Select;
 const { Text } = Typography;
 const { TextArea } = Input;
 
-function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
-  const cropWidth = mediaWidth * 0.9;
-  const cropHeight = cropWidth / aspect;
-  const cropX = (mediaWidth - cropWidth) / 2;
-  const cropY = (mediaHeight - cropHeight) / 2;
-  return {
-    unit: "%",
-    x: (cropX / mediaWidth) * 100,
-    y: (cropY / mediaHeight) * 100,
-    width: (cropWidth / mediaWidth) * 100,
-    height: (cropHeight / mediaHeight) * 100,
-  };
-}
 
 
-function extractColorsFromGradient(gradient) {
-  if (!gradient || !gradient.startsWith("linear-gradient")) return [];
-  // Get part inside parentheses
-  const inside = gradient.match(/\((.*)\)/)[1];
-  // Split by comma, skip first part if it's direction
-  const parts = inside.split(",").map(x => x.trim());
-  // Or simply skip first part always
-  return parts.slice(1).map(x => x.trim());
-}
 
-const GradientCheckCircle = ({ size = 100, background }) => {
-  // If background is a CSS gradient, extract color stops
-  const colorStops = extractColorsFromGradient(background);
-  // Fallback colors
-  const stops = colorStops.length ? colorStops : ["#4facfe", "#00f2fe"];
-  return (
-    <svg width={size} height={size} viewBox="0 0 1024 1024">
-      <defs>
-        <linearGradient id="checkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          {stops.map((color, i) => (
-            <stop
-              key={i}
-              offset={`${(i / (stops.length - 1)) * 100}%`}
-              stopColor={color}
-            />
-          ))}
-        </linearGradient>
-      </defs>
-      <circle cx="512" cy="512" r="480" fill="url(#checkGradient)" />
-      <polyline
-        points="320,540 470,690 720,390"
-        fill="none"
-        stroke="#fff"
-        strokeWidth="80"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-};
 
-const SuccessScreen = ({ onNext, background }) => (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      minHeight: "80vh",
-      background: "#fff",
-      borderRadius: 8,
-      padding: 24,
-      margin: 16,
-      boxShadow: "0 4px 24px #0001",
-    }}
-  >
-    <Result
-      icon={<GradientCheckCircle size={100} background={background} />}
-      title={
-        <span style={{ fontSize: 45, fontWeight: 600 }}>Success</span>
-      }
-      subTitle={
-        <span style={{ fontSize: 25 }}>
-          New Customer Manager has been created successfully.
-        </span>
-      }
-      extra={[
-        <Button
-          type="primary"
-          size="large"
-          key="next"
-          onClick={onNext}
-          style={{
-            fontSize: 18,
-            borderRadius: 8,
-            background: background,
-            border: "none",
-          }}
-        >
-          Continue
-        </Button>,
-      ]}
-      style={{ background: "#fff", borderRadius: 16, padding: 32 }}
-    />
-  </div>
-);
 
 
 
 const CmForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [form] = Form.useForm();
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 400px)");
   const isTablet = useMediaQuery("(max-width: 700px)");
-  // const [isEditing, setIsEditing] = useState(false);
+  
+  // Basic form states
   const [profileImage, setProfileImage] = useState(null);
-  const [originalImage, setOriginalImage] = useState(null);
-  const [cropModalOpen, setCropModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [crop, setCrop] = useState();
-  const [completedCrop, setCompletedCrop] = useState();
-  const imgRef = useRef(null);
   const fileInputRef = useRef(null);
-  const [organizationNames, setOrganizationNames] = useState([]);
-  const [branchNames, setBranchNames] = useState([]);
-  const [crmNameList, setCrmNameList] = useState([]);
+  
+  // Submitted data storage
+  const [submittedData, setSubmittedData] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editValues, setEditValues] = useState({});
   const [isEditMode, setIsEditMode] = useState(false);
   const [originalEditValues, setOriginalEditValues] = useState({});
-  const [createdCmId, setCreatedCmId] = useState(null);
-  const [modalOrganizationNames, setModalOrganizationNames] = useState([]);
-  const [modalBranchNames, setModalBranchNames] = useState([]);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [functionList, setFunctionList] = useState([]);
-  const [interestList, setInterestList] = useState([]);
 
   // Persona form states
   const [personaForm] = Form.useForm();
@@ -180,90 +70,30 @@ const CmForm = () => {
   const [decisionCriteria, setDecisionCriteria] = useState([]);
   const [responsibilities, setResponsibilities] = useState([]);
 
-  //  const ticket = useMemo(() => location.state?.ticket || {}, [location.state]);
+  // Static data for dropdowns
+  const [functionList] = useState([
+    "Sales", "Marketing", "IT", "Finance", "Operations", "HR", "Customer Service", "Product Management"
+  ]);
+  const [interestList] = useState([
+    "Technology", "Business", "Leadership", "Innovation", "Strategy", "Analytics", "Customer Experience"
+  ]);
+  const [organizationNames] = useState([
+    "Tech Corp", "Global Solutions", "Innovation Inc", "Future Systems", "Digital Dynamics"
+  ]);
+  const [branchNames] = useState([
+    { branch: "North Branch" }, { branch: "South Branch" }, { branch: "East Branch" }, { branch: "West Branch" }
+  ]);
+  const [crmNameList] = useState([
+    { crmid: "CRM001", name: "John Smith" }, { crmid: "CRM002", name: "Sarah Johnson" }, { crmid: "CRM003", name: "Mike Davis" }
+  ]);
+
+  // Load submitted data from localStorage on component mount
   useEffect(() => {
-    const fetchOrganizations = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/v1/getAllOrganizationnames`
-          // "http://127.0.0.1:8080/v1/getAllOrganizationnames",
-        );
-        const data = await response.json();
-        if (response.ok && Array.isArray(data.data)) {
-          setModalOrganizationNames(data.data.map((item) => item.organizationname || "N/A"));
-          setOrganizationNames(
-            data.data.map((item) => item.organizationname || "N/A")
-          );
-        }
-      } catch (error) { }
-    };
-    fetchOrganizations();
+    const savedData = localStorage.getItem('submittedPersonas');
+    if (savedData) {
+      setSubmittedData(JSON.parse(savedData));
+    }
   }, []);
-  // const crmidValue = form.getFieldValue("crmid");
-
-
-  const fetchBranch = async (orgName) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/v1/getBranchbyOrganizationname/${orgName}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        if (Array.isArray(data.branchDetails)) {
-          setBranchNames(data.branchDetails);
-          setModalBranchNames(data.branchDetails);
-        } else if (typeof data.branchDetails === "string") {
-          setBranchNames([data.branchDetails]);
-          setModalBranchNames([data.branchDetails]);
-        } else {
-          setBranchNames([]);
-          setModalBranchNames([]);
-        }
-      }
-    } catch (error) { }
-  };
-
-  useEffect(() => {
-    const fetchCrmNames = async () => {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCrmNames`);
-      const data = await res.json();
-      setCrmNameList(data.data || []);
-    };
-    fetchCrmNames();
-  }, []);
-
-
-
-  useEffect(() => {
-    const fetchFunctions = async () => {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmFunction`);
-      const data = await res.json();
-      setFunctionList(data.functions || data.data || []);
-    };
-    fetchFunctions();
-  }, []);
-
-  // ...existing code...
-
-
-
-  useEffect(() => {
-    const fetchInterest = async () => {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/v1/GetCmInterest`);
-      const data = await res.json();
-      setInterestList(data.data || data.interests || []);
-    };
-    fetchInterest();
-  }, []);
-  //       const res = await fetch(`http://127.0.0.1:8080/GetCrmNames`);
-  //       const data = await res.json();
-  //       setCrmNameList(data.data || []);
-  //     } catch {
-  //       setCrmNameList([]);
-  //     }
-  //   };
-  //   fetchCrmNames();
-  // }, []);
 
 
 
@@ -273,8 +103,7 @@ const CmForm = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setOriginalImage(reader.result);
-        setCropModalOpen(true);
+        setProfileImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -284,196 +113,56 @@ const CmForm = () => {
     fileInputRef.current?.click();
   };
 
-  function onImageLoad(e) {
-    const { width, height } = e.currentTarget;
-    setCrop(centerAspectCrop(width, height, 1));
-  }
 
-  const handleCropComplete = (crop) => {
-    setCompletedCrop(crop);
-  };
-
-  const handleCropImage = async () => {
-    if (!completedCrop || !imgRef.current) return;
-    const image = imgRef.current;
-    const canvas = document.createElement("canvas");
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-    canvas.width = completedCrop.width;
-    canvas.height = completedCrop.height;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    ctx.drawImage(
-      image,
-      completedCrop.x * scaleX,
-      completedCrop.y * scaleY,
-      completedCrop.width * scaleX,
-      completedCrop.height * scaleY,
-      0,
-      0,
-      completedCrop.width,
-      completedCrop.height
-    );
-    return new Promise((resolve) => {
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) return;
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setProfileImage(reader.result);
-            resolve(reader.result);
-          };
-          reader.readAsDataURL(blob);
-        },
-        "image/jpeg",
-        0.9
-      );
-    });
-  };
-
-  const handleSaveCroppedImage = async () => {
-    await handleCropImage();
-    setCropModalOpen(false);
-  };
-
-  const handleFormSubmit = async (values) => {
+  // Update existing persona
+  const handleUpdate = async () => {
     setIsLoading(true);
-    // console.log(crmName);
-    const formData = new FormData();
-
-    // Use the exact field names as in your form and backend
-    formData.append("firstname", values.firstName || "");
-    formData.append("lastname", values.lastName || "");
-    formData.append("phonecode", values.phoneCode || "");
-    formData.append("mobile", values.PhoneNo || "");
-    formData.append("email", values.email || "");
-    formData.append("gender", values.gender || "");
-    formData.append("functionValue", values.function || "");
-    // Convert interests array to comma-separated string
-    formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
-    formData.append("designation", values.designation || "");
-    formData.append("organization", values.organization || "");
-    formData.append("branch", values.branch || "");
-    formData.append("username", values.email || "");
-    formData.append("crmId", values.crmid || "");
-    formData.append("crmName", values.crmname || "");
-
-    // const sessionData = JSON.parse(sessionStorage.getItem("hobDetails"));
-    const createrrole = getCreaterRole();
-    const createrid = getCreaterId() || "";
-    const password = (values.firstName || "") + (values.PhoneNo || "");
-    formData.append("createrrole", createrrole);
-    formData.append("createrid", createrid);
-    formData.append("passwords", password);
-
-    if (profileImage) {
-      try {
-        // Convert base64 to blob if needed
-        let blob;
-        if (profileImage.startsWith("data:")) {
-          const res = await fetch(profileImage);
-          blob = await res.blob();
-        } else {
-          blob = profileImage;
-        }
-        formData.append("cmimage", blob, "profileImage.jpg");
-      } catch (error) {
-        console.error("Error converting image to blob:", error);
-      }
-    }
+    
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/v1/createCm`,
-        // `http://127.0.0.1:8080/v1/createCm`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data, charset=utf-8" } }
-      );
-      // Modal.success({ content: "CM Registered Successfully!" });
-      // message.success("CM Registered Successfully!");
-      const cmData = response.data.data || {};
-      const FinalCmid = response.data.cmid || cmData.cmid;
-
-      // message.success("CM Registered Successfully!");
-      setEditValues({ ...values, profileImage, cmid: FinalCmid }); // <-- set modal values
-      setCreatedCmId(FinalCmid);
-      setShowSuccess(true);
-      setOriginalEditValues({ ...values, profileImage });
-      // setShowEditModal(true); // <-- open modal
-      // setIsEditMode(false);
-      setIsLoading(false);
+      const updatedData = [...submittedData];
+      updatedData[editingIndex] = {
+        ...editValues,
+        updatedAt: new Date().toISOString()
+      };
+      
+      setSubmittedData(updatedData);
+      localStorage.setItem('submittedPersonas', JSON.stringify(updatedData));
+      
+      message.success("Persona updated successfully!");
+      setShowEditModal(false);
+      setEditingIndex(null);
+      setEditValues({});
+      setIsEditMode(false);
+      
     } catch (error) {
-      // Modal.error({ content: "Error submitting form" });
-      message.error("Error submitting form");
+      message.error("Error updating persona!");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Edit persona
+  const handleEdit = (index) => {
+    const persona = submittedData[index];
+    setEditValues(persona);
+    setEditingIndex(index);
+    setOriginalEditValues(persona);
+    setShowEditModal(true);
+    setIsEditMode(true);
+  };
 
-  // Actually submit to backend
-  const handleUpdate = async () => {
-    setIsLoading(true);
-    const values = editValues;
-    const formData = new FormData();
-    formData.append("cmid", createdCmId);
-    formData.append("firstname", values.firstName || "");
-    formData.append("lastname", values.lastName || "");
-    formData.append("phonecode", values.phoneCode || "");
-    formData.append("mobile", values.PhoneNo || "");
-    formData.append("email", values.email || "");
-    formData.append("gender", values.gender || "");
-    formData.append("designation", values.designation || "");
-    formData.append("organization", values.organization || "");
-    formData.append("branch", values.branch || "");
-    formData.append("username", values.email || "");
-    // Convert interests array to comma-separated string
-    formData.append("interests", Array.isArray(values.interests) ? values.interests.join(",") : (values.interests || ""));
-    formData.append("crmId", values.crmid || "");
-    formData.append("crmName", values.crmname || "");
-    // const createrrole = getCreaterRole() || "";
-    // const sessionData = JSON.parse(sessionStorage.getItem("hobDetails"));
-    const createrrole = getCreaterRole();
-    const createrid = getCreaterId() || "";
-    const password = (values.firstName || "") + (values.PhoneNo || "");
-    formData.append("createrrole", createrrole);
-    formData.append("createrid", createrid);
-    formData.append("passwords", password);
-
-    if (values.profileImage) {
-      try {
-        let blob;
-        if (values.profileImage.startsWith("data:")) {
-          const res = await fetch(values.profileImage);
-          blob = await res.blob();
-        } else {
-          blob = values.profileImage;
-        }
-        formData.append("cmimage", blob, "profileImage.jpg");
-      } catch (error) {
-        console.error("Error converting image to blob:", error);
+  // Delete persona
+  const handleDelete = (index) => {
+    Modal.confirm({
+      title: 'Delete Persona',
+      content: 'Are you sure you want to delete this persona?',
+      onOk: () => {
+        const updatedData = submittedData.filter((_, i) => i !== index);
+        setSubmittedData(updatedData);
+        localStorage.setItem('submittedPersonas', JSON.stringify(updatedData));
+        message.success("Persona deleted successfully!");
       }
-    }
-
-    try {
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}/v1/UpdateCm`,
-        // `http://127.0.0.1:8080/v1/updateCm`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      message.success("CM Registered Successfully!");
-      form.resetFields();
-      setProfileImage(null);
-      setOriginalImage(null);
-      setShowEditModal(false);
-      setIsLoading(false);
-      navigate(-1);
-    } catch (error) {
-      message.error("Error submitting form!");
-      setIsLoading(false);
-    }
+    });
   };
 
   // Cancel editing in modal
@@ -489,7 +178,6 @@ const CmForm = () => {
   };
 
   const countries = Country.getAllCountries();
-  const gender = ["Male", "Female"];
 
   // Persona form data
   const industries = [
@@ -585,24 +273,41 @@ const CmForm = () => {
   const handlePersonaSubmit = async (values) => {
     setPersonaLoading(true);
 
-    const personaData = {
-      ...values,
-      commonTitles,
-      departments,
-      primaryGoals,
-      painPoints,
-      kpis,
-      buyingMotivations,
-      objections,
-      decisionCriteria,
-      responsibilities
-    };
-
     try {
-      console.log("Persona Data:", personaData);
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const personaData = {
+        id: Date.now().toString(),
+        ...values,
+        profileImage,
+        commonTitles,
+        departments,
+        primaryGoals,
+        painPoints,
+        kpis,
+        buyingMotivations,
+        objections,
+        decisionCriteria,
+        responsibilities,
+        submittedAt: new Date().toISOString()
+      };
+
+      const updatedData = [personaData, ...submittedData];
+      setSubmittedData(updatedData);
+      localStorage.setItem('submittedPersonas', JSON.stringify(updatedData));
+      
       message.success("Persona created successfully!");
+      personaForm.resetFields();
+      setProfileImage(null);
+      setCommonTitles([]);
+      setDepartments([]);
+      setPrimaryGoals([]);
+      setPainPoints([]);
+      setKpis([]);
+      setBuyingMotivations([]);
+      setObjections([]);
+      setDecisionCriteria([]);
+      setResponsibilities([]);
       setPersonaSuccess(true);
+      
     } catch (error) {
       message.error("Error creating persona");
     } finally {
@@ -612,6 +317,115 @@ const CmForm = () => {
 
   return (
     <>
+      {/* Submitted Data Display */}
+      {submittedData.length > 0 && (
+        <div style={{ background: "#fff", borderRadius: 8, padding: isMobile ? 15 : 24, margin: 16, marginBottom: 24 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            <Text
+              className="custom-headding-16px"
+              style={{
+                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                fontWeight: 600
+              }}
+            >
+              Submitted Personas ({submittedData.length})
+            </Text>
+          </div>
+          
+          <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+            {submittedData.map((persona, index) => (
+              <Card
+                key={persona.id}
+                size="small"
+                style={{ marginBottom: 12 }}
+                actions={[
+                  <Button
+                    type="text"
+                    icon={<EditOutlined />}
+                    onClick={() => handleEdit(index)}
+                    size="small"
+                  >
+                    Edit
+                  </Button>,
+                  <Button
+                    type="text"
+                    danger
+                    icon={<DeleteOutlined />}
+                    onClick={() => handleDelete(index)}
+                    size="small"
+                  >
+                    Delete
+                  </Button>
+                ]}
+              >
+                <Row gutter={16} align="middle">
+                  <Col xs={24} sm={4}>
+                    <Avatar
+                      src={persona.profileImage || "https://via.placeholder.com/60"}
+                      size={60}
+                      style={{ border: "2px solid #1677ff" }}
+                    />
+                  </Col>
+                  <Col xs={24} sm={20}>
+                    <Row gutter={8}>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Name:</Text>
+                        <br />
+                        <Text>{persona.firstName} {persona.lastName}</Text>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Email:</Text>
+                        <br />
+                        <Text>{persona.email}</Text>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Phone:</Text>
+                        <br />
+                        <Text>{persona.phoneCode} {persona.phoneNumber}</Text>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Function:</Text>
+                        <br />
+                        <Text>{persona.function || "N/A"}</Text>
+                      </Col>
+                    </Row>
+                    <Row gutter={8} style={{ marginTop: 8 }}>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Organization:</Text>
+                        <br />
+                        <Text>{persona.organization || "N/A"}</Text>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Primary Role:</Text>
+                        <br />
+                        <Text>{persona.primaryRole || "N/A"}</Text>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Seniority:</Text>
+                        <br />
+                        <Text>{persona.seniority || "N/A"}</Text>
+                      </Col>
+                      <Col xs={12} sm={6}>
+                        <Text strong>Submitted:</Text>
+                        <br />
+                        <Text>{new Date(persona.submittedAt).toLocaleDateString()}</Text>
+                      </Col>
+                    </Row>
+                    {persona.interests && persona.interests.length > 0 && (
+                      <Row style={{ marginTop: 8 }}>
+                        <Col xs={24}>
+                          <Text strong>Interests: </Text>
+                          <Text>{Array.isArray(persona.interests) ? persona.interests.join(", ") : persona.interests}</Text>
+                        </Col>
+                      </Row>
+                    )}
+                  </Col>
+                </Row>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
 
       {isLoading && (
         <div
@@ -640,7 +454,7 @@ const CmForm = () => {
 
       <Modal
         open={showEditModal}
-        title="Review & Edit CM Details"
+        title="Edit Persona Details"
         onCancel={handleModalClose}
         closable={false}
         footer={null}
@@ -690,12 +504,12 @@ const CmForm = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Phone Number" className="custom-placeholder-12px" name="PhoneNo" rules={[{ required: true, message: "Phone Number is required" }]}>
+              <Form.Item label="Phone Number" className="custom-placeholder-12px" name="phoneNumber" rules={[{ required: true, message: "Phone Number is required" }]}>
                 <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="Gender" className="custom-placeholder-12px" name="gender" rules={[{ required: true, message: "Gender is required" }]}>
+              <Form.Item label="Gender" className="custom-placeholder-12px" name="gender">
                 <Select disabled={!isEditMode}>
                   <Option value="Male">Male</Option>
                   <Option value="Female">Female</Option>
@@ -704,28 +518,19 @@ const CmForm = () => {
             </Col>
           </Row>
           <Row gutter={24}>
-            {/* <Col xs={24} md={8}>
-              <Form.Item label="Designation" name="designation" rules={[{ required: true, message: "Designation is required" }]}>
-                <Input disabled={!isEditMode} />
-              </Form.Item>
-            </Col> */}
             <Col xs={24} md={8}>
-              <Form.Item
-                label="Organization"
-                className="custom-placeholder-12px"
-                name="organization"
-                rules={[{ required: true, message: "Organization is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Organization"
-                  onChange={async (value) => {
-                    form.setFieldsValue({ organization: value, branch: "" });
-                    await fetchBranch(value);
-                  }}
-                  disabled={!isEditMode}
-                >
-                  {modalOrganizationNames.map((org) => (
+              <Form.Item label="Function" className="custom-placeholder-12px" name="function">
+                <Select disabled={!isEditMode}>
+                  {functionList.map((fn) => (
+                    <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Form.Item label="Organization" className="custom-placeholder-12px" name="organization">
+                <Select disabled={!isEditMode}>
+                  {organizationNames.map((org) => (
                     <Select.Option key={org} value={org}>
                       {org}
                     </Select.Option>
@@ -734,57 +539,8 @@ const CmForm = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item
-                label={<span>Organization Unit</span>}
-                className="custom-placeholder-12px"
-                name="branch"
-                rules={[{ required: true, message: "Organization Unit is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select Organization Unit"
-                  disabled={!isEditMode}
-                >
-                  {modalBranchNames.map((item, idx) => (
-                    <Select.Option key={idx} value={item.branch}>
-                      {item.branch}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item
-                label="CRM Name"
-                className="custom-placeholder-12px"
-                name="crmname"
-                rules={[{ required: true, message: "CRM Name is required" }]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Select CRM Name"
-                  optionFilterProp="children"
-                  disabled={!isEditMode}
-                  onChange={(value) => {
-                    const selected = crmNameList.find(crm => crm.crmid === value);
-                    // Set both crmname and crmid in the form and in editValues
-                    setEditValues((prev) => ({
-                      ...prev,
-                      crmname: selected ? selected.name : "",
-                      crmid: value,
-                    }));
-                  }}
-                  value={editValues.crmid}
-                >
-                  {crmNameList.map((crm) => (
-                    <Select.Option key={crm.crmid} value={crm.crmid}>
-                      {crm.name} ({crm.crmid})
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
-                <Input disabled />
+              <Form.Item label="Primary Role" className="custom-placeholder-12px" name="primaryRole">
+                <Input disabled={!isEditMode} />
               </Form.Item>
             </Col>
           </Row>
@@ -845,7 +601,7 @@ const CmForm = () => {
 
 
 
-      {!showSuccess && (
+      {/* {!showSuccess && (
         <div
           style={{ background: "#fff", borderRadius: 8, padding: isMobile ? 15 : 24, margin: 16 }}
 
@@ -934,34 +690,7 @@ const CmForm = () => {
                 </div>
               </Col>
             </Row>
-            <Modal
-              open={cropModalOpen}
-              title="Crop Profile Picture"
-              onCancel={() => setCropModalOpen(false)}
-              onOk={handleSaveCroppedImage}
-              okText="Save Photo"
-              cancelText="Cancel"
-              width={400}
-              styles={{ body: { height: 350 } }} // <-- updated from bodyStyle
-            >
-              {originalImage && (
-                <ReactCrop
-                  crop={crop}
-                  onChange={(c) => setCrop(c)}
-                  onComplete={handleCropComplete}
-                  aspect={1}
-                  circularCrop
-                >
-                  <img
-                    ref={imgRef}
-                    src={originalImage}
-                    onLoad={onImageLoad}
-                    style={{ maxHeight: "70vh", maxWidth: "100%" }}
-                    alt="Crop preview"
-                  />
-                </ReactCrop>
-              )}
-            </Modal>
+            
             <Row gutter={24}>
               <Col xs={24} md={8}>
                 <Form.Item
@@ -1133,7 +862,7 @@ const CmForm = () => {
                       return menu;
                     }}
                   >
-                    {/* Show all interests */}
+
                     {interestList.map((interest, idx) => (
                       <Select.Option key={interest} value={interest}>{interest}</Select.Option>
                     ))}
@@ -1250,9 +979,9 @@ const CmForm = () => {
                   </Select>
                 </Form.Item>
                 <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
-                  {/* <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}> */}
+
                   <Input disabled />
-                  {/* </Form.Item> */}
+
                 </Form.Item>
               </Col>
             </Row>
@@ -1278,13 +1007,9 @@ const CmForm = () => {
             </Row>
           </Form>
         </div>
-      )}
-      {showSuccess && (
-        <SuccessScreen background={colors.blueAccent[1000]} onNext={() => navigate(`/cmdetails/${createdCmId}`)} />
-      )}
-
+      )} */}
       {/* Persona Creation Form */}
-      {!showSuccess && (
+      {!personaSuccess && (
         <div style={{ background: "#fff", borderRadius: 8, padding: isMobile ? 15 : 24, margin: 16, marginTop: 32 }}>
           <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", flexDirection: "column", alignItems: "flex-start", marginBottom: 16 }}>
             <Text
@@ -1292,11 +1017,13 @@ const CmForm = () => {
               style={{
                 textAlign: isMobile ? "left" : "left",
                 fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                paddingLeft: isMobile ? "0px" : "0px",
+                paddingLeft: isMobile ? "0px !important" : "0px !important",
+                // paddingRight: "10px"
               }}
             >
               Create Persona
-            </Text>            <Text style={{ fontSize: 14, color: "#6b7280", textAlign: "center", marginTop: 8 }}>
+            </Text>            
+            <Text style={{ fontSize: 14, color: "#6b7280", textAlign: "center", marginTop: 3, paddingLeft: "30px" }}>
               Capture a detailed B2B customer persona to guide targeting, messaging, & sales motions.
             </Text>
           </div>
@@ -1306,6 +1033,21 @@ const CmForm = () => {
             layout="vertical"
             onFinish={handlePersonaSubmit}
             initialValues={{
+              firstName: "",
+              lastName: "",
+              email: "",
+              phoneCode: "",
+              phoneNumber: "",
+              gender: "",
+              function: "",
+              interests: [],
+              description: "",
+              companysize: "",
+              organization: "",
+              branch: "",
+              crmname: "",
+              crmid: "",
+              primaryRole: "",
               seniority: "Executive",
               budgetAuthority: "Approver",
               influenceLevel: "High",
@@ -1317,27 +1059,304 @@ const CmForm = () => {
           >
             {/* Basic Persona Details */}
             <Card title="Basic Persona Details" style={{ marginBottom: 24 }}>
+              <Row justify="center" style={{ marginBottom: 24 }}>
+                <Col>
+                  <div style={{ position: "relative", display: "inline-block" }}>
+                    <Avatar
+                      src={profileImage || "https://via.placeholder.com/150"}
+                      size={120}
+                      style={{
+                        border: "2px solid #1677ff",
+                        cursor: "pointer",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                      }}
+                      onClick={triggerFileInput}
+                    />
+                    <Button
+                      icon={<CameraOutlined />}
+                      shape="circle"
+                      style={{
+                        position: "absolute",
+                        bottom: 0,
+                        right: 0,
+                        background: "#1677ff",
+                        color: "#fff",
+                        border: "none",
+                      }}
+                      onClick={triggerFileInput}
+                    />
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleImageUpload}
+                      accept="image/*"
+                      style={{ display: "none" }}
+                    />
+                  </div>
+                </Col>
+              </Row>
               <Row gutter={24}>
-                <Col xs={24} md={12}>
+                <Col xs={24} md={8}>
                   <Form.Item
-                    label={<Text className="custom-headding-12px">Name</Text>}
+                    label={<Text className="custom-headding-12px">First Name</Text>}
                     className="custom-placeholder-12px"
-                    name="name"
-                    rules={[{ required: true, message: "Name is required" }]}
+                    name="firstName"
+                    rules={[{ required: true, message: "First Name is required" }]}
                   >
                     <Input
-                      placeholder="e.g., CIO - Enterprise"
+                      placeholder="First Name"
                       size="large"
                       style={{ borderRadius: 8, background: "#fff" }}
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={24} md={12}>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Last Name</Text>}
+                    className="custom-placeholder-12px"
+                    name="lastName"
+                    rules={[{ required: true, message: "Last Name is required" }]}
+                  >
+                    <Input
+                      placeholder="Last Name"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Email Id</Text>}
+                    className="custom-placeholder-12px"
+                    name="email"
+                    rules={[{ required: true, message: "Email is required" }, { type: "email", message: "Please enter a valid email" }]}
+                  >
+                    <Input
+                      placeholder="Email"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={24}>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Phone Number</Text>}
+                    className="custom-placeholder-12px"
+                    required
+                  >
+                    <Input.Group compact>
+                      <Form.Item
+                        name="phoneCode"
+                        noStyle
+                        rules={[{ required: true, message: "Code is required" }]}
+                      >
+                        <Select
+                          showSearch
+                          style={{ width: "40%" }}
+                          placeholder="Phone Code"
+                          optionFilterProp="children"
+                          size="large"
+                        >
+                          {countries.map((c) => (
+                            <Select.Option
+                              key={c.isoCode}
+                              value={`+${c.phonecode}`}
+                            >{`+${c.phonecode}`}</Select.Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                      <Form.Item
+                        name="phoneNumber"
+                        noStyle
+                        className="custom-placeholder-12px"
+                        rules={[
+                          { required: true, message: "Phone number is required" },
+                          { pattern: /^[0-9]+$/, message: "Only numbers allowed" },
+                          { min: 10, message: "At least 10 digits" },
+                        ]}
+                      >
+                        <Input
+                          style={{ width: "60%" }}
+                          placeholder="Phone Number"
+                          size="large"
+                        />
+                      </Form.Item>
+                    </Input.Group>
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Gender</Text>}
+                    className="custom-placeholder-12px"
+                    name="gender"
+                  >
+                    <Select
+                      placeholder="Select Gender"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                    >
+                      <Option value="Male">Male</Option>
+                      <Option value="Female">Female</Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Function</Text>}
+                    className="custom-placeholder-12px"
+                    name="function"
+                  >
+                    <Select
+                      showSearch
+                      size="large"
+                      placeholder="Select Function"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                    >
+                      {functionList.map((fn, idx) => (
+                        <Select.Option key={fn} value={fn}>{fn}</Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={24}>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Interests</Text>}
+                    className="custom-placeholder-12px"
+                    name="interests"
+                  >
+                    <Select
+                      mode="tags"
+                      allowClear
+                      showSearch
+                      placeholder="Select Interests"
+                      className="interests-select"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                      optionFilterProp="children"
+                      filterOption={false}
+                    >
+                      {interestList.map((interest, idx) => (
+                        <Select.Option key={interest} value={interest}>{interest}</Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                {/* <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Description</Text>}
+                    className="custom-placeholder-12px"
+                    name="description"
+                  >
+                    <Input
+                      placeholder="Description"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                    />
+                  </Form.Item>
+                </Col> */}
+                {/* <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Company Size</Text>}
+                    className="custom-placeholder-12px"
+                    name="companysize"
+                  >
+                    <Input
+                      placeholder="Company Size"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                    />
+                  </Form.Item>
+                </Col> */}
+
+              {/* <Row gutter={24}> */}
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Organization</Text>}
+                    className="custom-placeholder-12px"
+                    name="organization"
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select Organization"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                      onChange={(value) => {
+                        personaForm.setFieldsValue({ organization: value, branch: "" });
+                      }}
+                    >
+                      {organizationNames.map((org) => (
+                        <Option key={org} value={org}>
+                          {org}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Organization Unit</Text>}
+                    className="custom-placeholder-12px"
+                    name="branch"
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select Organization Unit"
+                      size="large"
+                      style={{ borderRadius: 8, background: "#fff" }}
+                      className="custom-placeholder-12px"
+                    >
+                      {branchNames.map((item, idx) => (
+                        <Select.Option key={idx} value={item.branch}>
+                          {item.branch}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                </Row>
+                <Row gutter={24}>
+                <Col xs={24} md={8}>
+                  <Form.Item
+                    label={<Text className="custom-headding-12px">Relationship Manager</Text>}
+                    className="custom-placeholder-12px"
+                    name="crmname"
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select Relationship Manager"
+                      optionFilterProp="children"
+                      size="large"
+                      onChange={(value) => {
+                        const selected = crmNameList.find(crm => crm.crmid === value);
+                        personaForm.setFieldsValue({
+                          crmname: selected ? selected.name : "",
+                          crmid: value
+                        });
+                      }}
+                      className="custom-placeholder-12px"
+                    >
+                      {crmNameList.map((crm) => (
+                        <Select.Option key={crm.crmid} value={crm.crmid}>
+                          {crm.name} ({crm.crmid})
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item label="CRM ID" name="crmid" style={{ display: "none" }}>
+                    <Input disabled />
+                  </Form.Item>
+                </Col>
+              {/* </Row> */}
+
+                <Col xs={24} md={8}>
                   <Form.Item
                     label={<Text className="custom-headding-12px">Primary Role</Text>}
                     className="custom-placeholder-12px"
                     name="primaryRole"
-                    rules={[{ required: true, message: "Primary role is required" }]}
                   >
                     <Input
                       placeholder="CIO"
@@ -1346,14 +1365,11 @@ const CmForm = () => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row gutter={24}>
-                <Col xs={24} md={12}>
+                <Col xs={24} md={8}>
                   <Form.Item
                     label={<Text className="custom-headding-12px">Seniority</Text>}
                     className="custom-placeholder-12px"
                     name="seniority"
-                    rules={[{ required: true, message: "Seniority is required" }]}
                   >
                     <Select
                       size="large"
@@ -1364,19 +1380,6 @@ const CmForm = () => {
                       <Option value="Mid-level">Mid-level</Option>
                       <Option value="Junior">Junior</Option>
                     </Select>
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    label={<Text className="custom-headding-12px">Description</Text>}
-                    className="custom-placeholder-12px"
-                    name="description"
-                  >
-                    <Input
-                      placeholder="Short summary"
-                      size="large"
-                      style={{ borderRadius: 8, background: "#fff" }}
-                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -1490,13 +1493,12 @@ const CmForm = () => {
               </Row>
             </Card>
 
-            <div style={{ display: "flex", flexDirection: "row", gap: "24px" }}>
+            <div style={{ display: "flex", flexDirection: isMobile || isTablet ? "column" : "row", gap: "24px" }}>
                {/* Industry Focus */}
                <Card title="Industry Focus" style={{ marginBottom: 24, flex: 1 }}>
                  <Form.Item
                    className="custom-placeholder-12px"
                    name="industries"
-                   rules={[{ required: true, message: "Select at least one industry" }]}
                  >
                    <Checkbox.Group style={{ width: "100%" }}>
                      <div style={{
@@ -1526,7 +1528,6 @@ const CmForm = () => {
                  <Form.Item
                    className="custom-placeholder-12px"
                    name="companySizes"
-                   rules={[{ required: true, message: "Select at least one company size" }]}
                  >
                    <Radio.Group>
                      <div style={{
@@ -1883,7 +1884,6 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Budget Authority</Text>}
                     className="custom-placeholder-12px"
                     name="budgetAuthority"
-                    rules={[{ required: true, message: "Budget authority is required" }]}
                   >
                     <Select
                       size="large"
@@ -1900,7 +1900,6 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Influence Level</Text>}
                     className="custom-placeholder-12px"
                     name="influenceLevel"
-                    rules={[{ required: true, message: "Influence level is required" }]}
                   >
                     <Select
                       size="large"
@@ -1919,7 +1918,6 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Procurement Involvement</Text>}
                     className="custom-placeholder-12px"
                     name="procurementInvolvement"
-                    rules={[{ required: true, message: "Procurement involvement is required" }]}
                   >
                     <Select
                       size="large"
@@ -1936,7 +1934,6 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Risk Tolerance</Text>}
                     className="custom-placeholder-12px"
                     name="riskTolerance"
-                    rules={[{ required: true, message: "Risk tolerance is required" }]}
                   >
                     <Select
                       size="large"
@@ -1955,7 +1952,6 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Tech Savviness</Text>}
                     className="custom-placeholder-12px"
                     name="techSavviness"
-                    rules={[{ required: true, message: "Tech savviness is required" }]}
                   >
                     <Select
                       size="large"
@@ -1975,7 +1971,6 @@ const CmForm = () => {
               <Form.Item
                 className="custom-placeholder-12px"
                 name="channels"
-                rules={[{ required: true, message: "Select at least one channel" }]}
               >
                 <Checkbox.Group style={{ width: "100%" }}>
                   <div style={{
@@ -2005,7 +2000,6 @@ const CmForm = () => {
               <Form.Item
                 className="custom-placeholder-12px"
                 name="contentTypes"
-                rules={[{ required: true, message: "Select at least one content type" }]}
               >
                 <Checkbox.Group style={{ width: "100%" }}>
                   <div style={{
@@ -2037,7 +2031,6 @@ const CmForm = () => {
               <Form.Item
                 className="custom-placeholder-12px"
                 name="buyingStages"
-                rules={[{ required: true, message: "Select at least one buying stage" }]}
               >
                 <Radio.Group>
                   <div style={{
@@ -2072,7 +2065,6 @@ const CmForm = () => {
                     label={<Text className="custom-headding-12px">Meeting Cadence</Text>}
                     className="custom-placeholder-12px"
                     name="meetingCadence"
-                    rules={[{ required: true, message: "Meeting cadence is required" }]}
                   >
                     <Select
                       size="large"
