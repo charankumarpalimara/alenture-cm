@@ -1986,8 +1986,7 @@ const CmForm = () => {
               >
                 <Checkbox.Group style={{ width: "100%" }}>
                   <div style={{
-                    display: "grid",
-                    // gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    display: "flex",
                     flexWrap: "wrap",
                     gap: "8px 16px",
                     justifyContent: "flex-start"
@@ -1997,7 +1996,9 @@ const CmForm = () => {
                         key={channel}
                         value={channel}
                         style={{
-                          marginBottom: "8px"
+                          minWidth: isMobile ? "100%" : "150px",
+                          marginBottom: "8px",
+                          flex: isMobile ? "1" : "0 0 auto"
                         }}
                       >
                         {channel}
