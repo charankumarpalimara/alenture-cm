@@ -230,7 +230,7 @@ const AdminSidebar = ({ isSidebar, onLogout }) => {
           setSelected={setSelected}
         />
         <Item
-          title="Idea Hub"
+          title="IdeaHub"
           to="/allideas"
           icon={<LightbulbOutlinedIcon />}
           selected={selected}
