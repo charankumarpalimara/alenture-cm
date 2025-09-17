@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   Form,
   Input,
@@ -16,13 +16,13 @@ import {
   Checkbox,
   Card
 } from "antd";
-import { CameraOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { CameraOutlined, PlusOutlined, EditOutlined, DeleteOutlined, CloseOutlined } from "@ant-design/icons";
 import "react-image-crop/dist/ReactCrop.css";
 import { Country } from "country-state-city";
 import { useNavigate } from "react-router-dom";
 import { tokens } from "../../../theme";
 import { useTheme, useMediaQuery } from "@mui/material";
-
+// import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 const { Option } = Select;
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -40,12 +40,12 @@ const CmForm = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 400px)");
   const isTablet = useMediaQuery("(max-width: 700px)");
-  
+
   // Basic form states
   const [profileImage, setProfileImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
-  
+
   // Submitted data storage
   const [submittedData, setSubmittedData] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -87,13 +87,7 @@ const CmForm = () => {
     { crmid: "CRM001", name: "John Smith" }, { crmid: "CRM002", name: "Sarah Johnson" }, { crmid: "CRM003", name: "Mike Davis" }
   ]);
 
-  // Load submitted data from localStorage on component mount
-  useEffect(() => {
-    const savedData = localStorage.getItem('submittedPersonas');
-    if (savedData) {
-      setSubmittedData(JSON.parse(savedData));
-    }
-  }, []);
+  // Note: Data will only persist during current session, not across page refreshes
 
 
 
@@ -117,23 +111,22 @@ const CmForm = () => {
   // Update existing persona
   const handleUpdate = async () => {
     setIsLoading(true);
-    
+
     try {
       const updatedData = [...submittedData];
       updatedData[editingIndex] = {
         ...editValues,
         updatedAt: new Date().toISOString()
       };
-      
+
       setSubmittedData(updatedData);
-      localStorage.setItem('submittedPersonas', JSON.stringify(updatedData));
-      
+
       message.success("Persona updated successfully!");
       setShowEditModal(false);
       setEditingIndex(null);
       setEditValues({});
       setIsEditMode(false);
-      
+
     } catch (error) {
       message.error("Error updating persona!");
     } finally {
@@ -159,7 +152,6 @@ const CmForm = () => {
       onOk: () => {
         const updatedData = submittedData.filter((_, i) => i !== index);
         setSubmittedData(updatedData);
-        localStorage.setItem('submittedPersonas', JSON.stringify(updatedData));
         message.success("Persona deleted successfully!");
       }
     });
@@ -292,8 +284,7 @@ const CmForm = () => {
 
       const updatedData = [personaData, ...submittedData];
       setSubmittedData(updatedData);
-      localStorage.setItem('submittedPersonas', JSON.stringify(updatedData));
-      
+
       message.success("Persona created successfully!");
       personaForm.resetFields();
       setProfileImage(null);
@@ -307,7 +298,7 @@ const CmForm = () => {
       setDecisionCriteria([]);
       setResponsibilities([]);
       setPersonaSuccess(true);
-      
+
     } catch (error) {
       message.error("Error creating persona");
     } finally {
@@ -331,7 +322,7 @@ const CmForm = () => {
               Submitted Personas ({submittedData.length})
             </Text>
           </div>
-          
+
           <div style={{ maxHeight: "400px", overflowY: "auto" }}>
             {submittedData.map((persona, index) => (
               <Card
@@ -1012,21 +1003,37 @@ const CmForm = () => {
       {/* Persona Creation Form */}
       {!personaSuccess && (
         <div style={{ background: "#fff", borderRadius: 8, padding: isMobile ? 15 : 24, margin: 16, marginTop: 32 }}>
-          <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", flexDirection: "column", alignItems: "flex-start", marginBottom: 16 }}>
-            <Text
-              className="custom-headding-16px"
-              style={{
-                textAlign: isMobile ? "left" : "left",
-                fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
-                paddingLeft: isMobile ? "0px !important" : "0px !important",
-                // paddingRight: "10px"
-              }}
-            >
-              Create Persona
-            </Text>            
-            <Text style={{ fontSize: 14, color: "#6b7280", textAlign: "center", marginTop: 3, paddingLeft: "30px" }}>
-              Capture a detailed B2B customer persona to guide targeting, messaging, & sales motions.
-            </Text>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+            <div style={{ display: "flex", justifyContent: isMobile ? "flex-start" : "space-between", flexDirection: "column", alignItems: "flex-start", marginBottom: 16 }}>
+              <Text
+                className="custom-headding-16px"
+                style={{
+                  textAlign: isMobile ? "left" : "left",
+                  fontSize: isMobile ? "15px" : isTablet ? "17px" : "18px",
+                  paddingLeft: isMobile ? "0px !important" : "0px !important",
+                  // paddingRight: "10px"
+                }}
+              >
+                Create Persona
+              </Text>
+              <Text style={{ fontSize: 14, color: "#6b7280", textAlign: "center", marginTop: 3, paddingLeft: "30px" }}>
+                Capture a detailed B2B customer persona to guide targeting, messaging, & sales motions.
+              </Text>
+            </div>
+            <div>
+              <Button
+                type="text"
+                icon={<CloseOutlined style={{ fontSize: isMobile ? 17 : 20 }} />}
+                onClick={() => navigate(-1)}
+                style={{
+                  color: "#3e4396",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  alignSelf: "flex-end",
+                  marginLeft: 8,
+                }}
+              />
+            </div>
           </div>
 
           <Form
@@ -1273,7 +1280,7 @@ const CmForm = () => {
                   </Form.Item>
                 </Col> */}
 
-              {/* <Row gutter={24}> */}
+                {/* <Row gutter={24}> */}
                 <Col xs={24} md={8}>
                   <Form.Item
                     label={<Text className="custom-headding-12px">Organization</Text>}
@@ -1320,8 +1327,8 @@ const CmForm = () => {
                     </Select>
                   </Form.Item>
                 </Col>
-                </Row>
-                <Row gutter={24}>
+              </Row>
+              <Row gutter={24}>
                 <Col xs={24} md={8}>
                   <Form.Item
                     label={<Text className="custom-headding-12px">Relationship Manager</Text>}
@@ -1354,7 +1361,7 @@ const CmForm = () => {
                     <Input disabled />
                   </Form.Item>
                 </Col>
-              {/* </Row> */}
+                {/* </Row> */}
 
                 <Col xs={24} md={8}>
                   <Form.Item
@@ -1498,63 +1505,63 @@ const CmForm = () => {
             </Card>
 
             <div style={{ display: "flex", flexDirection: isMobile || isTablet ? "column" : "row", gap: "24px" }}>
-               {/* Industry Focus */}
-               <Card title="Industry Focus" style={{ marginBottom: 24, flex: 1 }}>
-                 <Form.Item
-                   className="custom-placeholder-12px"
-                   name="industries"
-                 >
-                   <Checkbox.Group style={{ width: "100%" }}>
-                     <div style={{
-                       display: "grid",
-                       gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-                       gap: "8px 16px",
-                       justifyContent: "flex-start"
-                     }}>
-                       {industries.map((industry) => (
-                         <Checkbox
-                           key={industry}
-                           value={industry}
-                           style={{
-                             marginBottom: "8px"
-                           }}
-                         >
-                           {industry}
-                         </Checkbox>
-                       ))}
-                     </div>
-                   </Checkbox.Group>
-                 </Form.Item>
-               </Card>
+              {/* Industry Focus */}
+              <Card title="Industry Focus" style={{ marginBottom: 24, flex: 1 }}>
+                <Form.Item
+                  className="custom-placeholder-12px"
+                  name="industries"
+                >
+                  <Checkbox.Group style={{ width: "100%" }}>
+                    <div style={{
+                      display: "grid",
+                      gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                      gap: "8px 16px",
+                      justifyContent: "flex-start"
+                    }}>
+                      {industries.map((industry) => (
+                        <Checkbox
+                          key={industry}
+                          value={industry}
+                          style={{
+                            marginBottom: "8px"
+                          }}
+                        >
+                          {industry}
+                        </Checkbox>
+                      ))}
+                    </div>
+                  </Checkbox.Group>
+                </Form.Item>
+              </Card>
 
-               {/* Company Size */}
-               <Card title="Company Size" style={{ marginBottom: 24, flex: 1 }}>
-                 <Form.Item
-                   className="custom-placeholder-12px"
-                   name="companySizes"
-                 >
-                   <Radio.Group>
-                     <div style={{
-                       display: "grid",
-                       gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-                       gap: "8px 16px",
-                       justifyContent: "flex-start"
-                     }}>
-                       {companySizes.map((size) => (
-                         <Radio
-                           key={size}
-                           value={size}
-                           style={{
-                             marginBottom: "8px"
-                           }}
-                         >
-                           {size}
-                         </Radio>
-                       ))}
-                     </div>
-                   </Radio.Group>
-                 </Form.Item>
-               </Card>
+              {/* Company Size */}
+              <Card title="Company Size" style={{ marginBottom: 24, flex: 1 }}>
+                <Form.Item
+                  className="custom-placeholder-12px"
+                  name="companySizes"
+                >
+                  <Radio.Group>
+                    <div style={{
+                      display: "grid",
+                      gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                      gap: "8px 16px",
+                      justifyContent: "flex-start"
+                    }}>
+                      {companySizes.map((size) => (
+                        <Radio
+                          key={size}
+                          value={size}
+                          style={{
+                            marginBottom: "8px"
+                          }}
+                        >
+                          {size}
+                        </Radio>
+                      ))}
+                    </div>
+                  </Radio.Group>
+                </Form.Item>
+              </Card>
             </div>
             {/* Primary Goals & Pain Points */}
             <Card title="Primary Goals & Pain Points" style={{ marginBottom: 24 }}>

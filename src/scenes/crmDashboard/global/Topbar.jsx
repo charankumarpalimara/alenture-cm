@@ -1019,30 +1019,30 @@ const Topbar = ({ onLogout }) => {
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
-                   <Item
-          title="IdeaHub"
-          to="/allideas"
-          icon={<LightbulbOutlinedIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          handleClose={() => setIsModalOpen(false)}
-        />
-                <Item
-          title="Revenue Leak"
-          to="/revenue-leak"
-          icon={<MonetizationOnIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          handleClose={() => setIsModalOpen(false)}
-        />
-                <Item
-          title="Meeting Coach"
-          to="/meeting-coach"
-          icon={<RecordVoiceOverIcon />}
-          selected={selected}
-          setSelected={setSelected}
-          handleClose={() => setIsModalOpen(false)}
-        />
+            <Item
+              title="Idea Hub"
+              to="/allideas"
+              icon={<LightbulbOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Revenue Leak"
+              to="/revenue-leak"
+              icon={<MonetizationOnIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
+            <Item
+              title="Meeting Coach"
+              to="/meeting-coach"
+              icon={<RecordVoiceOverIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
             <Item
               title="Customer Insights"
               to="/customer-insights"
@@ -1190,14 +1190,14 @@ const Topbar = ({ onLogout }) => {
               setSelected={setSelected}
               handleClose={() => setIsModalOpen(false)}
             />
-                    <Item 
-          title="Analytics" 
-          to="/business-growth-analytics" 
-          icon={<AnalyticsIcon />} 
-          selected={selected} 
-          setSelected={setSelected} 
-          handleClose={() => setIsModalOpen(false)}
-        />
+            <Item
+              title="Analytics"
+              to="/business-growth-analytics"
+              icon={<AnalyticsIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              handleClose={() => setIsModalOpen(false)}
+            />
 
             {/* <Item title="Tasks" to="/tasks" icon={<TaskOutlinedIcon />} selected={selected} setSelected={setSelected} handleClose={() => setIsModalOpen(false)} /> */}
             <Item
@@ -1251,8 +1251,8 @@ const Topbar = ({ onLogout }) => {
         onClose={() => setDrawerOpen(false)}
       >
         <Box
-          sx={{ 
-            width: isMobile ? 250 : 350, 
+          sx={{
+            width: isMobile ? 250 : 350,
             padding: 2,
             maxHeight: "80vh",
             overflowY: "auto"

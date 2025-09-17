@@ -1055,7 +1055,7 @@ const Topbar = ({ onLogout }) => {
               handleClose={() => setIsModalOpen(false)}
             />
             <Item
-              title="IdeaHub"
+              title="Idea Hub"
               to="/allideas"
               icon={<LightbulbOutlinedIcon />}
               selected={selected}

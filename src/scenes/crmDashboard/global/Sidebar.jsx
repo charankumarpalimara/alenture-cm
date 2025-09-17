@@ -256,7 +256,7 @@ const CrmSidebar = ({ isSidebar, onLogout }) => {
           setSelected={setSelected}
         />
         <Item
-          title="IdeaHub"
+          title="Idea Hub"
           to="/allideas"
           icon={<LightbulbOutlinedIcon />}
           selected={selected}
