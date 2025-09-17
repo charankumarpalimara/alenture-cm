@@ -1207,6 +1207,7 @@ const CmForm = () => {
                     >
                       <Option value="Male">Male</Option>
                       <Option value="Female">Female</Option>
+                      <Option value="Other">Other</Option>
                     </Select>
                   </Form.Item>
                 </Col>
@@ -1986,7 +1987,8 @@ const CmForm = () => {
                 <Checkbox.Group style={{ width: "100%" }}>
                   <div style={{
                     display: "grid",
-                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    // gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    flexWrap: "wrap",
                     gap: "8px 16px",
                     justifyContent: "flex-start"
                   }}>
