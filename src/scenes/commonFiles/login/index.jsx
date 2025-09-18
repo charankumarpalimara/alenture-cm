@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, message } from "antd";
-import logoLight from "./alentur-logo.avif";
+import logoLight from "./alentur-logo.webp";
 const Login = ({ onLogin }) => {
   const [form] = Form.useForm();
   const theme = useTheme();
