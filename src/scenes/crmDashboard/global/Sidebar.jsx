@@ -33,7 +33,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 // import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
-import logoLight from "./alentur-logo.avif";
+import logoLight from "./alentur-logo.webp";
 import { useNavigate } from "react-router-dom";
 
 // Shared getActivePage function

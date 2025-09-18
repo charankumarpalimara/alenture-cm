@@ -30,7 +30,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { getCreaterRole } from "../../../config";
 
 import { useNavigate } from "react-router-dom";
-import logoAvifFormate from "./alentur-logo.avif";
+import logoAvifFormate from "./alentur-logo.webp";
 // import logoWebpFormate from "./logo.5311861d2018c5f4ae2d.webp";
 
 // Shared getActivePage function

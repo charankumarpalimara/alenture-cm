@@ -45,7 +45,7 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 // import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { getCreaterFirstName, getCreaterRole } from "../../../config";
 
-import logoLight from "./alentur-logo.avif";
+import logoLight from "./alentur-logo.webp";
 
 import Badge from "@mui/material/Badge";
 import Snackbar from "@mui/material/Snackbar";

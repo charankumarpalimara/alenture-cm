@@ -52,7 +52,7 @@ import {
 } from "../../../utils/http";
 
 
-import logoLight from "./alentur-logo.avif";
+import logoLight from "./alentur-logo.webp";
 
 // Shared getActivePage function
 const getActivePage = (pathname) => {
