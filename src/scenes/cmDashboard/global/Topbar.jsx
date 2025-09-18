@@ -30,7 +30,7 @@ import Badge from "@mui/material/Badge";
 // import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
-import logoLight from "./alentur-logo.avif";
+import logoLight from "./alentur-logo.webp";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCmId, getCreaterFirstName } from "../../../config";

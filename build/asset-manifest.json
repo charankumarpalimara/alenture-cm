@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.d8c70070.css",
-    "main.js": "/static/js/main.264d2b05.js",
+    "main.js": "/static/js/main.218947ef.js",
     "static/media/alentur-logo.webp": "/static/media/alentur-logo.513b17072e9a0b7d44ba.webp",
     "static/media/poppins-devanagari-400-normal.woff": "/static/media/poppins-devanagari-400-normal.421fe9869ff4b58e2d7b.woff",
     "static/media/poppins-devanagari-300-normal.woff": "/static/media/poppins-devanagari-300-normal.62c0b320ffa12beb056b.woff",
@@ -38,6 +38,6 @@
   },
   "entrypoints": [
     "static/css/main.d8c70070.css",
-    "static/js/main.264d2b05.js"
+    "static/js/main.218947ef.js"
   ]
 }

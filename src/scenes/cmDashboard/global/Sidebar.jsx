@@ -12,7 +12,7 @@ import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import logoLight from "./alentur-logo.avif";
+import logoLight from "./alentur-logo.webp";
 import { useNavigate } from "react-router-dom";
 
 
